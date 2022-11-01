@@ -1,0 +1,321 @@
+{% extends 'layout/basic.html' %}
+{% block header_text %}
+    Статистика
+{% endblock %}
+{% block content %}
+                <div class="row">
+    <div class="col-xs-12 col-sm-6">
+        <h2 class="page-header">В вашем обслуживании</h2>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-4 col-sm-6 col-xs-12">
+        <div class="small-box bg-primary">
+            <div class="inner">
+                <h3>41</h3>
+                <p>Домов</p>
+            </div>
+            <div class="icon">
+                <i class="fa fa-building"></i>
+            </div>
+            <a href="/admin/house/index" class="small-box-footer">
+                Перейти в дома <i class="fa fa-arrow-circle-right"></i>
+            </a>
+        </div>
+    </div>
+    <div class="col-lg-4 col-sm-6 col-xs-12">
+        <div class="small-box bg-green">
+            <div class="inner">
+                <h3>15</h3>
+                <p>Активных владельцев</p>
+            </div>
+            <div class="icon">
+                <i class="fa fa-users"></i>
+            </div>
+            <a href="/admin/user/index" class="small-box-footer">
+                Перейти к владельцам <i class="fa fa-arrow-circle-right"></i>
+            </a>
+        </div>
+    </div>
+    <div class="col-lg-4 col-sm-6 col-xs-12">
+        <div class="small-box bg-yellow">
+            <div class="inner">
+                <h3>12</h3>
+                <p>Заявок мастера в работе</p>
+            </div>
+            <div class="icon">
+                <i class="fa fa-wrench"></i>
+            </div>
+            <a href="/admin/master-request/index" class="small-box-footer">
+                Перейти в заявки <i class="fa fa-arrow-circle-right"></i>
+            </a>
+        </div>
+    </div>
+    <div class="col-lg-4 col-sm-6 col-xs-12">
+        <div class="small-box bg-primary">
+            <div class="inner">
+                <h3>120</h3>
+                <p>Квартир</p>
+            </div>
+            <div class="icon">
+                <i class="fa fa-key"></i>
+            </div>
+            <a href="/admin/flat/index" class="small-box-footer">
+                Перейти в квартиры <i class="fa fa-arrow-circle-right"></i>
+            </a>
+        </div>
+    </div>
+    <div class="col-lg-4 col-sm-6 col-xs-12">
+        <div class="small-box bg-green">
+            <div class="inner">
+                <h3>80</h3>
+                <p>Лицевых счетов</p>
+            </div>
+            <div class="icon">
+                <i class="fa fa-child"></i>
+            </div>
+            <a href="/admin/account/index" class="small-box-footer">
+                Перейти к счетам <i class="fa fa-arrow-circle-right"></i>
+            </a>
+        </div>
+    </div>
+    <div class="col-lg-4 col-sm-6 col-xs-12">
+        <div class="small-box bg-yellow">
+            <div class="inner">
+                <h3>34</h3>
+                <p>Новых заявок мастера</p>
+            </div>
+            <div class="icon">
+                <i class="fa fa-user-plus"></i>
+            </div>
+            <a href="/admin/master-request/index" class="small-box-footer">
+                Перейти в заявки <i class="fa fa-arrow-circle-right"></i>
+            </a>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-8 col-md-7 col-xs-12">
+        <div class="box box-default">
+            <div class="box-header with-border">
+                <h3 class="box-title">График погашения квитанций, грн</h3>
+            </div>
+            <div class="box-body">
+                <div class="chart">
+                    <canvas id="barChart" style="height: 201px; width: 1031px;" width="1031" height="201"></canvas>
+                    <div id="barChart-legend" class="text-center"><ul class="bar-legend"><li><span style="background-color:rgba(221, 75, 57, 1)"></span>Задолженность</li><li><span style="background-color:rgba(0, 166, 90, 1)"></span>Погашение задолженности</li></ul></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-4 col-md-5 col-xs-12">
+        <div class="info-box">
+            <span class="info-box-icon bg-red"><i class="fa fa-money"></i></span>
+            <div class="info-box-content">
+                <span class="info-box-text">Задолженность по счетам, грн</span>
+                <span class="info-box-number">329 386.18</span>
+            </div>
+        </div>
+        <div class="info-box">
+            <span class="info-box-icon bg-blue"><i class="fa fa-money"></i></span>
+            <div class="info-box-content">
+                <span class="info-box-text">Баланс по счетам, грн</span>
+                <span class="info-box-number">207 951.62</span>
+            </div>
+        </div>
+        <div class="info-box">
+            <span class="info-box-icon bg-green"><i class="fa fa-money"></i></span>
+            <div class="info-box-content">
+                <span class="info-box-text">Состояние кассы, грн</span>
+                <span class="info-box-number">292 862.02</span>
+            </div>
+        </div>
+<!--        <div class="info-box">
+            <span class="info-box-icon bg-green"><i class="fa fa-cog"></i></span>
+            <div class="info-box-content">
+                <span class="info-box-text">Задолженность за месяц, грн</span>
+                <span class="info-box-number">33 727.00</span>
+            </div>
+        </div>
+        <div class="info-box">
+            <span class="info-box-icon bg-aqua"><i class="fa fa-cog"></i></span>
+            <div class="info-box-content">
+                <span class="info-box-text">Задолженность за квартал, грн</span>
+                <span class="info-box-number">151 064.08</span>
+            </div>
+        </div>-->
+    </div>
+</div>
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box box-default">
+            <div class="box-header with-border">
+                <h3 class="box-title">График приходов и расходов по кассе, грн</h3>
+            </div>
+            <div class="box-body">
+                <div class="chart">
+                    <canvas id="barChart2" style="height: 230px; width: 1572px;" width="1572" height="230"></canvas>
+                    <div id="barChart2-legend" class="text-center"><ul class="bar-legend"><li><span style="background-color:rgba(0, 166, 90, 1)"></span>Приход</li><li><span style="background-color:rgba(221, 75, 57, 1)"></span>Расход</li></ul></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+{% block scripts %}
+    <script>
+    $('#nav_statistic').attr('class', 'active')
+    </script>
+    <script>jQuery(function ($) {
+    $(function () {
+
+        'use strict';
+
+        //-------------
+        //- BAR CHART -
+        //-------------
+
+        var areaChartData = {
+            labels  : ["\u044f\u043d\u0432., 2022","\u0444\u0435\u0432\u0440., 2022","\u043c\u0430\u0440\u0442, 2022","\u0430\u043f\u0440., 2022","\u043c\u0430\u0439, 2022","\u0438\u044e\u043d\u044c, 2022","\u0438\u044e\u043b\u044c, 2022","\u0430\u0432\u0433., 2022","\u0441\u0435\u043d\u0442., 2022","\u043e\u043a\u0442., 2022","\u043d\u043e\u044f\u0431., 2022","\u0434\u0435\u043a., 2022"],
+            datasets: [
+                {
+                    label               : 'Задолженность',
+                    fillColor           : 'rgba(221, 75, 57, 1)',
+                    strokeColor         : 'rgba(221, 75, 57, 1)',
+                    //pointColor          : 'rgba(210, 214, 222, 1)',
+                    //pointStrokeColor    : '#c1c7d1',
+                    //pointHighlightFill  : '#fff',
+                    //pointHighlightStroke: 'rgba(220,220,220,1)',
+                    data                : [0,0,10000,0,66743.5,0,315856,14873,19761.080000000001746229827404022216796875,33727,0,0]
+                },
+                {
+                    label               : 'Погашение задолженности',
+                    fillColor           : 'rgba(0, 166, 90, 1)',
+                    strokeColor         : 'rgba(0, 166, 90, 1)',
+                    //pointColor          : '#3b8bba',
+                    //pointStrokeColor    : 'rgba(60,141,188,1)',
+                    //pointHighlightFill  : '#fff',
+                    //pointHighlightStroke: 'rgba(60,141,188,1)',
+                    data                : [6018,7019,8020,9018,306,6622,107900,119544,-1152,148595,0,0]
+                }
+            ]
+        };
+
+        var barChartCanvas                   = $('#barChart').get(0).getContext('2d');
+        var barChart                         = new Chart(barChartCanvas);
+        var barChartData                     = areaChartData;
+//        barChartData.datasets[1].fillColor   = '#00a65a';
+//        barChartData.datasets[1].strokeColor = '#00a65a';
+//        barChartData.datasets[1].pointColor  = '#00a65a';
+        var barChartOptions                  = {
+            //Boolean - Whether the scale should start at zero, or an order of magnitude down from the lowest value
+            scaleBeginAtZero        : true,
+            //Boolean - Whether grid lines are shown across the chart
+            scaleShowGridLines      : true,
+            //String - Colour of the grid lines
+            scaleGridLineColor      : 'rgba(0,0,0,.05)',
+            //Number - Width of the grid lines
+            scaleGridLineWidth      : 1,
+            //Boolean - Whether to show horizontal lines (except X axis)
+            scaleShowHorizontalLines: true,
+            //Boolean - Whether to show vertical lines (except Y axis)
+            scaleShowVerticalLines  : true,
+            //Boolean - If there is a stroke on each bar
+            barShowStroke           : true,
+            //Number - Pixel width of the bar stroke
+            barStrokeWidth          : 2,
+            //Number - Spacing between each of the X value sets
+            barValueSpacing         : 5,
+            //Number - Spacing between data sets within X values
+            barDatasetSpacing       : 1,
+            //String - A legend template
+            {#legendTemplate          : '<ul class="<%=name.toLowerCase()%>-legend"><% for (var i=0; i<datasets.length; i++){%><li><span style="background-color:<%=datasets[i].fillColor%>"></span><%if(datasets[i].label){%><%=datasets[i].label%><%}%></li><%}%></ul>',#}
+            //Boolean - whether to make the chart responsive
+            responsive              : true,
+            maintainAspectRatio     : true
+        };
+
+        barChartOptions.datasetFill = false;
+        var myBarChart = barChart.Bar(barChartData, barChartOptions);
+        document.getElementById('barChart-legend').innerHTML = myBarChart.generateLegend();
+
+        //-----------------
+        //- END BAR CHART -
+        //-----------------
+
+        //-------------
+        //- BAR CHART 2 -
+        //-------------
+
+        var areaChartData = {
+            labels  : ["\u044f\u043d\u0432., 2022","\u0444\u0435\u0432\u0440., 2022","\u043c\u0430\u0440\u0442, 2022","\u0430\u043f\u0440., 2022","\u043c\u0430\u0439, 2022","\u0438\u044e\u043d\u044c, 2022","\u0438\u044e\u043b\u044c, 2022","\u0430\u0432\u0433., 2022","\u0441\u0435\u043d\u0442., 2022","\u043e\u043a\u0442., 2022","\u043d\u043e\u044f\u0431., 2022","\u0434\u0435\u043a., 2022"],
+            datasets: [
+                {
+                    label               : 'Приход',
+                    fillColor           : 'rgba(0, 166, 90, 1)',
+                    strokeColor         : 'rgba(0, 166, 90, 1)',
+                    //pointColor          : 'rgba(210, 214, 222, 1)',
+                    //pointStrokeColor    : '#c1c7d1',
+                    //pointHighlightFill  : '#fff',
+                    //pointHighlightStroke: 'rgba(220,220,220,1)',
+                    data                : [null,null,null,"3000.00","5000.00","8000.00","141034.00","76335.00","60385.52","234685.00",null,null]
+                },
+                {
+                    label               : 'Расход',
+                    fillColor           : 'rgba(221, 75, 57, 1)',
+                    strokeColor         : 'rgba(221, 75, 57, 1)',
+                    //pointColor          : '#3b8bba',
+                    //pointStrokeColor    : 'rgba(60,141,188,1)',
+                    //pointHighlightFill  : '#fff',
+                    //pointHighlightStroke: 'rgba(60,141,188,1)',
+                    data                : [null,null,null,null,null,"5400.00","126070.00","42512.00","14622.00","36595.50",null,null]
+                }
+            ]
+        };
+
+        var barChart2Canvas                   = $('#barChart2').get(0).getContext('2d');
+        var barChart2                         = new Chart(barChart2Canvas);
+        var barChart2Data                     = areaChartData;
+//        barChart2Data.datasets[1].fillColor   = '#00a65a';
+//        barChart2Data.datasets[1].strokeColor = '#00a65a';
+//        barChart2Data.datasets[1].pointColor  = '#00a65a';
+        var barChart2Options                  = {
+            //Boolean - Whether the scale should start at zero, or an order of magnitude down from the lowest value
+            scaleBeginAtZero        : true,
+            //Boolean - Whether grid lines are shown across the chart
+            scaleShowGridLines      : true,
+            //String - Colour of the grid lines
+            scaleGridLineColor      : 'rgba(0,0,0,.05)',
+            //Number - Width of the grid lines
+            scaleGridLineWidth      : 1,
+            //Boolean - Whether to show horizontal lines (except X axis)
+            scaleShowHorizontalLines: true,
+            //Boolean - Whether to show vertical lines (except Y axis)
+            scaleShowVerticalLines  : true,
+            //Boolean - If there is a stroke on each bar
+            barShowStroke           : true,
+            //Number - Pixel width of the bar stroke
+            barStrokeWidth          : 2,
+            //Number - Spacing between each of the X value sets
+            barValueSpacing         : 5,
+            //Number - Spacing between data sets within X values
+            barDatasetSpacing       : 1,
+            //String - A legend template
+            {#legendTemplate          : '<ul class="<%=name.toLowerCase()%>-legend"><% for (var i=0; i<datasets.length; i++){%><li><span style="background-color:<%=datasets[i].fillColor%>"></span><%if(datasets[i].label){%><%=datasets[i].label%><%}%></li><%}%></ul>',#}
+            //Boolean - whether to make the chart responsive
+            responsive              : true,
+            maintainAspectRatio     : true
+        };
+
+        barChart2Options.datasetFill = false;
+        var myBarChart2 = barChart2.Bar(barChart2Data, barChart2Options);
+        document.getElementById('barChart2-legend').innerHTML = myBarChart2.generateLegend();
+
+        //-----------------
+        //- END BAR CHART 2 -
+        //-----------------
+    });
+
+});</script>
+{% endblock %}
