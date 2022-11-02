@@ -1,108 +1,221 @@
 {% extends 'layout/basic.html' %}
+{% load static %}
+{% block head %}
+    <link rel="stylesheet" type="text/css"
+          href="{% static 'admin_panel/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css' %}"/>
+{% endblock %}
 {% block header_text %}
     Пользователи
 {% endblock %}
 {% block content %}
-<div class="row">
-    <!--<div class="col-xs-12 col-sm-6">-->
-    <!--<h2 class="page-header">Квартиры</h2>-->
-    <!--</div>-->
-    <div class="col-xs-12">
+    <div class="row">
+        <!--<div class="col-xs-12 col-sm-6">-->
+        <!--<h2 class="page-header">Квартиры</h2>-->
+        <!--</div>-->
+        <div class="col-xs-12">
 
-        <div class="pull-right margin-bottom">
-            <a class="btn btn-success" href="{% url 'create_user' %}">Создать пользователя</a>
+            <div class="pull-right margin-bottom">
+                <a class="btn btn-success" href="{% url 'create_user' %}">Создать пользователя</a>
+            </div>
         </div>
     </div>
-</div>
 
-<div class="row">
-    <div class="col-xs-12">
-        <div class="box">
-            <div class="box-header with-border">
-                <h3 class="box-title"></h3>
-                <div class="box-tools">
-                    <a href="/admin/user-admin/index" class="btn btn-default btn-sm">
-                        <span class="hidden-xs">Очистить</span><i class="fa fa-eraser visible-xs" aria-hidden="true"></i>
-                    </a>
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <div class="box-header with-border">
+                    <h3 class="box-title"></h3>
+                    <div class="box-tools">
+                        <a href="/admin/user-admin/index" class="btn btn-default btn-sm">
+                            <span class="hidden-xs">Очистить</span><i class="fa fa-eraser visible-xs"
+                                                                      aria-hidden="true"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="grid-view">
+                    <div class="box-body table-responsive no-padding">
+                        <table id="users_table" class="table table-bordered table-hover table-striped linkedRow">
+                            <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Пользователь</th>
+                                <th>Роль</th>
+                                <th>Телефон</th>
+                                <th>Email (логин)</th>
+                                <th>Статус</th>
+                                <th style="width: 114px; min-width: 114px">&nbsp;</th>
+                            </tr>
+                            <tr id="w0-filters" class="filters">
+                                <td>&nbsp;</td>
+                                <td rowspan="1" colspan="1"><input type="text" class="column_search form-control"></td>
+                                <td><select id="useradminsearch-role" class="form-control select2-hidden-accessible"
+                                            name="UserAdminSearch[role]" data-s2-options="s2options_7ebc6538"
+                                            data-krajee-select2="select2_0d896465" tabindex="-1"
+                                            aria-hidden="true" data-index="2">
+                                    <option value=""></option>
+                                    <option value="admin">Директор</option>
+                                    <option value="manager">Управляющий</option>
+                                    <option value="accountant">Бухгалтер</option>
+                                    <option value="electrician">Электрик</option>
+                                    <option value="plumber">Сантехник</option>
+                                </select></td>
+                                <th rowspan="1" colspan="1"><input type="text" class="column_search form-control"></th>
+                                <th><input type="text" class="form-control" name="UserAdminSearch[email]"
+                                           data-index="4"></th>
+                                <th><select id="useradminsearch-status" class="form-control select2-hidden-accessible"
+                                            name="UserAdminSearch[status]" data-s2-options="s2options_7ebc6538"
+                                            data-krajee-select2="select2_0d896465" tabindex="-1"
+                                            aria-hidden="true">
+                                    <option value=""></option>
+                                    <option value="10">Активен</option>
+                                    <option value="5">Новый</option>
+                                    <option value="0">Отключен</option>
+                                </select></th>
+                                <td>&nbsp;</td>
+                            </tr>
+                            </thead>
+
+                            <tbody>
+                            <tr data-href="#" data-key="0">
+                                <td>0</td>
+                                <td>{{ admin.first_name }} {{ admin.last_name }}</td>
+                                <td>
+                                    {{ admin.role.role }}</td>
+                                <td>
+                                    {{ admin.phone }}</td>
+                                <td>{{ admin.username }}</td>
+                                <td><small class="label label-success">{{ admin.status }}</small></td>
+                                <td>
+                                    <div class="btn-group pull-right"><a class="btn btn-default btn-sm"
+                                                                         href="/admin/user-admin/invite/1"
+                                                                         title="Отправить приглашение"
+                                                                         data-toggle="tooltip"><i
+                                            class="fa fa-repeat"></i></a> <a class="btn btn-default btn-sm"
+                                                                             href="{% url 'update_user' admin.pk %}"
+                                                                             title="Редактировать"
+                                                                             data-toggle="tooltip"><i
+                                            class="fa fa-pencil"></i></a>
+                                        <button class="btn btn-default btn-sm disabled"><i class="fa fa-trash"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                            {% for user in user_list %}
+                                {% if user.is_superuser %}
+                                {% else %}
+                                    <tr data-href="/admin/user-admin/2" data-key="{{ forloop.counter }}">
+                                        <td>{{ forloop.counter }}</td>
+                                        <td>{{ user.first_name }} {{ user.last_name }}</td>
+                                        <td>
+                                            {{ user.role.role }}</td>
+                                        <td>
+                                            {{ user.phone }}</td>
+                                        <td>{{ user.username }}</td>
+                                        <td><small class="label label-success">{{ user.status }}</small></td>
+                                        <td>
+                                            <div class="btn-group pull-right"><a class="btn btn-default btn-sm"
+                                                                                 href="/admin/user-admin/invite/2"
+                                                                                 title="Отправить приглашение"
+                                                                                 data-toggle="tooltip"><i
+                                                    class="fa fa-repeat"></i></a> <a class="btn btn-default btn-sm"
+                                                                                     href="{% url 'update_user' user.pk %}"
+                                                                                     title="Редактировать"
+                                                                                     data-toggle="tooltip"><i
+                                                    class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm"
+                                                                                     href="/admin/user-admin/delete/2"
+                                                                                     title="Удалить"
+                                                                                     data-toggle="tooltip" data-pjax="0"
+                                                                                     data-method="post"
+                                                                                     data-confirm="Вы уверены, что хотите удалить этот элемент?"><i
+                                                    class="fa fa-trash"></i></a></div>
+                                        </td>
+                                    </tr>
+                                {% endif %}
+                            {% endfor %}
+                            </tbody>
+                            <thead>
+                            <tr>
+
+                            </tr>
+                            </thead>
+                        </table>
+                    </div>
+                    <div class="box-footer clearfix">
+                        <ul class="pagination pagination-sm no-margin pull-right">
+                            <li class="prev disabled"><span>«</span></li>
+                            <li class="active"><a href="/admin/user-admin/index?page=1&amp;per-page=50"
+                                                  data-page="0">1</a></li>
+                            <li><a href="/admin/user-admin/index?page=2&amp;per-page=50" data-page="1">2</a></li>
+                            <li class="next"><a href="/admin/user-admin/index?page=2&amp;per-page=50"
+                                                data-page="1">»</a></li>
+                        </ul>
+                    </div>
                 </div>
             </div>
-
-            <div id="w0" class="grid-view"><div class="box-body table-responsive no-padding"><table class="table table-bordered table-hover table-striped linkedRow"><thead>
-<tr><th>#</th><th>Пользователь</th><th>Роль</th><th>Телефон</th><th>Email (логин)</th><th>Статус</th><th style="width: 114px; min-width: 114px">&nbsp;</th></tr><tr id="w0-filters" class="filters"><td>&nbsp;</td><td><input type="text" class="form-control" name="UserAdminSearch[searchFullname]"></td><td><select id="useradminsearch-role" class="form-control select2-hidden-accessible" name="UserAdminSearch[role]" data-s2-options="s2options_7ebc6538" data-krajee-select2="select2_0d896465" style="display:none" tabindex="-1" aria-hidden="true">
-<option value=""></option>
-<option value="admin">Директор</option>
-<option value="manager">Управляющий</option>
-<option value="accountant">Бухгалтер</option>
-<option value="electrician">Электрик</option>
-<option value="plumber">Сантехник</option>
-</select><span class="select2 select2-container select2-container--default" dir="ltr" style="width: 100%;"><span class="selection"><span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-labelledby="select2-useradminsearch-role-container"><span class="select2-selection__rendered" id="select2-useradminsearch-role-container"><span class="select2-selection__placeholder"></span></span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span></td><td><input type="text" class="form-control" name="UserAdminSearch[phone]"></td><td><input type="text" class="form-control" name="UserAdminSearch[email]"></td><td><select id="useradminsearch-status" class="form-control select2-hidden-accessible" name="UserAdminSearch[status]" data-s2-options="s2options_7ebc6538" data-krajee-select2="select2_0d896465" style="display:none" tabindex="-1" aria-hidden="true">
-<option value=""></option>
-<option value="10">Активен</option>
-<option value="5">Новый</option>
-<option value="0">Отключен</option>
-</select><span class="select2 select2-container select2-container--default" dir="ltr" style="width: 100%;"><span class="selection"><span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-labelledby="select2-useradminsearch-status-container"><span class="select2-selection__rendered" id="select2-useradminsearch-status-container"><span class="select2-selection__placeholder"></span></span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span></td><td>&nbsp;</td></tr>
-</thead>
-<tbody>
-<tr data-href="#" data-key="0"><td>0</td><td>{{ admin.first_name }} {{ admin.last_name }}</td><td>
-            {{ admin.role.role }}</td><td>
-            {{ admin.phone }}</td><td>{{ admin.username }}</td><td><small class="label label-success">{{ admin.status }}</small></td><td><div class="btn-group pull-right"> <a class="btn btn-default btn-sm" href="/admin/user-admin/invite/1" title="Отправить приглашение" data-toggle="tooltip"><i class="fa fa-repeat"></i></a> <a class="btn btn-default btn-sm" href="/admin/user-admin/update/1" title="Редактировать" data-toggle="tooltip"><i class="fa fa-pencil"></i></a> <button class="btn btn-default btn-sm disabled"><i class="fa fa-trash"></i></button></div></td></tr>
-{% for user in user_list %}
-    {% if user.is_superuser %}
-    {% else %}
-    <tr data-href="/admin/user-admin/2" data-key="{{ forloop.counter }}"><td>{{ forloop.counter }}</td><td>{{ user.first_name }} {{ user.last_name }}</td><td>
-        {{ user.role }}</td><td>
-            {{ user.phone }}</td><td>{{ user.username }}</td><td><small class="label label-success">{{ user.status }}</small></td><td><div class="btn-group pull-right"> <a class="btn btn-default btn-sm" href="/admin/user-admin/invite/2" title="Отправить приглашение" data-toggle="tooltip"><i class="fa fa-repeat"></i></a> <a class="btn btn-default btn-sm" href="/admin/user-admin/update/2" title="Редактировать" data-toggle="tooltip"><i class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm" href="/admin/user-admin/delete/2" title="Удалить" data-toggle="tooltip" data-pjax="0" data-method="post" data-confirm="Вы уверены, что хотите удалить этот элемент?"><i class="fa fa-trash"></i></a></div></td></tr>
-    {% endif %}
-{% endfor %}
-</tbody></table></div>
-<div class="box-footer clearfix"><ul class="pagination pagination-sm no-margin pull-right"><li class="prev disabled"><span>«</span></li>
-<li class="active"><a href="/admin/user-admin/index?page=1&amp;per-page=50" data-page="0">1</a></li>
-<li><a href="/admin/user-admin/index?page=2&amp;per-page=50" data-page="1">2</a></li>
-<li class="next"><a href="/admin/user-admin/index?page=2&amp;per-page=50" data-page="1">»</a></li></ul></div></div>
         </div>
     </div>
-</div>
 
 {% endblock %}
 
 {% block scripts %}
+    <script type="text/javascript"
+            src="{% static 'admin_panel/bower_components/datatables.net/js/jquery.dataTables.min.js' %}"></script>
     <script>
-    $('#system_settings').attr('class', 'active treeview menu-open')
-    $('#nav_users').attr('class', 'active')
-    $(document).ready(function () {
-        {#jQuery(function ($) {#}
-        {#    if (jQuery('#useradminsearch-role').data('select2')) {#}
-        {#        jQuery('#useradminsearch-role').select2('destroy');#}
-        {#    }#}
-        {#    jQuery.when(jQuery('#useradminsearch-role').select2()).done(initS2Loading('useradminsearch-role', 's2options_7ebc6538'));#}
-        {##}
-        {#    if (jQuery('#useradminsearch-status').data('select2')) {#}
-        {#        jQuery('#useradminsearch-status').select2('destroy');#}
-        {#    }#}
-        {#    jQuery.when(jQuery('#useradminsearch-status').select2()).done(initS2Loading('useradminsearch-status', 's2options_7ebc6538'));#}
-        {#})#}
-        set_label_colors()
-    })
-    function set_label_colors() {
-        let colors ={'Активен': 'label label-success',
-                        'Отключен': 'label label-danger',
-                        'Новый': 'label label-warning',
-            }
-        $('small').each(function (item) {
-            console.log($(this).text())
-            $(this).attr('class', colors[$(this).text()])
+        $('#system_settings').attr('class', 'active treeview menu-open')
+        $('#nav_users').attr('class', 'active')
+        $(document).ready(function () {
+            {#$('#users_table').DataTable()#}
+            set_label_colors()
         })
-       {#console.log($('small'))#}
-    }
+
+        function set_label_colors() {
+            let colors = {
+                'Активен': 'label label-success',
+                'Отключен': 'label label-danger',
+                'Новый': 'label label-warning',
+            }
+            $('small').each(function () {
+                $(this).attr('class', colors[$(this).text()])
+            })
+        }
 
     </script>
-    <script>jQuery(function ($) {
-{#if (jQuery('#useradminsearch-role').data('select2')) { jQuery('#useradminsearch-role').select2('destroy'); }#}
-{#jQuery.when(jQuery('#useradminsearch-role').select2()).done(initS2Loading('useradminsearch-role','s2options_7ebc6538'));#}
-{##}
-{#if (jQuery('#useradminsearch-status').data('select2')) { jQuery('#useradminsearch-status').select2('destroy'); }#}
-{#jQuery.when(jQuery('#useradminsearch-status').select2()).done(initS2Loading('useradminsearch-status','s2options_7ebc6538'));#}
+    <script>
+        $(document).ready(function () {
+            // Setup - add a text input to each footer cell
+            {% comment %}            $('#users_table tfoot th').each(function (i) {
+                            var title = $('#users_table thead th').eq($(this).index()).text();
+                            $(this).html('<input type="text" placeholder="' + title + '" data-index="' + i + '" />');
+                        });{% endcomment %}
 
-{#jQuery('#w0').yiiGridView({"filterUrl":"\/admin\/user-admin\/index","filterSelector":"#w0-filters input, #w0-filters select"});#}
-});</script>
+            // DataTable
+            var table = $('#users_table').DataTable({
+                {#scrollY:        "300px",#}
+                {#scrollX:        true,#}
+                scrollCollapse: true,
+                paging: false,
+                {#fixedColumns: true,#}
+                searching: false,
+                ordering: false
+            });
+
+            // Filter event handler
+            {#$(table.table().container()).on('keyup', '', function () {#}
+            {#    console.log(table.column($(this).data('index')))#}
+                {#table.column($(this).data('index'))#}
+                    {#.search(this.value)#}
+                    {#.draw();#}
+            {% comment %}});{% endcomment %}
+            $( '#users_table thead'  ).on( 'keyup', ".column_search",function () {
+                console.log(table
+                .column($(this).parent().index()).search(this.value))
+
+            table
+                .column($(this).parent().index())
+                .search(this.value)
+                .draw();
+    } );
+        });
+    </script>
 {% endblock %}

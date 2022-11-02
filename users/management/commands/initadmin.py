@@ -9,8 +9,8 @@ class Command(BaseCommand):
         fake = Faker()
         if User.objects.count() == 0:
             username = 'admin'
-            email = 'admin@gmail.com'
-            password = '0'
+            email = 'admin@admin.com'
+            password = 'admin'
             print('Creating account for %s (%s)' % (username, email))
             admin = User.objects.create_superuser(
                 username=email,
@@ -22,8 +22,8 @@ class Command(BaseCommand):
                 telegram='@' + 'admin',
                 birth_date=fake.date_of_birth(minimum_age=16, maximum_age=55),
                 password=password,
-                status=choice(['Активен', 'Отключен', 'Новый']),
-                role=Role.objects.get(role='director'),
+                status=choice(User.StatusName.choices)[0],
+                # role=Role.objects.get(role='director'),
                 notes=fake.text(max_nb_chars=500),
                 profile_image=f'static_kit/users/admin.png'
             )

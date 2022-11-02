@@ -1,0 +1,78 @@
+{% extends 'layout/basic.html' %}
+{% block header_text %}
+    Пользователь
+{% endblock %}
+{% block content %}
+<div class="box">
+    <div class="box-body">
+
+<form id="w0" method="post">
+    {% csrf_token %}
+<input type="hidden" name="_csrf-backend" value="1WxOv4sjUOGjzHNiCoPsO-c2hOd-xai6OpRsrI_WGg2KHCv2wRsT18-tFARL1bpa02zhjUur3_B-3yfY3753WA==">
+<div class="row">
+    <div class="col-xs-12 col-md-6">
+        <div class="form-group field-useradminform-firstname">
+<label class="control-label" for="useradminform-firstname">Имя</label>
+            {{form.first_name}}
+
+<div class="help-block"></div>
+</div>        <div class="form-group field-useradminform-lastname">
+<label class="control-label" for="useradminform-lastname">Фамилия</label>
+{{form.last_name}}
+
+<div class="help-block"></div>
+</div>        <div class="form-group field-useradminform-phone">
+<label class="control-label" for="useradminform-phone">Телефон</label>
+{{form.phone}}
+
+<div class="help-block"></div>
+</div>            </div>
+
+    <div class="col-xs-12 col-md-6">
+        <div class="form-group field-useradminform-username required">
+<label class="control-label" for="useradminform-username">Email (логин)</label>
+{{form.username}}
+
+<div class="help-block"></div>
+</div>
+        <div class="form-group field-useradminform-password">
+<label class="control-label" for="useradminform-password">Пароль</label>
+
+                <div class="input-group">{{ form.password1 }}
+
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="button" onclick="generatePassword('.pass-value')">
+                            Сгенерировать
+                        </button>
+                        <button type="button" class="btn btn-primary" id="showPass">
+                            <i class="fa fa-eye" aria-hidden="true"></i>
+                        </button>
+                    </span>
+                </div>
+
+<div class="help-block"></div>
+</div>        <div class="form-group field-useradminform-password2">
+<label class="control-label" for="useradminform-password2">Повторить пароль</label>
+{{ form.password2 }}
+
+<div class="help-block"></div>
+</div>    </div>
+</div>
+<div class="row">
+    <div class="col-xs-12 text-right">
+        <a href="/admin/user-admin/index" class="btn btn-default">Отменить</a>
+        <button type="submit" class="btn btn-success">Сохранить</button>
+    </div>
+</div>
+
+</form>
+<script>
+    function generatePassword(targetSelector) {
+        var pass = Math.random().toString(36).substring(4);
+        $('input'+targetSelector).val(pass);
+        $('span'+targetSelector).text(pass);
+    }
+</script>
+    </div>
+</div>
+{% endblock %}

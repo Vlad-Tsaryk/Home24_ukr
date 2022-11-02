@@ -1,7 +1,8 @@
 from django.shortcuts import render
-from django.views.generic import TemplateView, ListView, CreateView
+from django.urls import reverse_lazy
+from django.views.generic import TemplateView, ListView, CreateView, UpdateView
 from .models import User, Role
-from .forms import CustomUserCreationForm
+from .forms import CustomUserCreationForm, CustomUserUpdateForm
 
 
 # Create your views here.
@@ -18,5 +19,14 @@ class Users(ListView):
 
 class CreateUser(CreateView):
     form_class = CustomUserCreationForm
-    template_name = 'users/create_user.html'
-    success_url = 'user_list'
+    # template_name = 'users/create_user.html'
+    template_name = 'users/test.html'
+    success_url = reverse_lazy('user_list')
+
+
+class UpdateUser(UpdateView):
+    model = User
+    form_class = CustomUserUpdateForm
+    template_name = 'users/update_user.html'
+    success_url = reverse_lazy('user_list')
+
