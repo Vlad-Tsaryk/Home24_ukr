@@ -1,0 +1,9 @@
+{% extends 'layout/basic.html' %}
+{% block content %}
+    {{ form.as_p }}
+    {{ formset.management_form }}
+    {{ formset.empty_form }}
+    {% for f in formset %}
+        {{ f}}
+    {% endfor %}
+{% endblock %}

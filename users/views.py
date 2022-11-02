@@ -20,7 +20,7 @@ class Users(ListView):
 class CreateUser(CreateView):
     form_class = CustomUserCreationForm
     # template_name = 'users/create_user.html'
-    template_name = 'users/test.html'
+    template_name = 'users/create_user.html'
     success_url = reverse_lazy('user_list')
 
 
@@ -30,3 +30,6 @@ class UpdateUser(UpdateView):
     template_name = 'users/update_user.html'
     success_url = reverse_lazy('user_list')
 
+
+class UpdateRoles(UpdateView):
+    model = Role

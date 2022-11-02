@@ -1,0 +1,208 @@
+{% extends 'layout/basic.html' %}
+{% block header_text %}
+    Редактирование услуг
+{% endblock %}
+{% block head %}
+    <!-- CSS only -->
+{#<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">#}
+
+{% endblock %}
+
+{% block content %}
+    <div class="box">
+        <div class="box-body">
+            <form id="w0" method="post" class="needs-validation">
+                {% csrf_token %}
+                <div class="row">
+                    <div class="col-xs-12 col-lg-7">
+                        <div class="nav-tabs-custom">
+                            <ul class="nav nav-tabs">
+                                <li class="active"><a href="#tab_service" data-toggle="tab" aria-expanded="true">Услуги</a>
+                                </li>
+                                <li class=""><a href="#tab_unit" data-toggle="tab" aria-expanded="false">Единицы
+                                    измерения</a></li>
+                            </ul>
+                            <div class="tab-content">
+                                <div class="tab-pane clearfix active" id="tab_service">
+                                    <div id="form-service-rows">
+                                        {{ service_formset.management_form }}
+                                        <div id="empty-service" class="row form-service" hidden>
+                                        {{ service_formset.empty_form.id }}
+                                                <div class="col-xs-12 col-sm-7">
+                                                <div class="form-group">
+                                                    <label for="{{ service_formset.empty_form.prefix }}-name">Услуга</label>
+                                                    {{service_formset.empty_form.name}}
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-12 col-sm-5">
+                                                <div class="form-group">
+                                                    <label for="{{ service_formset.empty_form.prefix }}-service_unit_id">Ед. изм.</label>
+                                                    <div class="input-group">
+                                                        {{ service_formset.empty_form.unit }}
+                                                        <span class="input-group-btn">
+                    <button type="button" class="btn btn-default form-row-remove-btn"
+                            no-delete-msg="Эта услуга используется в квитанциях. Удаление невозможно.">
+
+                        <i
+                            class="fa fa-trash"></i></button>                </span>
+                                        </div>
+
+                                    </div>
+                                            </div>
+                                            <div class="col-xs-12">
+                                                <label>{{service_formset.empty_form.is_counter}} Показывать в
+                                                счетчиках</label>
+                                                <div style="margin-bottom: 16px;"></div>
+                                            </div>
+                                        </div>
+                                        {% for service in service_formset %}
+
+                                        <div id="form-service-{{ forloop.counter0 }}" class="row form-service">
+                                            <div class="col-xs-12 col-sm-7">
+                                                {% for hidden in service.hidden_fields %}
+                                            {{ hidden }}
+                                        {% endfor %}
+                                                <div class="form-group">
+                                                    <label for="service-{{ forloop.counter0 }}-name">Услуга</label>
+                                                    {{service.name}}
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-12 col-sm-5">
+                                                <div class="form-group">
+                                                    <label for="service-{{ forloop.counter0 }}-service_unit_id">Ед. изм.</label>
+                                                    <div class="input-group">
+                                                        {{ service.unit }}
+                                                        <span class="input-group-btn">
+                    <button type="button" class="btn btn-default form-row-remove-btn"
+                            no-delete-msg="Эта услуга используется в квитанциях. Удаление невозможно.">
+
+                        <i
+                            class="fa fa-trash"></i></button>                </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-12">
+                                                <label>{{service.is_counter}} Показывать в
+                                                счетчиках</label>
+                                                <div style="margin-bottom: 16px;"></div>
+                                            </div>
+                                        </div>
+                                        {% endfor %}
+                                    </div>
+                                    <button type="button"
+                                            class="btn btn-default btn-hover-change pull-left form-row-add-service-btn"
+                                            id="add_service">
+                                        Добавить
+                                    </button>
+                                </div>
+
+
+                                <div class="tab-pane clearfix" id="tab_unit">
+                                    <div id="form-unit-rows">
+                                    {{ unit_formset.management_form }}
+                                    <div id="empty-unit" class="row form-unit" hidden>
+                                    {{ unit_formset.empty_form.id }}
+                                    <div class="col-xs-12">
+                                                <div class="form-group">
+                                                    <label for="{{ unit_formset.empty_form.prefix }}-name">Ед. изм.</label>
+                                                    <div class="input-group">
+                                                        {{unit_formset.empty_form.name}} <span
+                                                            class="input-group-btn">
+                    <button type="button" class="btn btn-default form-row-remove-btn"
+                            no-delete-msg="Эта ед.изм. используется в услуге. Удаление невозможно."><i
+                            class="fa fa-trash"></i></button>                </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                                    </div>
+                                        {% for unit in unit_formset %}
+                                        <div id="form-unit-{{ forloop.counter0 }}" class="row form-unit">
+                                            <div class="col-xs-12">
+                                                {% for hidden in unit.hidden_fields %}
+                                            {{ hidden }}
+                                        {% endfor %}
+                                                <div class="form-group">
+                                                    <label for="unit-{{ forloop.counter0 }}-name">Ед. изм.</label>
+                                                    <div class="input-group">
+                                                        {{unit.name}} <span
+                                                            class="input-group-btn">
+                    <button type="button" class="btn btn-default form-row-remove-btn"
+                            no-delete-msg="Эта ед.изм. используется в услуге. Удаление невозможно."><i
+                            class="fa fa-trash"></i></button>                </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                    </div>
+                                    <button type="button"
+                                            class="btn btn-default btn-hover-change pull-left form-row-add-unit-btn"
+                                            id="add_unit">
+                                        Добавить
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 text-center">
+                        <div class="form-group">
+                            <a href="/admin/service/index" class="btn btn-default">Отменить</a>
+                            <button type="submit" class="btn btn-success">Сохранить</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+{% endblock %}
+{% block scripts %}
+    <script>
+    <!-- JavaScript Bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
+
+    $('#add_service').on('click', function (){add_service('service','empty-service','form-service-rows',totalServiceForms)})
+    $('#add_unit').on('click', function (){add_service('unit','empty-unit','form-unit-rows',totalUnitForms)})
+
+    const totalServiceForms = $('#id_service-TOTAL_FORMS')
+    const totalUnitForms = $('#id_unit-TOTAL_FORMS')
+    function add_service(form_name, copy_target_id,items_list_id, TotalForm ) {
+        let currentFormCount = 0;
+        let forms = $(`.form-${form_name}`)
+        if (forms.length > 0) {
+            currentFormCount = parseInt(forms.last().attr('id').split('-').pop()) + 1;
+        }
+        console.log(currentFormCount)
+        const copyEmptyFormEl = document.getElementById(copy_target_id).cloneNode(true)
+        copyEmptyFormEl.setAttribute('id', `form-${form_name}-${currentFormCount}`)
+        console.log('#'+copyEmptyFormEl.id)
+        const regex = new RegExp('__prefix__', 'g')
+        copyEmptyFormEl.innerHTML = copyEmptyFormEl.innerHTML.replace(regex, currentFormCount)
+        TotalForm.attr('value', forms.length)
+        $(copyEmptyFormEl).appendTo('#'+items_list_id).show()
+    }
+    </script>
+    <script>// Example starter JavaScript for disabling form submissions if there are invalid fields
+(function () {
+  'use strict'
+
+  // Fetch all the forms we want to apply custom Bootstrap validation styles to
+  var forms = document.querySelectorAll('.needs-validation')
+
+  // Loop over them and prevent submission
+  Array.prototype.slice.call(forms)
+    .forEach(function (form) {
+      form.addEventListener('submit', function (event) {
+        if (!form.checkValidity()) {
+          event.preventDefault()
+          event.stopPropagation()
+        }
+
+        form.classList.add('was-validated')
+      }, false)
+    })
+})()
+</script>
+{% endblock %}

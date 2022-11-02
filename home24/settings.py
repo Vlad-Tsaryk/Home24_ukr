@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'admin_panel.apps.AdminPanelConfig',
     'users.apps.UsersConfig',
     "debug_toolbar",
+    'admin_service.apps.AdminServiceConfig',
 
 ]
 

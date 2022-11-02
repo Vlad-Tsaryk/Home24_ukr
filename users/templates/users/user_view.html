@@ -1,0 +1,44 @@
+{% extends 'layout/basic.html' %}
+
+{% block content %}
+    <div class="box">
+        <div class="box-header with-border">
+        <h3 class="box-title"></h3>
+        <div class="box-tools">
+            <a href="/admin/user-admin/update/1" class="btn btn-primary btn-sm">
+                <span class="hidden-xs">Редактировать пользователя</span><i class="fa fa-pencil visible-xs" aria-hidden="true"></i>
+            </a>
+        </div>
+    </div>
+        <div class="box-body">
+        <div class="row">
+            <div class="col-xs-12 col-lg-4">
+                <table class="table table-bordered table-striped table-view">
+                    <tbody>
+                        <tr>
+                            <td>Пользователь</td>
+                            <td>{{ form.first_name}} {{ form.last_name }}</td>
+                        </tr>
+                        <tr>
+                            <td>Роль</td>
+                            <td>{{ form.role }}</td>
+                        </tr>
+                        <tr>
+                            <td>Телефон</td>
+                            <td>{{ form.phone }}</td>
+                        </tr>
+                        <tr>
+                            <td>Email(логин)</td>
+                            <td>{{ form.username }}</td>
+                        </tr>
+                        <tr>
+                            <td>Статус</td>
+                            <td><small class="label label-success">{{ form.status }}</small></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
