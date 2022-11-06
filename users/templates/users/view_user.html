@@ -1,11 +1,19 @@
 {% extends 'layout/basic.html' %}
-
+{% block header_text %}
+    Пользователь
+{% endblock %}
+{% block breadcrumb %}
+    <ul class="breadcrumb"><li><a href="{% url 'statistic' %}"><i class="fa fa-home"></i> Главная</a></li>
+<li><a href="{% url 'user_list' %}">Пользователи</a></li>
+<li class="active">Пользователь</li>
+</ul>
+{% endblock %}
 {% block content %}
     <div class="box">
         <div class="box-header with-border">
         <h3 class="box-title"></h3>
         <div class="box-tools">
-            <a href="/admin/user-admin/update/1" class="btn btn-primary btn-sm">
+            <a href="{% url 'update_user' object.pk %}" class="btn btn-primary btn-sm">
                 <span class="hidden-xs">Редактировать пользователя</span><i class="fa fa-pencil visible-xs" aria-hidden="true"></i>
             </a>
         </div>
@@ -17,23 +25,23 @@
                     <tbody>
                         <tr>
                             <td>Пользователь</td>
-                            <td>{{ form.first_name}} {{ form.last_name }}</td>
+                            <td>{{ object.first_name}} {{ object.last_name }}</td>
                         </tr>
                         <tr>
                             <td>Роль</td>
-                            <td>{{ form.role }}</td>
+                            <td>{{ object.role }}</td>
                         </tr>
                         <tr>
                             <td>Телефон</td>
-                            <td>{{ form.phone }}</td>
+                            <td>{{ object.phone }}</td>
                         </tr>
                         <tr>
                             <td>Email(логин)</td>
-                            <td>{{ form.username }}</td>
+                            <td>{{ object.username }}</td>
                         </tr>
                         <tr>
                             <td>Статус</td>
-                            <td><small class="label label-success">{{ form.status }}</small></td>
+                            <td><small class="label" id="status">{{ object.status }}</small></td>
                         </tr>
                     </tbody>
                 </table>
@@ -41,4 +49,18 @@
         </div>
     </div>
 </div>
+{% endblock %}
+{% block scripts %}
+    <script>
+        $('#system_settings').attr('class', 'active treeview menu-open')
+        $('#nav_users').attr('class', 'active')
+    </script>
+    <script>
+        let colors = {
+                'Активен': 'label label-success',
+                'Отключен': 'label label-danger',
+                'Новый': 'label label-warning',
+            }
+            $('#status').attr('class',colors[$('#status').text()])
+        </script>
 {% endblock %}

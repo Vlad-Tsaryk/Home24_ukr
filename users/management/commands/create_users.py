@@ -23,7 +23,7 @@ class Command(BaseCommand):
                 username=fake.email(),
                 password='Home12345',
                 status=random.choice(['Активен', 'Отключен', 'Новый']),
-                role=Role.objects.get(role=random.choice(Role.CHOICES_role[1:5])[0]),
+                role=Role.objects.get(role=random.choice(Role.RoleName.choices[1:5])[0]),
                 notes=fake.text(max_nb_chars=500),
                 profile_image=f'static_kit/users/{random.randrange(1,3)}.png'
             )

@@ -7,6 +7,11 @@
 {% block header_text %}
     Пользователи
 {% endblock %}
+{% block breadcrumb %}
+    <ul class="breadcrumb"><li><a href="{% url 'statistic' %}"><i class="fa fa-home"></i> Главная</a></li>
+<li class="active">Пользователи</li>
+</ul>
+{% endblock %}
 {% block content %}
     <div class="row">
         <!--<div class="col-xs-12 col-sm-6">-->
@@ -26,7 +31,7 @@
                 <div class="box-header with-border">
                     <h3 class="box-title"></h3>
                     <div class="box-tools">
-                        <a href="/admin/user-admin/index" class="btn btn-default btn-sm">
+                        <a onclick="clear_filters()" class="btn btn-default btn-sm">
                             <span class="hidden-xs">Очистить</span><i class="fa fa-eraser visible-xs"
                                                                       aria-hidden="true"></i>
                         </a>
@@ -48,91 +53,91 @@
                             </tr>
                             <tr id="w0-filters" class="filters">
                                 <td>&nbsp;</td>
-                                <td rowspan="1" colspan="1"><input type="text" class="column_search form-control"></td>
-                                <td><select id="useradminsearch-role" class="form-control select2-hidden-accessible"
+                                <td rowspan="1" colspan="1"><input type="text" class="column_search form-control" id="name"></td>
+                                <td><select id="role" class="form-control select2-hidden-accessible column_search"
                                             name="UserAdminSearch[role]" data-s2-options="s2options_7ebc6538"
                                             data-krajee-select2="select2_0d896465" tabindex="-1"
                                             aria-hidden="true" data-index="2">
-                                    <option value=""></option>
-                                    <option value="admin">Директор</option>
-                                    <option value="manager">Управляющий</option>
-                                    <option value="accountant">Бухгалтер</option>
-                                    <option value="electrician">Электрик</option>
-                                    <option value="plumber">Сантехник</option>
+                                    <option style="background-color: #00a65a;" value=""></option>
+                                    <option style="background-color: #00a65a;" value="Директор">Директор</option>
+                                    <option style="background-color: #00a65a;" value="Управляющий">Управляющий</option>
+                                    <option style="background-color: #00a65a;" value="Бухгалтер">Бухгалтер</option>
+                                    <option style="background-color: #00a65a;" value="Электрик">Электрик</option>
+                                    <option style="background-color: #00a65a;" value="Сантехник">Сантехник</option>
                                 </select></td>
-                                <th rowspan="1" colspan="1"><input type="text" class="column_search form-control"></th>
-                                <th><input type="text" class="form-control" name="UserAdminSearch[email]"
+                                <th rowspan="1" colspan="1"><input type="text" class="column_search form-control" id="phone"></th>
+                                <th><input type="text" class="form-control column_search" name="UserAdminSearch[email]" id="username"
                                            data-index="4"></th>
-                                <th><select id="useradminsearch-status" class="form-control select2-hidden-accessible"
+                                <th><select id="status" class="form-control select2-hidden-accessible column_search"
                                             name="UserAdminSearch[status]" data-s2-options="s2options_7ebc6538"
                                             data-krajee-select2="select2_0d896465" tabindex="-1"
                                             aria-hidden="true">
                                     <option value=""></option>
-                                    <option value="10">Активен</option>
-                                    <option value="5">Новый</option>
-                                    <option value="0">Отключен</option>
+                                    <option value="Активен">Активен</option>
+                                    <option value="Новый">Новый</option>
+                                    <option value="Отключен">Отключен</option>
                                 </select></th>
                                 <td>&nbsp;</td>
                             </tr>
                             </thead>
 
                             <tbody>
-                            <tr data-href="#" data-key="0">
-                                <td>0</td>
-                                <td>{{ admin.first_name }} {{ admin.last_name }}</td>
-                                <td>
-                                    {{ admin.role.role }}</td>
-                                <td>
-                                    {{ admin.phone }}</td>
-                                <td>{{ admin.username }}</td>
-                                <td><small class="label label-success">{{ admin.status }}</small></td>
-                                <td>
-                                    <div class="btn-group pull-right"><a class="btn btn-default btn-sm"
-                                                                         href="/admin/user-admin/invite/1"
-                                                                         title="Отправить приглашение"
-                                                                         data-toggle="tooltip"><i
-                                            class="fa fa-repeat"></i></a> <a class="btn btn-default btn-sm"
-                                                                             href="{% url 'update_user' admin.pk %}"
-                                                                             title="Редактировать"
-                                                                             data-toggle="tooltip"><i
-                                            class="fa fa-pencil"></i></a>
-                                        <button class="btn btn-default btn-sm disabled"><i class="fa fa-trash"></i>
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-                            {% for user in user_list %}
-                                {% if user.is_superuser %}
-                                {% else %}
-                                    <tr data-href="/admin/user-admin/2" data-key="{{ forloop.counter }}">
-                                        <td>{{ forloop.counter }}</td>
-                                        <td>{{ user.first_name }} {{ user.last_name }}</td>
-                                        <td>
-                                            {{ user.role.role }}</td>
-                                        <td>
-                                            {{ user.phone }}</td>
-                                        <td>{{ user.username }}</td>
-                                        <td><small class="label label-success">{{ user.status }}</small></td>
-                                        <td>
-                                            <div class="btn-group pull-right"><a class="btn btn-default btn-sm"
-                                                                                 href="/admin/user-admin/invite/2"
-                                                                                 title="Отправить приглашение"
-                                                                                 data-toggle="tooltip"><i
-                                                    class="fa fa-repeat"></i></a> <a class="btn btn-default btn-sm"
-                                                                                     href="{% url 'update_user' user.pk %}"
-                                                                                     title="Редактировать"
-                                                                                     data-toggle="tooltip"><i
-                                                    class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm"
-                                                                                     href="/admin/user-admin/delete/2"
-                                                                                     title="Удалить"
-                                                                                     data-toggle="tooltip" data-pjax="0"
-                                                                                     data-method="post"
-                                                                                     data-confirm="Вы уверены, что хотите удалить этот элемент?"><i
-                                                    class="fa fa-trash"></i></a></div>
-                                        </td>
-                                    </tr>
-                                {% endif %}
-                            {% endfor %}
+{#                            <tr data-href="#" data-key="0">#}
+{#                                <td>0</td>#}
+{#                                <td>{{ admin.first_name }} {{ admin.last_name }}</td>#}
+{#                                <td>#}
+{#                                    {{ admin.role.role }}</td>#}
+{#                                <td>#}
+{#                                    {{ admin.phone }}</td>#}
+{#                                <td>{{ admin.username }}</td>#}
+{#                                <td><small class="label label-success">{{ admin.status }}</small></td>#}
+{#                                <td>#}
+{#                                    <div class="btn-group pull-right"><a class="btn btn-default btn-sm"#}
+{#                                                                         href="/admin/user-admin/invite/1"#}
+{#                                                                         title="Отправить приглашение"#}
+{#                                                                         data-toggle="tooltip"><i#}
+{#                                            class="fa fa-repeat"></i></a> <a class="btn btn-default btn-sm"#}
+{#                                                                             href="{% url 'update_user' admin.pk %}"#}
+{#                                                                             title="Редактировать"#}
+{#                                                                             data-toggle="tooltip"><i#}
+{#                                            class="fa fa-pencil"></i></a>#}
+{#                                        <button class="btn btn-default btn-sm disabled"><i class="fa fa-trash"></i>#}
+{#                                        </button>#}
+{#                                    </div>#}
+{#                                </td>#}
+{#                            </tr>#}
+{#                            {% for user in user_list %}#}
+{#                                {% if user.is_superuser %}#}
+{#                                {% else %}#}
+{#                                    <tr data-href="/admin/user-admin/2" data-key="{{ forloop.counter }}">#}
+{#                                        <td>{{ forloop.counter }}</td>#}
+{#                                        <td>{{ user.first_name }} {{ user.last_name }}</td>#}
+{#                                        <td>#}
+{#                                            {{ user.role.role }}</td>#}
+{#                                        <td>#}
+{#                                            {{ user.phone }}</td>#}
+{#                                        <td>{{ user.username }}</td>#}
+{#                                        <td><small class="label label-success">{{ user.status }}</small></td>#}
+{#                                        <td>#}
+{#                                            <div class="btn-group pull-right"><a class="btn btn-default btn-sm"#}
+{#                                                                                 href="/admin/user-admin/invite/2"#}
+{#                                                                                 title="Отправить приглашение"#}
+{#                                                                                 data-toggle="tooltip"><i#}
+{#                                                    class="fa fa-repeat"></i></a> <a class="btn btn-default btn-sm"#}
+{#                                                                                     href="{% url 'update_user' user.pk %}"#}
+{#                                                                                     title="Редактировать"#}
+{#                                                                                     data-toggle="tooltip"><i#}
+{#                                                    class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm"#}
+{#                                                                                     href="/admin/user-admin/delete/2"#}
+{#                                                                                     title="Удалить"#}
+{#                                                                                     data-toggle="tooltip" data-pjax="0"#}
+{#                                                                                     data-method="post"#}
+{#                                                                                     data-confirm="Вы уверены, что хотите удалить этот элемент?"><i#}
+{#                                                    class="fa fa-trash"></i></a></div>#}
+{#                                        </td>#}
+{#                                    </tr>#}
+{#                                {% endif %}#}
+{#                            {% endfor %}#}
                             </tbody>
                             <thead>
                             <tr>
@@ -154,6 +159,21 @@
                 </div>
             </div>
         </div>
+    <div hidden class="empty-btn"><a class="btn btn-default btn-sm"
+                                                                                 href="/admin/user-admin/invite/2"
+                                                                                 title="Отправить приглашение"
+                                                                                 data-toggle="tooltip"><i
+                                                    class="fa fa-repeat"></i></a> <a class="btn btn-default btn-sm"
+                                                                                     href="{% url 'update_user' user.pk %}"
+                                                                                     title="Редактировать"
+                                                                                     data-toggle="tooltip"><i
+                                                    class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm"
+                                                                                     href="/admin/user-admin/delete/2"
+                                                                                     title="Удалить"
+                                                                                     data-toggle="tooltip" data-pjax="0"
+                                                                                     data-method="post"
+                                                                                     data-confirm="Вы уверены, что хотите удалить этот элемент?"><i
+                                                    class="fa fa-trash"></i></a></div>
     </div>
 
 {% endblock %}
@@ -164,58 +184,118 @@
     <script>
         $('#system_settings').attr('class', 'active treeview menu-open')
         $('#nav_users').attr('class', 'active')
-        $(document).ready(function () {
-            {#$('#users_table').DataTable()#}
-            set_label_colors()
-        })
-
-        function set_label_colors() {
-            let colors = {
+    </script>
+    <script>
+    let numb = 0
+    let colors = {
                 'Активен': 'label label-success',
                 'Отключен': 'label label-danger',
                 'Новый': 'label label-warning',
             }
-            $('small').each(function () {
-                $(this).attr('class', colors[$(this).text()])
-            })
+        let sort_data ={
+            "name":'',
+            "role":'',
+            "phone":'',
+            "username":'',
+            "status":'',
         }
+        let table
+            function clear_filters() {
+                $('.column_search').val('');
+                sort_data ={
+                "name":'',
+                "role":'',
+                "phone":'',
+                "username":'',
+                "status":'',
+                }
+                numb=0
+                    table.draw()
 
-    </script>
-    <script>
-        $(document).ready(function () {
-            // Setup - add a text input to each footer cell
-            {% comment %}            $('#users_table tfoot th').each(function (i) {
-                            var title = $('#users_table thead th').eq($(this).index()).text();
-                            $(this).html('<input type="text" placeholder="' + title + '" data-index="' + i + '" />');
-                        });{% endcomment %}
+            }
 
-            // DataTable
-            var table = $('#users_table').DataTable({
-                {#scrollY:        "300px",#}
-                {#scrollX:        true,#}
-                scrollCollapse: true,
-                paging: false,
-                {#fixedColumns: true,#}
-                searching: false,
-                ordering: false
+            function send_POST(e) {
+                table = $('#users_table').DataTable({
+                    serverSide: true,
+                    processing: false,
+                    oLanguage: {
+                    sZeroRecords: "Ничего не найдено."
+                    },
+                    columnDefs: [
+                        { targets: '_all', defaultContent:''},
+                    ],
+                    "ajax": {
+                        "processing": true,
+                        "url": "{% url 'user_list' %}",
+                        "data": function (d) {
+                            return sort_data;
+                        },
+                        "dataSrc": "",
+                    },
+                    "columns": [
+                        {data: null,
+                        render:function () {
+                            numb++
+                            return numb
+
+                        }},
+                        {"data": "name"},
+                        {"data": "role__role"},
+                        {"data": "phone"},
+                        {"data": "username"},
+                        {data: "status",
+                            render: function (data, type) {
+                        return `<small class="${colors[data]}">${data}</small>`;
+                    },
+                    },
+                        {data: "id",
+                            render:function (data, type) {
+                            let link_update = '{% url 'update_user' 12345 %}'.replace(/12345/, data)
+                            let link_delete = '{% url 'delete_user' 12345 %}'.replace(/12345/, data)
+                                if (data === {{ admin.pk }}){
+                                    return `<div class="btn-group pull-right"><a class="btn btn-default btn-sm" href="/admin/user-admin/invite/2" title="Отправить приглашение" data-toggle="tooltip"><i class="fa fa-repeat"></i></a> <a class="btn btn-default btn-sm" href="${link_update}" title="Редактировать" data-toggle="tooltip"><i class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm disabled" href="${link_delete}" title="Удалить" data-toggle="tooltip" data-pjax="0" id="delete_user" ><i class="fa fa-trash"></i></a></div>`
+                                }
+                                else {
+                                    return `<div class="btn-group pull-right"><a class="btn btn-default btn-sm" href="/admin/user-admin/invite/2" title="Отправить приглашение" data-toggle="tooltip"><i class="fa fa-repeat"></i></a> <a class="btn btn-default btn-sm" href="${link_update}" title="Редактировать" data-toggle="tooltip"><i class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm" href="${link_delete}" title="Удалить" data-toggle="tooltip" data-pjax="0" id="delete_user" onclick="return confirm_delete('${link_delete}',event);"> <i class="fa fa-trash"></i></a></div>`
+                                }
+
+                            },
+                        }
+                            ],
+                    {#scrollCollapse: true,#}
+                    paging: false,
+                    {#scrollX: true,#}
+                    searching: false,
+                    ordering: false,
+                    info: false,
+                    {#pagingType: 'full_numbers',#}
+                });
+            }
+            $('#users_table thead').on('change', ".column_search", function a (e) {
+                sort_data[this.id] = $(this).val()
+                numb=0
+                table.draw()
             });
 
-            // Filter event handler
-            {#$(table.table().container()).on('keyup', '', function () {#}
-            {#    console.log(table.column($(this).data('index')))#}
-                {#table.column($(this).data('index'))#}
-                    {#.search(this.value)#}
-                    {#.draw();#}
-            {% comment %}});{% endcomment %}
-            $( '#users_table thead'  ).on( 'keyup', ".column_search",function () {
-                console.log(table
-                .column($(this).parent().index()).search(this.value))
 
-            table
-                .column($(this).parent().index())
-                .search(this.value)
-                .draw();
-    } );
+
+        $(document).ready(function () {
+            send_POST();
+            $('.column_search').val('');
         });
+        function confirm_delete (link,event) {
+            alertify.confirm('Подтверждение удаления', 'Удалить пользователя <b>'
+                + $(event.target).closest( "tr " ).children().eq(1).text() + '</b> ?',
+                function () {
+                window.location.href = link
+                },
+                function () {
+                }).set({labels: {ok: 'Подтвердить', cancel: 'Отмена'}});
+                return false;
+        }
+        $('#users_table').on('click', 'tbody tr', function() {
+        window.location.href = '{% url 'view_user' 12345 %}'.replace(/12345/, table.row(this).data().id)
+})
     </script>
+
 {% endblock %}

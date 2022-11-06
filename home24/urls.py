@@ -15,15 +15,15 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from admin_panel.views import index
+
 from django.conf.urls.static import static
 from django.conf import settings
 
 urlpatterns = [
     path('__debug__/', include('debug_toolbar.urls')),
-    path('admin/', admin.site.urls),
-    path('', index),
+    path('django_admin/', admin.site.urls),
     path('users/', include('users.urls')),
+    path('admin/', include('admin_panel.urls')),
     path('service/', include('admin_service.urls')),
 
 ]

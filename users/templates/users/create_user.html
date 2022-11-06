@@ -1,10 +1,14 @@
 {% extends 'layout/basic.html' %}
+{% load static %}
 {% block header_text %}
     Новый пользователь
 {% endblock %}
-{#{% block breadcrumb %}#}
-{##}
-{#{% endblock %}#}
+{% block breadcrumb %}
+        <ul class="breadcrumb"><li><a href="{% url 'statistic' %}"><i class="fa fa-home"></i> Главная</a></li>
+<li><a href="{% url 'user_list' %}">Пользователи</a></li>
+<li class="active">Новый пользователь</li>
+</ul>
+{% endblock %}
 {% block content %}
 <div class="box">
     <div class="box-body">
@@ -23,9 +27,18 @@
 {{ form.last_name }}
 
 <div class="help-block"></div>
-</div>        <div class="form-group field-useradminform-phone">
+</div>
+    {% if form.phone.errors %}
+            <div class="form-group field-useradminform-phone has-error">
+        {% else %}
+            <div class="form-group field-useradminform-phone">
+    {% endif %}
+
 <label class="control-label" for="useradminform-phone">Телефон</label>
 {{ form.phone }}
+        {% if form.phone.errors %}
+<em id="id_phone-error" class="error help-block">{{ form.phone.errors|join:". " }}</em>
+{% endif %}
 
 <div class="help-block"></div>
 </div>                    <div class="form-group field-useradminform-role">
@@ -42,10 +55,16 @@
 </div>            </div>
 
     <div class="col-xs-12 col-md-6">
-        <div class="form-group field-useradminform-username required">
+        {% if form.username.errors %}
+        <div class="form-group field-useradminform-username required has-error">
+            {% else %}
+            <div class="form-group field-useradminform-username required">
+            {% endif %}
 <label class="control-label" for="useradminform-username">Email (логин)</label>
 {{ form.username }}
-
+    {% if form.username.errors %}
+<em id="id_username-error" class="error help-block">{{ form.username.errors|join:". " }}</em>
+    {% endif %}
 <div class="help-block"></div>
 </div>        
         <div class="form-group field-useradminform-password">
@@ -77,7 +96,6 @@
         <button type="submit" class="btn btn-success">Сохранить</button>
     </div>
 </div>
-
 </form>
 <script>
     function generatePassword(targetSelector) {
@@ -86,14 +104,111 @@
         $('span'+targetSelector).text(pass);
     }
 </script>
-        <script>
-            jQuery(function ($) {
-jQuery('#w0').yiiActiveForm([{"id":"useradminform-firstname","name":"firstname","container":".field-useradminform-firstname","input":"#useradminform-firstname","validate":function (attribute, value, messages, deferred, $form) {yii.validation.string(value, messages, {"message":"Значение «Имя» должно быть строкой.","max":255,"tooLong":"Значение «Имя» должно содержать максимум 255 символов.","skipOnEmpty":1});}},{"id":"useradminform-lastname","name":"lastname","container":".field-useradminform-lastname","input":"#useradminform-lastname","validate":function (attribute, value, messages, deferred, $form) {yii.validation.string(value, messages, {"message":"Значение «Фамилия» должно быть строкой.","max":255,"tooLong":"Значение «Фамилия» должно содержать максимум 255 символов.","skipOnEmpty":1});}},{"id":"useradminform-phone","name":"phone","container":".field-useradminform-phone","input":"#useradminform-phone","validate":function (attribute, value, messages, deferred, $form) {yii.validation.string(value, messages, {"message":"Значение «Телефон» должно быть строкой.","max":255,"tooLong":"Значение «Телефон» должно содержать максимум 255 символов.","skipOnEmpty":1});}},{"id":"useradminform-role","name":"role","container":".field-useradminform-role","input":"#useradminform-role","validate":function (attribute, value, messages, deferred, $form) {yii.validation.string(value, messages, {"message":"Значение «Роль» должно быть строкой.","max":255,"tooLong":"Значение «Роль» должно содержать максимум 255 символов.","skipOnEmpty":1});}},{"id":"useradminform-status","name":"status","container":".field-useradminform-status","input":"#useradminform-status","validate":function (attribute, value, messages, deferred, $form) {yii.validation.range(value, messages, {"range":["10","5","0"],"not":false,"message":"Значение «Статус» неверно.","skipOnEmpty":1});}},{"id":"useradminform-username","name":"username","container":".field-useradminform-username","input":"#useradminform-username","validate":function (attribute, value, messages, deferred, $form) {yii.validation.string(value, messages, {"message":"Значение «Email (логин)» должно быть строкой.","max":255,"tooLong":"Значение «Email (логин)» должно содержать максимум 255 символов.","skipOnEmpty":1});yii.validation.email(value, messages, {"pattern":/^[a-zA-Z0-9!#$%&'*+\/=?^_`{|}~-]+(?:\.[a-zA-Z0-9!#$%&'*+\/=?^_`{|}~-]+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?$/,"fullPattern":/^[^@]*<[a-zA-Z0-9!#$%&'*+\/=?^_`{|}~-]+(?:\.[a-zA-Z0-9!#$%&'*+\/=?^_`{|}~-]+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?>$/,"allowName":false,"message":"Значение «Email (логин)» не является правильным email адресом.","enableIDN":false,"skipOnEmpty":1});yii.validation.required(value, messages, {"message":"Необходимо заполнить «Email (логин)»."});}},{"id":"useradminform-password","name":"password","container":".field-useradminform-password","input":"#useradminform-password","validate":function (attribute, value, messages, deferred, $form) {yii.validation.string(value, messages, {"message":"Значение «Пароль» должно быть строкой.","min":6,"tooShort":"Значение «Пароль» должно содержать минимум 6 символов.","max":255,"tooLong":"Значение «Пароль» должно содержать максимум 255 символов.","skipOnEmpty":1});if ((function (attribute, value) {
-                return $('#is_new_record').val() == '1';
-            })(attribute, value)) { yii.validation.required(value, messages, {"message":"Необходимо заполнить «Пароль»."}); }}},{"id":"useradminform-password2","name":"password2","container":".field-useradminform-password2","input":"#useradminform-password2","validate":function (attribute, value, messages, deferred, $form) {yii.validation.string(value, messages, {"message":"Значение «Повторить пароль» должно быть строкой.","min":6,"tooShort":"Значение «Повторить пароль» должно содержать минимум 6 символов.","max":255,"tooLong":"Значение «Повторить пароль» должно содержать максимум 255 символов.","skipOnEmpty":1});yii.validation.compare(value, messages, {"operator":"==","type":"string","compareAttribute":"useradminform-password","skipOnEmpty":1,"message":"Пароли не совпадают."}, $form);}}], []);
-});
-        </script>
     </div>
 </div>
+{% endblock %}
+{% block scripts %}
+
+    <script src="{% static 'admin_panel/plugins/input-mask/jquery.inputmask.js' %}"></script>
+    <script src="{% static 'admin_panel/plugins/jquery-validation-1.19.5/demo/marketo/jquery.maskedinput.js' %}"></script>
+    <script>
+        $('#system_settings').attr('class', 'active treeview menu-open')
+        $('#nav_users').attr('class', 'active')
+    </script>
+    <script>
+        {% if form.phone.errors  %}
+    toastr.error('{{ form.phone.errors }}')
+        {% endif %}
+        {% if  form.username.errors%}
+            toastr.error('{{ form.username.errors }}')
+        {% endif %}
+    $.validator.addMethod("validateEmail", function(value, element) {
+        let regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+    return regex.test(value);
+    });
+    $('#id_phone').mask('+38 (999) 999-99-99')
+            $( "#user_creation_form" ).validate( {
+				rules: {
+					first_name: "required",
+					last_name: "required",
+					username: {
+                        validateEmail:true,
+                        required: true,
+                    },
+                    password1: {
+						required: true,
+						minlength: 8
+					},
+					password2: {
+                        required: true,
+                        minlength: 8,
+                        equalTo: "#id_password1"
+                    },
+                    phone: {required: true,}
+					{% comment %}lastname1: "required",
+					username1: {
+						required: true,
+						minlength: 2
+					},
+					},
+					email1: {
+						required: true,
+						email: true
+					},
+					agree1: "required"{% endcomment %}
+				},
+				messages: {
+					first_name: "Пожалуйста введите ваше имя.",
+					last_name: "Пожалуйста введите вашу фамилию.",
+					username: "Пожалуйста введите правильный email адрес.",
+                    password1: {
+						required: "Пожалуйста введите пароль.",
+						minlength: "Ваша пароль должен быть больше 8 символов."
+					},
+					password2: {
+						required: "Пожалуйста введите пароль.",
+						minlength: "Ваша пароль должен быть больше 8 символов.",
+						equalTo: "Пароли не совпадают."
+					},
+                    phone: {
+						required: "Пожалуйста введите ваш номер телефона.",
+					},
+				},
+				errorElement: "em",
+				errorPlacement: function ( error, element ) {
+					// Add the `help-block` class to the error element
+					error.addClass( "help-block" );
+
+					// Add `has-feedback` class to the parent div.form-group
+					// in order to add icons to inputs
+					element.parents( ".form-group" ).addClass( "has-feedback" );
+
+					if ( element.prop( "type" ) === "checkbox" ) {
+						error.insertAfter( element.parent( "label" ) );
+					} else {
+						error.insertAfter( element );
+					}
+
+					// Add the span element, if doesn't exists, and apply the icon classes to it.
+					if ( !element.next( "span" )[ 0 ] ) {
+						$( "<span class='glyphicon glyphicon-remove form-control-feedback'></span>" ).insertAfter( element );
+					}
+				},
+				success: function ( label, element ) {
+					// Add the span element, if doesn't exists, and apply the icon classes to it.
+					if ( !$( element ).next( "span" )[ 0 ] ) {
+						$( "<span class='glyphicon glyphicon-ok form-control-feedback'></span>" ).insertAfter( $( element ) );
+					}
+				},
+				highlight: function ( element, errorClass, validClass ) {
+					$( element ).parents( ".form-group" ).addClass( "has-error" ).removeClass( "has-success" );
+					$( element ).next( "span" ).addClass( "glyphicon-remove" ).removeClass( "glyphicon-ok" );
+				},
+				unhighlight: function ( element, errorClass, validClass ) {
+					$( element ).parents( ".form-group" ).addClass( "has-success" ).removeClass( "has-error" );
+					$( element ).next( "span" ).addClass( "glyphicon-ok" ).removeClass( "glyphicon-remove" );
+				}
+			} );
+        </script>
 {% endblock %}
     

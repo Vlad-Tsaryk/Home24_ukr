@@ -8,14 +8,15 @@ class Role(models.Model):
     class RoleName(models.TextChoices):
         DIRECTOR = 'Директор', 'Директор'
         ACCOUNTANT = 'Бухгалтер', 'Бухгалтер'
-        MANAGER = 'Менеджер', 'Менеджер'
-        ELECTRICIAN = 'Електрик', 'Електрик'
+        MANAGER = 'Управляющий', 'Управляющий'
+        ELECTRICIAN = 'Электрик', 'Электрик'
         PLUMBER = 'Сантехник', 'Сантехник'
         OWNER = 'Владелец квартиры', 'Владелец квартиры'
 
     role = models.CharField(choices=RoleName.choices, max_length=20)
     statistics = models.BooleanField()
     transaction = models.BooleanField()
+    receipt = models.BooleanField()
     personal_account = models.BooleanField()
     apartment = models.BooleanField()
     owners = models.BooleanField()
@@ -25,9 +26,13 @@ class Role(models.Model):
     counter = models.BooleanField()
     website = models.BooleanField()
     services = models.BooleanField()
+    tariff = models.BooleanField()
     roles = models.BooleanField()
     users = models.BooleanField()
     payment_details = models.BooleanField()
+
+    def __str__(self):
+        return self.role
 
 
 class User(AbstractUser):
@@ -39,7 +44,8 @@ class User(AbstractUser):
     first_name = models.CharField(max_length=50)
     middle_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
-    username = models.EmailField(unique=True)
+    username = models.EmailField(unique=True, error_messages={
+                                                           'unique': "Пользователь с таким логином уже существует!"})
     phone = PhoneNumberField()
     birth_date = models.DateField(blank=True, null=True)
     status = models.CharField(choices=StatusName.choices, max_length=10)

@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     "phonenumber_field",
     'admin_panel.apps.AdminPanelConfig',
     'users.apps.UsersConfig',
+    'admin_purpose.apps.AdminPurposeConfig',
     "debug_toolbar",
     'admin_service.apps.AdminServiceConfig',
 
