@@ -7,7 +7,8 @@ class Purpose(models.Model):
         INCOME = 'Приход', 'Приход'
         OUTCOME = 'Расход', 'Расход'
 
-    name = models.CharField(max_length=50)
+    name = models.CharField(max_length=50, unique=True, error_messages={
+                                                           'unique': "Статья с таким именем уже существует!"})
     transaction_type = models.CharField(choices=TransactionType.choices, max_length=6)
 
 

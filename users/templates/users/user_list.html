@@ -256,7 +256,7 @@
                                     return `<div class="btn-group pull-right"><a class="btn btn-default btn-sm" href="/admin/user-admin/invite/2" title="Отправить приглашение" data-toggle="tooltip"><i class="fa fa-repeat"></i></a> <a class="btn btn-default btn-sm" href="${link_update}" title="Редактировать" data-toggle="tooltip"><i class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm disabled" href="${link_delete}" title="Удалить" data-toggle="tooltip" data-pjax="0" id="delete_user" ><i class="fa fa-trash"></i></a></div>`
                                 }
                                 else {
-                                    return `<div class="btn-group pull-right"><a class="btn btn-default btn-sm" href="/admin/user-admin/invite/2" title="Отправить приглашение" data-toggle="tooltip"><i class="fa fa-repeat"></i></a> <a class="btn btn-default btn-sm" href="${link_update}" title="Редактировать" data-toggle="tooltip"><i class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm" href="${link_delete}" title="Удалить" data-toggle="tooltip" data-pjax="0" id="delete_user" onclick="return confirm_delete('${link_delete}',event);"> <i class="fa fa-trash"></i></a></div>`
+                                    return `<div class="btn-group pull-right"><a class="btn btn-default btn-sm" href="/admin/user-admin/invite/2" title="Отправить приглашение" data-toggle="tooltip"><i class="fa fa-repeat"></i></a> <a class="btn btn-default btn-sm" href="${link_update}" title="Редактировать" data-toggle="tooltip"><i class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm" title="Удалить" data-toggle="tooltip" data-pjax="0" id="delete_user" onmousedown="return confirm_delete('${link_delete}',event);"> <i class="fa fa-trash"></i></a></div>`
                                 }
 
                             },
@@ -294,7 +294,9 @@
                 return false;
         }
         $('#users_table').on('click', 'tbody tr', function() {
-        window.location.href = '{% url 'view_user' 12345 %}'.replace(/12345/, table.row(this).data().id)
+            console.log(table.row(this).data().id)
+
+        {#window.location.href = '{% url 'view_user' 12345 %}'.replace(/12345/, table.row(this).data().id)#}
 })
     </script>
 

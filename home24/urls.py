@@ -22,9 +22,7 @@ from django.conf import settings
 urlpatterns = [
     path('__debug__/', include('debug_toolbar.urls')),
     path('django_admin/', admin.site.urls),
-    path('users/', include('users.urls')),
     path('admin/', include('admin_panel.urls')),
-    path('service/', include('admin_service.urls')),
 
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

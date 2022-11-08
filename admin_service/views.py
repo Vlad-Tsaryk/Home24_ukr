@@ -1,8 +1,8 @@
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
-from django.views.generic import UpdateView, CreateView, View, TemplateView, FormView
+from django.views.generic import TemplateView
 from .models import Service, Unit
-from .forms import ServiceForm, ServiceFormSet, UnitFormSet, UnitForm
+from .forms import ServiceFormSet, UnitFormSet
 
 
 # Create your views here.
@@ -34,13 +34,4 @@ class ServiceEdit(TemplateView):
             unit_formset.save()
             return redirect(self.success_url)
         else:
-            print('invalid')
-
-
-
-    # def form_invalid(self, service_formset, unit_formset):
-    #     print('invalid')
-    #     return self.render_to_response(
-    #         self.get_context_data(service_formset=service_formset,
-    #                               unit_formset=unit_formset))
-
+            return super(ServiceEdit, self).render_to_response(self.get_context_data())

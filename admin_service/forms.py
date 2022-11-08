@@ -16,7 +16,7 @@ class UnitForm(forms.ModelForm):
         fields = '__all__'
 
 
-UnitFormSet = modelformset_factory(model=Unit, form=UnitForm, extra=0)
+UnitFormSet = modelformset_factory(model=Unit, form=UnitForm, extra=0, can_delete=True)
 
 
 class ServiceForm(forms.ModelForm):

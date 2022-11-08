@@ -42,7 +42,7 @@ class Users(ListView):
 
 class CreateUser(SuccessMessageMixin, CreateView):
     form_class = CustomUserCreationForm
-    template_name = 'users/create_user.html'
+    template_name = 'users/user_create.html'
     success_url = reverse_lazy('user_list')
     success_message = "Пользователь успешно создан"
 
@@ -50,14 +50,14 @@ class CreateUser(SuccessMessageMixin, CreateView):
 class UpdateUser(SuccessMessageMixin, UpdateView):
     model = User
     form_class = CustomUserUpdateForm
-    template_name = 'users/update_user.html'
+    template_name = 'users/user_update.html'
     success_url = reverse_lazy('user_list')
     success_message = "Пользователь успешно изменен"
 
 
 class ViewUser(DetailView):
     model = User
-    template_name = 'users/view_user.html'
+    template_name = 'users/user_view.html'
 
 
 def delete_user(request, user_id):

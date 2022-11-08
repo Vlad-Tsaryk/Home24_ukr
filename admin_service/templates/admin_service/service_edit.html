@@ -38,9 +38,9 @@
                                                     <div class="input-group">
                                                         {{ service_formset.empty_form.unit }}
                                                         <span class="input-group-btn">
+                                                        <div hidden>{{ service_formset.empty_form.DELETE }}</div>
                     <button type="button" class="btn btn-default form-row-remove-btn"
-                            no-delete-msg="Эта услуга используется в квитанциях. Удаление невозможно.">
-
+                    onclick="delete_form('id_{{ service_formset.empty_form.prefix }}-DELETE')">
                         <i
                             class="fa fa-trash"></i></button>                </span>
                                         </div>
@@ -62,6 +62,11 @@
                                                 <div class="form-group">
                                                     <label for="service-{{ forloop.counter0 }}-name">Услуга</label>
                                                     {{service.name}}
+                                                    {% if service.name.errors %}
+                                                    <em id="id_service-{{ forloop.counter0 }}-name-error"
+                                                     class="error help-block" style="color: red">
+                                                     {{ service.name.errors|join:". "}}</em>
+                                                        {% endif %}
                                                 </div>
                                             </div>
                                             <div class="col-xs-12 col-sm-5">
@@ -70,8 +75,11 @@
                                                     <div class="input-group">
                                                         {{ service.unit }}
                                                         <span class="input-group-btn">
+                                                        <div hidden>{{ service.DELETE }}</div>
                     <button type="button" class="btn btn-default form-row-remove-btn"
-                            no-delete-msg="Эта услуга используется в квитанциях. Удаление невозможно.">
+                    onclick="delete_form('id_{{ service.prefix }}-DELETE')"
+
+                    {#                            title="Эта услуга используется в квитанциях. Удаление невозможно."#}>
 
                         <i
                             class="fa fa-trash"></i></button>                </span>
@@ -105,15 +113,16 @@
                                                     <div class="input-group">
                                                         {{unit_formset.empty_form.name}} <span
                                                             class="input-group-btn">
-                    <button type="button" class="btn btn-default form-row-remove-btn"
-                            no-delete-msg="Эта ед.изм. используется в услуге. Удаление невозможно."><i
-                            class="fa fa-trash"></i></button>                </span>
+                    <div hidden>{{ unit_formset.empty_form.DELETE }}</div>
+                                                                <button type="button"
+                                                                class="btn btn-default form-row-remove-btn"
+                                                                onclick="delete_form('id_{{ unit_formset.empty_form.prefix }}-DELETE')">
+                                                                <i class="fa fa-trash"></i></button>              </span>
                                                     </div>
                                                 </div>
                                             </div>
                                                     </div>
                                         {% for unit in unit_formset %}
-
                                         <div id="form-unit-{{ forloop.counter0 }}" class="row form-unit">
                                             <div class="col-xs-12">
                                                 {% for hidden in unit.hidden_fields %}
@@ -124,10 +133,27 @@
                                                     <div class="input-group">
                                                         {{unit.name}} <span
                                                             class="input-group-btn">
-                    <button type="button" class="btn btn-default form-row-remove-btn"
-                            no-delete-msg="Эта ед.изм. используется в услуге. Удаление невозможно."><i
-                            class="fa fa-trash"></i></button>                </span>
+                                                            {% if unit.instance.used_in_service %}
+                                                            <button type="button"
+                                                                class="btn btn-default form-row-remove-btn disabled"
+                                                                title="Эта ед.изм. используется в услуге. Удаление невозможно.">
+                                                                <i class="fa fa-trash"></i></button>
+                                                            {% else %}
+                                                                                                    <div hidden>{{ unit.DELETE }}</div>
+                                                                <button type="button"
+                                                                class="btn btn-default form-row-remove-btn"
+                                                                onclick="delete_form('id_unit-{{ forloop.counter0 }}-DELETE')">
+                                                                <i class="fa fa-trash"></i></button>
+                                                            {% endif %}
+
+
+                            </span>
                                                     </div>
+                                                    {% if unit.name.errors %}
+                                                    <em id="id_unit-{{ forloop.counter0 }}-name-error"
+                                                     class="error help-block" style="color: red">
+                                                     {{ unit.name.errors|join:". "}}</em>
+                                                        {% endif %}
                                                 </div>
                                             </div>
                                         </div>
@@ -146,7 +172,7 @@
                 <div class="row">
                     <div class="col-xs-12 text-center">
                         <div class="form-group">
-                            <a href="/admin/service/index" class="btn btn-default">Отменить</a>
+                            <a href="{% url 'service' %}" class="btn btn-default">Отменить</a>
                             <button type="submit" class="btn btn-success">Сохранить</button>
                         </div>
                     </div>
@@ -164,12 +190,12 @@
     </script>
 
 <script>
-    $('#add_service').on('click', function (){add_service('service','empty-service','form-service-rows',totalServiceForms)})
-    $('#add_unit').on('click', function (){add_service('unit','empty-unit','form-unit-rows',totalUnitForms)})
+    $('#add_service').on('click', function (){add_form('service','empty-service','form-service-rows',totalServiceForms)})
+    $('#add_unit').on('click', function (){add_form('unit','empty-unit','form-unit-rows',totalUnitForms)})
 
     const totalServiceForms = $('#id_service-TOTAL_FORMS')
     const totalUnitForms = $('#id_unit-TOTAL_FORMS')
-    function add_service(form_name, copy_target_id,items_list_id, TotalForm ) {
+    function add_form(form_name, copy_target_id,items_list_id, TotalForm ) {
         let currentFormCount = 0;
         let forms = $(`.form-${form_name}`)
         if (forms.length > 0) {
@@ -184,26 +210,9 @@
         TotalForm.attr('value', forms.length)
         $(copyEmptyFormEl).appendTo('#'+items_list_id).show()
     }
+    function delete_form(delete_id){
+            $('#'+delete_id).attr('checked','')
+            $(event.target).closest('.row').hide()
+    }
     </script>
-    <script>// Example starter JavaScript for disabling form submissions if there are invalid fields
-(function () {
-  'use strict'
-
-  // Fetch all the forms we want to apply custom Bootstrap validation styles to
-  var forms = document.querySelectorAll('.needs-validation')
-
-  // Loop over them and prevent submission
-  Array.prototype.slice.call(forms)
-    .forEach(function (form) {
-      form.addEventListener('submit', function (event) {
-        if (!form.checkValidity()) {
-          event.preventDefault()
-          event.stopPropagation()
-        }
-
-        form.classList.add('was-validated')
-      }, false)
-    })
-})()
-</script>
 {% endblock %}
