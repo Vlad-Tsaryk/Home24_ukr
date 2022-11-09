@@ -1,0 +1,120 @@
+{% extends 'layout/basic.html' %}
+{% load static %}
+{% block content %}
+    <div class="box">
+        <div class="box-body">
+
+            <form id="w0" method="post">
+                {% csrf_token %}
+            <div class="row">
+                <div class="col-xs-12 col-lg-7">
+                    <div class="form-group field-tariff-name">
+                        <label class="control-label" for="tariff-name">Название тарифа</label>
+                        {{ form.name }}
+                        <div class="help-block"></div>
+                    </div>
+                    <div class="form-group field-tariff-description">
+                        <label class="control-label" for="tariff-description">Описание тарифа</label>
+                        {{ form.description }}
+
+                        <div class="help-block"></div>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-lg-7">
+                    <div id="form-tariff_service-rows">
+                        {{ tariff_service_formset.management_form }}
+                    </div>
+                    <div id="empty-tariff_service" class="row form-tariff_service" hidden>
+                            <div class="col-xs-6 col-md-4">
+                                <div class="form-group" id="service">
+                                    <label for="{{ tariff_service_formset.prefix }}-service_id">Услуга</label>
+                                    {{ tariff_service_formset.empty_form.service }}
+                                    {#            <select id="tariffservice-0-service_id" class="form-control service-select" name="TariffService[0][service_id]">#}
+                                    {#            <option value="">Выберите...</option>#}
+                                    {#                {% for service in service_list %}#}
+                                    {#                        <option value="{{ service.pk }}">{{ service.name }}</option>#}
+                                    {#                {% endfor %}#}
+                                    {#</select> #}
+                                </div>
+                            </div>
+                            <div class="col-xs-6 col-md-3">
+                                <div class="form-group">
+                                    <label for="{{ tariff_service_formset.empty_form.prefix }}-price_unit">Цена</label>
+                                    {{ tariff_service_formset.empty_form.price }}
+                                </div>
+                            </div>
+                            <div class="col-xs-6 col-md-2">
+                                <div class="form-group">
+                                    <label for="0-currency-code">Валюта</label>
+                                    <input type="text" id="0-currency-code" class="form-control" name="[0]currency_code"
+                                           value="грн" disabled=""></div>
+                            </div>
+                            <div class="col-xs-6 col-md-3">
+                                <div class="form-group">
+                                    <label for="{{ tariff_service_formset.empty_form.prefix }}-unit-name">Ед.
+                                        изм.</label>
+                                    <div class="input-group">
+                                        <select id="{{ tariff_service_formset.empty_form.prefix }}-unit-name"
+                                                class="form-control {{ tariff_service_formset.empty_form.prefix }}-unit-name"
+                                                disabled="">
+                                            <option value="0">Выберите...</option>
+                                            {% for service in service_list %}
+                                                {% if service.unit %}
+                                                    <option value="{{ service.pk }}">{{ service.unit }}</option>
+                                                {% endif %}
+                                            {% endfor %}
+                                        </select>
+                                        <span class="input-group-btn">
+                                            <div hidden>{{ tariff_service_formset.empty_form.DELETE }}</div>
+                    <button type="button" class="btn btn-default form-row-remove-btn"
+                            onclick="delete_form('id_tariff_service-{{ forloop.counter0 }}-DELETE')"><i
+                            class="fa fa-trash"></i></button>
+                </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    <button type="button"
+                            class="btn btn-default btn-hover-change pull-left margin-bottom-15 form-row-add-tariffservice-btn"
+                    id="add_tariff_service">
+                        Добавить услугу
+                    </button>
+                </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12 col-lg-7 text-right">
+                <div class="form-group">
+                    <a href="/admin/tariff/index" class="btn btn-default">Отменить</a>
+                    <button type="submit" class="btn btn-success">Сохранить</button>
+                </div>
+            </div>
+        </div>
+        </form>
+        </div>
+        </div>
+
+{% endblock %}
+{% block scripts %}
+    <script src="{% static 'admin_panel/js/add_delete_form.js' %}"></script>
+<script>
+    const totalTariffServiceForms = $('#id_tariff_service-TOTAL_FORMS')
+    $('#add_tariff_service').on('click', function (){add_form('tariff_service','empty-tariff_service',
+        'form-tariff_service-rows',totalTariffServiceForms);service_change(parseInt(totalTariffServiceForms.val()))})
+    function service_change(count) {
+        console.log(count)
+            $(`#id_tariff_service-${count-1}-service`).change(function () {
+         let value = $(this).val()
+        let unit_select = $(this).closest('.row').find('select').eq(1)
+        if ($(unit_select).find(`option[value="${value}"]`).length === 0){
+            value = 0
+        }
+
+        unit_select.val(value).change()
+
+    })
+    }
+
+
+</script>
+{% endblock %}
