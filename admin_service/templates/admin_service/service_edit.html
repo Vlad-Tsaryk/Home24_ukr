@@ -1,4 +1,5 @@
 {% extends 'layout/basic.html' %}
+{% load static %}
 {% block header_text %}
     Редактирование услуг
 {% endblock %}
@@ -22,9 +23,7 @@
                             </ul>
                             <div class="tab-content">
                                 <div class="tab-pane clearfix active" id="tab_service">
-                                    <div id="form-service-rows">
-                                        {{ service_formset.management_form }}
-                                        <div id="empty-service" class="row form-service" hidden>
+                                                                        <div id="empty-service" class="row form-service" hidden>
                                         {{ service_formset.empty_form.id }}
                                                 <div class="col-xs-12 col-sm-7">
                                                 <div class="form-group">
@@ -53,6 +52,9 @@
                                                 <div style="margin-bottom: 16px;"></div>
                                             </div>
                                         </div>
+                                    <div id="form-service-rows">
+                                        {{ service_formset.management_form }}
+
                                         {% for service in service_formset %}
                                         <div id="form-service-{{ forloop.counter0 }}" class="row form-service">
                                             <div class="col-xs-12 col-sm-7">
@@ -103,9 +105,7 @@
 
 
                                 <div class="tab-pane clearfix" id="tab_unit">
-                                    <div id="form-unit-rows">
-                                    {{ unit_formset.management_form }}
-                                    <div id="empty-unit" class="row form-unit" hidden>
+                                <div id="empty-unit" class="row form-unit" hidden>
                                     {{ unit_formset.empty_form.id }}
                                     <div class="col-xs-12">
                                                 <div class="form-group">
@@ -122,6 +122,9 @@
                                                 </div>
                                             </div>
                                                     </div>
+                                    <div id="form-unit-rows">
+                                    {{ unit_formset.management_form }}
+
                                         {% for unit in unit_formset %}
                                         <div id="form-unit-{{ forloop.counter0 }}" class="row form-unit">
                                             <div class="col-xs-12">
@@ -188,31 +191,12 @@
         $('#system_settings').attr('class', 'active treeview menu-open')
         $('#nav_service').attr('class', 'active')
     </script>
-
+<script src="{% static 'admin_panel/js/add_delete_form.js' %}"></script>
 <script>
+    const totalServiceForms = $('#id_service-TOTAL_FORMS')
+    const totalUnitForms = $('#id_unit-TOTAL_FORMS')
     $('#add_service').on('click', function (){add_form('service','empty-service','form-service-rows',totalServiceForms)})
     $('#add_unit').on('click', function (){add_form('unit','empty-unit','form-unit-rows',totalUnitForms)})
 
-    const totalServiceForms = $('#id_service-TOTAL_FORMS')
-    const totalUnitForms = $('#id_unit-TOTAL_FORMS')
-    function add_form(form_name, copy_target_id,items_list_id, TotalForm ) {
-        let currentFormCount = 0;
-        let forms = $(`.form-${form_name}`)
-        if (forms.length > 0) {
-            currentFormCount = parseInt(forms.last().attr('id').split('-').pop()) + 1;
-        }
-        console.log(currentFormCount)
-        const copyEmptyFormEl = document.getElementById(copy_target_id).cloneNode(true)
-        copyEmptyFormEl.setAttribute('id', `form-${form_name}-${currentFormCount}`)
-        console.log('#'+copyEmptyFormEl.id)
-        const regex = new RegExp('__prefix__', 'g')
-        copyEmptyFormEl.innerHTML = copyEmptyFormEl.innerHTML.replace(regex, currentFormCount)
-        TotalForm.attr('value', forms.length)
-        $(copyEmptyFormEl).appendTo('#'+items_list_id).show()
-    }
-    function delete_form(delete_id){
-            $('#'+delete_id).attr('checked','')
-            $(event.target).closest('.row').hide()
-    }
     </script>
 {% endblock %}

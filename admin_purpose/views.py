@@ -1,8 +1,10 @@
 from django.contrib.messages.views import SuccessMessageMixin
+from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.views.generic import UpdateView, CreateView, ListView
 from .models import PaymentDetails, Purpose
 from .forms import PaymentDetailsForm, PurposeForm
+from django.contrib import messages
 
 
 # Create your views here.
@@ -32,3 +34,15 @@ class PurposeList(ListView):
 
 class PurposeUpdate(SuccessMessageMixin, UpdateView):
     model = Purpose
+    form_class = PurposeForm
+    success_url = reverse_lazy('purpose_list')
+    success_message = "Статья успешно изменена"
+    template_name = 'admin_purpose/purpose_update.html'
+
+
+def purpose_delete(request, pk):
+    obj_purpose = get_object_or_404(Purpose, pk=pk)
+    name = obj_purpose.name
+    obj_purpose.delete()
+    messages.success(request, f"Статья {name} успешно удалена")
+    return redirect('purpose_list')

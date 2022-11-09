@@ -38,11 +38,13 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     "phonenumber_field",
-    'admin_panel.apps.AdminPanelConfig',
     'users.apps.UsersConfig',
+    'admin_panel.apps.AdminPanelConfig',
     'admin_purpose.apps.AdminPurposeConfig',
-    "debug_toolbar",
     'admin_service.apps.AdminServiceConfig',
+    'admin_tariff.apps.AdminTariffConfig',
+    "debug_toolbar",
+
 
 ]
 

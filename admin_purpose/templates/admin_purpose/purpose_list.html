@@ -1,49 +1,110 @@
 {% extends 'layout/basic.html' %}
+{% load static %}
+{% block head %}
+    <link rel="stylesheet" type="text/css"
+          href="{% static 'admin_panel/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css' %}"/>
+{#    <link rel="stylesheet" type="text/css"#}
+{#          href="{% static 'admin_panel/bower_components/datatables.net/jquery.dataTables.css' %}"/>#}
+{% endblock %}
+{% block header_text %}
+Статьи приходов/расходов
+{% endblock %}
+{% block breadcrumb %}
+    <ul class="breadcrumb">
+        <li><a href="{% url 'statistic' %}"><i class="fa fa-home"></i>Главная</a></li>
+        <li class="active">Статьи приходов/расходов</li>
+</ul>
+{% endblock %}
 {% block content %}
 
 
-
-<div class="row">
-    <div class="col-xs-12">
-        <div class="pull-right margin-bottom">
-            <a class="btn btn-success" href="{% url 'purpose_create' %}">Добавить статью</a>
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="pull-right margin-bottom">
+                <a class="btn btn-success" href="{% url 'purpose_create' %}">Добавить статью</a>
+            </div>
         </div>
     </div>
-</div>
-<div class="row">
-    <div class="col-xs-12">
-        <div class="box">
-            <div id="w0" class="grid-view"><div class="box-body table-responsive no-padding"><table class="table table-bordered table-hover table-striped linkedRow"><thead>
-<tr><th>Название</th><th><a class="asc" href="/admin/transaction-purpose/index?sort=-type" data-sort="-type">Приход/расход</a></th><th style="width: 80px; min-width: 80px">&nbsp;</th></tr>
-</thead>
-<tbody>
-{% for purpose in purpose_list %}
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <div id="w0" class="grid-view">
+                    <div class="box-body table-responsive no-padding">
+                        <table id="purpose_table" class="table table-bordered table-hover table-striped linkedRow">
+                            <thead>
+                            <tr>
+                                <th>Название</th>
+                                <th>Приход/расход</th>
+                                <th style="width: 80px; min-width: 80px">&nbsp;</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for purpose in purpose_list %}
 
 
-<tr data-href="/admin/transaction-purpose/update/28" data-key="28">
-    <td>{{ purpose.name }}</td>
-    <td><span class="text text-{% if purpose.transaction_type == purpose.TransactionType.INCOME %}green{% else %}red{% endif %}">
+                                <tr data-href="{% url 'purpose_update' purpose.pk %}">
+                                    <td>{{ purpose.name }}</td>
+                                    <td><span
+                                            class="text text-{% if purpose.transaction_type == purpose.TransactionType.INCOME %}green{% else %}red{% endif %}">
         {{ purpose.transaction_type }}</span></td>
-    <td><div class="btn-group pull-right"><a class="btn btn-default btn-sm" href="/admin/transaction-purpose/update/28" title="Редактировать" data-toggle="tooltip"><i class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm" href="/admin/transaction-purpose/delete/28" title="Удалить" data-toggle="tooltip" data-pjax="0" data-method="post" data-confirm="Вы уверены, что хотите удалить этот элемент?"><i class="fa fa-trash"></i></a></div></td></tr>
-{% endfor %}
-{#<tr data-href="/admin/transaction-purpose/update/39" data-key="39"><td>Тест прихода</td><td><span class="text text-green">Приход</span></td><td><div class="btn-group pull-right"><a class="btn btn-default btn-sm" href="/admin/transaction-purpose/update/39" title="Редактировать" data-toggle="tooltip"><i class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm" href="/admin/transaction-purpose/delete/39" title="Удалить" data-toggle="tooltip" data-pjax="0" data-method="post" data-confirm="Вы уверены, что хотите удалить этот элемент?"><i class="fa fa-trash"></i></a></div></td></tr>#}
-{#<tr data-href="/admin/transaction-purpose/update/40" data-key="40"><td>тест</td><td><span class="text text-green">Приход</span></td><td><div class="btn-group pull-right"><a class="btn btn-default btn-sm" href="/admin/transaction-purpose/update/40" title="Редактировать" data-toggle="tooltip"><i class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm" href="/admin/transaction-purpose/delete/40" title="Удалить" data-toggle="tooltip" data-pjax="0" data-method="post" data-confirm="Вы уверены, что хотите удалить этот элемент?"><i class="fa fa-trash"></i></a></div></td></tr>#}
-{#<tr data-href="/admin/transaction-purpose/update/46" data-key="46"><td>Прибыль за красивые глаза рецепшионистки</td><td><span class="text text-green">Приход</span></td><td><div class="btn-group pull-right"><a class="btn btn-default btn-sm" href="/admin/transaction-purpose/update/46" title="Редактировать" data-toggle="tooltip"><i class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm" href="/admin/transaction-purpose/delete/46" title="Удалить" data-toggle="tooltip" data-pjax="0" data-method="post" data-confirm="Вы уверены, что хотите удалить этот элемент?"><i class="fa fa-trash"></i></a></div></td></tr>#}
-{#<tr data-href="/admin/transaction-purpose/update/47" data-key="47"><td>Коммунальный платёж</td><td><span class="text text-green">Приход</span></td><td><div class="btn-group pull-right"><a class="btn btn-default btn-sm" href="/admin/transaction-purpose/update/47" title="Редактировать" data-toggle="tooltip"><i class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm" href="/admin/transaction-purpose/delete/47" title="Удалить" data-toggle="tooltip" data-pjax="0" data-method="post" data-confirm="Вы уверены, что хотите удалить этот элемент?"><i class="fa fa-trash"></i></a></div></td></tr>#}
-{#<tr data-href="/admin/transaction-purpose/update/48" data-key="48"><td>проба</td><td><span class="text text-green">Приход</span></td><td><div class="btn-group pull-right"><a class="btn btn-default btn-sm" href="/admin/transaction-purpose/update/48" title="Редактировать" data-toggle="tooltip"><i class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm" href="/admin/transaction-purpose/delete/48" title="Удалить" data-toggle="tooltip" data-pjax="0" data-method="post" data-confirm="Вы уверены, что хотите удалить этот элемент?"><i class="fa fa-trash"></i></a></div></td></tr>#}
-{#<tr data-href="/admin/transaction-purpose/update/51" data-key="51"><td>*)(@*^$%#&amp;#(#)#(</td><td><span class="text text-green">Приход</span></td><td><div class="btn-group pull-right"><a class="btn btn-default btn-sm" href="/admin/transaction-purpose/update/51" title="Редактировать" data-toggle="tooltip"><i class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm" href="/admin/transaction-purpose/delete/51" title="Удалить" data-toggle="tooltip" data-pjax="0" data-method="post" data-confirm="Вы уверены, что хотите удалить этот элемент?"><i class="fa fa-trash"></i></a></div></td></tr>#}
-{#<tr data-href="/admin/transaction-purpose/update/2" data-key="2"><td>Погашение квитанции</td><td><span class="text text-red">Расход</span></td><td><div class="btn-group pull-right"><a class="btn btn-default btn-sm" href="/admin/transaction-purpose/update/2" title="Редактировать" data-toggle="tooltip"><i class="fa fa-pencil"></i></a> <button class="btn btn-default btn-sm disabled" data-confirm="Этот элемент используется в системе. Его нельзя удалить."><i class="fa fa-trash"></i></button></div></td></tr>#}
-{#<tr data-href="/admin/transaction-purpose/update/4" data-key="4"><td>Оплата воды отдельно</td><td><span class="text text-red">Расход</span></td><td><div class="btn-group pull-right"><a class="btn btn-default btn-sm" href="/admin/transaction-purpose/update/4" title="Редактировать" data-toggle="tooltip"><i class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm" href="/admin/transaction-purpose/delete/4" title="Удалить" data-toggle="tooltip" data-pjax="0" data-method="post" data-confirm="Вы уверены, что хотите удалить этот элемент?"><i class="fa fa-trash"></i></a></div></td></tr>#}
-{#<tr data-href="/admin/transaction-purpose/update/33" data-key="33"><td>оплата вывоза мусора</td><td><span class="text text-red">Расход</span></td><td><div class="btn-group pull-right"><a class="btn btn-default btn-sm" href="/admin/transaction-purpose/update/33" title="Редактировать" data-toggle="tooltip"><i class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm" href="/admin/transaction-purpose/delete/33" title="Удалить" data-toggle="tooltip" data-pjax="0" data-method="post" data-confirm="Вы уверены, что хотите удалить этот элемент?"><i class="fa fa-trash"></i></a></div></td></tr>#}
-{#<tr data-href="/admin/transaction-purpose/update/34" data-key="34"><td>откатт</td><td><span class="text text-red">Расход</span></td><td><div class="btn-group pull-right"><a class="btn btn-default btn-sm" href="/admin/transaction-purpose/update/34" title="Редактировать" data-toggle="tooltip"><i class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm" href="/admin/transaction-purpose/delete/34" title="Удалить" data-toggle="tooltip" data-pjax="0" data-method="post" data-confirm="Вы уверены, что хотите удалить этот элемент?"><i class="fa fa-trash"></i></a></div></td></tr>#}
-{#<tr data-href="/admin/transaction-purpose/update/36" data-key="36"><td>Оплата комуналки</td><td><span class="text text-red">Расход</span></td><td><div class="btn-group pull-right"><a class="btn btn-default btn-sm" href="/admin/transaction-purpose/update/36" title="Редактировать" data-toggle="tooltip"><i class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm" href="/admin/transaction-purpose/delete/36" title="Удалить" data-toggle="tooltip" data-pjax="0" data-method="post" data-confirm="Вы уверены, что хотите удалить этот элемент?"><i class="fa fa-trash"></i></a></div></td></tr>#}
-{#<tr data-href="/admin/transaction-purpose/update/37" data-key="37"><td>долг</td><td><span class="text text-red">Расход</span></td><td><div class="btn-group pull-right"><a class="btn btn-default btn-sm" href="/admin/transaction-purpose/update/37" title="Редактировать" data-toggle="tooltip"><i class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm" href="/admin/transaction-purpose/delete/37" title="Удалить" data-toggle="tooltip" data-pjax="0" data-method="post" data-confirm="Вы уверены, что хотите удалить этот элемент?"><i class="fa fa-trash"></i></a></div></td></tr>#}
-{#<tr data-href="/admin/transaction-purpose/update/44" data-key="44"><td>Расход (тест)</td><td><span class="text text-red">Расход</span></td><td><div class="btn-group pull-right"><a class="btn btn-default btn-sm" href="/admin/transaction-purpose/update/44" title="Редактировать" data-toggle="tooltip"><i class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm" href="/admin/transaction-purpose/delete/44" title="Удалить" data-toggle="tooltip" data-pjax="0" data-method="post" data-confirm="Вы уверены, что хотите удалить этот элемент?"><i class="fa fa-trash"></i></a></div></td></tr>#}
-{#<tr data-href="/admin/transaction-purpose/update/45" data-key="45"><td>Расходы на туалетную бумагу</td><td><span class="text text-red">Расход</span></td><td><div class="btn-group pull-right"><a class="btn btn-default btn-sm" href="/admin/transaction-purpose/update/45" title="Редактировать" data-toggle="tooltip"><i class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm" href="/admin/transaction-purpose/delete/45" title="Удалить" data-toggle="tooltip" data-pjax="0" data-method="post" data-confirm="Вы уверены, что хотите удалить этот элемент?"><i class="fa fa-trash"></i></a></div></td></tr>#}
-</tbody></table></div>
-<div class="box-footer clearfix"></div></div>
+                                    <td>
+                                        <div class="btn-group pull-right"><a class="btn btn-default btn-sm"
+                                                                             href="{% url 'purpose_update' purpose.pk %}"
+                                                                             title="Редактировать"
+                                                                             data-toggle="tooltip">
+                                            <i class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm"
+                                                                                title="Удалить" data-toggle="tooltip"
+                                                                                data-pjax="0" data-method="post"
+                                                                                onmousedown="return confirm_delete('{% url 'purpose_delete' purpose.pk %}',event);"><i
+                                                class="fa fa-trash"></i></a></div>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="box-footer clearfix"></div>
+                </div>
+            </div>
         </div>
     </div>
-</div>
 
+{% endblock %}
+
+{% block scripts %}
+    <script type="text/javascript"
+            src="{% static 'admin_panel/bower_components/datatables.net/jquery.dataTables.min.js' %}">
+    </script>
+        <script>
+        $('#system_settings').attr('class', 'active treeview menu-open')
+        $('#nav_purpose').attr('class', 'active')
+    </script>
+
+    <script>
+        $('#purpose_table').DataTable({
+            rowReorder: true,
+            columnDefs: [
+                {orderable: false, className: 'reorder', targets: 2},
+                {orderable: true, targets: '_all'}
+            ],
+            paging: false,
+            {#"pagingType": "full_numbers",#}
+            {#"pagingType": "scrolling",#}
+            {#'sPaginationType': 'ellipses',#}
+            {#scrollX: true,#}
+            searching: false,
+
+            info: false,
+        })
+                function confirm_delete (link,event) {
+            alertify.confirm('Подтверждение удаления', 'Удалить статью <b>'
+                + $(event.target).closest( "tr " ).children().eq(0).text() + '</b> ?',
+                function () {
+                window.location.href = link
+                },
+                function () {
+                }).set({labels: {ok: 'Подтвердить', cancel: 'Отмена'}});
+                return false;
+        }
+    </script>
 {% endblock %}

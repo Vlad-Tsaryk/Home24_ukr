@@ -9,9 +9,15 @@ class Unit(models.Model):
     name = models.CharField(max_length=50, unique=True, error_messages={
         'unique': "Единица измерения с таким именем уже существует!"})
 
+    def __str__(self):
+        return self.name
+
 
 class Service(models.Model):
     name = models.CharField(max_length=50, unique=True, error_messages={
         'unique': "Услуга с таким именем уже существует!"})
     unit = models.ForeignKey(Unit, on_delete=models.PROTECT, null=True)
     is_counter = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.name

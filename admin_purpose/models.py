@@ -15,3 +15,5 @@ class Purpose(models.Model):
 class PaymentDetails(models.Model):
     name = models.CharField(blank=True, max_length=128)
     info = models.TextField(blank=True)
+
+

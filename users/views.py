@@ -1,6 +1,6 @@
 from django.contrib.messages.views import SuccessMessageMixin
 from django.db.models.functions import Concat
-from django.shortcuts import redirect
+from django.shortcuts import redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, UpdateView, DetailView, TemplateView
 from django.http import JsonResponse
@@ -61,7 +61,7 @@ class ViewUser(DetailView):
 
 
 def delete_user(request, user_id):
-    obj_user = User.objects.get(pk=user_id)
+    obj_user = get_object_or_404(User, pk=user_id)
     if not obj_user.is_superuser:
         obj_user.delete()
         messages.success(request, "Пользователь успешно удалён")
