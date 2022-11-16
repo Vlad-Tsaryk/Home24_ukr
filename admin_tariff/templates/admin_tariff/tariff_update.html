@@ -1,10 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-
-</body>
-</html>
+{% extends 'admin_tariff/tariff_create.html' %}
+{% block breadcrumb %}
+        <ul class="breadcrumb">
+        <li><a href="{% url 'statistic' %}"><i class="fa fa-home"></i>Главная</a></li>
+        <li><a href="{% url 'tariff_list' %}">Тарифы</a></li>
+        <li><a href="{% url 'tariff_view' tariff.pk %}">Тариф</a></li>
+        <li class="active">Редактирование</li>
+</ul>
+{% endblock %}

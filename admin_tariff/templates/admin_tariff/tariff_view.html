@@ -1,0 +1,80 @@
+{% extends 'layout/basic.html' %}
+{% load static %}
+{% block header_text %}
+Тариф
+{% endblock %}
+{% block breadcrumb %}
+        <ul class="breadcrumb">
+        <li><a href="{% url 'statistic' %}"><i class="fa fa-home"></i>Главная</a></li>
+        <li><a href="{% url 'tariff_list' %}">Тарифы</a></li>
+        <li class="active">Тариф</li>
+</ul>
+{% endblock %}
+{% block content %}
+
+
+<div class="box">
+    <div class="box-header with-border">
+        <h3 class="box-title"></h3>
+        <div class="box-tools">
+            <a href="{% url 'tariff_update' object.pk %}" class="btn btn-primary btn-sm">
+                <span class="hidden-xs">Редактировать тариф</span><i class="fa fa-pencil visible-xs" aria-hidden="true"></i>
+            </a>
+        </div>
+    </div>
+    <div class="box-body">
+        <table class="table table-bordered table-striped table-view">
+            <tbody>
+                <tr>
+                    <td>Название тарифа</td>
+                    <td>
+                        {{ object.name }}
+                    </td>
+                </tr>
+                <tr>
+                    <td>Описание</td>
+                    <td>
+                        {{ object.description }}
+                    </td>
+                </tr>
+                <tr>
+                    <td>Дата редактирования</td>
+                    <td>{{ object.date_edit|date:'d.m.o - H:i' }}</td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="table-responsive no-padding margin-top-15">
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Услуга</th>
+                        <th>Ед. изм.</th>
+                        <th>Цена за ед., грн</th>
+                        <th>Валюта</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for tariffservice in object.tariffservice_set.all %}
+                                            <tr role="row">
+                            <td>{{ forloop.counter }}</td>
+                            <td>{{ tariffservice.service.name }}</td>
+                            <td>{{ tariffservice.service.unit.name }}</td>
+                            <td>{{ tariffservice.price }}</td>
+                            <td>грн</td>
+                        </tr>
+                {% endfor %}
+                                    </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}
+{% block scripts %}
+    <script>
+        $('#system_settings').attr('class', 'active treeview menu-open')
+        $('#nav_tariff').attr('class', 'active')
+    </script>
+{% endblock %}

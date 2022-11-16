@@ -1,5 +1,15 @@
 {% extends 'layout/basic.html' %}
 {% load static %}
+{% block header_text %}
+Тариф
+{% endblock %}
+{% block breadcrumb %}
+    <ul class="breadcrumb">
+        <li><a href="{% url 'statistic' %}"><i class="fa fa-home"></i>Главная</a></li>
+        <li><a href="{% url 'tariff_list' %}">Тарифы</a></li>
+        <li class="active">Новый тариф</li>
+</ul>
+{% endblock %}
 {% block content %}
     <div class="box">
         <div class="box-body">
@@ -66,7 +76,7 @@
                                         <span class="input-group-btn">
                                             <div hidden>{{ tariff_service.DELETE }}</div>
                     <button type="button" class="btn btn-default form-row-remove-btn"
-                            onclick="delete_form('id_tariff_service-{{ tariff_service.prefix }}-DELETE')"><i
+                            onclick="delete_form('id_{{ tariff_service.prefix }}-DELETE')"><i
                             class="fa fa-trash"></i></button>
                 </span>
                                     </div>
@@ -132,7 +142,7 @@
         <div class="row">
             <div class="col-xs-12 col-lg-7 text-right">
                 <div class="form-group">
-                    <a href="/admin/tariff/index" class="btn btn-default">Отменить</a>
+                    <a href="{% url 'tariff_list' %}" class="btn btn-default">Отменить</a>
                     <button type="submit" class="btn btn-success">Сохранить</button>
                 </div>
             </div>
@@ -148,22 +158,27 @@
         $('#nav_tariff').attr('class', 'active')
     </script>
     <script>
-jQuery.validator.addClassRules('service', {
-        required: true
+    $.validator.addMethod("sRequired", $.validator.methods.required,
+"Пожалуйста выберите услугу");
+    $.validator.addMethod("pRequired", $.validator.methods.required,
+"Пожалуйста введите цену");
+    $.validator.addMethod("pMin", $.validator.methods.min,
+"Цена должна быть больше 0");
+
+$.validator.addClassRules('service', {
+        sRequired: true
     });
 jQuery.validator.addClassRules('price', {
-        required: true,
-        min:0
+        pRequired: true,
+        pMin:0,
+    messages: {
 
+    }
     });
             $( "#tariff_form" ).validate( {
 				rules: {
 					name: "required",
 					description: "required",
-                    phone: {required: true,
-                        minlength:13,
-                        maxlength:13
-                    }
 				},
 				messages: {
 					name: "Пожалуйста введите название тарифа.",

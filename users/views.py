@@ -2,7 +2,7 @@ from django.contrib.messages.views import SuccessMessageMixin
 from django.db.models.functions import Concat
 from django.shortcuts import redirect, get_object_or_404
 from django.urls import reverse_lazy
-from django.views.generic import ListView, CreateView, UpdateView, DetailView, TemplateView
+from django.views.generic import ListView, CreateView, UpdateView, DetailView, TemplateView,DeleteView
 from django.http import JsonResponse
 from .models import User, Role
 from .forms import CustomUserCreationForm, CustomUserUpdateForm, RoleFormSet

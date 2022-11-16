@@ -10,7 +10,7 @@
 {% block breadcrumb %}
     <ul class="breadcrumb">
         <li><a href="{% url 'statistic' %}"><i class="fa fa-home"></i>Главная</a></li>
-        <li class="active">Статьи приходов/расходов</li>
+        <li class="active">Тарифы</li>
 </ul>
 {% endblock %}
 {% block content %}
@@ -42,7 +42,27 @@
 </thead>
 <tbody>
 {% for tariff in tariff_list %}
-    <tr data-href="/admin/tariff/115" data-key="115"><td>{{ tariff.name }}</td><td>{{ tariff.description }}</td><td>{{ tariff.date_edit|date:'d.m.o - H:i' }}</td><td><div class="btn-group pull-right"><a class="btn btn-default btn-sm" href="/admin/tariff/create?tariff_id=115" title="Копировать" data-toggle="tooltip"><i class="fa fa-clone"></i></a> <a class="btn btn-default btn-sm" href="/admin/tariff/update/115" title="Редактировать" data-toggle="tooltip"><i class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm" href="/admin/tariff/delete/115" title="Удалить" data-toggle="tooltip" data-pjax="0" data-method="post" data-confirm="Вы уверены, что хотите удалить этот элемент?"><i class="fa fa-trash"></i></a></div></td></tr>
+    <tr data-href="{% url 'tariff_view' tariff.pk %}" data-key="tariff.pk">
+        <td>{{ tariff.name }}</td>
+        <td>{{ tariff.description }}</td>
+        <td>{{ tariff.date_edit|date:'d.m.o - H:i' }}</td>
+        <td>
+            <div class="btn-group pull-right">
+                <a class="btn btn-default btn-sm"
+                   href="{% url 'tariff_clone' tariff.pk %}"
+                   title="Копировать" data-toggle="tooltip">
+                    <i class="fa fa-clone"></i></a>
+
+                <a class="btn btn-default btn-sm" href="{% url 'tariff_update' tariff.pk %}"
+                   title="Редактировать" data-toggle="tooltip"><i class="fa fa-pencil"></i></a>
+
+                <a class="btn btn-default btn-sm"
+                   onmousedown="return confirm_delete('{% url 'tariff_delete' tariff.pk %}',event)"
+                   title="Удалить" data-toggle="tooltip" data-pjax="0" data-method="post">
+                    <i class="fa fa-trash"></i></a>
+            </div>
+        </td>
+    </tr>
 {% endfor %}
 </tbody></table></div>
 <div class="box-footer clearfix"></div>
@@ -54,6 +74,10 @@
 
 {% endblock %}
 {% block scripts %}
+    <script>
+        $('#system_settings').attr('class', 'active treeview menu-open')
+        $('#nav_tariff').attr('class', 'active')
+    </script>
         <script type="text/javascript"
             src="{% static 'admin_panel/bower_components/datatables.net/jquery.dataTables.min.js' %}">
     </script>
@@ -90,5 +114,15 @@
 
             info: false,
         })
+                    function confirm_delete (link,event) {
+            alertify.confirm('Подтверждение удаления', 'Удалить тариф <b>'
+                + $(event.target).closest( "tr " ).children().eq(0).text() + '</b> ?',
+                function () {
+                window.location.href = link
+                },
+                function () {
+                }).set({labels: {ok: 'Подтвердить', cancel: 'Отмена'}});
+                return false;
+        }
     </script>
 {% endblock %}

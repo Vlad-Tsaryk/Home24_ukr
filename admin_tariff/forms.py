@@ -33,4 +33,5 @@ class TariffServiceForm(forms.ModelForm):
         fields = ['service', 'price', 'tariff']
 
 
-TariffServiceFormSet = formset_factory(form=TariffServiceForm, extra=0, can_delete=True)
+# TariffServiceFormSet = formset_factory(form=TariffServiceForm, extra=0, can_delete=True)
+TariffServiceFormSet = modelformset_factory(model=TariffService, form=TariffServiceForm, extra=0, can_delete=True)
