@@ -17,5 +17,5 @@ class Tariff(models.Model):
 
 class TariffService(models.Model):
     tariff = models.ForeignKey(Tariff, on_delete=models.CASCADE)
-    service = models.ForeignKey(Service, null=True, on_delete=models.SET_NULL)
+    service = models.ForeignKey(Service, on_delete=models.CASCADE)
     price = models.FloatField()
