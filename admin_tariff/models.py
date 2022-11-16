@@ -8,7 +8,11 @@ class Tariff(models.Model):
         'unique': "Тариф с таким именем уже существует!"
     })
     description = models.TextField()
-    services = models.ManyToManyField(Service, through='TariffService')
+    services = models.ManyToManyField(Service, through='TariffService', null=True)
+    date_edit = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['-date_edit']
 
 
 class TariffService(models.Model):

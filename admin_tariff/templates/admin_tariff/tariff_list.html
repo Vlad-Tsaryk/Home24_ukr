@@ -1,0 +1,94 @@
+{% extends 'layout/basic.html' %}
+{% load static %}
+{% block head %}
+    <link rel="stylesheet" type="text/css"
+          href="{% static 'admin_panel/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css' %}"/>
+{% endblock %}
+{% block header_text %}
+Тарифы
+{% endblock %}
+{% block breadcrumb %}
+    <ul class="breadcrumb">
+        <li><a href="{% url 'statistic' %}"><i class="fa fa-home"></i>Главная</a></li>
+        <li class="active">Статьи приходов/расходов</li>
+</ul>
+{% endblock %}
+{% block content %}
+
+
+<div class="row">
+    <!--<div class="col-xs-12 col-sm-6">-->
+    <!--<h2 class="page-header">Квартиры</h2>-->
+    <!--</div>-->
+    <div class="col-xs-12">
+
+        <div class="pull-right margin-bottom">
+            <a class="btn btn-success" href="{% url 'tariff_create' %}">Добавить тариф</a>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box">
+            <div id="w0" class="grid-view">
+                <div class="box-body table-responsive no-padding">
+                <table id="tariff_table" class="table table-bordered table-hover table-striped linkedRow"><thead>
+<tr>
+    <th>Название тарифа</th>
+    <th>Описание тарифа</th>
+    <th>Дата редактирования</th>
+    <th style="width: 114px; min-width: 114px">&nbsp;</th>
+</tr>
+</thead>
+<tbody>
+{% for tariff in tariff_list %}
+    <tr data-href="/admin/tariff/115" data-key="115"><td>{{ tariff.name }}</td><td>{{ tariff.description }}</td><td>{{ tariff.date_edit|date:'d.m.o - H:i' }}</td><td><div class="btn-group pull-right"><a class="btn btn-default btn-sm" href="/admin/tariff/create?tariff_id=115" title="Копировать" data-toggle="tooltip"><i class="fa fa-clone"></i></a> <a class="btn btn-default btn-sm" href="/admin/tariff/update/115" title="Редактировать" data-toggle="tooltip"><i class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm" href="/admin/tariff/delete/115" title="Удалить" data-toggle="tooltip" data-pjax="0" data-method="post" data-confirm="Вы уверены, что хотите удалить этот элемент?"><i class="fa fa-trash"></i></a></div></td></tr>
+{% endfor %}
+</tbody></table></div>
+<div class="box-footer clearfix"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}
+{% block scripts %}
+        <script type="text/javascript"
+            src="{% static 'admin_panel/bower_components/datatables.net/jquery.dataTables.min.js' %}">
+    </script>
+    <script>
+            $('#tariff_table').DataTable({
+                order: [],
+            rowReorder: true,
+            columnDefs: [
+                {orderable: false, className: 'reorder', targets: 3},
+                {orderable: true, targets: '_all'}
+            ],
+            {#    ordering: true,#}
+            paging: false,
+            {#"pagingType": "full_numbers",#}
+            {#"pagingType": "scrolling",#}
+            {#'sPaginationType': 'ellipses',#}
+            {#scrollX: true,#}
+            searching: false,
+
+            info: false,
+        })
+                    $('#purpose_table').DataTable({
+            rowReorder: true,
+            columnDefs: [
+                {orderable: false, className: 'reorder', targets: 2},
+                {orderable: true, targets: '_all'}
+            ],
+            paging: false,
+            {#"pagingType": "full_numbers",#}
+            {#"pagingType": "scrolling",#}
+            {#'sPaginationType': 'ellipses',#}
+            {#scrollX: true,#}
+            searching: false,
+
+            info: false,
+        })
+    </script>
+{% endblock %}

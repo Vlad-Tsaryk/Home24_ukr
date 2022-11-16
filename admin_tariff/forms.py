@@ -1,5 +1,5 @@
 from django import forms
-from django.forms import modelformset_factory
+from django.forms import modelformset_factory, formset_factory
 
 from .models import Tariff, TariffService
 from admin_service.models import Service
@@ -9,23 +9,28 @@ class TariffForm(forms.ModelForm):
     name = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}))
     description = forms.CharField(widget=forms.Textarea(attrs={'class': 'form-control', 'rows': '5'}))
 
-    # services = forms.ModelChoiceField(widget=forms.Select(attrs={'class': 'form-control'}),
-    #                                   queryset=Service.objects.all(),
-    #                                   required=False)
+    # services = forms.ModelChoiceField(required=False, queryset=Service.objects.all())
 
     class Meta:
         model = Tariff
         fields = '__all__'
+        exclude = ['services', ]
 
 
 class TariffServiceForm(forms.ModelForm):
-    price = forms.FloatField(widget=forms.NumberInput(attrs={'class': 'form-control', 'step': '0.5'}), min_value=0)
-    service = forms.ModelChoiceField(widget=forms.Select(attrs={'class': 'form-control'}),
-                                     queryset=Service.objects.all())
+    price = forms.FloatField(widget=forms.NumberInput(attrs={'class': 'form-control price', 'step': '0.5'}),
+                             min_value=0, required=True)
+    service = forms.ModelChoiceField(widget=forms.Select(attrs={'class': 'form-control service'}),
+                                     queryset=Service.objects.all(), required=True)
 
+    def __init__(self, *args, **kwargs):
+        # first call parent's constructor
+        super(TariffServiceForm, self).__init__(*args, **kwargs)
+        # there's a `fields` property now
+        self.fields['tariff'].required = False
     class Meta:
         model = TariffService
-        fields = '__all__'
+        fields = ['service', 'price', 'tariff']
 
 
-TariffServiceFormSet = modelformset_factory(model=TariffService, form=TariffServiceForm, extra=0, can_delete=True)
+TariffServiceFormSet = formset_factory(form=TariffServiceForm, extra=0, can_delete=True)
