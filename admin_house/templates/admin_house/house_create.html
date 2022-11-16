@@ -1,0 +1,141 @@
+{% extends 'layout/basic.html' %}
+{% block content %}
+
+
+    <div class="box">
+        <div class="box-body">
+
+            <form id="house_create" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="row">
+                    <div class="col-xs-12 col-lg-4">
+                        <div class="form-group field-houseform-name">
+                            <label class="control-label" for="houseform-name">Название</label>
+                            {{ form.name }}
+                            <input type="text" id="houseform-name" class="form-control" name="HouseForm[name]">
+
+                            <div class="help-block"></div>
+                        </div>
+                        <div class="form-group field-houseform-address">
+                            <label class="control-label" for="houseform-address">Адрес</label>
+                            {{ form.address }}
+                            <input type="text" id="houseform-address" class="form-control" name="HouseForm[address]">
+
+                            <div class="help-block"></div>
+                        </div>
+                        <div class="form-group field-houseform-image1">
+                            <label class="control-label" for="houseform-image1">Изображение #1. Размер:
+                                (522x350)</label>
+                            {{form.image1}}
+
+                            <div class="help-block"></div>
+                        </div>
+                        <div class="form-group field-houseform-image2">
+                            <label class="control-label" for="houseform-image2">Изображение #2. Размер:
+                                (248x160)</label>
+                            {{form.image2}}
+
+                            <div class="help-block"></div>
+                        </div>
+                        <div class="form-group field-houseform-image3">
+                            <label class="control-label" for="houseform-image3">Изображение #3. Размер:
+                                (248x160)</label>
+                            {{form.image3}}
+
+                            <div class="help-block"></div>
+                        </div>
+                        <div class="form-group field-houseform-image4">
+                            <label class="control-label" for="houseform-image4">Изображение #4. Размер:
+                                (248x160)</label>
+                            {{form.image4}}
+
+                            <div class="help-block"></div>
+                        </div>
+                        <div class="form-group field-houseform-image5">
+                            <label class="control-label" for="houseform-image5">Изображение #5. Размер:
+                                (248x160)</label>
+                            {{form.image5}}
+
+                            <div class="help-block"></div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-lg-8">
+                        <div class="row">
+                            <div class="col-xs-12 col-md-6">
+                                <img src="http://myhouse24.avada-media.ua/site/glide?path=%2Fupload%2Fplaceholder.jpg&amp;w=522&amp;h=350&amp;fit=crop"
+                                     class="img-responsive largeImg margin-bottom-30"
+                                     alt="Изображение #1. Размер: (522x350)">
+                            </div>
+                            <div class="col-xs-6 col-md-3">
+                                <img src="http://myhouse24.avada-media.ua/site/glide?path=%2Fupload%2Fplaceholder.jpg&amp;w=248&amp;h=160&amp;fit=crop"
+                                     class="img-responsive smallImg margin-bottom-30"
+                                     alt="Изображение #2. Размер: (248x160)">
+                            </div>
+                            <div class="col-xs-6 col-md-3">
+                                <img src="http://myhouse24.avada-media.ua/site/glide?path=%2Fupload%2Fplaceholder.jpg&amp;w=248&amp;h=160&amp;fit=crop"
+                                     class="img-responsive smallImg margin-bottom-30"
+                                     alt="Изображение #3. Размер: (248x160)">
+                            </div>
+                            <div class="col-xs-6 col-md-3">
+                                <img src="http://myhouse24.avada-media.ua/site/glide?path=%2Fupload%2Fplaceholder.jpg&amp;w=248&amp;h=160&amp;fit=crop"
+                                     class="img-responsive smallImg margin-bottom-30"
+                                     alt="Изображение #4. Размер: (248x160)">
+                            </div>
+                            <div class="col-xs-6 col-md-3">
+                                <img src="http://myhouse24.avada-media.ua/site/glide?path=%2Fupload%2Fplaceholder.jpg&amp;w=248&amp;h=160&amp;fit=crop"
+                                     class="img-responsive smallImg margin-bottom-30"
+                                     alt="Изображение #5. Размер: (248x160)">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-xs-12 col-lg-8">
+                        <div class="nav-tabs-custom">
+                            <ul class="nav nav-tabs">
+                                <li class="active"><a href="#tab-sections" data-toggle="tab"
+                                                      aria-expanded="true">Секции</a></li>
+                                <li><a href="#tab-floors" data-toggle="tab" aria-expanded="false">Этажи</a></li>
+                                <li><a href="#tab-houseuseradmins" data-toggle="tab"
+                                       aria-expanded="false">Пользователи</a></li>
+                            </ul>
+                            <div class="tab-content">
+                                <div class="tab-pane active clearfix" id="tab-sections">
+                                    <div id="form-section-rows">
+                                    </div>
+                                    <button class="btn btn-success pull-right form-row-add-section-btn" type="button">
+                                        Добавить
+                                    </button>
+                                </div>
+                                <div class="tab-pane clearfix" id="tab-floors">
+                                    <div id="form-floor-rows">
+                                    </div>
+                                    <button class="btn btn-success pull-right form-row-add-floor-btn" type="button">
+                                        Добавить
+                                    </button>
+                                </div>
+                                <div class="tab-pane clearfix" id="tab-houseuseradmins">
+                                    <div id="form-houseuseradmin-rows">
+                                    </div>
+                                    <button class="btn btn-success pull-right form-row-add-houseuseradmin-btn"
+                                            type="button">Добавить
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 text-right">
+                        <div class="form-group">
+                            <a href="/admin/house/index" class="btn btn-default">Отменить</a>
+                            <button type="submit" class="btn btn-success">Сохранить</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+{% endblock %}

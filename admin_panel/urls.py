@@ -8,5 +8,6 @@ urlpatterns = [
     path('service/', include('admin_service.urls')),
     path('purpose/', include('admin_purpose.urls')),
     path('tariff/', include('admin_tariff.urls')),
+    path('house/', include('admin_house.urls')),
     path('payment_details/', PaymentDetailsUpdate.as_view(), name='payment_details_update'),
 ]
