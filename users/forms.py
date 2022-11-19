@@ -57,12 +57,6 @@ class CustomUserUpdateForm(UserChangeForm):
 
 
 class RoleForm(forms.ModelForm):
-    def __init__(self, *args, **kwargs):
-        # first call parent's constructor
-        super(RoleForm, self).__init__(*args, **kwargs)
-        # there's a `fields` property now
-        # self.fields['role'].required = False
-
     class Meta:
         model = Role
         fields = '__all__'

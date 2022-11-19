@@ -19,5 +19,11 @@ class Service(models.Model):
     unit = models.ForeignKey(Unit, on_delete=models.PROTECT, null=True)
     is_counter = models.BooleanField(default=False)
 
+    def in_usage(self):
+        if self.tariffservice_set.exists():
+            return 'Услуга используется в тарифах'
+        else:
+            return False
+
     def __str__(self):
         return self.name

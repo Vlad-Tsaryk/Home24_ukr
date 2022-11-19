@@ -24,9 +24,7 @@ class TariffServiceForm(forms.ModelForm):
                                      queryset=Service.objects.all(), required=True)
 
     def __init__(self, *args, **kwargs):
-        # first call parent's constructor
         super(TariffServiceForm, self).__init__(*args, **kwargs)
-        # there's a `fields` property now
         self.fields['tariff'].required = False
     class Meta:
         model = TariffService

@@ -45,7 +45,7 @@ class User(AbstractUser):
     middle_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
     username = models.EmailField(unique=True, error_messages={
-                                                           'unique': "Пользователь с таким логином уже существует!"})
+        'unique': "Пользователь с таким логином уже существует!"})
     phone = PhoneNumberField()
     birth_date = models.DateField(blank=True, null=True)
     status = models.CharField(choices=StatusName.choices, max_length=10)
@@ -54,6 +54,9 @@ class User(AbstractUser):
     notes = models.TextField(blank=True)
     profile_image = models.ImageField(upload_to='users')
     role = models.ForeignKey(Role, on_delete=models.SET_NULL, null=True)
+
+    def __str__(self):
+        return ' '.join((self.first_name, self.last_name))
 
 
 class Message(models.Model):

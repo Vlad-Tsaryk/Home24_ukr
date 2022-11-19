@@ -77,14 +77,27 @@
                                                     <div class="input-group">
                                                         {{ service.unit }}
                                                         <span class="input-group-btn">
-                                                        <div hidden>{{ service.DELETE }}</div>
-                    <button type="button" class="btn btn-default form-row-remove-btn"
-                    onclick="delete_form('id_{{ service.prefix }}-DELETE')"
-
+                                                            {% if service.instance.in_usage %}
+                                                            <button type="button"
+                                                                class="btn btn-default form-row-remove-btn disabled"
+                                                                title="{{ service.instance.in_usage}}. Удаление невозможно.">
+                                                                <i class="fa fa-trash"></i></button>
+                                                            {% else %}
+                                                                                                    <div hidden>{{ service.DELETE }}</div>
+                                                                <button type="button"
+                                                                class="btn btn-default form-row-remove-btn"
+                                                                onclick="delete_form('id_{{ service.prefix }}-DELETE')">
+                                                                <i class="fa fa-trash"></i></button>
+                                                            {% endif %}
+{#                                                        <div hidden>{{ service.DELETE }}</div>#}
+{#                    <button type="button" class="btn btn-default form-row-remove-btn"#}
+{#                    onclick="delete_form('id_{{ service.prefix }}-DELETE')"#}
+{##}
                     {#                            title="Эта услуга используется в квитанциях. Удаление невозможно."#}>
-
-                        <i
-                            class="fa fa-trash"></i></button>                </span>
+{##}
+{#                        <i#}
+{#                            class="fa fa-trash"></i></button>#}
+                                                        </span>
                                                     </div>
                                                 </div>
                                             </div>
