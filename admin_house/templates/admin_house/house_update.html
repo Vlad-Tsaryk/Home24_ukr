@@ -1,9 +1,12 @@
 {% extends 'admin_house/house_create.html' %}
 {% block breadcrumb %}
-{#        <ul class="breadcrumb">#}
-{#        <li><a href="{% url 'statistic' %}"><i class="fa fa-home"></i>Главная</a></li>#}
-{#        <li><a href="{% url 'tariff_list' %}">Тарифы</a></li>#}
-{#        <li><a href="{% url 'tariff_view' tariff.pk %}">Тариф</a></li>#}
-{#        <li class="active">Редактирование</li>#}
-{#</ul>#}
+    <ul class="breadcrumb">
+        <li><a href="{% url 'statistic' %}"><i class="fa fa-home"></i>Главная</a></li>
+        <li><a href="{% url 'house_list' %}">Дома</a></li>
+        <li><a href="{% url 'house_view' house.pk %}">{{ house.name }}</a></li>
+        <li class="active">Редактирование</li>
+</ul>
+{% endblock %}
+{% block header_text %}
+    {{ house.name }}
 {% endblock %}

@@ -1,0 +1,123 @@
+{% extends 'layout/basic.html' %}
+{% load static %}
+{% block breadcrumb %}
+        <ul class="breadcrumb">
+        <li><a href="{% url 'statistic' %}"><i class="fa fa-home"></i>Главная</a></li>
+        <li><a href="{% url 'house_list' %}">Дома</a></li>
+        <li class="active">{{ house.name }}</li>
+</ul>
+{% endblock %}
+{% block header_text %}
+    {{ house.name }}
+{% endblock %}
+{% block content %}
+
+
+<div class="box">
+    <div class="box-header with-border">
+        <h3 class="box-title"></h3>
+        <div class="box-tools">
+            <a href="{% url 'house_update' house.pk %}" class="btn btn-primary btn-sm">
+                <span class="hidden-xs">Редактировать дом</span><i class="fa fa-pencil visible-xs" aria-hidden="true"></i>
+            </a>
+        </div>
+    </div>
+    <div class="box-body">
+        <div class="row">
+            <div class="col-xs-12 col-lg-4">
+                <table class="table table-bordered table-striped table-view">
+                    <tbody>
+                        <tr>
+                            <td>Название</td>
+                            <td>{{ house.name }}</td>
+                        </tr>
+                        <tr>
+                            <td>Адрес</td>
+                            <td>{{ house.address }}</td>
+                        </tr>
+                        <tr>
+                            <td>Секций</td>
+                            <td>{{ house.section_set.count }}</td>
+                        </tr>
+                        <tr>
+                            <td>Этажей</td>
+                            <td>{{ house.floor_set.count }}</td>
+                        </tr>
+                                                <tr>
+                            <td>Пользователи</td>
+                                                    <td>
+                                                    {% if  house.houseuser_set.all%}
+                                                        {% for house_user in house.houseuser_set.all %}
+                                                        <p class="no-margin"><strong>{{ house_user.user.role}}:</strong>
+                                                            <a href="{% url 'view_user' house_user.user.pk %}">
+                                                                {{ house_user.user}}</a>
+                                                        </p>
+                                                        {% endfor %}
+                                                    {% else %}
+                                                        Не назначены
+                                                    {% endif %}
+                                                    </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-xs-12 col-lg-8">
+                <div class="row">
+                    <div class="col-xs-12 col-md-6">
+                        <img src="{% if  house.image1 %}
+                                        {{ house.image1.url }}
+                                        {% else %}
+                                        {% static 'admin_panel/dist/img/placeholder_522x350.jpeg' %}
+                                        {% endif %}
+                                        "
+                             class="img-responsive largeImg margin-bottom-30" alt="">
+                    </div>
+                    <div class="col-xs-6 col-md-3">
+                        <img src="{% if  house.image2 %}
+                                        {{ house.image2.url }}
+                                        {% else %}
+                                        {% static 'admin_panel/dist/img/placeholder_248x160.jpeg' %}
+                                        {% endif %}
+                                        "
+                             class="img-responsive smallImg margin-bottom-30" alt="">
+                    </div>
+                    <div class="col-xs-6 col-md-3">
+                        <img src="{% if  house.image3 %}
+                                        {{ house.image3.url }}
+                                        {% else %}
+                                        {% static 'admin_panel/dist/img/placeholder_248x160.jpeg' %}
+                                        {% endif %}
+                                        "
+                             class="img-responsive smallImg margin-bottom-30" alt="">
+
+                    </div>
+                    <div class="col-xs-6 col-md-3">
+                        <img src="{% if  house.image4 %}
+                                        {{ house.image4.url }}
+                                        {% else %}
+                                        {% static 'admin_panel/dist/img/placeholder_248x160.jpeg' %}
+                                        {% endif %}
+                                        "
+                             class="img-responsive smallImg margin-bottom-30" alt="">
+                    </div>
+                    <div class="col-xs-6 col-md-3">
+                        <img src="{% if  house.image5 %}
+                                        {{ house.image5.url }}
+                                        {% else %}
+                                        {% static 'admin_panel/dist/img/placeholder_248x160.jpeg' %}
+                                        {% endif %}
+                                        "
+                             class="img-responsive smallImg margin-bottom-30" alt="">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+{% block scripts %}
+    <script>
+        $('#nav_house').attr('class', 'active')
+    </script>
+{% endblock %}

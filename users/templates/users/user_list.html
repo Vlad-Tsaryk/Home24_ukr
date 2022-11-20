@@ -222,6 +222,7 @@
                     sZeroRecords: "Ничего не найдено."
                     },
                     columnDefs: [
+                        { className: "user", "targets": [ 0,1,2,3,4,5 ] },
                         { targets: '_all', defaultContent:''},
                     ],
                     "ajax": {
@@ -293,9 +294,7 @@
                 }).set({labels: {ok: 'Подтвердить', cancel: 'Отмена'}});
                 return false;
         }
-        $('#users_table').on('click', 'tbody tr', function() {
-            console.log(table.row(this).data().id)
-
+        $('#users_table').on('click', 'tbody tr .user', function() {
         window.location.href = '{% url 'view_user' 12345 %}'.replace(/12345/, table.row(this).data().id)
 })
     </script>

@@ -31,6 +31,18 @@ class HouseList(ListView):
             return super(ListView, self).render_to_response(context, **response_kwargs)
 
 
+class HouseView(DetailView):
+    model = House
+    template_name = 'admin_house/house_view.html'
+
+
+def house_delete(request, pk):
+    obj_house = House.objects.get(pk=pk)
+    messages.success(request, f"Дом {obj_house.name} успешно удалён")
+    obj_house.delete()
+    return redirect('house_list')
+
+
 class HouseCreate(CreateView):
     model = House
     template_name = 'admin_house/house_create.html'
