@@ -1,4 +1,5 @@
 {% extends 'layout/basic.html' %}
+{% block title %}Новый пользователь{% endblock %}
 {% load static %}
 {% block header_text %}
     Новый пользователь
@@ -163,11 +164,11 @@
 					username: "Пожалуйста введите правильный email адрес.",
                     password1: {
 						required: "Пожалуйста введите пароль.",
-						minlength: "Ваша пароль должен быть больше 8 символов."
+						minlength: "Ваш пароль должен быть больше 8 символов."
 					},
 					password2: {
 						required: "Пожалуйста введите пароль.",
-						minlength: "Ваша пароль должен быть больше 8 символов.",
+						minlength: "Ваш пароль должен быть больше 8 символов.",
 						equalTo: "Пароли не совпадают."
 					},
                     phone: {
@@ -186,7 +187,13 @@
 					if ( element.prop( "type" ) === "checkbox" ) {
 						error.insertAfter( element.parent( "label" ) );
 					} else {
-						error.insertAfter( element );
+                        if(element.parent( ".input-group" ).length){
+                            error.insertAfter( element.parent( ".input-group" ) );
+                        }
+                        else {
+                            error.insertAfter( element );
+                        }
+
 					}
 
 					// Add the span element, if doesn't exists, and apply the icon classes to it.

@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'admin_service.apps.AdminServiceConfig',
     'admin_tariff.apps.AdminTariffConfig',
     'admin_house.apps.AdminHouseConfig',
+    'admin_owner.apps.AdminOwnerConfig',
     "debug_toolbar",
 
 
@@ -125,6 +126,8 @@ TIME_ZONE = 'Europe/Kiev'
 USE_I18N = True
 
 USE_TZ = True
+
+DATE_INPUT_FORMATS = ('%d-%m-%Y', '%d.%m.%Y')
 
 # User auth
 AUTH_USER_MODEL = 'users.User'

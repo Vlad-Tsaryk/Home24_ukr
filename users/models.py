@@ -1,6 +1,7 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from phonenumber_field.modelfields import PhoneNumberField
+from PIL import Image
 
 
 # Create your models here.
@@ -37,8 +38,8 @@ class Role(models.Model):
 
 class User(AbstractUser):
     class StatusName(models.TextChoices):
-        ACTIVE = 'Активен', 'Активен'
         NEW = 'Новый', 'Новый'
+        ACTIVE = 'Активен', 'Активен'
         DISABLED = 'Отключен', 'Отключен'
 
     first_name = models.CharField(max_length=50)
@@ -57,6 +58,20 @@ class User(AbstractUser):
 
     def __str__(self):
         return ' '.join((self.first_name, self.last_name))
+
+    def get_new_users(self):
+        return User.objects.filter(status=self.StatusName.NEW)
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        if self.profile_image.size != (160, 160):
+            print('hello')
+            image = Image.open(self.profile_image.path)
+            image = image.resize((160, 160))
+            image.save(self.profile_image.path)
+
+    class Meta:
+        ordering = ['-date_joined']
 
 
 class Message(models.Model):

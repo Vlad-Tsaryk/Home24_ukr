@@ -1,4 +1,5 @@
 {% extends 'layout/basic.html' %}
+{% block title %}Редактирование пользователя{% endblock %}
 {% block header_text %}
     Пользователь
 {% endblock %}
@@ -165,7 +166,12 @@
 					if ( element.prop( "type" ) === "checkbox" ) {
 						error.insertAfter( element.parent( "label" ) );
 					} else {
-						error.insertAfter( element );
+						                        if(element.parent( ".input-group" ).length){
+                            error.insertAfter( element.parent( ".input-group" ) );
+                        }
+                        else {
+                            error.insertAfter( element );
+                        }
 					}
 
 					// Add the span element, if doesn't exists, and apply the icon classes to it.
