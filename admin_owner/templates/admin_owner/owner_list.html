@@ -1,0 +1,375 @@
+{% extends 'layout/basic.html' %}
+{% load static %}
+{% block title %}Владельцы квартир{% endblock %}
+{% block header_text %}
+    Владельцы квартир
+{% endblock %}
+{% block breadcrumb %}
+    <ul class="breadcrumb"><li><a href="{% url 'statistic' %}"><i class="fa fa-home"></i> Главная</a></li>
+    <li class="active">Владельцы квартир</li>
+</ul>
+{% endblock %}
+{%  block content %}
+<div class="row">
+    <!--<div class="col-xs-12 col-sm-6">-->
+    <!--<h2 class="page-header">Владельцы квартир</h2>-->
+    <!--</div>-->
+    <div class="col-xs-12">
+        <div class="btn-group pull-right margin-bottom">
+            <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Выберите действие <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu">
+                <li><a href="{% url 'owner_create' %}">Добавить владельца квартиры</a></li>
+                <li><a href="/admin/message/create?MessageAddress%5Buser_has_debt%5D=1">Отправить сообщение должникам</a></li>
+                <li><a href="/admin/user/invite">Отправить приглашение</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box">
+            <div class="box-header with-border">
+                <h3 class="box-title"></h3>
+                <div class="box-tools">
+                    <a href="/admin/user/index" class="btn btn-default btn-sm">
+                        <span class="hidden-xs">Очистить</span><i class="fa fa-eraser visible-xs" aria-hidden="true"></i>
+                    </a>
+                </div>
+            </div>
+
+            <div id="w0" class="grid-view">
+                <div class="box-body table-responsive no-padding">
+                    <table id="table_owners" class="table table-bordered table-hover table-striped linkedRow">
+                        <thead>
+                        <tr>
+                            <th style="width: 110px; min-width: 110px">ID</th>
+                            <th><a id="name" class="ordering">ФИО</a></th>
+                            <th style="width: 140px; min-width: 140px">Телефон</th>
+                            <th style="width: 140px; min-width: 140px">Email</th>
+                            <th style="min-width: 250px">Дом</th>
+                            <th style="min-width: 300px">Квартира</th>
+                            <th style="width: 110px; min-width: 110px"><a
+                                    id="date_joined" class="ordering">Добавлен</a>
+                            </th>
+                            <th>Статус</th>
+                            <th style="width: 80px; min-width: 80px">Есть долг</th>
+                            <th style="width: 114px; min-width: 114px">&nbsp;</th>
+                        </tr>
+                        <tr id="w0-filters" class="filters">
+                            <td><input type="text" class="form-control" name="UserSearch[uid]"></td>
+                            <td><input type="text" class="form-control" name="UserSearch[searchFullname]"></td>
+                            <td><input type="text" class="form-control" name="UserSearch[searchPhone]"></td>
+                            <td><input type="text" class="form-control" name="UserSearch[email]"></td>
+                            <td><select id="usersearch-searchhouse" class="form-control select2-hidden-accessible"
+                                        name="UserSearch[searchHouse]" data-s2-options="s2options_7ebc6538"
+                                        data-krajee-select2="select2_0d896465" style="display:none" tabindex="-1"
+                                        aria-hidden="true">
+                                <option value=""></option>
+                                <option value="1">ЖК "Башня Чкалов"</option>
+                                <option value="2">ЖК "Морская Симфония"</option>
+                                <option value="3">ЖК "Дом Каркашадзе"</option>
+                                <option value="4">ЖК "Королевские сады"</option>
+                                <option value="6">ЖК "Балковский"</option>
+                                <option value="11">ЖК "Адмирал" Дом №11</option>
+                                <option value="12">ЖК "Адмирал" Дом №12</option>
+                                <option value="13">ЖК "Адмирал" Дом №13</option>
+                                <option value="14">ЖК "Новые Черемушки"</option>
+                                <option value="18">ЖК "Manhattan"</option>
+                                <option value="19">ЖК "Скай Сити"</option>
+                                <option value="20">ЖК "Альтаир 3"</option>
+                                <option value="23">ОСМД 1002 ЖК "Альтаир 2"</option>
+                                <option value="24">Н-О</option>
+                                <option value="25">ЖК Искринский</option>
+                                <option value="51">sssbdcbdf</option>
+                                <option value="56">Дом 56</option>
+                                <option value="61">dfdsf</option>
+                                <option value="78">alert('xss')</option>
+                                <option value="85">test</option>
+                                <option value="100">альтаир</option>
+                                <option value="101">1234</option>
+                                <option value="105">ЖК "Луч"</option>
+                                <option value="106">Test 123</option>
+                                <option value="107">12313</option>
+                                <option value="132"></option>
+                                <option value="133">Континент</option>
+                                <option value="134">Континент</option>
+                                <option value="139">ЖК Чайка</option>
+                                <option value="142">Тестовый дом1</option>
+                                <option value="145">!@#$%^&amp;*()</option>
+                                <option value="158"></option>
+                                <option value="165">ЖК "Помидор"</option>
+                                <option value="170">верстат</option>
+                                <option value="173"></option>
+                                <option value="174">Аквамарин</option>
+                                <option value="175">Генарёк хаус</option>
+                                <option value="182">ЖК "Огурец"</option>
+                                <option value="183">ДОм исчез</option>
+                                <option value="185">Дом Дом</option>
+                                <option value="186">0000000000</option>
+                                <option value="188">fgb</option>
+                                <option value="189"></option>
+                                <option value="190"></option>
+                                <option value="191"></option>
+                                <option value="192">a</option>
+                            </select><span class="select2 select2-container select2-container--default" dir="ltr"
+                                           style="width: 100%;"><span class="selection"><span
+                                    class="select2-selection select2-selection--single" role="combobox"
+                                    aria-haspopup="true" aria-expanded="false" tabindex="0"
+                                    aria-labelledby="select2-usersearch-searchhouse-container"><span
+                                    class="select2-selection__rendered"
+                                    id="select2-usersearch-searchhouse-container"><span
+                                    class="select2-selection__placeholder"></span></span><span
+                                    class="select2-selection__arrow" role="presentation"><b
+                                    role="presentation"></b></span></span></span><span class="dropdown-wrapper"
+                                                                                       aria-hidden="true"></span></span>
+                            </td>
+                            <td><input type="text" class="form-control" name="UserSearch[searchFlat]"></td>
+                            <td><input type="text" id="usersearch-searchcreateddate"
+                                       class="form-control krajee-datepicker" name="UserSearch[searchCreatedDate]"
+                                       data-datepicker-source="usersearch-searchcreateddate" data-datepicker-type="1"
+                                       data-krajee-kvdatepicker="kvDatepicker_1643d6f1"></td>
+                            <td><select id="usersearch-status" class="form-control select2-hidden-accessible"
+                                        name="UserSearch[status]" data-s2-options="s2options_7ebc6538"
+                                        data-krajee-select2="select2_0d896465" style="display:none" tabindex="-1"
+                                        aria-hidden="true">
+                                <option value=""></option>
+                                <option value="10">Активен</option>
+                                <option value="5">Новый</option>
+                                <option value="0">Отключен</option>
+                            </select><span class="select2 select2-container select2-container--default" dir="ltr"
+                                           style="width: 100%;"><span class="selection"><span
+                                    class="select2-selection select2-selection--single" role="combobox"
+                                    aria-haspopup="true" aria-expanded="false" tabindex="0"
+                                    aria-labelledby="select2-usersearch-status-container"><span
+                                    class="select2-selection__rendered" id="select2-usersearch-status-container"><span
+                                    class="select2-selection__placeholder"></span></span><span
+                                    class="select2-selection__arrow" role="presentation"><b
+                                    role="presentation"></b></span></span></span><span class="dropdown-wrapper"
+                                                                                       aria-hidden="true"></span></span>
+                            </td>
+                            <td><select id="usersearch-searchhasdebt" class="form-control select2-hidden-accessible"
+                                        name="UserSearch[searchHasDebt]" data-s2-options="s2options_7ebc6538"
+                                        data-krajee-select2="select2_0d896465" style="display:none" tabindex="-1"
+                                        aria-hidden="true">
+                                <option value=""></option>
+                                <option value="1">Да</option>
+                            </select><span class="select2 select2-container select2-container--default" dir="ltr"
+                                           style="width: 100%;">
+    <span class="selection">
+        <span class="select2-selection select2-selection--single" role="combobox"
+              aria-haspopup="true" aria-expanded="false" tabindex="0"
+              aria-labelledby="select2-usersearch-searchhasdebt-container">
+            <span class="select2-selection__rendered" id="select2-usersearch-searchhasdebt-container">
+                <span class="select2-selection__placeholder"></span>
+            </span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span
+                                    class="dropdown-wrapper" aria-hidden="true"></span></span></td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        </thead>
+                        <tbody>
+{#<tr data-href="/admin/user/209" data-key="209"><td>000209</td><td><span class="not-set">(не задано)</span></td><td></td><td>aaa@aa.v</td><td></td><td></td><td>23.11.2022</td><td><small class="label label-warning">Новый</small></td><td></td><td><div class="btn-group pull-right"><a class="btn btn-default btn-sm" href="/admin/message/create?MessageAddress%5Buser_id%5D=209" title="Отправить сообщение" data-toggle="tooltip"><i class="fa fa-envelope"></i></a> <a class="btn btn-default btn-sm" href="/admin/user/update/209" title="Редактировать" data-toggle="tooltip"><i class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm" href="/admin/user/delete/209" title="Удалить" data-toggle="tooltip" data-pjax="0" data-method="post" data-confirm="Вы уверены, что хотите удалить этот элемент?"><i class="fa fa-trash"></i></a></div></td></tr>#}
+{#<tr data-href="/admin/user/208" data-key="208"><td>000208</td><td><span class="not-set">(не задано)</span></td><td></td><td>test@gmail.com</td><td></td><td></td><td>22.11.2022</td><td><small class="label label-success">Активен</small></td><td></td><td><div class="btn-group pull-right"><a class="btn btn-default btn-sm" href="/admin/message/create?MessageAddress%5Buser_id%5D=208" title="Отправить сообщение" data-toggle="tooltip"><i class="fa fa-envelope"></i></a> <a class="btn btn-default btn-sm" href="/admin/user/update/208" title="Редактировать" data-toggle="tooltip"><i class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm" href="/admin/user/delete/208" title="Удалить" data-toggle="tooltip" data-pjax="0" data-method="post" data-confirm="Вы уверены, что хотите удалить этот элемент?"><i class="fa fa-trash"></i></a></div></td></tr>#}
+{#<tr data-href="/admin/user/207" data-key="207"><td>000207</td><td>nikitin</td><td></td><td>nikitindima1206@gmail.com</td><td><a href="/admin/house/51">sssbdcbdf</a></td><td><a href="/admin/flat/268">№121212, sssbdcbdf</a></td><td>16.10.2022</td><td><small class="label label-danger">Отключен</small></td><td><span>Да</span></td><td><div class="btn-group pull-right"><a class="btn btn-default btn-sm" href="/admin/message/create?MessageAddress%5Buser_id%5D=207" title="Отправить сообщение" data-toggle="tooltip"><i class="fa fa-envelope"></i></a> <a class="btn btn-default btn-sm" href="/admin/user/update/207" title="Редактировать" data-toggle="tooltip"><i class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm" href="/admin/user/delete/207" title="Удалить" data-toggle="tooltip" data-pjax="0" data-method="post" data-confirm="Вы уверены, что хотите удалить этот элемент?"><i class="fa fa-trash"></i></a></div></td></tr>#}
+{#<tr data-href="/admin/user/206" data-key="206"><td>0002064</td><td><span class="not-set">(не задано)</span></td><td></td><td>admin111@admin.com</td><td></td><td></td><td>29.09.2022</td><td><small class="label label-danger">Отключен</small></td><td></td><td><div class="btn-group pull-right"><a class="btn btn-default btn-sm" href="/admin/message/create?MessageAddress%5Buser_id%5D=206" title="Отправить сообщение" data-toggle="tooltip"><i class="fa fa-envelope"></i></a> <a class="btn btn-default btn-sm" href="/admin/user/update/206" title="Редактировать" data-toggle="tooltip"><i class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm" href="/admin/user/delete/206" title="Удалить" data-toggle="tooltip" data-pjax="0" data-method="post" data-confirm="Вы уверены, что хотите удалить этот элемент?"><i class="fa fa-trash"></i></a></div></td></tr>#}
+{#<tr data-href="/admin/user/204" data-key="204"><td>000204</td><td>000000 000000 00000</td><td>0000000</td><td>000000@gmail.com</td><td><a href="/admin/house/186">0000000000</a></td><td><a href="/admin/flat/245">№0, 0000000000</a></td><td>25.09.2022</td><td><small class="label label-danger">Отключен</small></td><td></td><td><div class="btn-group pull-right"><a class="btn btn-default btn-sm" href="/admin/message/create?MessageAddress%5Buser_id%5D=204" title="Отправить сообщение" data-toggle="tooltip"><i class="fa fa-envelope"></i></a> <a class="btn btn-default btn-sm" href="/admin/user/update/204" title="Редактировать" data-toggle="tooltip"><i class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm" href="/admin/user/delete/204" title="Удалить" data-toggle="tooltip" data-pjax="0" data-method="post" data-confirm="Вы уверены, что хотите удалить этот элемент?"><i class="fa fa-trash"></i></a></div></td></tr>#}
+{#<tr data-href="/admin/user/203" data-key="203"><td>0000000</td><td>Тест Создания Квартиры</td><td>+апапарлдьтм</td><td>emailemail@gmail.com</td><td><a href="/admin/house/185">Дом Дом</a></td><td><a href="/admin/flat/243">№0, Дом Дом</a></td><td>25.09.2022</td><td><small class="label label-success">Активен</small></td><td><span>Да</span></td><td><div class="btn-group pull-right"><a class="btn btn-default btn-sm" href="/admin/message/create?MessageAddress%5Buser_id%5D=203" title="Отправить сообщение" data-toggle="tooltip"><i class="fa fa-envelope"></i></a> <a class="btn btn-default btn-sm" href="/admin/user/update/203" title="Редактировать" data-toggle="tooltip"><i class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm" href="/admin/user/delete/203" title="Удалить" data-toggle="tooltip" data-pjax="0" data-method="post" data-confirm="Вы уверены, что хотите удалить этот элемент?"><i class="fa fa-trash"></i></a></div></td></tr>#}
+{#<tr data-href="/admin/user/202" data-key="202"><td>000202</td><td><span class="not-set">(не задано)</span></td><td></td><td>12323@ggrg.cc</td><td></td><td></td><td>18.09.2022</td><td><small class="label label-success">Активен</small></td><td></td><td><div class="btn-group pull-right"><a class="btn btn-default btn-sm" href="/admin/message/create?MessageAddress%5Buser_id%5D=202" title="Отправить сообщение" data-toggle="tooltip"><i class="fa fa-envelope"></i></a> <a class="btn btn-default btn-sm" href="/admin/user/update/202" title="Редактировать" data-toggle="tooltip"><i class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm" href="/admin/user/delete/202" title="Удалить" data-toggle="tooltip" data-pjax="0" data-method="post" data-confirm="Вы уверены, что хотите удалить этот элемент?"><i class="fa fa-trash"></i></a></div></td></tr>#}
+{#<tr data-href="/admin/user/201" data-key="201"><td>000201</td><td><span class="not-set">(не задано)</span></td><td></td><td>666666@gmail.com</td><td></td><td></td><td>18.09.2022</td><td><small class="label label-danger">Отключен</small></td><td></td><td><div class="btn-group pull-right"><a class="btn btn-default btn-sm" href="/admin/message/create?MessageAddress%5Buser_id%5D=201" title="Отправить сообщение" data-toggle="tooltip"><i class="fa fa-envelope"></i></a> <a class="btn btn-default btn-sm" href="/admin/user/update/201" title="Редактировать" data-toggle="tooltip"><i class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm" href="/admin/user/delete/201" title="Удалить" data-toggle="tooltip" data-pjax="0" data-method="post" data-confirm="Вы уверены, что хотите удалить этот элемент?"><i class="fa fa-trash"></i></a></div></td></tr>#}
+{#<tr data-href="/admin/user/200" data-key="200"><td>000200</td><td>OOOOOO</td><td></td><td>userfdsf@user.com</td><td></td><td></td><td>12.09.2022</td><td><small class="label label-warning">Новый</small></td><td></td><td><div class="btn-group pull-right"><a class="btn btn-default btn-sm" href="/admin/message/create?MessageAddress%5Buser_id%5D=200" title="Отправить сообщение" data-toggle="tooltip"><i class="fa fa-envelope"></i></a> <a class="btn btn-default btn-sm" href="/admin/user/update/200" title="Редактировать" data-toggle="tooltip"><i class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm" href="/admin/user/delete/200" title="Удалить" data-toggle="tooltip" data-pjax="0" data-method="post" data-confirm="Вы уверены, что хотите удалить этот элемент?"><i class="fa fa-trash"></i></a></div></td></tr>#}
+{#<tr data-href="/admin/user/199" data-key="199"><td>000199</td><td><span class="not-set">(не задано)</span></td><td></td><td>fdf@fdsf.dsa</td><td></td><td></td><td>12.09.2022</td><td><small class="label label-warning">Новый</small></td><td></td><td><div class="btn-group pull-right"><a class="btn btn-default btn-sm" href="/admin/message/create?MessageAddress%5Buser_id%5D=199" title="Отправить сообщение" data-toggle="tooltip"><i class="fa fa-envelope"></i></a> <a class="btn btn-default btn-sm" href="/admin/user/update/199" title="Редактировать" data-toggle="tooltip"><i class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm" href="/admin/user/delete/199" title="Удалить" data-toggle="tooltip" data-pjax="0" data-method="post" data-confirm="Вы уверены, что хотите удалить этот элемент?"><i class="fa fa-trash"></i></a></div></td></tr>#}
+{#<tr data-href="/admin/user/198" data-key="198"><td>000198</td><td>Pop Ram</td><td></td><td>+56@gmail.com</td><td></td><td></td><td>09.09.2022</td><td><small class="label label-danger">Отключен</small></td><td></td><td><div class="btn-group pull-right"><a class="btn btn-default btn-sm" href="/admin/message/create?MessageAddress%5Buser_id%5D=198" title="Отправить сообщение" data-toggle="tooltip"><i class="fa fa-envelope"></i></a> <a class="btn btn-default btn-sm" href="/admin/user/update/198" title="Редактировать" data-toggle="tooltip"><i class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm" href="/admin/user/delete/198" title="Удалить" data-toggle="tooltip" data-pjax="0" data-method="post" data-confirm="Вы уверены, что хотите удалить этот элемент?"><i class="fa fa-trash"></i></a></div></td></tr>#}
+{#<tr data-href="/admin/user/197" data-key="197"><td>000197</td><td>Повтор Знову</td><td>-80000000000</td><td>-56@gmail.com</td><td></td><td></td><td>09.09.2022</td><td><small class="label label-danger">Отключен</small></td><td></td><td><div class="btn-group pull-right"><a class="btn btn-default btn-sm" href="/admin/message/create?MessageAddress%5Buser_id%5D=197" title="Отправить сообщение" data-toggle="tooltip"><i class="fa fa-envelope"></i></a> <a class="btn btn-default btn-sm" href="/admin/user/update/197" title="Редактировать" data-toggle="tooltip"><i class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm" href="/admin/user/delete/197" title="Удалить" data-toggle="tooltip" data-pjax="0" data-method="post" data-confirm="Вы уверены, что хотите удалить этот элемент?"><i class="fa fa-trash"></i></a></div></td></tr>#}
+{#<tr data-href="/admin/user/196" data-key="196"><td>000196</td><td>Гештальт Психолог</td><td>-80000000000</td><td>56@gmail.com</td><td><a href="/admin/house/174">Аквамарин</a>,<br><a href="/admin/house/175">Генарёк хаус</a>,<br><a href="/admin/house/175">Генарёк хаус</a>,<br><a href="/admin/house/175">Генарёк хаус</a>,<br><a href="/admin/house/183">ДОм исчез</a></td><td><a href="/admin/flat/217">№95, Аквамарин</a>,<br><a href="/admin/flat/220">№0, Генарёк хаус</a>,<br><a href="/admin/flat/239">№2147483647, Генарёк хаус</a>,<br><a href="/admin/flat/241">№0, Генарёк хаус</a>,<br><a href="/admin/flat/242">№12, ДОм исчез</a></td><td>08.09.2022</td><td><small class="label label-warning">Новый</small></td><td><span>Да</span></td><td><div class="btn-group pull-right"><a class="btn btn-default btn-sm" href="/admin/message/create?MessageAddress%5Buser_id%5D=196" title="Отправить сообщение" data-toggle="tooltip"><i class="fa fa-envelope"></i></a> <a class="btn btn-default btn-sm" href="/admin/user/update/196" title="Редактировать" data-toggle="tooltip"><i class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm" href="/admin/user/delete/196" title="Удалить" data-toggle="tooltip" data-pjax="0" data-method="post" data-confirm="Вы уверены, что хотите удалить этот элемент?"><i class="fa fa-trash"></i></a></div></td></tr>#}
+{#<tr data-href="/admin/user/195" data-key="195"><td>перший</td><td><span class="not-set">(не задано)</span></td><td>0000000</td><td>1@gmail.com</td><td></td><td></td><td>08.09.2022</td><td><small class="label label-warning">Новый</small></td><td></td><td><div class="btn-group pull-right"><a class="btn btn-default btn-sm" href="/admin/message/create?MessageAddress%5Buser_id%5D=195" title="Отправить сообщение" data-toggle="tooltip"><i class="fa fa-envelope"></i></a> <a class="btn btn-default btn-sm" href="/admin/user/update/195" title="Редактировать" data-toggle="tooltip"><i class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm" href="/admin/user/delete/195" title="Удалить" data-toggle="tooltip" data-pjax="0" data-method="post" data-confirm="Вы уверены, что хотите удалить этот элемент?"><i class="fa fa-trash"></i></a></div></td></tr>#}
+{#<tr data-href="/admin/user/194" data-key="194"><td>000194</td><td>Телефон Андр</td><td></td><td>U@gmail.com</td><td><a href="/admin/house/174">Аквамарин</a>,<br><a href="/admin/house/174">Аквамарин</a></td><td><a href="/admin/flat/216">№34, Аквамарин</a>,<br><a href="/admin/flat/218">№0, Аквамарин</a></td><td>04.09.2022</td><td><small class="label label-warning">Новый</small></td><td><span>Да</span></td><td><div class="btn-group pull-right"><a class="btn btn-default btn-sm" href="/admin/message/create?MessageAddress%5Buser_id%5D=194" title="Отправить сообщение" data-toggle="tooltip"><i class="fa fa-envelope"></i></a> <a class="btn btn-default btn-sm" href="/admin/user/update/194" title="Редактировать" data-toggle="tooltip"><i class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm" href="/admin/user/delete/194" title="Удалить" data-toggle="tooltip" data-pjax="0" data-method="post" data-confirm="Вы уверены, что хотите удалить этот элемент?"><i class="fa fa-trash"></i></a></div></td></tr>#}
+{#<tr data-href="/admin/user/193" data-key="193"><td>000193</td><td>Поп Рам Папам</td><td>0632853525</td><td>r@gmail.com</td><td><a href="/admin/house/4">ЖК "Королевские сады"</a>,<br><a href="/admin/house/170">верстат</a>,<br><a href="/admin/house/174">Аквамарин</a></td><td><a href="/admin/flat/212">№95, ЖК "Королевские сады"</a>,<br><a href="/admin/flat/214">№34, верстат</a>,<br><a href="/admin/flat/215">№49, Аквамарин</a></td><td>03.09.2022</td><td><small class="label label-success">Активен</small></td><td></td><td><div class="btn-group pull-right"><a class="btn btn-default btn-sm" href="/admin/message/create?MessageAddress%5Buser_id%5D=193" title="Отправить сообщение" data-toggle="tooltip"><i class="fa fa-envelope"></i></a> <a class="btn btn-default btn-sm" href="/admin/user/update/193" title="Редактировать" data-toggle="tooltip"><i class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm" href="/admin/user/delete/193" title="Удалить" data-toggle="tooltip" data-pjax="0" data-method="post" data-confirm="Вы уверены, что хотите удалить этот элемент?"><i class="fa fa-trash"></i></a></div></td></tr>#}
+{#<tr data-href="/admin/user/192" data-key="192"><td>ffasdf2</td><td>Calmar General Muslim</td><td>fasdf2223231</td><td>admin@adms.con</td><td></td><td></td><td>01.09.2022</td><td><small class="label label-warning">Новый</small></td><td></td><td><div class="btn-group pull-right"><a class="btn btn-default btn-sm" href="/admin/message/create?MessageAddress%5Buser_id%5D=192" title="Отправить сообщение" data-toggle="tooltip"><i class="fa fa-envelope"></i></a> <a class="btn btn-default btn-sm" href="/admin/user/update/192" title="Редактировать" data-toggle="tooltip"><i class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm" href="/admin/user/delete/192" title="Удалить" data-toggle="tooltip" data-pjax="0" data-method="post" data-confirm="Вы уверены, что хотите удалить этот элемент?"><i class="fa fa-trash"></i></a></div></td></tr>#}
+{#<tr data-href="/admin/user/191" data-key="191"><td>123</td><td>vvv</td><td></td><td>user@user.com</td><td><a href="/admin/house/1">ЖК "Башня Чкалов"</a></td><td><a href="/admin/flat/210">№131332, ЖК "Башня Чкалов"</a></td><td>22.08.2022</td><td><small class="label label-warning">Новый</small></td><td></td><td><div class="btn-group pull-right"><a class="btn btn-default btn-sm" href="/admin/message/create?MessageAddress%5Buser_id%5D=191" title="Отправить сообщение" data-toggle="tooltip"><i class="fa fa-envelope"></i></a> <a class="btn btn-default btn-sm" href="/admin/user/update/191" title="Редактировать" data-toggle="tooltip"><i class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm" href="/admin/user/delete/191" title="Удалить" data-toggle="tooltip" data-pjax="0" data-method="post" data-confirm="Вы уверены, что хотите удалить этот элемент?"><i class="fa fa-trash"></i></a></div></td></tr>#}
+{#<tr data-href="/admin/user/190" data-key="190"><td>000190</td><td>John Doe Man</td><td></td><td>novcharov@ukr.net</td><td><a href="/admin/house/12">ЖК "Адмирал" Дом №12</a></td><td><a href="/admin/flat/201">№4, ЖК "Адмирал" Дом №12</a></td><td>19.08.2022</td><td><small class="label label-warning">Новый</small></td><td><span>Да</span></td><td><div class="btn-group pull-right"><a class="btn btn-default btn-sm" href="/admin/message/create?MessageAddress%5Buser_id%5D=190" title="Отправить сообщение" data-toggle="tooltip"><i class="fa fa-envelope"></i></a> <a class="btn btn-default btn-sm" href="/admin/user/update/190" title="Редактировать" data-toggle="tooltip"><i class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm" href="/admin/user/delete/190" title="Удалить" data-toggle="tooltip" data-pjax="0" data-method="post" data-confirm="Вы уверены, что хотите удалить этот элемент?"><i class="fa fa-trash"></i></a></div></td></tr>#}
+{#<tr data-href="/admin/user/189" data-key="189"><td>1408</td><td>Среда Семнадцатое Августович</td><td>911</td><td>sazb.serg@gmail.com</td><td><a href="/admin/house/165">ЖК "Помидор"</a></td><td><a href="/admin/flat/205">№1, ЖК "Помидор"</a></td><td>17.08.2022</td><td><small class="label label-success">Активен</small></td><td></td><td><div class="btn-group pull-right"><a class="btn btn-default btn-sm" href="/admin/message/create?MessageAddress%5Buser_id%5D=189" title="Отправить сообщение" data-toggle="tooltip"><i class="fa fa-envelope"></i></a> <a class="btn btn-default btn-sm" href="/admin/user/update/189" title="Редактировать" data-toggle="tooltip"><i class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm" href="/admin/user/delete/189" title="Удалить" data-toggle="tooltip" data-pjax="0" data-method="post" data-confirm="Вы уверены, что хотите удалить этот элемент?"><i class="fa fa-trash"></i></a></div></td></tr>#}
+{#<tr data-href="/admin/user/188" data-key="188"><td>123123</td><td>Артем Артем Артем</td><td>123123</td><td>artem@gmail.com</td><td><a href="/admin/house/13">ЖК "Адмирал" Дом №13</a>,<br><a href="/admin/house/12">ЖК "Адмирал" Дом №12</a></td><td><a href="/admin/flat/203">№123, ЖК "Адмирал" Дом №13</a>,<br><a href="/admin/flat/204">№321, ЖК "Адмирал" Дом №12</a></td><td>15.08.2022</td><td><small class="label label-warning">Новый</small></td><td><span>Да</span></td><td><div class="btn-group pull-right"><a class="btn btn-default btn-sm" href="/admin/message/create?MessageAddress%5Buser_id%5D=188" title="Отправить сообщение" data-toggle="tooltip"><i class="fa fa-envelope"></i></a> <a class="btn btn-default btn-sm" href="/admin/user/update/188" title="Редактировать" data-toggle="tooltip"><i class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm" href="/admin/user/delete/188" title="Удалить" data-toggle="tooltip" data-pjax="0" data-method="post" data-confirm="Вы уверены, что хотите удалить этот элемент?"><i class="fa fa-trash"></i></a></div></td></tr>#}
+{#<tr data-href="/admin/user/187" data-key="187"><td>№!№";%:?*(*ЩЗ(АВПАСРПОИРЛТ</td><td>!"№;%:?*()ПЛ12345 !"№;Г!"№;%:?*()_ПР134 !"№;%:?*(ПРОЛД134</td><td>"№;%:?М</td><td>sadszd@dsfd.com</td><td></td><td></td><td>09.08.2022</td><td><small class="label label-danger">Отключен</small></td><td></td><td><div class="btn-group pull-right"><a class="btn btn-default btn-sm" href="/admin/message/create?MessageAddress%5Buser_id%5D=187" title="Отправить сообщение" data-toggle="tooltip"><i class="fa fa-envelope"></i></a> <a class="btn btn-default btn-sm" href="/admin/user/update/187" title="Редактировать" data-toggle="tooltip"><i class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm" href="/admin/user/delete/187" title="Удалить" data-toggle="tooltip" data-pjax="0" data-method="post" data-confirm="Вы уверены, что хотите удалить этот элемент?"><i class="fa fa-trash"></i></a></div></td></tr>#}
+{#<tr data-href="/admin/user/186" data-key="186"><td>000186</td><td>Лымар Андрей</td><td>0733259093</td><td>limar11012001@gmail.com</td><td><a href="/admin/house/1">ЖК "Башня Чкалов"</a>,<br><a href="/admin/house/1">ЖК "Башня Чкалов"</a>,<br><a href="/admin/house/2">ЖК "Морская Симфония"</a></td><td><a href="/admin/flat/207">№5050, ЖК "Башня Чкалов"</a>,<br><a href="/admin/flat/208">№6060, ЖК "Башня Чкалов"</a>,<br><a href="/admin/flat/209">№7070, ЖК "Морская Симфония"</a></td><td>07.08.2022</td><td><small class="label label-success">Активен</small></td><td><span>Да</span></td><td><div class="btn-group pull-right"><a class="btn btn-default btn-sm" href="/admin/message/create?MessageAddress%5Buser_id%5D=186" title="Отправить сообщение" data-toggle="tooltip"><i class="fa fa-envelope"></i></a> <a class="btn btn-default btn-sm" href="/admin/user/update/186" title="Редактировать" data-toggle="tooltip"><i class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm" href="/admin/user/delete/186" title="Удалить" data-toggle="tooltip" data-pjax="0" data-method="post" data-confirm="Вы уверены, что хотите удалить этот элемент?"><i class="fa fa-trash"></i></a></div></td></tr>#}
+{#<tr data-href="/admin/user/184" data-key="184"><td>7878</td><td>gsd dfvds dvsdv</td><td>+23423423423</td><td>hjfhfh@gmail.com</td><td></td><td></td><td>06.08.2022</td><td><small class="label label-danger">Отключен</small></td><td></td><td><div class="btn-group pull-right"><a class="btn btn-default btn-sm" href="/admin/message/create?MessageAddress%5Buser_id%5D=184" title="Отправить сообщение" data-toggle="tooltip"><i class="fa fa-envelope"></i></a> <a class="btn btn-default btn-sm" href="/admin/user/update/184" title="Редактировать" data-toggle="tooltip"><i class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm" href="/admin/user/delete/184" title="Удалить" data-toggle="tooltip" data-pjax="0" data-method="post" data-confirm="Вы уверены, что хотите удалить этот элемент?"><i class="fa fa-trash"></i></a></div></td></tr>#}
+{#<tr data-href="/admin/user/183" data-key="183"><td>000183</td><td>Тест3 Тест3 Тест3</td><td></td><td>test3@gmail.com</td><td></td><td></td><td>05.08.2022</td><td><small class="label label-warning">Новый</small></td><td></td><td><div class="btn-group pull-right"><a class="btn btn-default btn-sm" href="/admin/message/create?MessageAddress%5Buser_id%5D=183" title="Отправить сообщение" data-toggle="tooltip"><i class="fa fa-envelope"></i></a> <a class="btn btn-default btn-sm" href="/admin/user/update/183" title="Редактировать" data-toggle="tooltip"><i class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm" href="/admin/user/delete/183" title="Удалить" data-toggle="tooltip" data-pjax="0" data-method="post" data-confirm="Вы уверены, что хотите удалить этот элемент?"><i class="fa fa-trash"></i></a></div></td></tr>#}
+{#<tr data-href="/admin/user/182" data-key="182"><td>1111</td><td>Создан с админ панели Иван ййй</td><td>0978887788</td><td>sax@mail.ua</td><td></td><td></td><td>05.08.2022</td><td><small class="label label-warning">Новый</small></td><td></td><td><div class="btn-group pull-right"><a class="btn btn-default btn-sm" href="/admin/message/create?MessageAddress%5Buser_id%5D=182" title="Отправить сообщение" data-toggle="tooltip"><i class="fa fa-envelope"></i></a> <a class="btn btn-default btn-sm" href="/admin/user/update/182" title="Редактировать" data-toggle="tooltip"><i class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm" href="/admin/user/delete/182" title="Удалить" data-toggle="tooltip" data-pjax="0" data-method="post" data-confirm="Вы уверены, что хотите удалить этот элемент?"><i class="fa fa-trash"></i></a></div></td></tr>#}
+{#<tr data-href="/admin/user/181" data-key="181"><td>007</td><td>ЕревинФ Кирилл Потапыч</td><td>ыуаук</td><td>fgdsjg@gmail.com</td><td><a href="/admin/house/3">ЖК "Дом Каркашадзе"</a></td><td><a href="/admin/flat/190">№7, ЖК "Дом Каркашадзе"</a></td><td>04.08.2022</td><td><small class="label label-warning">Новый</small></td><td></td><td><div class="btn-group pull-right"><a class="btn btn-default btn-sm" href="/admin/message/create?MessageAddress%5Buser_id%5D=181" title="Отправить сообщение" data-toggle="tooltip"><i class="fa fa-envelope"></i></a> <a class="btn btn-default btn-sm" href="/admin/user/update/181" title="Редактировать" data-toggle="tooltip"><i class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm" href="/admin/user/delete/181" title="Удалить" data-toggle="tooltip" data-pjax="0" data-method="post" data-confirm="Вы уверены, что хотите удалить этот элемент?"><i class="fa fa-trash"></i></a></div></td></tr>#}
+{#<tr data-href="/admin/user/180" data-key="180"><td>000180</td><td>Тест2 Тест2</td><td></td><td>test1@test1.com</td><td></td><td></td><td>03.08.2022</td><td><small class="label label-success">Активен</small></td><td></td><td><div class="btn-group pull-right"><a class="btn btn-default btn-sm" href="/admin/message/create?MessageAddress%5Buser_id%5D=180" title="Отправить сообщение" data-toggle="tooltip"><i class="fa fa-envelope"></i></a> <a class="btn btn-default btn-sm" href="/admin/user/update/180" title="Редактировать" data-toggle="tooltip"><i class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm" href="/admin/user/delete/180" title="Удалить" data-toggle="tooltip" data-pjax="0" data-method="post" data-confirm="Вы уверены, что хотите удалить этот элемент?"><i class="fa fa-trash"></i></a></div></td></tr>#}
+{#<tr data-href="/admin/user/179" data-key="179"><td>леша</td><td>Леша Леша</td><td>0932828282</td><td>111@test.com</td><td><a href="/admin/house/133">Континент</a></td><td><a href="/admin/flat/177">№64, Континент</a></td><td>03.08.2022</td><td><small class="label label-warning">Новый</small></td><td><span>Да</span></td><td><div class="btn-group pull-right"><a class="btn btn-default btn-sm" href="/admin/message/create?MessageAddress%5Buser_id%5D=179" title="Отправить сообщение" data-toggle="tooltip"><i class="fa fa-envelope"></i></a> <a class="btn btn-default btn-sm" href="/admin/user/update/179" title="Редактировать" data-toggle="tooltip"><i class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm" href="/admin/user/delete/179" title="Удалить" data-toggle="tooltip" data-pjax="0" data-method="post" data-confirm="Вы уверены, что хотите удалить этот элемент?"><i class="fa fa-trash"></i></a></div></td></tr>#}
+{#<tr data-href="/admin/user/178" data-key="178"><td>000178</td><td>wt wtret rtet</td><td>48498189498189</td><td>569@mail.ua</td><td></td><td></td><td>03.08.2022</td><td><small class="label label-danger">Отключен</small></td><td></td><td><div class="btn-group pull-right"><a class="btn btn-default btn-sm" href="/admin/message/create?MessageAddress%5Buser_id%5D=178" title="Отправить сообщение" data-toggle="tooltip"><i class="fa fa-envelope"></i></a> <a class="btn btn-default btn-sm" href="/admin/user/update/178" title="Редактировать" data-toggle="tooltip"><i class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm" href="/admin/user/delete/178" title="Удалить" data-toggle="tooltip" data-pjax="0" data-method="post" data-confirm="Вы уверены, что хотите удалить этот элемент?"><i class="fa fa-trash"></i></a></div></td></tr>#}
+{#<tr data-href="/admin/user/177" data-key="177"><td>000177</td><td><span class="not-set">(не задано)</span></td><td></td><td>565@mail.ua</td><td></td><td></td><td>03.08.2022</td><td><small class="label label-danger">Отключен</small></td><td></td><td><div class="btn-group pull-right"><a class="btn btn-default btn-sm" href="/admin/message/create?MessageAddress%5Buser_id%5D=177" title="Отправить сообщение" data-toggle="tooltip"><i class="fa fa-envelope"></i></a> <a class="btn btn-default btn-sm" href="/admin/user/update/177" title="Редактировать" data-toggle="tooltip"><i class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm" href="/admin/user/delete/177" title="Удалить" data-toggle="tooltip" data-pjax="0" data-method="post" data-confirm="Вы уверены, что хотите удалить этот элемент?"><i class="fa fa-trash"></i></a></div></td></tr>#}
+{#<tr data-href="/admin/user/176" data-key="176"><td>000176</td><td><span class="not-set">(не задано)</span></td><td></td><td>4698947/=749841/=@mail.ua</td><td></td><td></td><td>03.08.2022</td><td><small class="label label-danger">Отключен</small></td><td></td><td><div class="btn-group pull-right"><a class="btn btn-default btn-sm" href="/admin/message/create?MessageAddress%5Buser_id%5D=176" title="Отправить сообщение" data-toggle="tooltip"><i class="fa fa-envelope"></i></a> <a class="btn btn-default btn-sm" href="/admin/user/update/176" title="Редактировать" data-toggle="tooltip"><i class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm" href="/admin/user/delete/176" title="Удалить" data-toggle="tooltip" data-pjax="0" data-method="post" data-confirm="Вы уверены, что хотите удалить этот элемент?"><i class="fa fa-trash"></i></a></div></td></tr>#}
+{#<tr data-href="/admin/user/175" data-key="175"><td>000175</td><td>Фамилия Имя Отчество</td><td>48498189498189</td><td>4698947/=749841/=@mail.ud</td><td></td><td></td><td>03.08.2022</td><td><small class="label label-danger">Отключен</small></td><td></td><td><div class="btn-group pull-right"><a class="btn btn-default btn-sm" href="/admin/message/create?MessageAddress%5Buser_id%5D=175" title="Отправить сообщение" data-toggle="tooltip"><i class="fa fa-envelope"></i></a> <a class="btn btn-default btn-sm" href="/admin/user/update/175" title="Редактировать" data-toggle="tooltip"><i class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm" href="/admin/user/delete/175" title="Удалить" data-toggle="tooltip" data-pjax="0" data-method="post" data-confirm="Вы уверены, что хотите удалить этот элемент?"><i class="fa fa-trash"></i></a></div></td></tr>#}
+{#<tr data-href="/admin/user/174" data-key="174"><td>000174</td><td>Тест1 Тест1</td><td></td><td>test2@gmail.com</td><td><a href="/admin/house/142">Тестовый дом1</a></td><td><a href="/admin/flat/178">№1, Тестовый дом1</a></td><td>01.08.2022</td><td><small class="label label-success">Активен</small></td><td></td><td><div class="btn-group pull-right"><a class="btn btn-default btn-sm" href="/admin/message/create?MessageAddress%5Buser_id%5D=174" title="Отправить сообщение" data-toggle="tooltip"><i class="fa fa-envelope"></i></a> <a class="btn btn-default btn-sm" href="/admin/user/update/174" title="Редактировать" data-toggle="tooltip"><i class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm" href="/admin/user/delete/174" title="Удалить" data-toggle="tooltip" data-pjax="0" data-method="post" data-confirm="Вы уверены, что хотите удалить этот элемент?"><i class="fa fa-trash"></i></a></div></td></tr>#}
+{#<tr data-href="/admin/user/173" data-key="173"><td>13641361346134641364136</td><td>123456 236 7245</td><td>24572454235734583458568658</td><td>5638356653356@gmail.com</td><td></td><td></td><td>31.07.2022</td><td><small class="label label-danger">Отключен</small></td><td></td><td><div class="btn-group pull-right"><a class="btn btn-default btn-sm" href="/admin/message/create?MessageAddress%5Buser_id%5D=173" title="Отправить сообщение" data-toggle="tooltip"><i class="fa fa-envelope"></i></a> <a class="btn btn-default btn-sm" href="/admin/user/update/173" title="Редактировать" data-toggle="tooltip"><i class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm" href="/admin/user/delete/173" title="Удалить" data-toggle="tooltip" data-pjax="0" data-method="post" data-confirm="Вы уверены, что хотите удалить этот элемент?"><i class="fa fa-trash"></i></a></div></td></tr>#}
+{#<tr data-href="/admin/user/172" data-key="172"><td>000172</td><td><span class="not-set">(не задано)</span></td><td></td><td>rty@gmail.com</td><td></td><td></td><td>31.07.2022</td><td><small class="label label-warning">Новый</small></td><td></td><td><div class="btn-group pull-right"><a class="btn btn-default btn-sm" href="/admin/message/create?MessageAddress%5Buser_id%5D=172" title="Отправить сообщение" data-toggle="tooltip"><i class="fa fa-envelope"></i></a> <a class="btn btn-default btn-sm" href="/admin/user/update/172" title="Редактировать" data-toggle="tooltip"><i class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm" href="/admin/user/delete/172" title="Удалить" data-toggle="tooltip" data-pjax="0" data-method="post" data-confirm="Вы уверены, что хотите удалить этот элемент?"><i class="fa fa-trash"></i></a></div></td></tr>#}
+{#<tr data-href="/admin/user/171" data-key="171"><td>0070</td><td>шоза Петр Такой</td><td>+380968807065</td><td>nevidomskyif@gmail.com</td><td><a href="/admin/house/3">ЖК "Дом Каркашадзе"</a></td><td><a href="/admin/flat/170">№15, ЖК "Дом Каркашадзе"</a></td><td>30.07.2022</td><td><small class="label label-warning">Новый</small></td><td><span>Да</span></td><td><div class="btn-group pull-right"><a class="btn btn-default btn-sm" href="/admin/message/create?MessageAddress%5Buser_id%5D=171" title="Отправить сообщение" data-toggle="tooltip"><i class="fa fa-envelope"></i></a> <a class="btn btn-default btn-sm" href="/admin/user/update/171" title="Редактировать" data-toggle="tooltip"><i class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm" href="/admin/user/delete/171" title="Удалить" data-toggle="tooltip" data-pjax="0" data-method="post" data-confirm="Вы уверены, что хотите удалить этот элемент?"><i class="fa fa-trash"></i></a></div></td></tr>#}
+{#<tr data-href="/admin/user/170" data-key="170"><td>test123</td><td>Test Test Test</td><td>Test</td><td>testtest@test.com</td><td></td><td></td><td>29.07.2022</td><td><small class="label label-danger">Отключен</small></td><td></td><td><div class="btn-group pull-right"><a class="btn btn-default btn-sm" href="/admin/message/create?MessageAddress%5Buser_id%5D=170" title="Отправить сообщение" data-toggle="tooltip"><i class="fa fa-envelope"></i></a> <a class="btn btn-default btn-sm" href="/admin/user/update/170" title="Редактировать" data-toggle="tooltip"><i class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm" href="/admin/user/delete/170" title="Удалить" data-toggle="tooltip" data-pjax="0" data-method="post" data-confirm="Вы уверены, что хотите удалить этот элемент?"><i class="fa fa-trash"></i></a></div></td></tr>#}
+{#<tr data-href="/admin/user/164" data-key="164"><td>000164</td><td>Коля Микола Константинович</td><td>0932828282</td><td>kotiya2009@gmail.com</td><td><a href="/admin/house/133">Континент</a>,<br><a href="/admin/house/133">Континент</a></td><td><a href="/admin/flat/174">№-33, Континент</a>,<br><a href="/admin/flat/175">№-33, Континент</a></td><td>29.07.2022</td><td><small class="label label-success">Активен</small></td><td></td><td><div class="btn-group pull-right"><a class="btn btn-default btn-sm" href="/admin/message/create?MessageAddress%5Buser_id%5D=164" title="Отправить сообщение" data-toggle="tooltip"><i class="fa fa-envelope"></i></a> <a class="btn btn-default btn-sm" href="/admin/user/update/164" title="Редактировать" data-toggle="tooltip"><i class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm" href="/admin/user/delete/164" title="Удалить" data-toggle="tooltip" data-pjax="0" data-method="post" data-confirm="Вы уверены, что хотите удалить этот элемент?"><i class="fa fa-trash"></i></a></div></td></tr>#}
+{#<tr data-href="/admin/user/162" data-key="162"><td>000162уацмкума=-+</td><td>Kasparov Alexandr</td><td></td><td>romvak@gmail.com</td><td><a href="/admin/house/139">ЖК Чайка</a></td><td><a href="/admin/flat/172">№100, ЖК Чайка</a></td><td>29.07.2022</td><td><small class="label label-success">Активен</small></td><td></td><td><div class="btn-group pull-right"><a class="btn btn-default btn-sm" href="/admin/message/create?MessageAddress%5Buser_id%5D=162" title="Отправить сообщение" data-toggle="tooltip"><i class="fa fa-envelope"></i></a> <a class="btn btn-default btn-sm" href="/admin/user/update/162" title="Редактировать" data-toggle="tooltip"><i class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm" href="/admin/user/delete/162" title="Удалить" data-toggle="tooltip" data-pjax="0" data-method="post" data-confirm="Вы уверены, что хотите удалить этот элемент?"><i class="fa fa-trash"></i></a></div></td></tr>#}
+{#<tr data-href="/admin/user/161" data-key="161"><td>000161</td><td>Удаление Владельца 2,0</td><td></td><td>asdasd@gmail.com</td><td><a href="/admin/house/105">ЖК "Луч"</a></td><td><a href="/admin/flat/192">№2, ЖК "Луч"</a></td><td>28.07.2022</td><td><small class="label label-success">Активен</small></td><td></td><td><div class="btn-group pull-right"><a class="btn btn-default btn-sm" href="/admin/message/create?MessageAddress%5Buser_id%5D=161" title="Отправить сообщение" data-toggle="tooltip"><i class="fa fa-envelope"></i></a> <a class="btn btn-default btn-sm" href="/admin/user/update/161" title="Редактировать" data-toggle="tooltip"><i class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm" href="/admin/user/delete/161" title="Удалить" data-toggle="tooltip" data-pjax="0" data-method="post" data-confirm="Вы уверены, что хотите удалить этот элемент?"><i class="fa fa-trash"></i></a></div></td></tr>#}
+{#<tr data-href="/admin/user/160" data-key="160"><td>123456</td><td>Тест Удаления Владельца</td><td>213</td><td>12adsd3@gmail.com</td><td></td><td></td><td>28.07.2022</td><td><small class="label label-danger">Отключен</small></td><td></td><td><div class="btn-group pull-right"><a class="btn btn-default btn-sm" href="/admin/message/create?MessageAddress%5Buser_id%5D=160" title="Отправить сообщение" data-toggle="tooltip"><i class="fa fa-envelope"></i></a> <a class="btn btn-default btn-sm" href="/admin/user/update/160" title="Редактировать" data-toggle="tooltip"><i class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm" href="/admin/user/delete/160" title="Удалить" data-toggle="tooltip" data-pjax="0" data-method="post" data-confirm="Вы уверены, что хотите удалить этот элемент?"><i class="fa fa-trash"></i></a></div></td></tr>#}
+{#<tr data-href="/admin/user/159" data-key="159"><td>000159</td><td><span class="not-set">(не задано)</span></td><td></td><td>22povileiolena@gmail.com</td><td></td><td></td><td>27.07.2022</td><td><small class="label label-danger">Отключен</small></td><td></td><td><div class="btn-group pull-right"><a class="btn btn-default btn-sm" href="/admin/message/create?MessageAddress%5Buser_id%5D=159" title="Отправить сообщение" data-toggle="tooltip"><i class="fa fa-envelope"></i></a> <a class="btn btn-default btn-sm" href="/admin/user/update/159" title="Редактировать" data-toggle="tooltip"><i class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm" href="/admin/user/delete/159" title="Удалить" data-toggle="tooltip" data-pjax="0" data-method="post" data-confirm="Вы уверены, что хотите удалить этот элемент?"><i class="fa fa-trash"></i></a></div></td></tr>#}
+{#<tr data-href="/admin/user/158" data-key="158"><td>3229</td><td>Иванов Иван  Иванович</td><td>+380954016796</td><td>Ivanov.I@mial.com</td><td><a href="/admin/house/105">ЖК "Луч"</a>,<br><a href="/admin/house/105">ЖК "Луч"</a>,<br><a href="/admin/house/1">ЖК "Башня Чкалов"</a></td><td><a href="/admin/flat/141">№121, ЖК "Луч"</a>,<br><a href="/admin/flat/191">№1, ЖК "Луч"</a>,<br><a href="/admin/flat/221">№-21, ЖК "Башня Чкалов"</a></td><td>24.07.2022</td><td><small class="label label-success">Активен</small></td><td></td><td><div class="btn-group pull-right"><a class="btn btn-default btn-sm" href="/admin/message/create?MessageAddress%5Buser_id%5D=158" title="Отправить сообщение" data-toggle="tooltip"><i class="fa fa-envelope"></i></a> <a class="btn btn-default btn-sm" href="/admin/user/update/158" title="Редактировать" data-toggle="tooltip"><i class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm" href="/admin/user/delete/158" title="Удалить" data-toggle="tooltip" data-pjax="0" data-method="post" data-confirm="Вы уверены, что хотите удалить этот элемент?"><i class="fa fa-trash"></i></a></div></td></tr>#}
+{#<tr data-href="/admin/user/157" data-key="157"><td>000157</td><td>Боря Петя Толя</td><td>+39092032031</td><td>pashakracilov@Gmail.com</td><td><a href="/admin/house/106">Test 123</a>,<br><a href="/admin/house/106">Test 123</a></td><td><a href="/admin/flat/140">№1, Test 123</a>,<br><a href="/admin/flat/171">№1, Test 123</a></td><td>24.07.2022</td><td><small class="label label-success">Активен</small></td><td><span>Да</span></td><td><div class="btn-group pull-right"><a class="btn btn-default btn-sm" href="/admin/message/create?MessageAddress%5Buser_id%5D=157" title="Отправить сообщение" data-toggle="tooltip"><i class="fa fa-envelope"></i></a> <a class="btn btn-default btn-sm" href="/admin/user/update/157" title="Редактировать" data-toggle="tooltip"><i class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm" href="/admin/user/delete/157" title="Удалить" data-toggle="tooltip" data-pjax="0" data-method="post" data-confirm="Вы уверены, что хотите удалить этот элемент?"><i class="fa fa-trash"></i></a></div></td></tr>#}
+{#<tr data-href="/admin/user/156" data-key="156"><td>000156</td><td>Зеля Вова Петрович</td><td>0932828282</td><td>povileiolena@gmail.com</td><td></td><td></td><td>22.07.2022</td><td><small class="label label-danger">Отключен</small></td><td></td><td><div class="btn-group pull-right"><a class="btn btn-default btn-sm" href="/admin/message/create?MessageAddress%5Buser_id%5D=156" title="Отправить сообщение" data-toggle="tooltip"><i class="fa fa-envelope"></i></a> <a class="btn btn-default btn-sm" href="/admin/user/update/156" title="Редактировать" data-toggle="tooltip"><i class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm" href="/admin/user/delete/156" title="Удалить" data-toggle="tooltip" data-pjax="0" data-method="post" data-confirm="Вы уверены, что хотите удалить этот элемент?"><i class="fa fa-trash"></i></a></div></td></tr>#}
+{#<tr data-href="/admin/user/153" data-key="153"><td>1593</td><td>Порох! Микола! Микола!</td><td>093282828!</td><td>xxx@gmail.com</td><td></td><td></td><td>21.07.2022</td><td><small class="label label-danger">Отключен</small></td><td></td><td><div class="btn-group pull-right"><a class="btn btn-default btn-sm" href="/admin/message/create?MessageAddress%5Buser_id%5D=153" title="Отправить сообщение" data-toggle="tooltip"><i class="fa fa-envelope"></i></a> <a class="btn btn-default btn-sm" href="/admin/user/update/153" title="Редактировать" data-toggle="tooltip"><i class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm" href="/admin/user/delete/153" title="Удалить" data-toggle="tooltip" data-pjax="0" data-method="post" data-confirm="Вы уверены, что хотите удалить этот элемент?"><i class="fa fa-trash"></i></a></div></td></tr>#}
+{#<tr data-href="/admin/user/152" data-key="152"><td>000152</td><td>Артем</td><td></td><td>test1@gmail.com</td><td></td><td></td><td>21.07.2022</td><td><small class="label label-success">Активен</small></td><td></td><td><div class="btn-group pull-right"><a class="btn btn-default btn-sm" href="/admin/message/create?MessageAddress%5Buser_id%5D=152" title="Отправить сообщение" data-toggle="tooltip"><i class="fa fa-envelope"></i></a> <a class="btn btn-default btn-sm" href="/admin/user/update/152" title="Редактировать" data-toggle="tooltip"><i class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm" href="/admin/user/delete/152" title="Удалить" data-toggle="tooltip" data-pjax="0" data-method="post" data-confirm="Вы уверены, что хотите удалить этот элемент?"><i class="fa fa-trash"></i></a></div></td></tr>#}
+{#<tr data-href="/admin/user/151" data-key="151"><td>000146dsa</td><td><span class="not-set">(не задано)</span></td><td></td><td>test@tse.com</td><td></td><td></td><td>07.07.2022</td><td><small class="label label-danger">Отключен</small></td><td></td><td><div class="btn-group pull-right"><a class="btn btn-default btn-sm" href="/admin/message/create?MessageAddress%5Buser_id%5D=151" title="Отправить сообщение" data-toggle="tooltip"><i class="fa fa-envelope"></i></a> <a class="btn btn-default btn-sm" href="/admin/user/update/151" title="Редактировать" data-toggle="tooltip"><i class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm" href="/admin/user/delete/151" title="Удалить" data-toggle="tooltip" data-pjax="0" data-method="post" data-confirm="Вы уверены, что хотите удалить этот элемент?"><i class="fa fa-trash"></i></a></div></td></tr>#}
+{#<tr data-href="/admin/user/149" data-key="149"><td>4</td><td>Тест1 Тест1 Тест1</td><td>+380998031103</td><td>test1@test.com</td><td></td><td></td><td>02.07.2022</td><td><small class="label label-danger">Отключен</small></td><td></td><td><div class="btn-group pull-right"><a class="btn btn-default btn-sm" href="/admin/message/create?MessageAddress%5Buser_id%5D=149" title="Отправить сообщение" data-toggle="tooltip"><i class="fa fa-envelope"></i></a> <a class="btn btn-default btn-sm" href="/admin/user/update/149" title="Редактировать" data-toggle="tooltip"><i class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm" href="/admin/user/delete/149" title="Удалить" data-toggle="tooltip" data-pjax="0" data-method="post" data-confirm="Вы уверены, что хотите удалить этот элемент?"><i class="fa fa-trash"></i></a></div></td></tr>#}
+</tbody></table></div>
+<div class="box-footer clearfix"><ul class="pagination pagination-sm no-margin pull-right"><li class="prev disabled"><span>«</span></li>
+<li class="active"><a href="/admin/user/index?page=1&amp;per-page=50" data-page="0">1</a></li>
+<li><a href="/admin/user/index?page=2&amp;per-page=50" data-page="1">2</a></li>
+<li><a href="/admin/user/index?page=3&amp;per-page=50" data-page="2">3</a></li>
+<li class="next"><a href="/admin/user/index?page=2&amp;per-page=50" data-page="1">»</a></li></ul></div></div>
+            <div class="box-footer">
+                <div>Количество владельцев: <span class="text-bold">108</span></div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+{% block scripts %}
+    <script>
+        $('#nav_owners').attr('class', 'active')
+    </script>
+    <script type="text/javascript"
+            src="{% static 'admin_panel/bower_components/datatables.net/js/jquery.dataTables.min.js' %}">
+    </script>
+
+    <script>
+    let numb = 0
+    let colors = {
+                'Активен': 'label label-success',
+                'Отключен': 'label label-danger',
+                'Новый': 'label label-warning',
+            }
+        let sort_data ={
+            "name":'',
+            "role":'',
+            "phone":'',
+            "username":'',
+            "status":'',
+            "order_by":''
+        }
+        let order_by = ''
+        let table
+            function clear_filters() {
+                $('.column_search').val('');
+                sort_data ={
+                "name":'',
+                "role":'',
+                "phone":'',
+                "username":'',
+                "status":'',
+                }
+                numb=0
+                    table.draw()
+
+            }
+
+            function send_POST(e) {
+                table = $('#table_owners').DataTable({
+                    serverSide: true,
+                    processing: false,
+                    oLanguage: {
+                    sZeroRecords: "Ничего не найдено."
+                    },
+                    columnDefs: [
+                        { className: "owner", "targets": [ 0,1,2,3,4,5,6,7 ] },
+                        { targets: '_all', defaultContent:''},
+                    ],
+                    "ajax": {
+                        "processing": true,
+                        "url": "{% url 'owner_list' %}",
+                        "data": function (d) {
+                            return sort_data;
+                        },
+                        "dataSrc": "",
+                    },
+                    "columns": [
+                        {data: "id"},
+                        {"data": "name"},
+                        {"data": "phone"},
+                        {"data": "username"},
+                        {"data": null},
+                        {"data": null},
+                        {"data": 'date_joined'},
+                        {data: "status",
+                            render: function (data, type) {
+                        return `<small class="${colors[data]}">${data}</small>`;
+                    }},
+                        {data: null},
+
+                        {data: "id",
+                            render:function (data, type) {
+                            let link_update = '{% url 'owner_update' 12345 %}'.replace(/12345/, data)
+                            {#let link_delete = '{% url 'delete_user' 12345 %}'.replace(/12345/, data)#}
+                                    return `<div class="btn-group pull-right"><a class="btn btn-default btn-sm"
+                                    href="#" title="Отправить сообщение" data-toggle="tooltip">
+                                    <i class="fa fa-envelope"></i></a>
+                                    <a class="btn btn-default btn-sm" href="${link_update}" title="Редактировать"
+                                    data-toggle="tooltip"><i class="fa fa-pencil"></i></a>
+                                    <a class="btn btn-default btn-sm" title="Удалить" data-toggle="tooltip"
+                                    data-pjax="0" id="delete_user" onmousedown="return confirm_delete('',event);">
+                                    <i class="fa fa-trash"></i></a></div>`
+                            },
+                        }
+                            ],
+                    {#scrollCollapse: true,#}
+                    paging: false,
+                    {#scrollX: true,#}
+                    searching: false,
+                    ordering: false,
+                    info: false,
+                    {#pagingType: 'full_numbers',#}
+                });
+            }
+            let table_head = $('#table_owners thead')
+            table_head.on('keyup', ".column_search", function a (e) {
+                sort_data[this.id] = $(this).val()
+                numb=0
+                table.draw()
+            });
+
+            table_head.on('click', '.ordering', function (){
+                if (this.className === 'ordering asc'){
+                    $(this).attr('class', 'ordering desc')
+                    sort_data['order_by'] = '-' + this.id
+                }
+                else {
+                    $(this).attr('class', 'ordering asc')
+                    sort_data['order_by'] = this.id
+                }
+                table_head.find('.ordering').not(this).attr('class','ordering')
+                numb=0
+                table.draw()
+            })
+
+
+
+        $(document).ready(function () {
+            send_POST();
+            $('.column_search').val('');
+        });
+        function confirm_delete (link,event) {
+            alertify.confirm('Подтверждение удаления', 'Удалить пользователя <b>'
+                + $(event.target).closest( "tr " ).children().eq(1).text() + '</b> ?',
+                function () {
+                window.location.href = link
+                },
+                function () {
+                }).set({labels: {ok: 'Подтвердить', cancel: 'Отмена'}});
+                return false;
+        }
+        $('#table_owners').on('click', 'tbody tr .owner', function() {
+        window.location.href = '{% url 'owner_view' 12345 %}'.replace(/12345/, table.row(this).data().id)
+})
+    </script>
+{% endblock %}
+

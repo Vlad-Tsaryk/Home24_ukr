@@ -1,12 +1,12 @@
 from django.contrib.messages.views import SuccessMessageMixin
 from django.db.models.functions import Concat
+from django.db.models import Value
 from django.shortcuts import redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, UpdateView, DetailView, TemplateView,DeleteView
 from django.http import JsonResponse
 from .models import User, Role
 from .forms import CustomUserCreationForm, CustomUserUpdateForm, RoleFormSet
-from django.db.models import Value
 from django.contrib import messages
 
 
@@ -24,7 +24,9 @@ class Users(ListView):
 
     def render_to_response(self, context, **response_kwargs):
         if self.request.is_ajax():
-            filtered_qs = self.get_queryset().annotate(name=Concat('first_name', Value(' '), 'last_name'))
+            owner_role = Role.objects.get(role=Role.RoleName.OWNER)
+            filtered_qs = self.get_queryset().exclude(role=owner_role)\
+                .annotate(name=Concat('first_name', Value(' '), 'last_name'))
             filter_fields = {
                 'name__contains': self.request.GET.get('name'),
                 'role__role': self.request.GET.get('role'),

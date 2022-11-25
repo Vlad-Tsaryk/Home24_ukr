@@ -42,7 +42,8 @@
                         </tr>
                         <tr>
                             <td>Статус</td>
-                            <td><small class="label" id="status">{{ object.status }}</small></td>
+                            <td><small class="label {{ object.get_status_label_color }}"
+                                       id="status">{{ object.status }}</small></td>
                         </tr>
                     </tbody>
                 </table>
@@ -56,12 +57,4 @@
         $('#system_settings').attr('class', 'active treeview menu-open')
         $('#nav_users').attr('class', 'active')
     </script>
-    <script>
-        let colors = {
-                'Активен': 'label label-success',
-                'Отключен': 'label label-danger',
-                'Новый': 'label label-warning',
-            }
-            $('#status').attr('class',colors[$('#status').text()])
-        </script>
 {% endblock %}

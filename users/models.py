@@ -8,8 +8,8 @@ from PIL import Image
 class Role(models.Model):
     class RoleName(models.TextChoices):
         DIRECTOR = 'Директор', 'Директор'
-        ACCOUNTANT = 'Бухгалтер', 'Бухгалтер'
         MANAGER = 'Управляющий', 'Управляющий'
+        ACCOUNTANT = 'Бухгалтер', 'Бухгалтер'
         ELECTRICIAN = 'Электрик', 'Электрик'
         PLUMBER = 'Сантехник', 'Сантехник'
         OWNER = 'Владелец квартиры', 'Владелец квартиры'
@@ -62,13 +62,22 @@ class User(AbstractUser):
     def get_new_users(self):
         return User.objects.filter(status=self.StatusName.NEW)
 
+    def get_status_label_color(self):
+        colors = {
+            'Активен': 'label-success',
+            'Отключен': 'label-danger',
+            'Новый': 'label-warning',
+        }
+        return colors[self.status]
+
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
-        if self.profile_image.size != (160, 160):
-            print('hello')
-            image = Image.open(self.profile_image.path)
-            image = image.resize((160, 160))
-            image.save(self.profile_image.path)
+        if self.profile_image:
+            if self.profile_image.size != (160, 160):
+                print('hello')
+                image = Image.open(self.profile_image.path)
+                image = image.resize((160, 160))
+                image.save(self.profile_image.path)
 
     class Meta:
         ordering = ['-date_joined']

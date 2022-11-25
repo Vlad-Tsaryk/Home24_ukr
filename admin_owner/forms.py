@@ -31,6 +31,7 @@ class OwnerCreateForm(UserCreationForm):
         input_formats=DATE_INPUT_FORMATS, required=False)
     viber = PhoneNumberField(widget=forms.TextInput(attrs={'class': 'form-control'})
                              , required=False)
+    viber.error_messages['invalid'] = "Введите корректный номер телефона."
     telegram = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'})
                                , required=False)
     notes = forms.CharField(

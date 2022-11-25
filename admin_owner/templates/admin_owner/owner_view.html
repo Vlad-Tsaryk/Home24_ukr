@@ -1,0 +1,105 @@
+{% extends 'layout/basic.html' %}
+{% load static %}
+{% block title %}Профиль владельца{% endblock %}
+{% block header_text %}
+    Профиль владельца
+{% endblock %}
+{% block breadcrumb %}
+    <ul class="breadcrumb"><li><a href="{% url 'statistic' %}"><i class="fa fa-home"></i> Главная</a></li>
+        <li><a href="{% url 'owner_list' %}">Владельцы квартир</a></li>
+    <li class="active">Профиль владельца</li>
+</ul>
+{% endblock %}
+{% block content %}
+
+
+<div class="box">
+    <div class="box-header with-border">
+        <h3 class="box-title"></h3>
+        <div class="box-tools">
+            <a href="http://myhouse24.avada-media.ua/cabinet/?token=9Y2tnde8mM0_sHj7HO-78GwWbs6j897N" target="_blank" class="btn btn-default btn-sm"><i class="fa fa-external-link"></i> Перейти в кабинет</a>
+            <a href="{% url 'owner_update' owner.pk %}" class="btn btn-primary btn-sm">
+                <span class="hidden-xs">Редактировать профиль</span><i class="fa fa-pencil visible-xs" aria-hidden="true"></i>
+            </a>
+        </div>
+    </div>
+    <div class="box-body">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="userAvatar">
+                    <img class="img-circle img-responsive"
+                         {% if owner.profile_image %}
+                         src="{{ owner.profile_image.url }}"
+                         {% else %}
+                            src="{% static 'admin_panel/dist/img/placeholder_160x160.jpeg' %}"
+                            {% endif %}
+                         alt="{{owner.username}}">
+                </div>
+                <div class="table-responsive no-padding">
+                    <table class="table table-bordered table-striped table-view">
+                        <tbody>
+                            <tr>
+                                <td>Статус</td>
+                                <td><small id="status" class="label {{ owner.get_status_label_color }}">
+                                    {{ owner.status }}</small></td>
+                            </tr>
+                            <tr>
+                                <td>ID</td>
+                                <td>{{ owner.pk }}</td>
+                            </tr>
+                            <tr>
+                                <td>Фамилия</td>
+                                <td>{{ owner.last_name }}</td>
+                            </tr>
+                            <tr>
+                                <td>Имя</td>
+                                <td>{{ owner.first_name }}</td>
+                            </tr>
+                            <tr>
+                                <td>Отчество</td>
+                                <td>{{ owner.middle_name }}</td>
+                            </tr>
+                            <tr>
+                                <td>Дата рождения</td>
+                                <td>{{ owner.birth_date|date:'d.m.Y' }}</td>
+                            </tr>
+                            <tr>
+                                <td>О владельце (заметки)</td>
+                                <td>{{ owner.notes }}</td>
+                            </tr>
+                            <tr>
+                                <td>Телефон</td>
+                                <td>
+                                    {{ owner.phone }}
+                                    <!--<a href="tel:">-->
+                                                                            <!--</a>-->
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Viber</td>
+                                <td>{{ owner.viber }}</td>
+                            </tr>
+                            <tr>
+                                <td>Telegram</td>
+                                <td>{{ owner.telegram }}</td>
+                            </tr>
+                            <tr>
+                                <td>Email</td>
+                                <td>
+                                    {{ owner.username }}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+{% block  scripts%}
+    <script>
+        $('#nav_owners').attr('class', 'active')
+    </script>
+{% endblock %}
