@@ -11,6 +11,9 @@ class Tariff(models.Model):
     services = models.ManyToManyField(Service, through='TariffService')
     date_edit = models.DateTimeField(auto_now=True)
 
+    def __str__(self):
+        return self.name
+
     class Meta:
         ordering = ['-date_edit']
 

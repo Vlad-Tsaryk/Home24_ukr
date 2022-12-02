@@ -10,5 +10,6 @@ urlpatterns = [
     path('tariff/', include('admin_tariff.urls')),
     path('house/', include('admin_house.urls')),
     path('owner/', include('admin_owner.urls')),
+    path('apartment/', include('admin_apartment.urls')),
     path('payment_details/', PaymentDetailsUpdate.as_view(), name='payment_details_update'),
 ]

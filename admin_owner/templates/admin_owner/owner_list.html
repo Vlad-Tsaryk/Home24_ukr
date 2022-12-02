@@ -11,9 +11,6 @@
 {% endblock %}
 {%  block content %}
 <div class="row">
-    <!--<div class="col-xs-12 col-sm-6">-->
-    <!--<h2 class="page-header">Владельцы квартир</h2>-->
-    <!--</div>-->
     <div class="col-xs-12">
         <div class="btn-group pull-right margin-bottom">
             <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -241,6 +238,8 @@
     <script type="text/javascript"
             src="{% static 'admin_panel/bower_components/datatables.net/js/jquery.dataTables.min.js' %}">
     </script>
+    <script src="{% static 'admin_panel/bower_components/moment/moment.js' %}"></script>
+{#    <script src="{% static 'admin_panel/bower_components/moment/locale/ru.js' %}"></script>#}
 
     <script>
     let numb = 0
@@ -299,7 +298,10 @@
                         {"data": "username"},
                         {"data": null},
                         {"data": null},
-                        {"data": 'date_joined'},
+                        {"data": 'date_joined',
+                        render:function (data) {
+                            return moment.utc(data).format('DD.MM.YYYY')
+                        }},
                         {data: "status",
                             render: function (data, type) {
                         return `<small class="${colors[data]}">${data}</small>`;

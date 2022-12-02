@@ -9,7 +9,7 @@ class Apartment(models.Model):
     number = models.IntegerField(unique=True)
     area = models.IntegerField()
     house = models.ForeignKey(House, on_delete=models.CASCADE)
-    section = models.ForeignKey(Section, on_delete=models.SET_NULL, null=True)
+    section = models.ForeignKey(Section, null=True, on_delete=models.SET_NULL)
     floor = models.ForeignKey(Floor, null=True, on_delete=models.SET_NULL)
     owner = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
     tariff = models.ForeignKey(Tariff, null=True, on_delete=models.SET_NULL)

@@ -16,6 +16,9 @@ class House(models.Model):
     users = models.ManyToManyField(User, through='HouseUser')
     date_edit = models.DateTimeField(auto_now=True)
 
+    def __str__(self):
+        return self.name
+
     class Meta:
         ordering = ['-date_edit']
 
@@ -24,10 +27,16 @@ class Section(models.Model):
     name = models.CharField(max_length=50)
     house = models.ForeignKey(House, on_delete=models.CASCADE)
 
+    def __str__(self):
+        return self.name
+
 
 class Floor(models.Model):
     name = models.CharField(max_length=50)
     house = models.ForeignKey(House, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.name
 
 
 class HouseUser(models.Model):

@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'admin_tariff.apps.AdminTariffConfig',
     'admin_house.apps.AdminHouseConfig',
     'admin_owner.apps.AdminOwnerConfig',
+    'admin_apartment.apps.AdminApartmentConfig',
     "debug_toolbar",
 
 
