@@ -1,0 +1,273 @@
+{% extends 'layout/basic.html' %}
+{% load static %}
+{% block head %}
+    <link rel="stylesheet" type="text/css"
+          href="{% static 'admin_panel/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css' %}"/>
+
+{% endblock %}
+{% block content %}
+
+
+    <div class="row">
+        <!--<div class="col-xs-12 col-sm-6">-->
+        <!--<h2 class="page-header">Квартиры</h2>-->
+        <!--</div>-->
+        <div class="col-xs-12">
+
+            <div class="pull-right margin-bottom">
+                <a class="btn btn-success" href="{% url 'apartment_create' %}">Добавить квартиру</a>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <div class="box-header with-border">
+                    <h3 class="box-title"></h3>
+                    <div class="box-tools">
+                        <button onclick="clear_filters()" class="btn btn-default btn-sm">
+                            <span class="hidden-xs">Очистить</span><i class="fa fa-eraser visible-xs"
+                                                                      aria-hidden="true"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div id="w0" class="grid-view">
+                    <div class="box-body table-responsive no-padding">
+                        <table id="apartment_table" class="table table-bordered table-hover table-striped linkedRow">
+                            <thead>
+                            <tr>
+                                <th><a id="number" class="ordering" style="cursor: pointer">№ квартиры</a> </th>
+                                <th><a id="house__name" class="ordering" style="cursor: pointer">Дом</a> </th>
+                                <th><a id="section__name" class="ordering" style="cursor: pointer">Секция</a> </th>
+                                <th><a id="floor__name" class="ordering" style="cursor: pointer">Этаж</a> </th>
+                                <th><a id="owner__name" class="ordering" style="cursor: pointer">Владелец</a> </th>
+                                <th style="width: 120px; min-width: 120px">Остаток (грн)</th>
+                                <th style="width: 80px; min-width: 80px">&nbsp;</th>
+                            </tr>
+                            <tr id="w0-filters" class="filters">
+                                <td><input id="number" type="text"
+                                           class="form-control column_search" name="ApartmentNumber"></td>
+                                <td><select id="house" class="form-control select2" style="width: 100%;">
+                                    <option value=""></option>
+                                    {% for house in house_list %}
+                                            <option value="{{ house.pk }}">{{ house }}</option>
+                                    {% endfor %}
+
+                                </select></td>
+                                <td>
+                                    <select id="section" class="form-control select2" style="width: 100%;"
+                                            name="FlatSearch[section_id]">
+                                    <option value="">Выберите дом</option>
+                                </select></td>
+                                <td>
+                                    <select id="floor" class="form-control select2" style="width: 100%;">
+                                    <option value="">Выберите дом</option>
+                                </select>
+                                </td>
+                                <td>
+                                    <select id="owner" class="form-control select2" style="width: 100%;">
+                                    <option value=""></option>
+                                        {% for owner in user.get_owners %}
+                                            <option value="{{ owner.pk }}">{{ owner }}</option>
+                                        {% endfor %}
+                                        
+                                </select>
+                                    </td>
+                                <td><select id="flatsearch-searchhasdebt" class="form-control select2-hidden-accessible"
+                                            name="FlatSearch[searchHasDebt]" data-s2-options="s2options_7ebc6538"
+                                            data-krajee-select2="select2_0d896465" style="display:none" tabindex="-1"
+                                            aria-hidden="true">
+                                    <option value=""></option>
+                                    <option value="1">Есть долг</option>
+                                    <option value="0">Нет долга</option>
+                                </select><span class="select2 select2-container select2-container--default" dir="ltr"
+                                               style="width: 100%;"><span class="selection"><span
+                                        class="select2-selection select2-selection--single" role="combobox"
+                                        aria-haspopup="true" aria-expanded="false" tabindex="0"
+                                        aria-labelledby="select2-flatsearch-searchhasdebt-container"><span
+                                        class="select2-selection__rendered"
+                                        id="select2-flatsearch-searchhasdebt-container"><span
+                                        class="select2-selection__placeholder"></span></span><span
+                                        class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span
+                                        class="dropdown-wrapper" aria-hidden="true"></span></span></td>
+                                <td>&nbsp;</td>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="box-footer clearfix">
+                        <ul class="pagination pagination-sm no-margin pull-right">
+                            <li class="prev disabled"><span>«</span></li>
+                            <li class="active"><a href="/admin/flat/index?page=1&amp;per-page=50" data-page="0">1</a>
+                            </li>
+                            <li><a href="/admin/flat/index?page=2&amp;per-page=50" data-page="1">2</a></li>
+                            <li><a href="/admin/flat/index?page=3&amp;per-page=50" data-page="2">3</a></li>
+                            <li class="next"><a href="/admin/flat/index?page=2&amp;per-page=50" data-page="1">»</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="box-footer">
+                    <div>Количество квартир: <span class="text-bold">{{ apartment_list.count }}</span></div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block scripts %}
+
+<script src="{% static 'admin_panel/bower_components/select2/dist/js/select2.full.min.js' %}"></script>
+    <script type="text/javascript"
+            src="{% static 'admin_panel/bower_components/datatables.net/jquery.dataTables.min.js' %}">
+    </script>
+    <script>
+
+        let numb = 0
+        let sort_data = {
+            "number": '',
+            "address": '',
+            "order_by": ''
+        }
+        let order_by = ''
+        let table
+
+        function check_empty(data) {
+            if (data) {return data}
+            else return '(не задано)'
+        }
+
+        function clear_filters() {
+            $('.column_search').val('');
+            $('.select2').val('').change();
+            $('.ordering').attr('class', 'ordering');
+            let keys = Object.keys(sort_data)
+            keys.forEach(function (item) {
+                sort_data[item] = ''
+            })
+{% comment %}            sort_data = {
+                "name": '',
+                "address": '',
+                "order_by": ''
+            }{% endcomment %}
+            numb = 0
+            table.draw()
+
+        }
+
+        function send_POST(e) {
+            table = $('#apartment_table').DataTable({
+                serverSide: true,
+                processing: false,
+                ordering: false,
+                oLanguage: {
+                    sZeroRecords: "Ничего не найдено."
+                },
+                columnDefs: [
+                    {className: "apartment", "targets": [0, 1, 2,3,4,5]},
+                    {targets: '_all', defaultContent: ''},
+                ],
+                "ajax": {
+                    "processing": true,
+                    "url": "{% url 'apartment_list' %}",
+                    "data": function (d) {
+                        return sort_data;
+                    },
+                    "dataSrc": "",
+                },
+                "columns": [
+                    {data: 'number'},
+                    {data: 'house__name'},
+                    {data: 'section__name',
+                        render: function (data) {
+                         return check_empty(data)
+                     }},
+                    {data: 'floor__name',
+                     render:function (data) {
+                         return check_empty(data)
+                     }},
+                    {data: 'owner__name'},
+                    {data: null},
+                    {
+                        data: 'id',
+                        render: function (data, type) {
+                            {#let link_update = '{% url 'house_update' 12345 %}'.replace(/12345/, data)#}
+                            {#let link_delete = '{% url 'house_delete' 12345 %}'.replace(/12345/, data)#}
+                            return `<div class="btn-group pull-right">\
+            <a class="btn btn-default btn-sm" href="#"\
+               title="Редактировать" data-toggle="tooltip">\
+                <i class="fa fa-pencil"></i>\
+            </a>\
+            <a class="btn btn-default btn-sm"\
+               title="Удалить" data-toggle="tooltip" data-pjax="0" data-method="post"\
+                onclick="return confirm_delete('#',event);">\
+                <i class="fa fa-trash"></i>\
+            </a>\
+        </div>`
+                        },
+                    },
+                ],
+                paging: false,
+                searching: false,
+                info: false,
+            });
+        }
+
+        let table_head = $('#apartment_table thead')
+        table_head.on('keyup', ".column_search", function a(e) {
+            sort_data[this.id] = $(this).val()
+            numb = 0
+            table.draw()
+        });
+        table_head.on('change', ".select2", function a(e) {
+            sort_data[this.id] = $(this).val()
+            numb = 0
+            table.draw()
+        });
+
+        table_head.on('click', '.ordering', function () {
+            if (this.className === 'ordering asc') {
+                $(this).attr('class', 'ordering desc')
+                sort_data['order_by'] = '-' + this.id
+            } else {
+                $(this).attr('class', 'ordering asc')
+                sort_data['order_by'] = this.id
+            }
+            table_head.find('.ordering').not(this).attr('class', 'ordering')
+            numb = 0
+            table.draw()
+        })
+
+        function confirm_delete(link, event) {
+            alertify.confirm('Подтверждение удаления', 'Удалить дом <b>'
+                + $(event.target).closest("tr ").children().eq(1).text() + '</b> ?',
+                function () {
+                    window.location.href = link
+                },
+                function () {
+                }).set({labels: {ok: 'Подтвердить', cancel: 'Отмена'}});
+            return false;
+        }
+
+{% comment %}        $('#apartment_table').on('click', 'tbody tr .house', function () {
+            window.location.href = '{% url 'house_view' 12345 %}'.replace(/12345/, table.row(this).data().id)
+        }){% endcomment %}
+
+
+        $(document).ready(function () {
+            send_POST();
+            $('.column_search').val('');
+            $('.select2').val('');
+            $('.select2').select2();
+            {#$('#house__name').select2({});#}
+            {#$('#section__name').select2();#}
+            {#$('#floor__name').select2();#}
+            {#$('#owner__name').select2();#}
+        });
+    </script>
+
+{% endblock %}
