@@ -48,25 +48,25 @@
                             <tr id="w0-filters" class="filters">
                                 <td><input id="number" type="text"
                                            class="form-control column_search" name="ApartmentNumber"></td>
-                                <td><select id="house" class="form-control select2" style="width: 100%;">
-                                    <option value=""></option>
+                                <td><select id="house" class="form-control house_search filters" style="width: 100%;">
+                                    <option></option>
                                     {% for house in house_list %}
                                             <option value="{{ house.pk }}">{{ house }}</option>
                                     {% endfor %}
 
                                 </select></td>
                                 <td>
-                                    <select id="section" class="form-control select2" style="width: 100%;"
+                                    <select id="section" class="form-control select2_house filters" style="width: 100%;"
                                             name="FlatSearch[section_id]">
-                                    <option value="">Выберите дом</option>
+                                    <option></option>
                                 </select></td>
                                 <td>
-                                    <select id="floor" class="form-control select2" style="width: 100%;">
-                                    <option value="">Выберите дом</option>
+                                    <select id="floor" class="form-control select2_house filters" style="width: 100%;">
+                                    <option></option>
                                 </select>
                                 </td>
                                 <td>
-                                    <select id="owner" class="form-control select2" style="width: 100%;">
+                                    <select id="owner" class="form-control select2 filters" style="width: 100%;">
                                     <option value=""></option>
                                         {% for owner in user.get_owners %}
                                             <option value="{{ owner.pk }}">{{ owner }}</option>
@@ -78,7 +78,7 @@
                                             name="FlatSearch[searchHasDebt]" data-s2-options="s2options_7ebc6538"
                                             data-krajee-select2="select2_0d896465" style="display:none" tabindex="-1"
                                             aria-hidden="true">
-                                    <option value=""></option>
+                                    <option></option>
                                     <option value="1">Есть долг</option>
                                     <option value="0">Нет долга</option>
                                 </select><span class="select2 select2-container select2-container--default" dir="ltr"
@@ -122,6 +122,7 @@
 {% block scripts %}
 
 <script src="{% static 'admin_panel/bower_components/select2/dist/js/select2.full.min.js' %}"></script>
+<script src="{% static 'admin_panel/bower_components/select2/dist/js/i18n/ru.min.js' %}"></script>
     <script type="text/javascript"
             src="{% static 'admin_panel/bower_components/datatables.net/jquery.dataTables.min.js' %}">
     </script>
@@ -129,31 +130,36 @@
 
         let numb = 0
         let sort_data = {
-            "number": '',
-            "address": '',
             "order_by": ''
         }
-        let order_by = ''
         let table
+        let table_head = $('#apartment_table thead')
+        let filters_array
 
         function check_empty(data) {
             if (data) {return data}
             else return '(не задано)'
         }
+        function set_options(data, target_id) {
+            $(`#${target_id} option`).remove()
+            $(`#${target_id}`).append(`<option></option>`)
+            data.forEach(function (item) {
+                                $(`#${target_id}`).append(`<option value="${item['id']}">${item['name']}</option>`)
+                            })
+        }
 
         function clear_filters() {
             $('.column_search').val('');
-            $('.select2').val('').change();
+            table_head.unbind();
+            filters_array.forEach(function(item) {
+              item.val('').change()
+            })
             $('.ordering').attr('class', 'ordering');
+            set_filters_listener()
             let keys = Object.keys(sort_data)
             keys.forEach(function (item) {
                 sort_data[item] = ''
             })
-{% comment %}            sort_data = {
-                "name": '',
-                "address": '',
-                "order_by": ''
-            }{% endcomment %}
             numb = 0
             table.draw()
 
@@ -177,7 +183,14 @@
                     "data": function (d) {
                         return sort_data;
                     },
-                    "dataSrc": "",
+                    dataSrc: function (data) {
+                        if(data['sections']) {
+                            $('.select2_house').select2({placeholder: ""})
+                            set_options(data['sections'],'section')
+                            set_options(data['floors'],'floor')
+                        }
+                        return data['apartment']
+                    },
                 },
                 "columns": [
                     {data: 'number'},
@@ -195,10 +208,10 @@
                     {
                         data: 'id',
                         render: function (data, type) {
-                            {#let link_update = '{% url 'house_update' 12345 %}'.replace(/12345/, data)#}
+                            let link_update = '{% url 'apartment_update' 12345 %}'.replace(/12345/, data)
                             {#let link_delete = '{% url 'house_delete' 12345 %}'.replace(/12345/, data)#}
                             return `<div class="btn-group pull-right">\
-            <a class="btn btn-default btn-sm" href="#"\
+            <a class="btn btn-default btn-sm" href="${link_update}"\
                title="Редактировать" data-toggle="tooltip">\
                 <i class="fa fa-pencil"></i>\
             </a>\
@@ -216,20 +229,34 @@
                 info: false,
             });
         }
-
-        let table_head = $('#apartment_table thead')
+        function set_filters_listener() {
+            table_head.on('change', ".select2", function a(e) {
+            sort_data[this.id] = $(this).val()
+            numb = 0
+            table.draw()
+        });
+        table_head.on('change', ".select2_house", function a(e) {
+            sort_data[this.id] = $(this).val()
+            numb = 0
+            table.draw()
+        });
+        table_head.on('change', ".house_search", function a(e) {
+            sort_data['section'] = ''
+            sort_data['floor'] = ''
+            sort_data[this.id] = $(this).val()
+            if (sort_data[this.id]){
+                sort_data['house_select'] = true
+            }
+            numb = 0
+            table.draw()
+            sort_data['house_select'] = ''
+        });
         table_head.on('keyup', ".column_search", function a(e) {
             sort_data[this.id] = $(this).val()
             numb = 0
             table.draw()
         });
-        table_head.on('change', ".select2", function a(e) {
-            sort_data[this.id] = $(this).val()
-            numb = 0
-            table.draw()
-        });
-
-        table_head.on('click', '.ordering', function () {
+                table_head.on('click', '.ordering', function () {
             if (this.className === 'ordering asc') {
                 $(this).attr('class', 'ordering desc')
                 sort_data['order_by'] = '-' + this.id
@@ -241,6 +268,10 @@
             numb = 0
             table.draw()
         })
+                  }
+
+
+
 
         function confirm_delete(link, event) {
             alertify.confirm('Подтверждение удаления', 'Удалить дом <b>'
@@ -259,11 +290,14 @@
 
 
         $(document).ready(function () {
+
             send_POST();
             $('.column_search').val('');
-            $('.select2').val('');
-            $('.select2').select2();
-            {#$('#house__name').select2({});#}
+            let $select2 = $('.select2').select2({placeholder: ""}).val('');
+            let $select2_house = $('.select2_house').select2({placeholder: "Выберите дом"}).val('');
+            let $house = $('#house').select2({placeholder: ""});
+            filters_array = [$select2,$select2_house,$house]
+            set_filters_listener()
             {#$('#section__name').select2();#}
             {#$('#floor__name').select2();#}
             {#$('#owner__name').select2();#}

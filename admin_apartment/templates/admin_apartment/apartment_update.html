@@ -1,0 +1,4 @@
+{% extends 'admin_apartment/apartment_create.html' %}
+{% block ajax_url %}{% url 'apartment_update' apartment.pk %}{% endblock %}
+{% block ready %}
+{% endblock %}

@@ -1,4 +1,10 @@
 {% extends 'layout/basic.html' %}
+{% load static %}
+{% block head %}
+    <link rel="stylesheet" type="text/css"
+          href="{% static 'admin_panel/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css' %}"/>
+
+{% endblock %}
 {% block content %}
 
 
@@ -15,7 +21,6 @@
                                    name="FlatForm[account_uid]"> <select id="account_uid"
                                                                          class="form-control select2-hidden-accessible"
                                                                          name="account_uid"
-                                                                         onchange="if ($(this).val()) { $(&quot;#flatform-account_uid&quot;).val($(this).val()); $(&quot;#account_uid&quot;).val(&quot;&quot;).trigger(&quot;change&quot;); }"
                                                                          data-s2-options="s2options_7ebc6538"
                                                                          data-krajee-select2="select2_27ecbd8a"
                                                                          style="display:none" tabindex="-1"
@@ -89,7 +94,7 @@
                 <div class="row">
                     <div class="col-xs-12 text-right">
                         <div class="form-group">
-                            <a href="/admin/flat/index" class="btn btn-default margin-bottom-15">Отменить</a>
+                            <a href="{% url 'apartment_list' %}" class="btn btn-default margin-bottom-15">Отменить</a>
                             <input type="submit" class="btn btn-success margin-bottom-15" name="action_save"
                                    value="Сохранить"> <input type="submit"
                                                              class="btn btn-success margin-bottom-15 bg-green-active"
@@ -106,13 +111,24 @@
 {% endblock %}
 
 {% block scripts %}
+<script src="{% static 'admin_panel/bower_components/select2/dist/js/select2.full.min.js' %}"></script>
+<script src="{% static 'admin_panel/bower_components/select2/dist/js/i18n/ru.min.js' %}"></script>
     <script>
+
     $(document).ready(function() {
+        {% block ready %}
         clear_options('id_section')
             clear_options('id_floor')
+            {% endblock %}
+            $('#id_owner').select2({placeholder: "Выберите..."})
+            $('#id_house').select2({placeholder: "Выберите..."})
+            $('#id_floor').select2({placeholder: "Выберите дом"})
+            $('#id_section').select2({placeholder: "Выберите дом"})
+            $('#id_tariff').select2({placeholder: "Выберите..."})
           }
 
         )
+
     function append_option(target, item) {
         $(`#id_${target}`).append($('<option>').val(item['id']).text(item['name']));
     }
@@ -123,11 +139,13 @@
         function get_values(house_id=null){
             $.ajax({
                 type:'GET',
-                url:'{% url 'apartment_create' %}',
+                url:'{% block ajax_url %}{% url 'apartment_create' %}{% endblock %}',
                 data:{
                     house_id: house_id,
                 },
                 success:function (data) {
+                    $('#id_floor').select2({placeholder: "Выберите..."})
+                    $('#id_section').select2({placeholder: "Выберите..."})
                     data['floor'].forEach(
                         function (item) {
                             append_option('floor',item)
