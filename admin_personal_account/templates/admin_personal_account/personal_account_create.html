@@ -1,0 +1,144 @@
+{% extends 'layout/basic.html' %}
+{% load static %}
+{% block content %}
+    <form id="personal_account_form" method="post">
+        {% csrf_token %}
+        <div class="row">
+    <div class="col-xs-12 col-md-7 col-lg-6">
+        <div class="page-header-spec">
+            <div class="form-group field-account-uid required">
+<div class="input-group">
+                        <div class="input-group-addon">
+                            №
+                        </div><input type="text" id="account-uid" class="form-control" name="Account[uid]" value="04122200353" aria-required="true">
+                    </div>
+</div>        </div>
+    </div>
+</div>
+<div class="box">
+    <div class="box-body">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="form-group field-account-status has-success">
+<label class="control-label" for="account-status">Статус</label>
+                    {{ form.status }}
+
+
+<div class="help-block"></div>
+</div>                <div class="form-group">
+                    <label for="id_house">Дом</label>
+                {{ form.house }}
+           </div>
+                <div class="form-group">
+                    <label for="id_section">Секция</label>
+                    <select id="id_section" class="form-control">
+                        <option value=""></option>
+</select>                </div>
+                <div class="form-group field-account-flat_id">
+<label class="control-label" for="account-flat_id">Квартира</label>
+{{ form.apartment }}
+
+                    <div class="help-block"></div>
+                </div>
+                <p><b>Владелец:</b> <span id="user-fullname"></span>
+                </p>
+                <p><b>Телефон:</b> <span id="user-phone"></span></p>
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="col-xs-12 text-right">
+                <div class="form-group">
+                    <a href="/admin/account/index" class="btn btn-default">Отменить</a>
+                    <button type="submit" class="btn btn-success">Сохранить</button>
+                </div>
+            </div>
+        </div>
+            </div>
+</div>
+
+    </form>
+
+{% endblock %}
+{% block scripts %}
+    <script src="{% static 'admin_panel/bower_components/select2/dist/js/select2.full.min.js' %}"></script>
+<script src="{% static 'admin_panel/bower_components/select2/dist/js/i18n/ru.min.js' %}"></script>
+    <script>
+    let select_options = {
+        'house_id':'',
+        'section_id':''
+    }
+    let apartments_data
+        function clear_options(target_id) {
+            $('#' + `${target_id} option:not([value=''])`).remove()
+        }
+        function clear_owner_info(){
+            $('#user-fullname a').remove()
+            $('#user-phone a').remove()
+        }
+    function get_values() {
+        $.ajax({
+            type: 'GET',
+            url: '{% block ajax_url %}{% url 'personal_account_create' %}{% endblock %}',
+            data: select_options,
+            success: function (data) {
+                clear_owner_info()
+                clear_options('id_apartment')
+                apartments_data = data['apartment']
+                console.log(data)
+                console.log(apartments_data)
+                if(!select_options['section_id']){
+                    clear_options('id_section')
+                                    data['section'].forEach(
+                    function (item) {
+                        $('#id_section').append($('<option>').val(item['id']).text(item['name']));
+                    }
+                );
+                }
+
+                data['apartment'].forEach(
+                    function (item) {
+                        $('#id_apartment').append($('<option>').val(item['id']).text(item['number']));
+                    }
+                );
+            }
+        })
+    }
+    $('#id_house').change(function () {
+        select_options['house_id'] = this.value
+        select_options['section_id'] = ''
+        get_values()
+    })
+    $('#id_section').change(function () {
+        select_options['section_id'] = this.value
+        get_values()
+    })
+    $('#id_apartment').change(function () {
+        let apartment_id = this.value
+        clear_owner_info()
+        apartments_data.forEach(function (item) {
+            if(item['id']== apartment_id){
+                let link = '{% url 'owner_view' 12345 %}'.replace('12345',item['owner'])
+                $('#user-fullname').append(`<a href="${link}">${item['owner__first_name']} ${item['owner__middle_name']} ${item['owner__last_name']}</a>`)
+                $('#user-phone').append(`<a href="tel:${item['owner__phone']}">${item['owner__phone']}</a>`)
+                return null
+            }
+        })
+    })
+
+        $(document).ready(function ()
+            {
+
+                $('#id_house').select2({placeholder: "Выберите..."}).val('')
+                $('#id_section').select2({placeholder: "Выберите..."}).val('')
+                $('#id_apartment').select2({placeholder: "Выберите..."}).val('')
+                clear_options('id_apartment')
+                clear_options('id_section')
+            }
+
+        )
+
+
+    </script>
+
+{% endblock %}

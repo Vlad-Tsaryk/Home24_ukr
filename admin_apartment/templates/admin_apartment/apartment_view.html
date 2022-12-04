@@ -1,0 +1,120 @@
+{% extends 'layout/basic.html' %}
+{% block title %}{{ apartment }}{% endblock %}
+{% block breadcrumb %}
+        <ul class="breadcrumb">
+        <li><a href="{% url 'statistic' %}"><i class="fa fa-home"></i>Главная</a></li>
+        <li><a href="{% url 'apartment_list' %}">Квартиры</a></li>
+        <li class="active">{{ apartment }}</li>
+</ul>
+{% endblock %}
+{% block header_text %}
+{{ apartment }}
+{% endblock %}
+{% block content %}
+
+
+    <div class="box">
+        <div class="box-header with-border">
+            <h3 class="box-title">Просмотр квартиры</h3>
+            <div class="box-tools">
+                <button class="btn btn-default btn-sm disabled" data-confirm="Лицевой счет неактивен"><span
+                        class="hidden-xs"><i class="fa fa-dollar"></i> Принять платеж</span><i
+                        class="fa fa-pencil visible-xs" aria-hidden="true"></i></button>
+                <button class="btn btn-default btn-sm disabled" data-confirm="Лицевой счет неактивен"><span
+                        class="hidden-xs"><i class="fa fa-files-o"></i> Оформить квитанцию</span><i
+                        class="fa fa-pencil visible-xs" aria-hidden="true"></i></button>
+                <a href="{% url 'apartment_update' apartment.pk %}" class="btn btn-primary btn-sm">
+                    <span class="hidden-xs">Редактировать квартиру</span><i class="fa fa-pencil visible-xs"
+                                                                            aria-hidden="true"></i>
+                </a>
+            </div>
+        </div>
+        <div class="box-body">
+            <div class="row">
+                <div class="col-xs-12">
+                    <table class="table table-bordered table-striped table-view">
+                        <tbody>
+                        <tr>
+                            <td>Лицевой счет</td>
+                            <td>
+                                не указано
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Номер квартиры</td>
+                            <td>{{ apartment.number }}</td>
+                        </tr>
+                        <tr>
+                            <td>Площадь</td>
+                            <td>
+                                {{ apartment.area }}м<sup>2</sup>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Дом</td>
+                            <td>
+                                <a href="{% url 'house_view' apartment.house_id %}">
+                                    {{ apartment.house }}</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Секция</td>
+                            <td>
+                                {% if apartment.section %}
+                                    {{ apartment.section }}
+                                {% else %}
+                                    Не задано
+                                {% endif %}
+                                </td>
+                        </tr>
+                        <tr>
+                            <td>Этаж</td>
+                            <td>{% if apartment.floor %}
+                                    {{ apartment.floor }}
+                                {% else %}
+                                    Не задано
+                                {% endif %}</td>
+                        </tr>
+                        <tr>
+                            <td>Владелец</td>
+                            <td>
+                                {% if apartment.owner %}
+                                    <a href="{% url 'owner_view' apartment.owner_id %}">
+                                    {{ apartment.owner }} </a>
+                                {% else %}
+                                    Не задано
+                                {% endif %}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Тариф</td>
+                            <td>
+                                {% if apartment.tariff %}
+                                    <a href="{% url 'tariff_view' apartment.tariff_id %}">
+                                    {{ apartment.tariff }} </a>
+                                {% else %}
+                                    Не задано
+                                {% endif %}
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <div>
+                        <p><a href="#">Посмотреть
+                            показания счетчиков</a></p>
+                        <p>
+                            <a href="#">Посмотреть
+                                приходы</a></p>
+                        <p><a href="#">Посмотреть квитанции</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+{% block scripts %}
+    <script>
+    $('#nav_apartment').attr('class', 'active')
+    </script>
+{% endblock %}
