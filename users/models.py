@@ -55,9 +55,10 @@ class User(AbstractUser):
     notes = models.TextField(blank=True)
     profile_image = models.ImageField(upload_to='users')
     role = models.ForeignKey(Role, on_delete=models.SET_NULL, null=True)
+    # uid = models.AutoField(unique=True, primary_key=True)
 
     def __str__(self):
-        return ' '.join((self.first_name, self.last_name))
+        return ' '.join((self.first_name, self.middle_name, self.last_name))
 
     def get_owners(self):
         return User.objects.filter(role=Role.objects.get(role=Role.RoleName.OWNER))
@@ -76,7 +77,6 @@ class User(AbstractUser):
         super().save(*args, **kwargs)
         if self.profile_image:
             if self.profile_image.size != (160, 160):
-                print('hello')
                 image = Image.open(self.profile_image.path)
                 image = image.resize((160, 160))
                 image.save(self.profile_image.path)

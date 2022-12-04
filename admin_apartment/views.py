@@ -1,11 +1,13 @@
+from django.contrib.messages.views import SuccessMessageMixin
 from django.db.models.functions import Concat
 from django.db.models import Value
 from django.http import JsonResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, UpdateView, ListView, DetailView
 from .models import Apartment, Section, Floor, House
 from .forms import ApartmentForm
+from django.contrib import messages
 
 
 # Create your views here.
@@ -16,10 +18,11 @@ def apartment_house_details(house_id, **response_kwargs):
     return JsonResponse({'section': section_list, 'floor': floor_list}, safe=False, **response_kwargs)
 
 
-class ApartmentCreate(CreateView):
+class ApartmentCreate(SuccessMessageMixin, CreateView):
     model = Apartment
     template_name = 'admin_apartment/apartment_create.html'
     form_class = ApartmentForm
+    success_message = "Квартира успешно создана"
     success_url = reverse_lazy('apartment_list')
 
     def render_to_response(self, context, **response_kwargs):
@@ -31,10 +34,11 @@ class ApartmentCreate(CreateView):
             return super(CreateView, self).render_to_response(context, **response_kwargs)
 
 
-class ApartmentUpdate(UpdateView):
+class ApartmentUpdate(SuccessMessageMixin, UpdateView):
     model = Apartment
     template_name = 'admin_apartment/apartment_update.html'
     form_class = ApartmentForm
+    success_message = "Квартира успешно обновлена"
     success_url = reverse_lazy('apartment_list')
 
     def render_to_response(self, context, **response_kwargs):
@@ -44,6 +48,26 @@ class ApartmentUpdate(UpdateView):
                 return apartment_house_details(house_id, **response_kwargs)
         else:
             return super(UpdateView, self).render_to_response(context, **response_kwargs)
+
+
+class ApartmentView(DetailView):
+    model = Apartment
+    template_name = 'admin_apartment/apartment_view.html'
+
+
+def apartment_delete(request, pk):
+    name = None
+    try:
+        obj_delete = Apartment.objects.get(pk=pk)
+        n = obj_delete.__str__()
+        if obj_delete.delete():
+            name = n
+    except:
+        messages.error(request, f"Не удалось удалить квартиру")
+    if name:
+        messages.success(request, f"Квартира {name} удалена успешно")
+    return redirect('apartment_list')
+
 
 class ApartmentList(ListView):
     model = Apartment
@@ -59,7 +83,7 @@ class ApartmentList(ListView):
             print(self.request.GET)
             result = {'apartment': ''}
             filter_fields = {
-                'number': self.request.GET.get('number'),
+                'number__contains': self.request.GET.get('number'),
                 'house': self.request.GET.get('house'),
                 'section': self.request.GET.get('section'),
                 'floor': self.request.GET.get('floor'),

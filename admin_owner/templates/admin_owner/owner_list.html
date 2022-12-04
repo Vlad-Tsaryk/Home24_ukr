@@ -223,9 +223,8 @@
 <li><a href="/admin/user/index?page=3&amp;per-page=50" data-page="2">3</a></li>
 <li class="next"><a href="/admin/user/index?page=2&amp;per-page=50" data-page="1">»</a></li></ul></div></div>
             <div class="box-footer">
-                <div>Количество владельцев: <span class="text-bold">108</span></div>
+                <div>Количество владельцев: <span class="text-bold">{{ object_list.count }}</span></div>
             </div>
-
         </div>
     </div>
 </div>
@@ -296,8 +295,28 @@
                         {"data": "name"},
                         {"data": "phone"},
                         {"data": "username"},
-                        {"data": null},
-                        {"data": null},
+                        {"data": "apartment",
+                        render:function (data) {
+                            let houses = []
+                            data.forEach(function (item) {
+                                let link_view = '{% url 'house_view' 12345 %}'.replace(/12345/, item['house_id'])
+                                let house = `<a href="${link_view}">${item['house__name']}</a>`
+                                if (!houses.includes(house)){
+                                    houses.push(house)
+                                }
+                            })
+                            return houses.join(',<br>')
+                        }},
+                        {"data": "apartment",
+                        render:function (data) {
+                            let apartments = []
+                            data.forEach(function (item) {
+                                let link_view = '{% url 'apartment_view' 12345 %}'.replace(/12345/, item['id'])
+                                let apartment = `<a href="${link_view}">Квартира №${item['number']}, ${item['house__name']}</a>`
+                                apartments.push(apartment)
+                            })
+                            return apartments.join(',<br>')
+                        }},
                         {"data": 'date_joined',
                         render:function (data) {
                             return moment.utc(data).format('DD.MM.YYYY')
@@ -311,14 +330,15 @@
                         {data: "id",
                             render:function (data, type) {
                             let link_update = '{% url 'owner_update' 12345 %}'.replace(/12345/, data)
-                            {#let link_delete = '{% url 'delete_user' 12345 %}'.replace(/12345/, data)#}
+                            let link_delete = '{% url 'owner_delete' 12345 %}'.replace(/12345/, data)
                                     return `<div class="btn-group pull-right"><a class="btn btn-default btn-sm"
                                     href="#" title="Отправить сообщение" data-toggle="tooltip">
                                     <i class="fa fa-envelope"></i></a>
                                     <a class="btn btn-default btn-sm" href="${link_update}" title="Редактировать"
                                     data-toggle="tooltip"><i class="fa fa-pencil"></i></a>
                                     <a class="btn btn-default btn-sm" title="Удалить" data-toggle="tooltip"
-                                    data-pjax="0" id="delete_user" onmousedown="return confirm_delete('',event);">
+                                    data-pjax="0" id="delete_user"
+                                    onmousedown="return confirm_delete('${link_delete}',event);">
                                     <i class="fa fa-trash"></i></a></div>`
                             },
                         }

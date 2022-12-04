@@ -1,5 +1,15 @@
 {% extends 'layout/basic.html' %}
 {% load static %}
+{% block title %}Квартиры{% endblock %}
+{% block breadcrumb %}
+        <ul class="breadcrumb">
+        <li><a href="{% url 'statistic' %}"><i class="fa fa-home"></i>Главная</a></li>
+        <li class="active">Квартиры</li>
+</ul>
+{% endblock %}
+{% block header_text %}
+Квартиры
+{% endblock %}
 {% block head %}
     <link rel="stylesheet" type="text/css"
           href="{% static 'admin_panel/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css' %}"/>
@@ -120,6 +130,9 @@
 {% endblock %}
 
 {% block scripts %}
+<script>
+    $('#nav_apartment').attr('class', 'active')
+    </script>
 
 <script src="{% static 'admin_panel/bower_components/select2/dist/js/select2.full.min.js' %}"></script>
 <script src="{% static 'admin_panel/bower_components/select2/dist/js/i18n/ru.min.js' %}"></script>
@@ -151,6 +164,8 @@
         function clear_filters() {
             $('.column_search').val('');
             table_head.unbind();
+            $(`.select2_house option`).remove()
+            $(`.select2_house`).append(`<option></option>`)
             filters_array.forEach(function(item) {
               item.val('').change()
             })
@@ -209,7 +224,7 @@
                         data: 'id',
                         render: function (data, type) {
                             let link_update = '{% url 'apartment_update' 12345 %}'.replace(/12345/, data)
-                            {#let link_delete = '{% url 'house_delete' 12345 %}'.replace(/12345/, data)#}
+                            let link_delete = '{% url 'apartment_delete' 12345 %}'.replace(/12345/, data)
                             return `<div class="btn-group pull-right">\
             <a class="btn btn-default btn-sm" href="${link_update}"\
                title="Редактировать" data-toggle="tooltip">\
@@ -217,7 +232,7 @@
             </a>\
             <a class="btn btn-default btn-sm"\
                title="Удалить" data-toggle="tooltip" data-pjax="0" data-method="post"\
-                onclick="return confirm_delete('#',event);">\
+                onclick="return confirm_delete('${link_delete}',event);">\
                 <i class="fa fa-trash"></i>\
             </a>\
         </div>`
@@ -284,9 +299,9 @@
             return false;
         }
 
-{% comment %}        $('#apartment_table').on('click', 'tbody tr .house', function () {
-            window.location.href = '{% url 'house_view' 12345 %}'.replace(/12345/, table.row(this).data().id)
-        }){% endcomment %}
+        $('#apartment_table').on('click', 'tbody tr .apartment', function () {
+            window.location.href = '{% url 'apartment_view' 12345 %}'.replace(/12345/, table.row(this).data().id)
+        })
 
 
         $(document).ready(function () {
