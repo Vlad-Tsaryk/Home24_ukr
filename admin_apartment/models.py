@@ -15,4 +15,7 @@ class Apartment(models.Model):
     tariff = models.ForeignKey(Tariff, null=True, on_delete=models.SET_NULL)
 
     def __str__(self):
+        return str(self.number)
+
+    def info(self):
         return f'Квартира №{self.number}, {self.house}'

@@ -71,12 +71,11 @@
                 <div class="row">
                     <div class="col-xs-12 text-right">
                         <div class="form-group">
-                            <a href="/admin/counter-data/index" class="btn btn-default margin-bottom-15">Отменить</a>
+                            <a href="{% url 'meter_list' %}" class="btn btn-default margin-bottom-15">Отменить</a>
                             <input type="submit" class="btn btn-success margin-bottom-15" name="action_save"
-                                   value="Сохранить"> <input type="submit"
-                                                             class="btn btn-success margin-bottom-15 bg-green-active"
-                                                             name="action_save_add"
-                                                             value="Сохранить и добавить новые показания"></div>
+                                   value="Сохранить">
+                            <input type="submit" class="btn btn-success margin-bottom-15 bg-green-active"
+                                   name="action_save_add" value="Сохранить и добавить новые показания"></div>
                     </div>
                 </div>
             </div>
@@ -85,6 +84,9 @@
     </form>
 {% endblock %}
 {% block scripts %}
+        <script>
+        $('#nav_meter').attr('class', 'active')
+    </script>
     <script src="{% static 'admin_panel/bower_components/moment/moment.js' %}"></script>
     <script src="{% static 'admin_panel/bower_components/moment/locale/ru.js' %}"></script>
     <script src="{% static 'admin_panel/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js' %}"></script>
@@ -110,10 +112,11 @@
         function clear_options(target_id) {
             $('#' + `${target_id} option:not([value=''])`).remove()
         }
+
     function get_values() {
         $.ajax({
             type: 'GET',
-            url: '{% block ajax_url %}{% url 'meter_create' %}{% endblock %}',
+            url: {% block ajax_url %}'{% url 'meter_create' %}'{% endblock %},
             data: select_options,
             success: function (data) {
                 clear_options('id_apartment')
@@ -150,8 +153,11 @@
             {
                 $('#id_house').select2({placeholder: "Выберите..."}).val('')
                 $('#id_section').select2({placeholder: "Выберите..."}).val('')
-                $('#id_apartment').select2({placeholder: "Выберите..."}).val('')
-                clear_options('id_apartment')
+                {% block clone %}
+                    $('#id_apartment').select2({placeholder: "Выберите..."}).val('')
+                    clear_options('id_apartment')
+                 {% endblock %}
+
                 clear_options('id_section')
             }
 

@@ -17,10 +17,9 @@
                 <div class="box-header with-border">
                     <h3 class="box-title"></h3>
                     <div class="box-tools">
-                        <a href="/admin/counter-data/counters" class="btn btn-default btn-sm">
-                            <span class="hidden-xs">Очистить</span><i class="fa fa-eraser visible-xs"
-                                                                      aria-hidden="true"></i>
-                        </a>
+                        <button onclick="clear_filters()" class="btn btn-default btn-sm">
+                            <span class="hidden-xs">Очистить</span><i class="fa fa-eraser visible-xs" aria-hidden="true"></i>
+                        </button>
                     </div>
                 </div>
 
@@ -32,7 +31,7 @@
                                 <th style="min-width: 200px">Дом</th>
                                 <th style="min-width: 160px">Секция</th>
                                 <th style="width: 110px; min-width: 110px"><a
-                                        href="/admin/counter-data/counters?sort=-searchFlat" data-sort="-searchFlat">№
+                                        id="apartment__number" class="ordering" style="cursor: pointer">№
                                     квартиры</a></th>
                                 <th>Счетчик</th>
                                 <th style="width: 90px; min-width: 90px">Текущие показания</th>
@@ -40,1136 +39,29 @@
                                 <th style="width: 85px; min-width: 85px">&nbsp;</th>
                             </tr>
                             <tr id="w0-filters" class="filters">
-                                <td><select id="counterdatasearch-searchhouse"
-                                            class="form-control select2-hidden-accessible"
-                                            name="CounterDataSearch[searchHouse]" data-s2-options="s2options_7ebc6538"
-                                            data-krajee-select2="select2_0d896465" style="display:none" tabindex="-1"
-                                            aria-hidden="true">
+                                <td><select id="house" class="form-control select2_house"
+                                style="width: 100%;">
                                     <option value=""></option>
-                                    <option value="1">ЖК "Башня Чкалов"</option>
-                                    <option value="2">ЖК "Морская Симфония"</option>
-                                    <option value="3">ЖК "Дом Каркашадзе"</option>
-                                    <option value="4">ЖК "Королевские сады"</option>
-                                    <option value="6">ЖК "Балковский"</option>
-                                    <option value="11">ЖК "Адмирал" Дом №11</option>
-                                    <option value="12">ЖК "Адмирал" Дом №12</option>
-                                    <option value="13">ЖК "Адмирал" Дом №13</option>
-                                    <option value="14">ЖК "Новые Черемушки"</option>
-                                    <option value="18">ЖК "Manhattan"</option>
-                                    <option value="19">ЖК "Скай Сити"</option>
-                                    <option value="20">ЖК "Альтаир 3"</option>
-                                    <option value="23">ОСМД 1002 ЖК "Альтаир 2"</option>
-                                    <option value="24">Н-О</option>
-                                    <option value="25">ЖК Искринский</option>
-                                    <option value="51">sssbdcbdf</option>
-                                    <option value="56">Дом 56</option>
-                                    <option value="61">dfdsf</option>
-                                    <option value="78">alert('xss')</option>
-                                    <option value="85">test</option>
-                                    <option value="100">альтаир</option>
-                                    <option value="101">1234</option>
-                                    <option value="105">ЖК "Луч"</option>
-                                    <option value="106">Test 123</option>
-                                    <option value="107">12313</option>
-                                    <option value="132"></option>
-                                    <option value="133">Континент</option>
-                                    <option value="134">Континент</option>
-                                    <option value="139">ЖК Чайка</option>
-                                    <option value="142">Тестовый дом1</option>
-                                    <option value="145">!@#$%^&amp;*()</option>
-                                    <option value="158"></option>
-                                    <option value="165">ЖК "Помидор"</option>
-                                    <option value="170">верстат</option>
-                                    <option value="173"></option>
-                                    <option value="174">Аквамарин</option>
-                                    <option value="175">Генарёк хаус</option>
-                                    <option value="182">ЖК "Огурец"</option>
-                                    <option value="183">ДОм исчез</option>
-                                    <option value="185">Дом Дом</option>
-                                    <option value="186">0000000000</option>
-                                    <option value="188">fgb</option>
-                                    <option value="189"></option>
-                                    <option value="190"></option>
-                                    <option value="191"></option>
-                                    <option value="193">ЖК "Эдельвейс"</option>
-                                </select><span class="select2 select2-container select2-container--default" dir="ltr"
-                                               style="width: 100%;"><span class="selection"><span
-                                        class="select2-selection select2-selection--single" role="combobox"
-                                        aria-haspopup="true" aria-expanded="false" tabindex="0"
-                                        aria-labelledby="select2-counterdatasearch-searchhouse-container"><span
-                                        class="select2-selection__rendered"
-                                        id="select2-counterdatasearch-searchhouse-container"><span
-                                        class="select2-selection__placeholder"></span></span><span
-                                        class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span
-                                        class="dropdown-wrapper" aria-hidden="true"></span></span></td>
-                                <td><select id="counterdatasearch-searchsection"
-                                            class="form-control select2-hidden-accessible"
-                                            name="CounterDataSearch[searchSection]" data-s2-options="s2options_7ebc6538"
-                                            data-krajee-select2="select2_00d9e7b8" style="display:none" tabindex="-1"
-                                            aria-hidden="true">
-                                    <option value="">Выберите дом</option>
-                                </select><span class="select2 select2-container select2-container--default" dir="ltr"
-                                               style="width: 100%;"><span class="selection"><span
-                                        class="select2-selection select2-selection--single" role="combobox"
-                                        aria-haspopup="true" aria-expanded="false" tabindex="0"
-                                        aria-labelledby="select2-counterdatasearch-searchsection-container"><span
-                                        class="select2-selection__rendered"
-                                        id="select2-counterdatasearch-searchsection-container"><span
-                                        class="select2-selection__placeholder">Выберите дом</span></span><span
-                                        class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span
-                                        class="dropdown-wrapper" aria-hidden="true"></span></span></td>
-                                <td><input type="text" class="form-control" name="CounterDataSearch[searchFlat]"></td>
-                                <td><select id="counterdatasearch-service_id"
-                                            class="form-control select2-hidden-accessible"
-                                            name="CounterDataSearch[service_id]" data-s2-options="s2options_7ebc6538"
-                                            data-krajee-select2="select2_0d896465" style="display:none" tabindex="-1"
-                                            aria-hidden="true">
-                                    <option value=""></option>
-                                    <option value="2"></option>
-                                    <option value="5"></option>
-                                    <option value="6">отопление&amp;</option>
-                                    <option value="7">Охрана</option>
-                                    <option value="16">Уборка !!!</option>
-                                    <option value="21">Горячая вода</option>
-                                    <option value="26">за пивом !!!!!!!!!!!!!</option>
-                                    <option value="28">Электроэнергия</option>
-                                    <option value="29">ГАЗ!!!</option>
-                                    <option value="39">Водоснабжение</option>
-                                    <option value="40">Газоснабжение</option>
-                                    <option value="41">Транспортировка газа</option>
-                                </select><span class="select2 select2-container select2-container--default" dir="ltr"
-                                               style="width: 100%;"><span class="selection"><span
-                                        class="select2-selection select2-selection--single" role="combobox"
-                                        aria-haspopup="true" aria-expanded="false" tabindex="0"
-                                        aria-labelledby="select2-counterdatasearch-service_id-container"><span
-                                        class="select2-selection__rendered"
-                                        id="select2-counterdatasearch-service_id-container"><span
-                                        class="select2-selection__placeholder"></span></span><span
-                                        class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span
-                                        class="dropdown-wrapper" aria-hidden="true"></span></span></td>
+                                    {% for house in house_list %}
+                                            <option value="{{ house.pk }}">{{ house}}</option>
+                                    {% endfor %}
+                                </select></td>
+                                <td><select id="section" class="form-control select2_section filter" style="width: 100%;">
+                                    <option></option>
+                                </select></td>
+                                <td><input id="apartment" type="text" class="form-control column_search"></td>
+                                <td><select id="service" class="form-control select2 filter" style="width: 100%;">
+                                    <option></option>
+                                    {% for service in service_list %}
+                                        <option value="{{ service.pk }}">{{ service}}</option>
+                                {% endfor %}
+                                </select></td>
                                 <td>&nbsp;</td>
                                 <td>&nbsp;</td>
                                 <td>&nbsp;</td>
                             </tr>
                             </thead>
-                            <tbody>
-                            <tr data-href="/admin/counter-data/counter-list?CounterDataSearch%5Bflat_id%5D=96&amp;CounterDataSearch%5Bservice_id%5D=7"
-                                data-key="">
-                                <td>ЖК "Башня Чкалов"</td>
-                                <td>Секция 2</td>
-                                <td>3425</td>
-                                <td>Охрана</td>
-                                <td style="background-color: #DFD5; font-weight: normal">0.1</td>
-                                <td style="background-color: #DFD5; font-weight: normal">Убитых дней</td>
-                                <td>
-                                    <div class="btn-group pull-right"><a class="btn btn-default btn-sm"
-                                                                         href="/admin/counter-data/create?flat_id=96&amp;service_id=7"
-                                                                         title="Снять новое показание счетчика"
-                                                                         target="_blank" data-toggle="tooltip"><i
-                                            class="fa fa-dashboard"></i></a> <a class="btn btn-default btn-sm"
-                                                                                href="/admin/counter-data/counter-list?CounterDataSearch%5Bflat_id%5D=96&amp;CounterDataSearch%5Bservice_id%5D=7"
-                                                                                title="Открыть историю показаний для счетчика"
-                                                                                data-toggle="tooltip"><i
-                                            class="fa fa-eye"></i></a></div>
-                                </td>
-                            </tr>
-                            <tr data-href="/admin/counter-data/counter-list?CounterDataSearch%5Bflat_id%5D=258&amp;CounterDataSearch%5Bservice_id%5D=28"
-                                data-key="">
-                                <td>ЖК "Башня Чкалов"</td>
-                                <td>Секция 1</td>
-                                <td>95</td>
-                                <td>Электроэнергия</td>
-                                <td style="background-color: #DFD5; font-weight: normal">150.0</td>
-                                <td style="background-color: #DFD5; font-weight: normal">-кВт.ч</td>
-                                <td>
-                                    <div class="btn-group pull-right"><a class="btn btn-default btn-sm"
-                                                                         href="/admin/counter-data/create?flat_id=258&amp;service_id=28"
-                                                                         title="Снять новое показание счетчика"
-                                                                         target="_blank" data-toggle="tooltip"><i
-                                            class="fa fa-dashboard"></i></a> <a class="btn btn-default btn-sm"
-                                                                                href="/admin/counter-data/counter-list?CounterDataSearch%5Bflat_id%5D=258&amp;CounterDataSearch%5Bservice_id%5D=28"
-                                                                                title="Открыть историю показаний для счетчика"
-                                                                                data-toggle="tooltip"><i
-                                            class="fa fa-eye"></i></a></div>
-                                </td>
-                            </tr>
-                            <tr data-href="/admin/counter-data/counter-list?CounterDataSearch%5Bflat_id%5D=258&amp;CounterDataSearch%5Bservice_id%5D=26"
-                                data-key="">
-                                <td>ЖК "Башня Чкалов"</td>
-                                <td>Секция 1</td>
-                                <td>95</td>
-                                <td>за пивом !!!!!!!!!!!!!</td>
-                                <td style="background-color: #DFD5; font-weight: normal">15.0</td>
-                                <td style="background-color: #DFD5; font-weight: normal">км/час</td>
-                                <td>
-                                    <div class="btn-group pull-right"><a class="btn btn-default btn-sm"
-                                                                         href="/admin/counter-data/create?flat_id=258&amp;service_id=26"
-                                                                         title="Снять новое показание счетчика"
-                                                                         target="_blank" data-toggle="tooltip"><i
-                                            class="fa fa-dashboard"></i></a> <a class="btn btn-default btn-sm"
-                                                                                href="/admin/counter-data/counter-list?CounterDataSearch%5Bflat_id%5D=258&amp;CounterDataSearch%5Bservice_id%5D=26"
-                                                                                title="Открыть историю показаний для счетчика"
-                                                                                data-toggle="tooltip"><i
-                                            class="fa fa-eye"></i></a></div>
-                                </td>
-                            </tr>
-                            <tr data-href="/admin/counter-data/counter-list?CounterDataSearch%5Bflat_id%5D=258&amp;CounterDataSearch%5Bservice_id%5D=2"
-                                data-key="">
-                                <td>ЖК "Башня Чкалов"</td>
-                                <td>Секция 1</td>
-                                <td>95</td>
-                                <td></td>
-                                <td style="background-color: #DFD5; font-weight: normal">10.0</td>
-                                <td style="background-color: #DFD5; font-weight: normal">грн/м²</td>
-                                <td>
-                                    <div class="btn-group pull-right"><a class="btn btn-default btn-sm"
-                                                                         href="/admin/counter-data/create?flat_id=258&amp;service_id=2"
-                                                                         title="Снять новое показание счетчика"
-                                                                         target="_blank" data-toggle="tooltip"><i
-                                            class="fa fa-dashboard"></i></a> <a class="btn btn-default btn-sm"
-                                                                                href="/admin/counter-data/counter-list?CounterDataSearch%5Bflat_id%5D=258&amp;CounterDataSearch%5Bservice_id%5D=2"
-                                                                                title="Открыть историю показаний для счетчика"
-                                                                                data-toggle="tooltip"><i
-                                            class="fa fa-eye"></i></a></div>
-                                </td>
-                            </tr>
-                            <tr data-href="/admin/counter-data/counter-list?CounterDataSearch%5Bflat_id%5D=243"
-                                data-key="">
-                                <td>Дом Дом</td>
-                                <td>Секция 1</td>
-                                <td>0</td>
-                                <td><span class="not-set">(не задано)</span></td>
-                                <td style="background-color: #DFD5; font-weight: normal">1111.0</td>
-                                <td style="background-color: #DFD5; font-weight: normal"><span class="not-set">(не задано)</span>
-                                </td>
-                                <td>
-                                    <div class="btn-group pull-right"><a class="btn btn-default btn-sm"
-                                                                         href="/admin/counter-data/create?flat_id=243"
-                                                                         title="Снять новое показание счетчика"
-                                                                         target="_blank" data-toggle="tooltip"><i
-                                            class="fa fa-dashboard"></i></a> <a class="btn btn-default btn-sm"
-                                                                                href="/admin/counter-data/counter-list?CounterDataSearch%5Bflat_id%5D=243"
-                                                                                title="Открыть историю показаний для счетчика"
-                                                                                data-toggle="tooltip"><i
-                                            class="fa fa-eye"></i></a></div>
-                                </td>
-                            </tr>
-                            <tr data-href="/admin/counter-data/counter-list?CounterDataSearch%5Bflat_id%5D=99&amp;CounterDataSearch%5Bservice_id%5D=16"
-                                data-key="">
-                                <td>ЖК "Башня Чкалов"</td>
-                                <td><span class="not-set">(не задано)</span></td>
-                                <td>777</td>
-                                <td>Уборка !!!</td>
-                                <td style="background-color: #DFD5; font-weight: normal">888.0</td>
-                                <td style="background-color: #DFD5; font-weight: normal">m²</td>
-                                <td>
-                                    <div class="btn-group pull-right"><a class="btn btn-default btn-sm"
-                                                                         href="/admin/counter-data/create?flat_id=99&amp;service_id=16"
-                                                                         title="Снять новое показание счетчика"
-                                                                         target="_blank" data-toggle="tooltip"><i
-                                            class="fa fa-dashboard"></i></a> <a class="btn btn-default btn-sm"
-                                                                                href="/admin/counter-data/counter-list?CounterDataSearch%5Bflat_id%5D=99&amp;CounterDataSearch%5Bservice_id%5D=16"
-                                                                                title="Открыть историю показаний для счетчика"
-                                                                                data-toggle="tooltip"><i
-                                            class="fa fa-eye"></i></a></div>
-                                </td>
-                            </tr>
-                            <tr data-href="/admin/counter-data/counter-list?CounterDataSearch%5Bflat_id%5D=99&amp;CounterDataSearch%5Bservice_id%5D=7"
-                                data-key="">
-                                <td>ЖК "Башня Чкалов"</td>
-                                <td><span class="not-set">(не задано)</span></td>
-                                <td>777</td>
-                                <td>Охрана</td>
-                                <td style="background-color: #DFD5; font-weight: normal">777.0</td>
-                                <td style="background-color: #DFD5; font-weight: normal">Убитых дней</td>
-                                <td>
-                                    <div class="btn-group pull-right"><a class="btn btn-default btn-sm"
-                                                                         href="/admin/counter-data/create?flat_id=99&amp;service_id=7"
-                                                                         title="Снять новое показание счетчика"
-                                                                         target="_blank" data-toggle="tooltip"><i
-                                            class="fa fa-dashboard"></i></a> <a class="btn btn-default btn-sm"
-                                                                                href="/admin/counter-data/counter-list?CounterDataSearch%5Bflat_id%5D=99&amp;CounterDataSearch%5Bservice_id%5D=7"
-                                                                                title="Открыть историю показаний для счетчика"
-                                                                                data-toggle="tooltip"><i
-                                            class="fa fa-eye"></i></a></div>
-                                </td>
-                            </tr>
-                            <tr data-href="/admin/counter-data/counter-list?CounterDataSearch%5Bflat_id%5D=220&amp;CounterDataSearch%5Bservice_id%5D=40"
-                                data-key="">
-                                <td>Генарёк хаус</td>
-                                <td>Секция 1</td>
-                                <td>0</td>
-                                <td>Газоснабжение</td>
-                                <td style="background-color: #DFD5; font-weight: normal">999999999.9</td>
-                                <td style="background-color: #DFD5; font-weight: normal"><span class="not-set">(не задано)</span>
-                                </td>
-                                <td>
-                                    <div class="btn-group pull-right"><a class="btn btn-default btn-sm"
-                                                                         href="/admin/counter-data/create?flat_id=220&amp;service_id=40"
-                                                                         title="Снять новое показание счетчика"
-                                                                         target="_blank" data-toggle="tooltip"><i
-                                            class="fa fa-dashboard"></i></a> <a class="btn btn-default btn-sm"
-                                                                                href="/admin/counter-data/counter-list?CounterDataSearch%5Bflat_id%5D=220&amp;CounterDataSearch%5Bservice_id%5D=40"
-                                                                                title="Открыть историю показаний для счетчика"
-                                                                                data-toggle="tooltip"><i
-                                            class="fa fa-eye"></i></a></div>
-                                </td>
-                            </tr>
-                            <tr data-href="/admin/counter-data/counter-list?CounterDataSearch%5Bflat_id%5D=243&amp;CounterDataSearch%5Bservice_id%5D=40"
-                                data-key="">
-                                <td>Дом Дом</td>
-                                <td>Секция 1</td>
-                                <td>0</td>
-                                <td>Газоснабжение</td>
-                                <td style="background-color: #DFD5; font-weight: normal">777.0</td>
-                                <td style="background-color: #DFD5; font-weight: normal"><span class="not-set">(не задано)</span>
-                                </td>
-                                <td>
-                                    <div class="btn-group pull-right"><a class="btn btn-default btn-sm"
-                                                                         href="/admin/counter-data/create?flat_id=243&amp;service_id=40"
-                                                                         title="Снять новое показание счетчика"
-                                                                         target="_blank" data-toggle="tooltip"><i
-                                            class="fa fa-dashboard"></i></a> <a class="btn btn-default btn-sm"
-                                                                                href="/admin/counter-data/counter-list?CounterDataSearch%5Bflat_id%5D=243&amp;CounterDataSearch%5Bservice_id%5D=40"
-                                                                                title="Открыть историю показаний для счетчика"
-                                                                                data-toggle="tooltip"><i
-                                            class="fa fa-eye"></i></a></div>
-                                </td>
-                            </tr>
-                            <tr data-href="/admin/counter-data/counter-list?CounterDataSearch%5Bflat_id%5D=220"
-                                data-key="">
-                                <td>Генарёк хаус</td>
-                                <td>Секция 1</td>
-                                <td>0</td>
-                                <td><span class="not-set">(не задано)</span></td>
-                                <td style="background-color: #DFD5; font-weight: normal"><span class="not-set">(не задано)</span>
-                                </td>
-                                <td style="background-color: #DFD5; font-weight: normal"><span class="not-set">(не задано)</span>
-                                </td>
-                                <td>
-                                    <div class="btn-group pull-right"><a class="btn btn-default btn-sm"
-                                                                         href="/admin/counter-data/create?flat_id=220"
-                                                                         title="Снять новое показание счетчика"
-                                                                         target="_blank" data-toggle="tooltip"><i
-                                            class="fa fa-dashboard"></i></a> <a class="btn btn-default btn-sm"
-                                                                                href="/admin/counter-data/counter-list?CounterDataSearch%5Bflat_id%5D=220"
-                                                                                title="Открыть историю показаний для счетчика"
-                                                                                data-toggle="tooltip"><i
-                                            class="fa fa-eye"></i></a></div>
-                                </td>
-                            </tr>
-                            <tr data-href="/admin/counter-data/counter-list?CounterDataSearch%5Bflat_id%5D=169"
-                                data-key="">
-                                <td>ЖК "Дом Каркашадзе"</td>
-                                <td><span class="not-set">(не задано)</span></td>
-                                <td>14</td>
-                                <td><span class="not-set">(не задано)</span></td>
-                                <td style="background-color: #DFD5; font-weight: normal"><span class="not-set">(не задано)</span>
-                                </td>
-                                <td style="background-color: #DFD5; font-weight: normal"><span class="not-set">(не задано)</span>
-                                </td>
-                                <td>
-                                    <div class="btn-group pull-right"><a class="btn btn-default btn-sm"
-                                                                         href="/admin/counter-data/create?flat_id=169"
-                                                                         title="Снять новое показание счетчика"
-                                                                         target="_blank" data-toggle="tooltip"><i
-                                            class="fa fa-dashboard"></i></a> <a class="btn btn-default btn-sm"
-                                                                                href="/admin/counter-data/counter-list?CounterDataSearch%5Bflat_id%5D=169"
-                                                                                title="Открыть историю показаний для счетчика"
-                                                                                data-toggle="tooltip"><i
-                                            class="fa fa-eye"></i></a></div>
-                                </td>
-                            </tr>
-                            <tr data-href="/admin/counter-data/counter-list?CounterDataSearch%5Bflat_id%5D=170&amp;CounterDataSearch%5Bservice_id%5D=2"
-                                data-key="">
-                                <td>ЖК "Дом Каркашадзе"</td>
-                                <td><span class="not-set">(не задано)</span></td>
-                                <td>15</td>
-                                <td></td>
-                                <td style="background-color: #DFD5; font-weight: normal"><span class="not-set">(не задано)</span>
-                                </td>
-                                <td style="background-color: #DFD5; font-weight: normal">грн/м²</td>
-                                <td>
-                                    <div class="btn-group pull-right"><a class="btn btn-default btn-sm"
-                                                                         href="/admin/counter-data/create?flat_id=170&amp;service_id=2"
-                                                                         title="Снять новое показание счетчика"
-                                                                         target="_blank" data-toggle="tooltip"><i
-                                            class="fa fa-dashboard"></i></a> <a class="btn btn-default btn-sm"
-                                                                                href="/admin/counter-data/counter-list?CounterDataSearch%5Bflat_id%5D=170&amp;CounterDataSearch%5Bservice_id%5D=2"
-                                                                                title="Открыть историю показаний для счетчика"
-                                                                                data-toggle="tooltip"><i
-                                            class="fa fa-eye"></i></a></div>
-                                </td>
-                            </tr>
-                            <tr data-href="/admin/counter-data/counter-list?CounterDataSearch%5Bflat_id%5D=217&amp;CounterDataSearch%5Bservice_id%5D=21"
-                                data-key="">
-                                <td>Аквамарин</td>
-                                <td>Секция 3</td>
-                                <td>95</td>
-                                <td>Горячая вода</td>
-                                <td style="background-color: #DFD5; font-weight: normal">999999999.9</td>
-                                <td style="background-color: #DFD5; font-weight: normal">m³</td>
-                                <td>
-                                    <div class="btn-group pull-right"><a class="btn btn-default btn-sm"
-                                                                         href="/admin/counter-data/create?flat_id=217&amp;service_id=21"
-                                                                         title="Снять новое показание счетчика"
-                                                                         target="_blank" data-toggle="tooltip"><i
-                                            class="fa fa-dashboard"></i></a> <a class="btn btn-default btn-sm"
-                                                                                href="/admin/counter-data/counter-list?CounterDataSearch%5Bflat_id%5D=217&amp;CounterDataSearch%5Bservice_id%5D=21"
-                                                                                title="Открыть историю показаний для счетчика"
-                                                                                data-toggle="tooltip"><i
-                                            class="fa fa-eye"></i></a></div>
-                                </td>
-                            </tr>
-                            <tr data-href="/admin/counter-data/counter-list?CounterDataSearch%5Bflat_id%5D=220&amp;CounterDataSearch%5Bservice_id%5D=5"
-                                data-key="">
-                                <td>Генарёк хаус</td>
-                                <td>Секция 1</td>
-                                <td>0</td>
-                                <td></td>
-                                <td style="background-color: #DFD5; font-weight: normal">3545.0</td>
-                                <td style="background-color: #DFD5; font-weight: normal">кв.м.к</td>
-                                <td>
-                                    <div class="btn-group pull-right"><a class="btn btn-default btn-sm"
-                                                                         href="/admin/counter-data/create?flat_id=220&amp;service_id=5"
-                                                                         title="Снять новое показание счетчика"
-                                                                         target="_blank" data-toggle="tooltip"><i
-                                            class="fa fa-dashboard"></i></a> <a class="btn btn-default btn-sm"
-                                                                                href="/admin/counter-data/counter-list?CounterDataSearch%5Bflat_id%5D=220&amp;CounterDataSearch%5Bservice_id%5D=5"
-                                                                                title="Открыть историю показаний для счетчика"
-                                                                                data-toggle="tooltip"><i
-                                            class="fa fa-eye"></i></a></div>
-                                </td>
-                            </tr>
-                            <tr data-href="/admin/counter-data/counter-list?CounterDataSearch%5Bflat_id%5D=217&amp;CounterDataSearch%5Bservice_id%5D=29"
-                                data-key="">
-                                <td>Аквамарин</td>
-                                <td>Секция 3</td>
-                                <td>95</td>
-                                <td>ГАЗ!!!</td>
-                                <td style="background-color: #DFD5; font-weight: normal">988.0</td>
-                                <td style="background-color: #DFD5; font-weight: normal">m³</td>
-                                <td>
-                                    <div class="btn-group pull-right"><a class="btn btn-default btn-sm"
-                                                                         href="/admin/counter-data/create?flat_id=217&amp;service_id=29"
-                                                                         title="Снять новое показание счетчика"
-                                                                         target="_blank" data-toggle="tooltip"><i
-                                            class="fa fa-dashboard"></i></a> <a class="btn btn-default btn-sm"
-                                                                                href="/admin/counter-data/counter-list?CounterDataSearch%5Bflat_id%5D=217&amp;CounterDataSearch%5Bservice_id%5D=29"
-                                                                                title="Открыть историю показаний для счетчика"
-                                                                                data-toggle="tooltip"><i
-                                            class="fa fa-eye"></i></a></div>
-                                </td>
-                            </tr>
-                            <tr data-href="/admin/counter-data/counter-list?CounterDataSearch%5Bflat_id%5D=222&amp;CounterDataSearch%5Bservice_id%5D=5"
-                                data-key="">
-                                <td>ЖК "Морская Симфония"</td>
-                                <td>Секция 1</td>
-                                <td>-12</td>
-                                <td></td>
-                                <td style="background-color: #DFD5; font-weight: normal">120.0</td>
-                                <td style="background-color: #DFD5; font-weight: normal">кв.м.к</td>
-                                <td>
-                                    <div class="btn-group pull-right"><a class="btn btn-default btn-sm"
-                                                                         href="/admin/counter-data/create?flat_id=222&amp;service_id=5"
-                                                                         title="Снять новое показание счетчика"
-                                                                         target="_blank" data-toggle="tooltip"><i
-                                            class="fa fa-dashboard"></i></a> <a class="btn btn-default btn-sm"
-                                                                                href="/admin/counter-data/counter-list?CounterDataSearch%5Bflat_id%5D=222&amp;CounterDataSearch%5Bservice_id%5D=5"
-                                                                                title="Открыть историю показаний для счетчика"
-                                                                                data-toggle="tooltip"><i
-                                            class="fa fa-eye"></i></a></div>
-                                </td>
-                            </tr>
-                            <tr data-href="/admin/counter-data/counter-list?CounterDataSearch%5Bflat_id%5D=222&amp;CounterDataSearch%5Bservice_id%5D=2"
-                                data-key="">
-                                <td>ЖК "Морская Симфония"</td>
-                                <td>Секция 1</td>
-                                <td>-12</td>
-                                <td></td>
-                                <td style="background-color: #DFD5; font-weight: normal">120.0</td>
-                                <td style="background-color: #DFD5; font-weight: normal">грн/м²</td>
-                                <td>
-                                    <div class="btn-group pull-right"><a class="btn btn-default btn-sm"
-                                                                         href="/admin/counter-data/create?flat_id=222&amp;service_id=2"
-                                                                         title="Снять новое показание счетчика"
-                                                                         target="_blank" data-toggle="tooltip"><i
-                                            class="fa fa-dashboard"></i></a> <a class="btn btn-default btn-sm"
-                                                                                href="/admin/counter-data/counter-list?CounterDataSearch%5Bflat_id%5D=222&amp;CounterDataSearch%5Bservice_id%5D=2"
-                                                                                title="Открыть историю показаний для счетчика"
-                                                                                data-toggle="tooltip"><i
-                                            class="fa fa-eye"></i></a></div>
-                                </td>
-                            </tr>
-                            <tr data-href="/admin/counter-data/counter-list?CounterDataSearch%5Bflat_id%5D=217&amp;CounterDataSearch%5Bservice_id%5D=2"
-                                data-key="">
-                                <td>Аквамарин</td>
-                                <td>Секция 3</td>
-                                <td>95</td>
-                                <td></td>
-                                <td style="background-color: #DFD5; font-weight: normal">50.0</td>
-                                <td style="background-color: #DFD5; font-weight: normal">грн/м²</td>
-                                <td>
-                                    <div class="btn-group pull-right"><a class="btn btn-default btn-sm"
-                                                                         href="/admin/counter-data/create?flat_id=217&amp;service_id=2"
-                                                                         title="Снять новое показание счетчика"
-                                                                         target="_blank" data-toggle="tooltip"><i
-                                            class="fa fa-dashboard"></i></a> <a class="btn btn-default btn-sm"
-                                                                                href="/admin/counter-data/counter-list?CounterDataSearch%5Bflat_id%5D=217&amp;CounterDataSearch%5Bservice_id%5D=2"
-                                                                                title="Открыть историю показаний для счетчика"
-                                                                                data-toggle="tooltip"><i
-                                            class="fa fa-eye"></i></a></div>
-                                </td>
-                            </tr>
-                            <tr data-href="/admin/counter-data/counter-list?CounterDataSearch%5Bflat_id%5D=217&amp;CounterDataSearch%5Bservice_id%5D=28"
-                                data-key="">
-                                <td>Аквамарин</td>
-                                <td>Секция 3</td>
-                                <td>95</td>
-                                <td>Электроэнергия</td>
-                                <td style="background-color: #DFD5; font-weight: normal">0.8</td>
-                                <td style="background-color: #DFD5; font-weight: normal">-кВт.ч</td>
-                                <td>
-                                    <div class="btn-group pull-right"><a class="btn btn-default btn-sm"
-                                                                         href="/admin/counter-data/create?flat_id=217&amp;service_id=28"
-                                                                         title="Снять новое показание счетчика"
-                                                                         target="_blank" data-toggle="tooltip"><i
-                                            class="fa fa-dashboard"></i></a> <a class="btn btn-default btn-sm"
-                                                                                href="/admin/counter-data/counter-list?CounterDataSearch%5Bflat_id%5D=217&amp;CounterDataSearch%5Bservice_id%5D=28"
-                                                                                title="Открыть историю показаний для счетчика"
-                                                                                data-toggle="tooltip"><i
-                                            class="fa fa-eye"></i></a></div>
-                                </td>
-                            </tr>
-                            <tr data-href="/admin/counter-data/counter-list?CounterDataSearch%5Bflat_id%5D=217&amp;CounterDataSearch%5Bservice_id%5D=26"
-                                data-key="">
-                                <td>Аквамарин</td>
-                                <td>Секция 3</td>
-                                <td>95</td>
-                                <td>за пивом !!!!!!!!!!!!!</td>
-                                <td style="background-color: #DFD5; font-weight: normal">-13.0</td>
-                                <td style="background-color: #DFD5; font-weight: normal">км/час</td>
-                                <td>
-                                    <div class="btn-group pull-right"><a class="btn btn-default btn-sm"
-                                                                         href="/admin/counter-data/create?flat_id=217&amp;service_id=26"
-                                                                         title="Снять новое показание счетчика"
-                                                                         target="_blank" data-toggle="tooltip"><i
-                                            class="fa fa-dashboard"></i></a> <a class="btn btn-default btn-sm"
-                                                                                href="/admin/counter-data/counter-list?CounterDataSearch%5Bflat_id%5D=217&amp;CounterDataSearch%5Bservice_id%5D=26"
-                                                                                title="Открыть историю показаний для счетчика"
-                                                                                data-toggle="tooltip"><i
-                                            class="fa fa-eye"></i></a></div>
-                                </td>
-                            </tr>
-                            <tr data-href="/admin/counter-data/counter-list?CounterDataSearch%5Bflat_id%5D=214&amp;CounterDataSearch%5Bservice_id%5D=6"
-                                data-key="">
-                                <td>верстат</td>
-                                <td>Секция 3</td>
-                                <td>34</td>
-                                <td>отопление&amp;</td>
-                                <td style="background-color: #DFD5; font-weight: normal">50.0</td>
-                                <td style="background-color: #DFD5; font-weight: normal">m²</td>
-                                <td>
-                                    <div class="btn-group pull-right"><a class="btn btn-default btn-sm"
-                                                                         href="/admin/counter-data/create?flat_id=214&amp;service_id=6"
-                                                                         title="Снять новое показание счетчика"
-                                                                         target="_blank" data-toggle="tooltip"><i
-                                            class="fa fa-dashboard"></i></a> <a class="btn btn-default btn-sm"
-                                                                                href="/admin/counter-data/counter-list?CounterDataSearch%5Bflat_id%5D=214&amp;CounterDataSearch%5Bservice_id%5D=6"
-                                                                                title="Открыть историю показаний для счетчика"
-                                                                                data-toggle="tooltip"><i
-                                            class="fa fa-eye"></i></a></div>
-                                </td>
-                            </tr>
-                            <tr data-href="/admin/counter-data/counter-list?CounterDataSearch%5Bflat_id%5D=214&amp;CounterDataSearch%5Bservice_id%5D=2"
-                                data-key="">
-                                <td>верстат</td>
-                                <td>Секция 3</td>
-                                <td>34</td>
-                                <td></td>
-                                <td style="background-color: #DFD5; font-weight: normal">3.0</td>
-                                <td style="background-color: #DFD5; font-weight: normal">грн/м²</td>
-                                <td>
-                                    <div class="btn-group pull-right"><a class="btn btn-default btn-sm"
-                                                                         href="/admin/counter-data/create?flat_id=214&amp;service_id=2"
-                                                                         title="Снять новое показание счетчика"
-                                                                         target="_blank" data-toggle="tooltip"><i
-                                            class="fa fa-dashboard"></i></a> <a class="btn btn-default btn-sm"
-                                                                                href="/admin/counter-data/counter-list?CounterDataSearch%5Bflat_id%5D=214&amp;CounterDataSearch%5Bservice_id%5D=2"
-                                                                                title="Открыть историю показаний для счетчика"
-                                                                                data-toggle="tooltip"><i
-                                            class="fa fa-eye"></i></a></div>
-                                </td>
-                            </tr>
-                            <tr data-href="/admin/counter-data/counter-list?CounterDataSearch%5Bflat_id%5D=214&amp;CounterDataSearch%5Bservice_id%5D=5"
-                                data-key="">
-                                <td>верстат</td>
-                                <td>Секция 3</td>
-                                <td>34</td>
-                                <td></td>
-                                <td style="background-color: #DFD5; font-weight: normal">0.0</td>
-                                <td style="background-color: #DFD5; font-weight: normal">кв.м.к</td>
-                                <td>
-                                    <div class="btn-group pull-right"><a class="btn btn-default btn-sm"
-                                                                         href="/admin/counter-data/create?flat_id=214&amp;service_id=5"
-                                                                         title="Снять новое показание счетчика"
-                                                                         target="_blank" data-toggle="tooltip"><i
-                                            class="fa fa-dashboard"></i></a> <a class="btn btn-default btn-sm"
-                                                                                href="/admin/counter-data/counter-list?CounterDataSearch%5Bflat_id%5D=214&amp;CounterDataSearch%5Bservice_id%5D=5"
-                                                                                title="Открыть историю показаний для счетчика"
-                                                                                data-toggle="tooltip"><i
-                                            class="fa fa-eye"></i></a></div>
-                                </td>
-                            </tr>
-                            <tr data-href="/admin/counter-data/counter-list?CounterDataSearch%5Bflat_id%5D=105&amp;CounterDataSearch%5Bservice_id%5D=39"
-                                data-key="">
-                                <td>ЖК "Альтаир 3"</td>
-                                <td>Секция 1</td>
-                                <td>10</td>
-                                <td>Водоснабжение</td>
-                                <td style="background-color: #DFD5; font-weight: normal">130.0</td>
-                                <td style="background-color: #DFD5; font-weight: normal">m³</td>
-                                <td>
-                                    <div class="btn-group pull-right"><a class="btn btn-default btn-sm"
-                                                                         href="/admin/counter-data/create?flat_id=105&amp;service_id=39"
-                                                                         title="Снять новое показание счетчика"
-                                                                         target="_blank" data-toggle="tooltip"><i
-                                            class="fa fa-dashboard"></i></a> <a class="btn btn-default btn-sm"
-                                                                                href="/admin/counter-data/counter-list?CounterDataSearch%5Bflat_id%5D=105&amp;CounterDataSearch%5Bservice_id%5D=39"
-                                                                                title="Открыть историю показаний для счетчика"
-                                                                                data-toggle="tooltip"><i
-                                            class="fa fa-eye"></i></a></div>
-                                </td>
-                            </tr>
-                            <tr data-href="/admin/counter-data/counter-list?CounterDataSearch%5Bflat_id%5D=212&amp;CounterDataSearch%5Bservice_id%5D=2"
-                                data-key="">
-                                <td>ЖК "Королевские сады"</td>
-                                <td>Секция 3</td>
-                                <td>95</td>
-                                <td></td>
-                                <td style="background-color: #DFD5; font-weight: normal">1.0</td>
-                                <td style="background-color: #DFD5; font-weight: normal">грн/м²</td>
-                                <td>
-                                    <div class="btn-group pull-right"><a class="btn btn-default btn-sm"
-                                                                         href="/admin/counter-data/create?flat_id=212&amp;service_id=2"
-                                                                         title="Снять новое показание счетчика"
-                                                                         target="_blank" data-toggle="tooltip"><i
-                                            class="fa fa-dashboard"></i></a> <a class="btn btn-default btn-sm"
-                                                                                href="/admin/counter-data/counter-list?CounterDataSearch%5Bflat_id%5D=212&amp;CounterDataSearch%5Bservice_id%5D=2"
-                                                                                title="Открыть историю показаний для счетчика"
-                                                                                data-toggle="tooltip"><i
-                                            class="fa fa-eye"></i></a></div>
-                                </td>
-                            </tr>
-                            <tr data-href="/admin/counter-data/counter-list?CounterDataSearch%5Bflat_id%5D=105&amp;CounterDataSearch%5Bservice_id%5D=2"
-                                data-key="">
-                                <td>ЖК "Альтаир 3"</td>
-                                <td>Секция 1</td>
-                                <td>10</td>
-                                <td></td>
-                                <td style="background-color: #DFD5; font-weight: normal">120.0</td>
-                                <td style="background-color: #DFD5; font-weight: normal">грн/м²</td>
-                                <td>
-                                    <div class="btn-group pull-right"><a class="btn btn-default btn-sm"
-                                                                         href="/admin/counter-data/create?flat_id=105&amp;service_id=2"
-                                                                         title="Снять новое показание счетчика"
-                                                                         target="_blank" data-toggle="tooltip"><i
-                                            class="fa fa-dashboard"></i></a> <a class="btn btn-default btn-sm"
-                                                                                href="/admin/counter-data/counter-list?CounterDataSearch%5Bflat_id%5D=105&amp;CounterDataSearch%5Bservice_id%5D=2"
-                                                                                title="Открыть историю показаний для счетчика"
-                                                                                data-toggle="tooltip"><i
-                                            class="fa fa-eye"></i></a></div>
-                                </td>
-                            </tr>
-                            <tr data-href="/admin/counter-data/counter-list?CounterDataSearch%5Bflat_id%5D=93&amp;CounterDataSearch%5Bservice_id%5D=7"
-                                data-key="">
-                                <td>ЖК "Морская Симфония"</td>
-                                <td>Секция 1</td>
-                                <td>11</td>
-                                <td>Охрана</td>
-                                <td style="background-color: #DFD5; font-weight: normal">122.0</td>
-                                <td style="background-color: #DFD5; font-weight: normal">Убитых дней</td>
-                                <td>
-                                    <div class="btn-group pull-right"><a class="btn btn-default btn-sm"
-                                                                         href="/admin/counter-data/create?flat_id=93&amp;service_id=7"
-                                                                         title="Снять новое показание счетчика"
-                                                                         target="_blank" data-toggle="tooltip"><i
-                                            class="fa fa-dashboard"></i></a> <a class="btn btn-default btn-sm"
-                                                                                href="/admin/counter-data/counter-list?CounterDataSearch%5Bflat_id%5D=93&amp;CounterDataSearch%5Bservice_id%5D=7"
-                                                                                title="Открыть историю показаний для счетчика"
-                                                                                data-toggle="tooltip"><i
-                                            class="fa fa-eye"></i></a></div>
-                                </td>
-                            </tr>
-                            <tr data-href="/admin/counter-data/counter-list?CounterDataSearch%5Bflat_id%5D=114&amp;CounterDataSearch%5Bservice_id%5D=2"
-                                data-key="">
-                                <td>ЖК "Альтаир 3"</td>
-                                <td><span class="not-set">(не задано)</span></td>
-                                <td>12</td>
-                                <td></td>
-                                <td style="background-color: #DFD5; font-weight: normal">1423.0</td>
-                                <td style="background-color: #DFD5; font-weight: normal">грн/м²</td>
-                                <td>
-                                    <div class="btn-group pull-right"><a class="btn btn-default btn-sm"
-                                                                         href="/admin/counter-data/create?flat_id=114&amp;service_id=2"
-                                                                         title="Снять новое показание счетчика"
-                                                                         target="_blank" data-toggle="tooltip"><i
-                                            class="fa fa-dashboard"></i></a> <a class="btn btn-default btn-sm"
-                                                                                href="/admin/counter-data/counter-list?CounterDataSearch%5Bflat_id%5D=114&amp;CounterDataSearch%5Bservice_id%5D=2"
-                                                                                title="Открыть историю показаний для счетчика"
-                                                                                data-toggle="tooltip"><i
-                                            class="fa fa-eye"></i></a></div>
-                                </td>
-                            </tr>
-                            <tr data-href="/admin/counter-data/counter-list?CounterDataSearch%5Bflat_id%5D=96&amp;CounterDataSearch%5Bservice_id%5D=28"
-                                data-key="">
-                                <td>ЖК "Башня Чкалов"</td>
-                                <td>Секция 2</td>
-                                <td>3425</td>
-                                <td>Электроэнергия</td>
-                                <td style="background-color: #DFD5; font-weight: normal">315.0</td>
-                                <td style="background-color: #DFD5; font-weight: normal">-кВт.ч</td>
-                                <td>
-                                    <div class="btn-group pull-right"><a class="btn btn-default btn-sm"
-                                                                         href="/admin/counter-data/create?flat_id=96&amp;service_id=28"
-                                                                         title="Снять новое показание счетчика"
-                                                                         target="_blank" data-toggle="tooltip"><i
-                                            class="fa fa-dashboard"></i></a> <a class="btn btn-default btn-sm"
-                                                                                href="/admin/counter-data/counter-list?CounterDataSearch%5Bflat_id%5D=96&amp;CounterDataSearch%5Bservice_id%5D=28"
-                                                                                title="Открыть историю показаний для счетчика"
-                                                                                data-toggle="tooltip"><i
-                                            class="fa fa-eye"></i></a></div>
-                                </td>
-                            </tr>
-                            <tr data-href="/admin/counter-data/counter-list?CounterDataSearch%5Bflat_id%5D=205&amp;CounterDataSearch%5Bservice_id%5D=28"
-                                data-key="">
-                                <td>ЖК "Помидор"</td>
-                                <td>Секция 1</td>
-                                <td>1</td>
-                                <td>Электроэнергия</td>
-                                <td style="background-color: #DFD5; font-weight: normal">1000.0</td>
-                                <td style="background-color: #DFD5; font-weight: normal">-кВт.ч</td>
-                                <td>
-                                    <div class="btn-group pull-right"><a class="btn btn-default btn-sm"
-                                                                         href="/admin/counter-data/create?flat_id=205&amp;service_id=28"
-                                                                         title="Снять новое показание счетчика"
-                                                                         target="_blank" data-toggle="tooltip"><i
-                                            class="fa fa-dashboard"></i></a> <a class="btn btn-default btn-sm"
-                                                                                href="/admin/counter-data/counter-list?CounterDataSearch%5Bflat_id%5D=205&amp;CounterDataSearch%5Bservice_id%5D=28"
-                                                                                title="Открыть историю показаний для счетчика"
-                                                                                data-toggle="tooltip"><i
-                                            class="fa fa-eye"></i></a></div>
-                                </td>
-                            </tr>
-                            <tr data-href="/admin/counter-data/counter-list?CounterDataSearch%5Bflat_id%5D=205&amp;CounterDataSearch%5Bservice_id%5D=40"
-                                data-key="">
-                                <td>ЖК "Помидор"</td>
-                                <td>Секция 1</td>
-                                <td>1</td>
-                                <td>Газоснабжение</td>
-                                <td style="background-color: #DFD5; font-weight: normal">100.0</td>
-                                <td style="background-color: #DFD5; font-weight: normal"><span class="not-set">(не задано)</span>
-                                </td>
-                                <td>
-                                    <div class="btn-group pull-right"><a class="btn btn-default btn-sm"
-                                                                         href="/admin/counter-data/create?flat_id=205&amp;service_id=40"
-                                                                         title="Снять новое показание счетчика"
-                                                                         target="_blank" data-toggle="tooltip"><i
-                                            class="fa fa-dashboard"></i></a> <a class="btn btn-default btn-sm"
-                                                                                href="/admin/counter-data/counter-list?CounterDataSearch%5Bflat_id%5D=205&amp;CounterDataSearch%5Bservice_id%5D=40"
-                                                                                title="Открыть историю показаний для счетчика"
-                                                                                data-toggle="tooltip"><i
-                                            class="fa fa-eye"></i></a></div>
-                                </td>
-                            </tr>
-                            <tr data-href="/admin/counter-data/counter-list?CounterDataSearch%5Bflat_id%5D=96&amp;CounterDataSearch%5Bservice_id%5D=5"
-                                data-key="">
-                                <td>ЖК "Башня Чкалов"</td>
-                                <td>Секция 2</td>
-                                <td>3425</td>
-                                <td></td>
-                                <td style="background-color: #DFD5; font-weight: normal">16.0</td>
-                                <td style="background-color: #DFD5; font-weight: normal">кв.м.к</td>
-                                <td>
-                                    <div class="btn-group pull-right"><a class="btn btn-default btn-sm"
-                                                                         href="/admin/counter-data/create?flat_id=96&amp;service_id=5"
-                                                                         title="Снять новое показание счетчика"
-                                                                         target="_blank" data-toggle="tooltip"><i
-                                            class="fa fa-dashboard"></i></a> <a class="btn btn-default btn-sm"
-                                                                                href="/admin/counter-data/counter-list?CounterDataSearch%5Bflat_id%5D=96&amp;CounterDataSearch%5Bservice_id%5D=5"
-                                                                                title="Открыть историю показаний для счетчика"
-                                                                                data-toggle="tooltip"><i
-                                            class="fa fa-eye"></i></a></div>
-                                </td>
-                            </tr>
-                            <tr data-href="/admin/counter-data/counter-list?CounterDataSearch%5Bflat_id%5D=205&amp;CounterDataSearch%5Bservice_id%5D=39"
-                                data-key="">
-                                <td>ЖК "Помидор"</td>
-                                <td>Секция 1</td>
-                                <td>1</td>
-                                <td>Водоснабжение</td>
-                                <td style="background-color: #DFD5; font-weight: normal">10.0</td>
-                                <td style="background-color: #DFD5; font-weight: normal">m³</td>
-                                <td>
-                                    <div class="btn-group pull-right"><a class="btn btn-default btn-sm"
-                                                                         href="/admin/counter-data/create?flat_id=205&amp;service_id=39"
-                                                                         title="Снять новое показание счетчика"
-                                                                         target="_blank" data-toggle="tooltip"><i
-                                            class="fa fa-dashboard"></i></a> <a class="btn btn-default btn-sm"
-                                                                                href="/admin/counter-data/counter-list?CounterDataSearch%5Bflat_id%5D=205&amp;CounterDataSearch%5Bservice_id%5D=39"
-                                                                                title="Открыть историю показаний для счетчика"
-                                                                                data-toggle="tooltip"><i
-                                            class="fa fa-eye"></i></a></div>
-                                </td>
-                            </tr>
-                            <tr data-href="/admin/counter-data/counter-list?CounterDataSearch%5Bflat_id%5D=205&amp;CounterDataSearch%5Bservice_id%5D=41"
-                                data-key="">
-                                <td>ЖК "Помидор"</td>
-                                <td>Секция 1</td>
-                                <td>1</td>
-                                <td>Транспортировка газа</td>
-                                <td style="background-color: #DFD5; font-weight: normal">10.0</td>
-                                <td style="background-color: #DFD5; font-weight: normal"><span class="not-set">(не задано)</span>
-                                </td>
-                                <td>
-                                    <div class="btn-group pull-right"><a class="btn btn-default btn-sm"
-                                                                         href="/admin/counter-data/create?flat_id=205&amp;service_id=41"
-                                                                         title="Снять новое показание счетчика"
-                                                                         target="_blank" data-toggle="tooltip"><i
-                                            class="fa fa-dashboard"></i></a> <a class="btn btn-default btn-sm"
-                                                                                href="/admin/counter-data/counter-list?CounterDataSearch%5Bflat_id%5D=205&amp;CounterDataSearch%5Bservice_id%5D=41"
-                                                                                title="Открыть историю показаний для счетчика"
-                                                                                data-toggle="tooltip"><i
-                                            class="fa fa-eye"></i></a></div>
-                                </td>
-                            </tr>
-                            <tr data-href="/admin/counter-data/counter-list?CounterDataSearch%5Bflat_id%5D=183&amp;CounterDataSearch%5Bservice_id%5D=5"
-                                data-key="">
-                                <td>ЖК "Дом Каркашадзе"</td>
-                                <td>Секция 1</td>
-                                <td>1458</td>
-                                <td></td>
-                                <td style="background-color: #DFD5; font-weight: normal">43234.0</td>
-                                <td style="background-color: #DFD5; font-weight: normal">кв.м.к</td>
-                                <td>
-                                    <div class="btn-group pull-right"><a class="btn btn-default btn-sm"
-                                                                         href="/admin/counter-data/create?flat_id=183&amp;service_id=5"
-                                                                         title="Снять новое показание счетчика"
-                                                                         target="_blank" data-toggle="tooltip"><i
-                                            class="fa fa-dashboard"></i></a> <a class="btn btn-default btn-sm"
-                                                                                href="/admin/counter-data/counter-list?CounterDataSearch%5Bflat_id%5D=183&amp;CounterDataSearch%5Bservice_id%5D=5"
-                                                                                title="Открыть историю показаний для счетчика"
-                                                                                data-toggle="tooltip"><i
-                                            class="fa fa-eye"></i></a></div>
-                                </td>
-                            </tr>
-                            <tr data-href="/admin/counter-data/counter-list?CounterDataSearch%5Bflat_id%5D=182&amp;CounterDataSearch%5Bservice_id%5D=29"
-                                data-key="">
-                                <td>ЖК "Дом Каркашадзе"</td>
-                                <td>Секция 1</td>
-                                <td>4781</td>
-                                <td>ГАЗ!!!</td>
-                                <td style="background-color: #DFD5; font-weight: normal">12312.0</td>
-                                <td style="background-color: #DFD5; font-weight: normal">m³</td>
-                                <td>
-                                    <div class="btn-group pull-right"><a class="btn btn-default btn-sm"
-                                                                         href="/admin/counter-data/create?flat_id=182&amp;service_id=29"
-                                                                         title="Снять новое показание счетчика"
-                                                                         target="_blank" data-toggle="tooltip"><i
-                                            class="fa fa-dashboard"></i></a> <a class="btn btn-default btn-sm"
-                                                                                href="/admin/counter-data/counter-list?CounterDataSearch%5Bflat_id%5D=182&amp;CounterDataSearch%5Bservice_id%5D=29"
-                                                                                title="Открыть историю показаний для счетчика"
-                                                                                data-toggle="tooltip"><i
-                                            class="fa fa-eye"></i></a></div>
-                                </td>
-                            </tr>
-                            <tr data-href="/admin/counter-data/counter-list?CounterDataSearch%5Bflat_id%5D=183&amp;CounterDataSearch%5Bservice_id%5D=7"
-                                data-key="">
-                                <td>ЖК "Дом Каркашадзе"</td>
-                                <td>Секция 1</td>
-                                <td>1458</td>
-                                <td>Охрана</td>
-                                <td style="background-color: #DFD5; font-weight: normal">41.0</td>
-                                <td style="background-color: #DFD5; font-weight: normal">Убитых дней</td>
-                                <td>
-                                    <div class="btn-group pull-right"><a class="btn btn-default btn-sm"
-                                                                         href="/admin/counter-data/create?flat_id=183&amp;service_id=7"
-                                                                         title="Снять новое показание счетчика"
-                                                                         target="_blank" data-toggle="tooltip"><i
-                                            class="fa fa-dashboard"></i></a> <a class="btn btn-default btn-sm"
-                                                                                href="/admin/counter-data/counter-list?CounterDataSearch%5Bflat_id%5D=183&amp;CounterDataSearch%5Bservice_id%5D=7"
-                                                                                title="Открыть историю показаний для счетчика"
-                                                                                data-toggle="tooltip"><i
-                                            class="fa fa-eye"></i></a></div>
-                                </td>
-                            </tr>
-                            <tr data-href="/admin/counter-data/counter-list?CounterDataSearch%5Bflat_id%5D=107&amp;CounterDataSearch%5Bservice_id%5D=7"
-                                data-key="">
-                                <td>ЖК "Адмирал" Дом №12</td>
-                                <td>Секция 1</td>
-                                <td>45</td>
-                                <td>Охрана</td>
-                                <td style="background-color: #DFD5; font-weight: normal">41.0</td>
-                                <td style="background-color: #DFD5; font-weight: normal">Убитых дней</td>
-                                <td>
-                                    <div class="btn-group pull-right"><a class="btn btn-default btn-sm"
-                                                                         href="/admin/counter-data/create?flat_id=107&amp;service_id=7"
-                                                                         title="Снять новое показание счетчика"
-                                                                         target="_blank" data-toggle="tooltip"><i
-                                            class="fa fa-dashboard"></i></a> <a class="btn btn-default btn-sm"
-                                                                                href="/admin/counter-data/counter-list?CounterDataSearch%5Bflat_id%5D=107&amp;CounterDataSearch%5Bservice_id%5D=7"
-                                                                                title="Открыть историю показаний для счетчика"
-                                                                                data-toggle="tooltip"><i
-                                            class="fa fa-eye"></i></a></div>
-                                </td>
-                            </tr>
-                            <tr data-href="/admin/counter-data/counter-list?CounterDataSearch%5Bflat_id%5D=117"
-                                data-key="">
-                                <td>ЖК "Башня Чкалов"</td>
-                                <td>Секция 2</td>
-                                <td>111111111</td>
-                                <td><span class="not-set">(не задано)</span></td>
-                                <td style="background-color: #DFD5; font-weight: normal"><span class="not-set">(не задано)</span>
-                                </td>
-                                <td style="background-color: #DFD5; font-weight: normal"><span class="not-set">(не задано)</span>
-                                </td>
-                                <td>
-                                    <div class="btn-group pull-right"><a class="btn btn-default btn-sm"
-                                                                         href="/admin/counter-data/create?flat_id=117"
-                                                                         title="Снять новое показание счетчика"
-                                                                         target="_blank" data-toggle="tooltip"><i
-                                            class="fa fa-dashboard"></i></a> <a class="btn btn-default btn-sm"
-                                                                                href="/admin/counter-data/counter-list?CounterDataSearch%5Bflat_id%5D=117"
-                                                                                title="Открыть историю показаний для счетчика"
-                                                                                data-toggle="tooltip"><i
-                                            class="fa fa-eye"></i></a></div>
-                                </td>
-                            </tr>
-                            <tr data-href="/admin/counter-data/counter-list?CounterDataSearch%5Bflat_id%5D=140&amp;CounterDataSearch%5Bservice_id%5D=29"
-                                data-key="">
-                                <td>Test 123</td>
-                                <td>Секция 1</td>
-                                <td>1</td>
-                                <td>ГАЗ!!!</td>
-                                <td style="background-color: #DFD5; font-weight: normal">12312.0</td>
-                                <td style="background-color: #DFD5; font-weight: normal">m³</td>
-                                <td>
-                                    <div class="btn-group pull-right"><a class="btn btn-default btn-sm"
-                                                                         href="/admin/counter-data/create?flat_id=140&amp;service_id=29"
-                                                                         title="Снять новое показание счетчика"
-                                                                         target="_blank" data-toggle="tooltip"><i
-                                            class="fa fa-dashboard"></i></a> <a class="btn btn-default btn-sm"
-                                                                                href="/admin/counter-data/counter-list?CounterDataSearch%5Bflat_id%5D=140&amp;CounterDataSearch%5Bservice_id%5D=29"
-                                                                                title="Открыть историю показаний для счетчика"
-                                                                                data-toggle="tooltip"><i
-                                            class="fa fa-eye"></i></a></div>
-                                </td>
-                            </tr>
-                            <tr data-href="/admin/counter-data/counter-list?CounterDataSearch%5Bflat_id%5D=140&amp;CounterDataSearch%5Bservice_id%5D=35"
-                                data-key="">
-                                <td>Test 123</td>
-                                <td>Секция 1</td>
-                                <td>1</td>
-                                <td>полив</td>
-                                <td style="background-color: #DFD5; font-weight: normal">-20.0</td>
-                                <td style="background-color: #DFD5; font-weight: normal">Проба</td>
-                                <td>
-                                    <div class="btn-group pull-right"><a class="btn btn-default btn-sm"
-                                                                         href="/admin/counter-data/create?flat_id=140&amp;service_id=35"
-                                                                         title="Снять новое показание счетчика"
-                                                                         target="_blank" data-toggle="tooltip"><i
-                                            class="fa fa-dashboard"></i></a> <a class="btn btn-default btn-sm"
-                                                                                href="/admin/counter-data/counter-list?CounterDataSearch%5Bflat_id%5D=140&amp;CounterDataSearch%5Bservice_id%5D=35"
-                                                                                title="Открыть историю показаний для счетчика"
-                                                                                data-toggle="tooltip"><i
-                                            class="fa fa-eye"></i></a></div>
-                                </td>
-                            </tr>
-                            <tr data-href="/admin/counter-data/counter-list?CounterDataSearch%5Bflat_id%5D=178&amp;CounterDataSearch%5Bservice_id%5D=2"
-                                data-key="">
-                                <td>Тестовый дом1</td>
-                                <td>Тестовая 1</td>
-                                <td>1</td>
-                                <td></td>
-                                <td style="background-color: #DFD5; font-weight: normal">105.0</td>
-                                <td style="background-color: #DFD5; font-weight: normal">грн/м²</td>
-                                <td>
-                                    <div class="btn-group pull-right"><a class="btn btn-default btn-sm"
-                                                                         href="/admin/counter-data/create?flat_id=178&amp;service_id=2"
-                                                                         title="Снять новое показание счетчика"
-                                                                         target="_blank" data-toggle="tooltip"><i
-                                            class="fa fa-dashboard"></i></a> <a class="btn btn-default btn-sm"
-                                                                                href="/admin/counter-data/counter-list?CounterDataSearch%5Bflat_id%5D=178&amp;CounterDataSearch%5Bservice_id%5D=2"
-                                                                                title="Открыть историю показаний для счетчика"
-                                                                                data-toggle="tooltip"><i
-                                            class="fa fa-eye"></i></a></div>
-                                </td>
-                            </tr>
-                            <tr data-href="/admin/counter-data/counter-list?CounterDataSearch%5Bflat_id%5D=178&amp;CounterDataSearch%5Bservice_id%5D=5"
-                                data-key="">
-                                <td>Тестовый дом1</td>
-                                <td>Тестовая 1</td>
-                                <td>1</td>
-                                <td></td>
-                                <td style="background-color: #DFD5; font-weight: normal">100.0</td>
-                                <td style="background-color: #DFD5; font-weight: normal">кв.м.к</td>
-                                <td>
-                                    <div class="btn-group pull-right"><a class="btn btn-default btn-sm"
-                                                                         href="/admin/counter-data/create?flat_id=178&amp;service_id=5"
-                                                                         title="Снять новое показание счетчика"
-                                                                         target="_blank" data-toggle="tooltip"><i
-                                            class="fa fa-dashboard"></i></a> <a class="btn btn-default btn-sm"
-                                                                                href="/admin/counter-data/counter-list?CounterDataSearch%5Bflat_id%5D=178&amp;CounterDataSearch%5Bservice_id%5D=5"
-                                                                                title="Открыть историю показаний для счетчика"
-                                                                                data-toggle="tooltip"><i
-                                            class="fa fa-eye"></i></a></div>
-                                </td>
-                            </tr>
-                            <tr data-href="/admin/counter-data/counter-list?CounterDataSearch%5Bflat_id%5D=178&amp;CounterDataSearch%5Bservice_id%5D=7"
-                                data-key="">
-                                <td>Тестовый дом1</td>
-                                <td>Тестовая 1</td>
-                                <td>1</td>
-                                <td>Охрана</td>
-                                <td style="background-color: #DFD5; font-weight: normal">102.0</td>
-                                <td style="background-color: #DFD5; font-weight: normal">Убитых дней</td>
-                                <td>
-                                    <div class="btn-group pull-right"><a class="btn btn-default btn-sm"
-                                                                         href="/admin/counter-data/create?flat_id=178&amp;service_id=7"
-                                                                         title="Снять новое показание счетчика"
-                                                                         target="_blank" data-toggle="tooltip"><i
-                                            class="fa fa-dashboard"></i></a> <a class="btn btn-default btn-sm"
-                                                                                href="/admin/counter-data/counter-list?CounterDataSearch%5Bflat_id%5D=178&amp;CounterDataSearch%5Bservice_id%5D=7"
-                                                                                title="Открыть историю показаний для счетчика"
-                                                                                data-toggle="tooltip"><i
-                                            class="fa fa-eye"></i></a></div>
-                                </td>
-                            </tr>
-                            <tr data-href="/admin/counter-data/counter-list?CounterDataSearch%5Bflat_id%5D=172&amp;CounterDataSearch%5Bservice_id%5D=2"
-                                data-key="">
-                                <td>ЖК Чайка</td>
-                                <td>Секция 1</td>
-                                <td>100</td>
-                                <td></td>
-                                <td style="background-color: #DFD5; font-weight: normal">10.0</td>
-                                <td style="background-color: #DFD5; font-weight: normal">грн/м²</td>
-                                <td>
-                                    <div class="btn-group pull-right"><a class="btn btn-default btn-sm"
-                                                                         href="/admin/counter-data/create?flat_id=172&amp;service_id=2"
-                                                                         title="Снять новое показание счетчика"
-                                                                         target="_blank" data-toggle="tooltip"><i
-                                            class="fa fa-dashboard"></i></a> <a class="btn btn-default btn-sm"
-                                                                                href="/admin/counter-data/counter-list?CounterDataSearch%5Bflat_id%5D=172&amp;CounterDataSearch%5Bservice_id%5D=2"
-                                                                                title="Открыть историю показаний для счетчика"
-                                                                                data-toggle="tooltip"><i
-                                            class="fa fa-eye"></i></a></div>
-                                </td>
-                            </tr>
-                            <tr data-href="/admin/counter-data/counter-list?CounterDataSearch%5Bflat_id%5D=172&amp;CounterDataSearch%5Bservice_id%5D=16"
-                                data-key="">
-                                <td>ЖК Чайка</td>
-                                <td>Секция 1</td>
-                                <td>100</td>
-                                <td>Уборка !!!</td>
-                                <td style="background-color: #DFD5; font-weight: normal">10.0</td>
-                                <td style="background-color: #DFD5; font-weight: normal">m²</td>
-                                <td>
-                                    <div class="btn-group pull-right"><a class="btn btn-default btn-sm"
-                                                                         href="/admin/counter-data/create?flat_id=172&amp;service_id=16"
-                                                                         title="Снять новое показание счетчика"
-                                                                         target="_blank" data-toggle="tooltip"><i
-                                            class="fa fa-dashboard"></i></a> <a class="btn btn-default btn-sm"
-                                                                                href="/admin/counter-data/counter-list?CounterDataSearch%5Bflat_id%5D=172&amp;CounterDataSearch%5Bservice_id%5D=16"
-                                                                                title="Открыть историю показаний для счетчика"
-                                                                                data-toggle="tooltip"><i
-                                            class="fa fa-eye"></i></a></div>
-                                </td>
-                            </tr>
-                            <tr data-href="/admin/counter-data/counter-list?CounterDataSearch%5Bflat_id%5D=177&amp;CounterDataSearch%5Bservice_id%5D=2"
-                                data-key="">
-                                <td>Континент</td>
-                                <td>Секция 2</td>
-                                <td>64</td>
-                                <td></td>
-                                <td style="background-color: #DFD5; font-weight: normal">1.0</td>
-                                <td style="background-color: #DFD5; font-weight: normal">грн/м²</td>
-                                <td>
-                                    <div class="btn-group pull-right"><a class="btn btn-default btn-sm"
-                                                                         href="/admin/counter-data/create?flat_id=177&amp;service_id=2"
-                                                                         title="Снять новое показание счетчика"
-                                                                         target="_blank" data-toggle="tooltip"><i
-                                            class="fa fa-dashboard"></i></a> <a class="btn btn-default btn-sm"
-                                                                                href="/admin/counter-data/counter-list?CounterDataSearch%5Bflat_id%5D=177&amp;CounterDataSearch%5Bservice_id%5D=2"
-                                                                                title="Открыть историю показаний для счетчика"
-                                                                                data-toggle="tooltip"><i
-                                            class="fa fa-eye"></i></a></div>
-                                </td>
-                            </tr>
-                            <tr data-href="/admin/counter-data/counter-list?CounterDataSearch%5Bflat_id%5D=172"
-                                data-key="">
-                                <td>ЖК Чайка</td>
-                                <td>Секция 1</td>
-                                <td>100</td>
-                                <td><span class="not-set">(не задано)</span></td>
-                                <td style="background-color: #DFD5; font-weight: normal">1.0</td>
-                                <td style="background-color: #DFD5; font-weight: normal"><span class="not-set">(не задано)</span>
-                                </td>
-                                <td>
-                                    <div class="btn-group pull-right"><a class="btn btn-default btn-sm"
-                                                                         href="/admin/counter-data/create?flat_id=172"
-                                                                         title="Снять новое показание счетчика"
-                                                                         target="_blank" data-toggle="tooltip"><i
-                                            class="fa fa-dashboard"></i></a> <a class="btn btn-default btn-sm"
-                                                                                href="/admin/counter-data/counter-list?CounterDataSearch%5Bflat_id%5D=172"
-                                                                                title="Открыть историю показаний для счетчика"
-                                                                                data-toggle="tooltip"><i
-                                            class="fa fa-eye"></i></a></div>
-                                </td>
-                            </tr>
-                            <tr data-href="/admin/counter-data/counter-list?CounterDataSearch%5Bflat_id%5D=140"
-                                data-key="">
-                                <td>Test 123</td>
-                                <td>Секция 1</td>
-                                <td>1</td>
-                                <td><span class="not-set">(не задано)</span></td>
-                                <td style="background-color: #DFD5; font-weight: normal"><span class="not-set">(не задано)</span>
-                                </td>
-                                <td style="background-color: #DFD5; font-weight: normal"><span class="not-set">(не задано)</span>
-                                </td>
-                                <td>
-                                    <div class="btn-group pull-right"><a class="btn btn-default btn-sm"
-                                                                         href="/admin/counter-data/create?flat_id=140"
-                                                                         title="Снять новое показание счетчика"
-                                                                         target="_blank" data-toggle="tooltip"><i
-                                            class="fa fa-dashboard"></i></a> <a class="btn btn-default btn-sm"
-                                                                                href="/admin/counter-data/counter-list?CounterDataSearch%5Bflat_id%5D=140"
-                                                                                title="Открыть историю показаний для счетчика"
-                                                                                data-toggle="tooltip"><i
-                                            class="fa fa-eye"></i></a></div>
-                                </td>
-                            </tr>
-                            <tr data-href="/admin/counter-data/counter-list?CounterDataSearch%5Bflat_id%5D=99&amp;CounterDataSearch%5Bservice_id%5D=2"
-                                data-key="">
-                                <td>ЖК "Башня Чкалов"</td>
-                                <td><span class="not-set">(не задано)</span></td>
-                                <td>777</td>
-                                <td></td>
-                                <td style="background-color: #DFD5; font-weight: normal"><span class="not-set">(не задано)</span>
-                                </td>
-                                <td style="background-color: #DFD5; font-weight: normal">грн/м²</td>
-                                <td>
-                                    <div class="btn-group pull-right"><a class="btn btn-default btn-sm"
-                                                                         href="/admin/counter-data/create?flat_id=99&amp;service_id=2"
-                                                                         title="Снять новое показание счетчика"
-                                                                         target="_blank" data-toggle="tooltip"><i
-                                            class="fa fa-dashboard"></i></a> <a class="btn btn-default btn-sm"
-                                                                                href="/admin/counter-data/counter-list?CounterDataSearch%5Bflat_id%5D=99&amp;CounterDataSearch%5Bservice_id%5D=2"
-                                                                                title="Открыть историю показаний для счетчика"
-                                                                                data-toggle="tooltip"><i
-                                            class="fa fa-eye"></i></a></div>
-                                </td>
-                            </tr>
-                            </tbody>
+                            <tbody></tbody>
                         </table>
                     </div>
                     <div class="box-footer clearfix">
@@ -1197,192 +89,181 @@
     <script type="text/javascript"
             src="{% static 'admin_panel/bower_components/datatables.net/jquery.dataTables.min.js' %}">
     </script>
-{#       <script>#}
-{##}
-{#        let numb = 0#}
-{#        let sort_data = {}#}
-{#        let table#}
-{#        let table_head = $('#account_table thead')#}
-{#        let filters_array#}
-{#        let label_colors = {#}
-{#            'Активен': 'label-success',#}
-{#            'Неактивен': 'label-danger',#}
-{#        }#}
-{##}
-{#        function check_empty(data) {#}
-{#            if (data) {return data}#}
-{#            else return '(не задано)'#}
-{#        }#}
-{#        function set_options(data, target_id) {#}
-{#            $(`#${target_id} option`).remove()#}
-{#            $(`#${target_id}`).append(`<option></option>`)#}
-{#            data.forEach(function (item) {#}
-{#                                $(`#${target_id}`).append(`<option value="${item['id']}">${item['name']}</option>`)#}
-{#                            })#}
-{#        }#}
-{##}
-{#        function clear_filters() {#}
-{#            $('.column_search').val('');#}
-{#            table_head.unbind();#}
-{#            $(`.select2_house option`).remove()#}
-{#            $(`.select2_house`).append(`<option></option>`)#}
-{#            filters_array.forEach(function(item) {#}
-{#              item.val('').change()#}
-{#            })#}
-{#            $('.ordering').attr('class', 'ordering');#}
-{#            set_filters_listener()#}
-{#            let keys = Object.keys(sort_data)#}
-{#            keys.forEach(function (item) {#}
-{#                sort_data[item] = ''#}
-{#            })#}
-{#            numb = 0#}
-{#            table.draw()#}
-{##}
-{#        }#}
-{##}
-{#        function send_POST(e) {#}
-{#            table = $('#account_table').DataTable({#}
-{#                serverSide: true,#}
-{#                processing: false,#}
-{#                ordering: false,#}
-{#                oLanguage: {#}
-{#                    sZeroRecords: "Ничего не найдено."#}
-{#                },#}
-{#                columnDefs: [#}
-{#                    {className: "account", "targets": [0, 1, 2,3,4,5,6]},#}
-{#                    {targets: '_all', defaultContent: ''},#}
-{#                ],#}
-{#                "ajax": {#}
-{#                    "processing": true,#}
-{#                    "url": "{% url 'personal_account_list' %}",#}
-{#                    "data": function (d) {#}
-{#                        return sort_data;#}
-{#                    },#}
-{#                    dataSrc: function (data) {#}
-{#                        if(data['sections']) {#}
-{#                            $('.select2_house').select2({placeholder: ""})#}
-{#                            set_options(data['sections'],'section')#}
-{#                        }#}
-{#                        return data['account']#}
-{#                    },#}
-{#                },#}
-{#                "columns": [#}
-{#                    {data: 'number'},#}
-{#                    {data: 'status',#}
-{#                    render:function (data) {#}
-{#                        return `<small class="label ${label_colors[data]}" id="status">${data}</small>`#}
-{#                    }},#}
-{#                    {data: 'apartment__number'},#}
-{#                    {data: 'apartment__house__name'},#}
-{#                    {data: 'apartment__section__name',#}
-{#                        render: function (data) {#}
-{#                         return check_empty(data)#}
-{#                     }},#}
-{##}
-{#                    {data: 'owner__name'},#}
-{#                    {data: null},#}
-{#                    {#}
-{#                        data: 'id',#}
-{#                        render: function (data, type) {#}
-{#                            let link_update = '{% url 'personal_account_update' 12345 %}'.replace(/12345/, data)#}
-{#                            let link_delete = '{% url 'personal_account_delete' 12345 %}'.replace(/12345/, data)#}
-{#                            return `<div class="btn-group pull-right">\#}
-{#            <a class="btn btn-default btn-sm" href="${link_update}"\#}
-{#               title="Редактировать" data-toggle="tooltip">\#}
-{#                <i class="fa fa-pencil"></i>\#}
-{#            </a>\#}
-{#            <a class="btn btn-default btn-sm"\#}
-{#               title="Удалить" data-toggle="tooltip" data-pjax="0" data-method="post"\#}
-{#                onclick="return confirm_delete('${link_delete}',event);">\#}
-{#                <i class="fa fa-trash"></i>\#}
-{#            </a>\#}
-{#        </div>`#}
-{#                        },#}
-{#                    },#}
-{#                ],#}
-{#                paging: false,#}
-{#                searching: false,#}
-{#                info: false,#}
-{#            });#}
-{#        }#}
-{#        function set_filters_listener() {#}
-{#            table_head.on('change', ".select2", function a(e) {#}
-{#            sort_data[this.id] = $(this).val()#}
-{#            numb = 0#}
-{#            table.draw()#}
-{#        });#}
-{#            table_head.on('change', ".select2_status", function a(e) {#}
-{#            sort_data[this.id] = $(this).val()#}
-{#            numb = 0#}
-{#            table.draw()#}
-{#        });#}
-{#        table_head.on('change', ".select2_house", function a(e) {#}
-{#            sort_data[this.id] = $(this).val()#}
-{#            numb = 0#}
-{#            table.draw()#}
-{#        });#}
-{#        table_head.on('change', ".house_search", function a(e) {#}
-{#            sort_data['section'] = ''#}
-{#            sort_data[this.id] = $(this).val()#}
-{#            if (sort_data[this.id]){#}
-{#                sort_data['house_select'] = true#}
-{#            }#}
-{#            numb = 0#}
-{#            table.draw()#}
-{#            sort_data['house_select'] = ''#}
-{#        });#}
-{#        table_head.on('keyup', ".column_search", function a(e) {#}
-{#            sort_data[this.id] = $(this).val()#}
-{#            numb = 0#}
-{#            table.draw()#}
-{#        });#}
-{#                table_head.on('click', '.ordering', function () {#}
-{#            if (this.className === 'ordering asc') {#}
-{#                $(this).attr('class', 'ordering desc')#}
-{#                sort_data['order_by'] = '-' + this.id#}
-{#            } else {#}
-{#                $(this).attr('class', 'ordering asc')#}
-{#                sort_data['order_by'] = this.id#}
-{#            }#}
-{#            table_head.find('.ordering').not(this).attr('class', 'ordering')#}
-{#            numb = 0#}
-{#            table.draw()#}
-{#        })#}
-{#                  }#}
-{##}
-{##}
-{##}
-{##}
-{#        function confirm_delete(link, event) {#}
-{#            alertify.confirm('Подтверждение удаления', 'Удалить дом <b>'#}
-{#                + $(event.target).closest("tr ").children().eq(0).text() + '</b> ?',#}
-{#                function () {#}
-{#                    window.location.href = link#}
-{#                },#}
-{#                function () {#}
-{#                }).set({labels: {ok: 'Подтвердить', cancel: 'Отмена'}});#}
-{#            return false;#}
-{#        }#}
-{##}
-{#        $('#account_table').on('click', 'tbody tr .account', function () {#}
-{#            window.location.href = '{% url 'personal_account_view' 12345 %}'.replace(/12345/, table.row(this).data().id)#}
-{#        })#}
-{##}
-{##}
-{#        $(document).ready(function () {#}
-{##}
-{#            send_POST();#}
-{#            $('.column_search').val('');#}
-{#            let $select2 = $('.select2').select2({placeholder: ""}).val('');#}
-{#            let $select2_status = $('.select2_status').select2({placeholder: "",minimumResultsForSearch: -1}).val('');#}
-{#            let $select2_house = $('.select2_house').select2({placeholder: "Выберите дом"}).val('');#}
-{#            let $house = $('#house').select2({placeholder: ""});#}
-{#            filters_array = [$select2,$select2_house,$house]#}
-{#            set_filters_listener()#}
+       <script>
+
+        let numb = 0
+        let sort_data = {}
+        let table
+        let table_head = $('#meter_table thead')
+        let filters_array
+        let label_colors = {
+            'Активен': 'label-success',
+            'Неактивен': 'label-danger',
+        }
+
+        function check_empty(data) {
+            if (data) {return data}
+            else return '(не задано)'
+        }
+        function set_options(data, target_id) {
+            $(`#${target_id} option`).remove()
+            $(`#${target_id}`).append(`<option></option>`)
+            data.forEach(function (item) {
+                                $(`#${target_id}`).append(`<option value="${item['id']}">${item['name']}</option>`)
+                            })
+        }
+
+        function clear_filters() {
+            $('.column_search').val('');
+            table_head.unbind();
+            $(`.select2_section option`).remove()
+            $(`.select2_section`).append(`<option></option>`)
+            filters_array.forEach(function(item) {
+              item.val('').change()
+            })
+            $('.ordering').attr('class', 'ordering');
+            set_filters_listener()
+            let keys = Object.keys(sort_data)
+            keys.forEach(function (item) {
+                sort_data[item] = ''
+            })
+            numb = 0
+            table.draw()
+
+        }
+
+        function send_POST(e) {
+            table = $('#meter_table').DataTable({
+                serverSide: true,
+                processing: false,
+                ordering: false,
+                oLanguage: {
+                    sZeroRecords: "Ничего не найдено."
+                },
+                columnDefs: [
+                    {className: "meter", "targets": [0, 1, 2,3,4,5]},
+                    {targets: '_all', defaultContent: ''},
+                ],
+                "ajax": {
+                    "processing": true,
+                    "url": "{% url 'meter_list' %}",
+                    "data": function (d) {
+                        return sort_data;
+                    },
+                    dataSrc: function (data) {
+                        if(data['sections']) {
+                            $('.select2_section').select2({placeholder: ""})
+                            set_options(data['sections'],'section')
+                        }
+                        return data['meter']
+                    },
+                },
+                "columns": [
+                    {data: 'apartment__house__name'},
+                    {data: 'apartment__section__name'},
+                    {data: 'apartment__number'},
+                    {data: 'service__name'},
+                    {data: 'value'},
+                    {data: 'service__unit__name',
+                        render: function (data) {
+                         return check_empty(data)
+                     }},
+                    {
+                        data: 'id',
+                        render: function (data, type) {
+                            let link_clone = '{% url 'meter_clone' 12345 %}'.replace(/12345/, data)
+                            {#let link_delete = '{% url 'personal_account_delete' 12345 %}'.replace(/12345/, data)#}
+                            return `<div class="btn-group pull-right">\
+            <a class="btn btn-default btn-sm" href="${link_clone}"\
+               title="Снять новое показание счетчика" data-toggle="tooltip">\
+                <i class="fa fa-dashboard"></i>\
+            </a>\
+            <a class="btn btn-default btn-sm"\
+               title="Открыть историю показаний для счетчика" data-toggle="tooltip" data-pjax="0" data-method="post"\
+                href="#" ">\
+                <i class="fa fa-eye"></i>\
+            </a>\
+        </div>`
+                        },
+                    },
+                ],
+                paging: false,
+                searching: false,
+                info: false,
+            });
+        }
+        function set_filters_listener() {
+            table_head.on('change', ".filter", function a(e) {
+            sort_data[this.id] = $(this).val()
+            numb = 0
+            table.draw()
+        });
+{% comment %}        table_head.on('change', ".select2_section", function a(e) {
+            sort_data[this.id] = $(this).val()
+            numb = 0
+            table.draw()
+        });{% endcomment %}
+        table_head.on('change', ".select2_house", function a(e) {
+            sort_data['section'] = ''
+            sort_data[this.id] = $(this).val()
+            if (sort_data[this.id]){
+                sort_data['house_select'] = true
+            }
+            numb = 0
+            table.draw()
+            sort_data['house_select'] = ''
+        });
+        table_head.on('keyup', ".column_search", function a(e) {
+            sort_data[this.id] = $(this).val()
+            numb = 0
+            table.draw()
+        });
+                table_head.on('click', '.ordering', function () {
+            if (this.className === 'ordering asc') {
+                $(this).attr('class', 'ordering desc')
+                sort_data['order_by'] = '-' + this.id
+            } else {
+                $(this).attr('class', 'ordering asc')
+                sort_data['order_by'] = this.id
+            }
+            table_head.find('.ordering').not(this).attr('class', 'ordering')
+            numb = 0
+            table.draw()
+        })
+                  }
+
+
+
+
+        function confirm_delete(link, event) {
+            alertify.confirm('Подтверждение удаления', 'Удалить дом <b>'
+                + $(event.target).closest("tr ").children().eq(0).text() + '</b> ?',
+                function () {
+                    window.location.href = link
+                },
+                function () {
+                }).set({labels: {ok: 'Подтвердить', cancel: 'Отмена'}});
+            return false;
+        }
+
+        $('#account_table').on('click', 'tbody tr .account', function () {
+            window.location.href = '{% url 'personal_account_view' 12345 %}'.replace(/12345/, table.row(this).data().id)
+        })
+
+
+        $(document).ready(function () {
+
+            send_POST();
+            $('.column_search').val('');
+            let $select2 = $('.select2').select2({placeholder: ""}).val('');
+            let $select2_section = $('.select2_section').select2({placeholder: "Выберите дом"}).val('');
+            let $house = $('#house').select2({placeholder: ""});
+            filters_array = [$select2,$select2_section,$house]
+            set_filters_listener()
             {#$('#section__name').select2();#}
             {#$('#floor__name').select2();#}
             {#$('#owner__name').select2();#}
-{#        });#}
-{#    </script>#}
+        });
+    </script>
 
 {% endblock %}

@@ -84,7 +84,7 @@ class PersonalAccountList(ListView):
                 'number__contains': self.request.GET.get('number'),
                 'status': self.request.GET.get('status'),
                 'apartment__house': self.request.GET.get('house'),
-                'apartment__house__section': self.request.GET.get('section'),
+                'apartment__section_id': self.request.GET.get('section'),
                 'apartment__number__contains': self.request.GET.get('apartment'),
                 'apartment__owner': self.request.GET.get('owner'),
             }

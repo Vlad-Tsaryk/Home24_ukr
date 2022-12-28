@@ -1,0 +1,17 @@
+{% extends 'admin_meter/meter_create.html' %}
+
+{% block clone %}
+    let apartment_id = $('#id_apartment option:selected').val()
+    $('#id_apartment').select2({placeholder: "Выберите..."})
+    $('#id_house').val()
+{#    clear_update_options('id_apartment')#}
+            function clear_update_options(target_id) {
+            let apartment_id = $('#' + `${target_id} option:selected`).val()
+            $('#' + `${target_id} option:not([value=''],:selected)`).remove();
+            select_options['apartment_id'] = apartment_id
+            get_values()
+        }
+{% endblock %}
+{% block ajax_url %}
+    '{% url 'meter_clone' 12345 %}'.replace(/12345/, apartment_id)
+{% endblock %}
