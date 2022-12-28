@@ -110,10 +110,11 @@ class TariffUpdate(UpdateView):
 class TariffView(DetailView):
     model = Tariff
     template_name = 'admin_tariff/tariff_view.html'
+
+
 def delete_tariff(request, pk):
     obj_tariff = get_object_or_404(Tariff, pk=pk)
     messages.success(request, f"Тариф {obj_tariff.name} успешно удалён")
     obj_tariff.delete()
 
     return redirect('tariff_list')
-

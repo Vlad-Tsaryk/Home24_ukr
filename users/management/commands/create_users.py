@@ -14,7 +14,7 @@ class Command(BaseCommand):
         for _ in range(options['number']):
             user = User.objects.create(
                 first_name=fake.first_name(),
-                middle_name=fake.first_name(),
+                # middle_name=fake.first_name(),
                 last_name=fake.last_name(),
                 phone=PhoneNumber.from_string('+38 (073) 242-58-82', region="UA"),
                 viber=PhoneNumber.from_string('+38 (073) 242-58-82', region="UA"),

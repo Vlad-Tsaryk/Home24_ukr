@@ -9,3 +9,7 @@ class PersonalAccount(models.Model):
         DISABLED = 'Неактивен', 'Неактивен'
     status = models.CharField(choices=StatusName.choices, max_length=9)
     apartment = models.ForeignKey(Apartment, on_delete=models.SET_NULL, null=True)
+    number = models.CharField(max_length=50, unique=True)
+
+    def __str__(self):
+        return self.number

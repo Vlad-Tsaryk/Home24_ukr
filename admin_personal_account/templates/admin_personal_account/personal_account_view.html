@@ -1,0 +1,97 @@
+{% extends 'layout/basic.html' %}
+
+{% block content %}
+
+
+    <div class="row">
+        <div class="col-xs-12 col-md-7 col-lg-6">
+            <div class="page-header-spec">
+                <div class="form-group">
+                    <div class="input-group date">
+                        <div class="input-group-addon">
+                            №
+                        </div>
+                        <div class="form-control pull-right">{{ personalaccount.number }}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="box">
+        <div class="box-header with-border">
+            <h3 class="box-title">Просмотр лицевого счета</h3>
+            <div class="box-tools">
+                <button class="btn btn-default btn-sm disabled"
+                        data-confirm="Лицевой счет неактивен или не привязан к квартире"><span class="hidden-xs"><i
+                        class="fa fa-dollar"></i> Принять платеж</span><i class="fa fa-pencil visible-xs"
+                                                                          aria-hidden="true"></i></button>
+                <button class="btn btn-default btn-sm disabled"
+                        data-confirm="Лицевой счет неактивен или не привязан к квартире"><span class="hidden-xs"><i
+                        class="fa fa-files-o"></i> Оформить квитанцию</span><i class="fa fa-pencil visible-xs"
+                                                                               aria-hidden="true"></i></button>
+                <a href="{% url 'personal_account_update' personalaccount.pk %}" class="btn btn-primary btn-sm">
+                    <span class="hidden-xs">Редактировать счет</span><i class="fa fa-pencil visible-xs"
+                                                                        aria-hidden="true"></i>
+                </a>
+            </div>
+        </div>
+        <div class="box-body">
+            <div class="row">
+                <div class="col-xs-12">
+                    <table class="table table-bordered table-striped table-view">
+                        <tbody>
+                        <tr>
+                            <td>Статус</td>
+                            <td><small class="label label-{% if personalaccount.status == 'Aктивен' %}success
+                            {% else %}danger
+                            {% endif %}">{{ personalaccount.status }}</small></td>
+                        </tr>
+                        <tr>
+                            <td>Дом</td>
+                            <td>
+                                <a href="{% url 'house_view' personalaccount.apartment.house_id %}">
+                                    {{ personalaccount.apartment.house.name}}
+                                </a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Секция</td>
+                            <td>{{ personalaccount.apartment.section.name}}</td>
+                        </tr>
+                        <tr>
+                            <td>Квартира</td>
+                            <td><a href="{% url 'apartment_view' personalaccount.apartment_id %}">
+                                {{ personalaccount.apartment.number }}</a></td>
+                        </tr>
+                        <tr>
+                            <td>Владелец</td>
+                            <td>
+                                <a href="{% url 'owner_view' personalaccount.apartment.owner_id %}">
+                                    {{ personalaccount.apartment.owner}}</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Остаток, грн.</td>
+                            <td>
+                                <span class="text-default">0.00</span></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <div>
+                        <p><a href="/admin/counter-data/counter-list?CounterDataSearch%5Bflat_id%5D=0">Посмотреть
+                            показания счетчиков</a></p>
+                        <p>
+                            <a href="/admin/account-transaction/index?AccountTransactionSearch%5Baccount_id%5D=359&amp;AccountTransactionSearch%5Btype%5D=in">Посмотреть
+                                приходы</a></p>
+                        <p><a href="/admin/invoice/index?InvoiceSearch%5Bflat_id%5D=0">Посмотреть квитанции</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block scripts %}
+        <script>
+        $('#nav_account').attr('class', 'active')
+    </script>
+{% endblock %}

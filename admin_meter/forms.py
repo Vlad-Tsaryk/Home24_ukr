@@ -1,0 +1,32 @@
+from django import forms
+
+from admin_apartment.models import Apartment
+from admin_house.models import House, Section
+from .models import Meter
+from admin_service.models import Service
+
+
+class MeterForm(forms.ModelForm):
+    try:
+        number_init = str(Meter.objects.last().pk + 1)
+    except:
+        number_init = '1'
+    service = forms.ModelChoiceField(widget=forms.Select(attrs={'class': 'form-control'}), empty_label='',
+                                     queryset=Service.objects.filter(is_counter=True), required=False)
+    number = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}),
+                             initial=number_init.zfill(11))
+    date = forms.DateField(widget=forms.DateInput(
+        attrs={'class': "form-control datetimepicker-input",
+               'data-target': '#reservationdate'}))
+    apartment = forms.ModelChoiceField(widget=forms.Select(attrs={'class': 'form-control'}), empty_label='',
+                                       queryset=Apartment.objects.all(), required=False)
+    house = forms.ModelChoiceField(widget=forms.Select(attrs={'class': 'form-control'}), empty_label='',
+                                   queryset=House.objects.all(), required=False)
+    section = forms.ModelChoiceField(widget=forms.Select(attrs={'class': 'form-control'}), empty_label='',
+                                     queryset=Section.objects.all(), required=False)
+    value = forms.FloatField(widget=forms.NumberInput(attrs={'class': 'form-control', 'step': '0.1'}), required=False)
+    status = forms.CharField(widget=forms.Select(attrs={'class': 'form-control'}, choices=Meter.StatusName.choices))
+
+    class Meta:
+        model = Meter
+        fields = ['service', 'apartment', 'status', 'value', 'date', 'number']
