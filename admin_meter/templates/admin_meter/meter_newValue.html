@@ -1,0 +1,11 @@
+{% extends 'admin_meter/meter_create.html' %}
+
+{% block clone %}
+    let apartment_id = $('#id_apartment option:selected').val()
+    let section_id = $('#id_section option:selected').val()
+    select_options['house_id'] = $('#id_house option:selected').val()
+    get_values(values=[apartment_id,section_id])
+{% endblock %}
+{% block ajax_url %}
+    '{% url 'meter_new_value' view.kwargs.pk %}'
+{% endblock %}

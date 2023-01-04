@@ -241,5 +241,15 @@
             </div>
         </div>
     </div>
+    {% for meter in meter_list %}
+        <div>
+        {{ meter.number }}
+        {{ meter.service }}
+        {{ meter.apartment_id }}
+        </div>
+
+    {% endfor %}
+
+{#    {{ meter_list }}#}
 
 {% endblock %}

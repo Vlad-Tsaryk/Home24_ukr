@@ -27,6 +27,16 @@ class MeterForm(forms.ModelForm):
     value = forms.FloatField(widget=forms.NumberInput(attrs={'class': 'form-control', 'step': '0.1'}), required=False)
     status = forms.CharField(widget=forms.Select(attrs={'class': 'form-control'}, choices=Meter.StatusName.choices))
 
+    def __init__(self, *args, **kwargs):
+        super(MeterForm, self).__init__(*args, **kwargs)
+        try:
+            if self.instance.apartment:
+                self.initial['house'] = self.instance.apartment.house_id
+                self.initial['section'] = self.instance.apartment.section_id
+                print(self.instance.apartment)
+        except:
+            pass
+
     class Meta:
         model = Meter
         fields = ['service', 'apartment', 'status', 'value', 'date', 'number']

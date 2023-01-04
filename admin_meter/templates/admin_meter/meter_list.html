@@ -143,6 +143,11 @@
                 columnDefs: [
                     {className: "meter", "targets": [0, 1, 2,3,4,5]},
                     {targets: '_all', defaultContent: ''},
+                    {
+                "targets": [4,5],
+                "createdCell": function (td, cellData, rowData, row, col) {
+                $(td).css('background-color', '#DFD5')
+                }},
                 ],
                 "ajax": {
                     "processing": true,
@@ -170,22 +175,25 @@
                      }},
                     {
                         data: 'id',
-                        render: function (data, type) {
-                            let link_clone = '{% url 'meter_clone' 12345 %}'.replace(/12345/, data)
+                        render: function (data, type,row) {
+
+                            const link_new_value = '{% url 'meter_new_value' 12345 %}'.replace(/12345/, data)
                             {#let link_delete = '{% url 'personal_account_delete' 12345 %}'.replace(/12345/, data)#}
+                            let link_view = '{% url 'meter_view' 12345 54321%}'.replace(/12345/, row.apartment).replace(/54321/,row.service)
+                            console.log(link_view)
                             return `<div class="btn-group pull-right">\
-            <a class="btn btn-default btn-sm" href="${link_clone}"\
+            <a class="btn btn-default btn-sm" href="${link_new_value}"\
                title="Снять новое показание счетчика" data-toggle="tooltip">\
                 <i class="fa fa-dashboard"></i>\
             </a>\
             <a class="btn btn-default btn-sm"\
                title="Открыть историю показаний для счетчика" data-toggle="tooltip" data-pjax="0" data-method="post"\
-                href="#" ">\
+                href="${link_view}" ">\
                 <i class="fa fa-eye"></i>\
             </a>\
         </div>`
                         },
-                    },
+                                            },
                 ],
                 paging: false,
                 searching: false,

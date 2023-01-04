@@ -3,7 +3,7 @@
 {% block title %}Пользователи{% endblock %}
 {% block head %}
     <link rel="stylesheet" type="text/css"
-          href="{% static 'admin_panel/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css' %}"/>
+          href="{% static 'admin_panel/bower_components/datatables.net-bs/css/dataTables.jqueryui.min.css' %}"/>
 {% endblock %}
 {% block header_text %}
     Пользователи
@@ -218,7 +218,7 @@
             function send_POST(e) {
                 table = $('#users_table').DataTable({
                     serverSide: true,
-                    processing: false,
+                    {#processing: false,#}
                     oLanguage: {
                     sZeroRecords: "Ничего не найдено."
                     },
@@ -265,7 +265,9 @@
                         }
                             ],
                     {#scrollCollapse: true,#}
-                    paging: false,
+                    paging: true,
+                    pagingType: 'full_numbers',
+                    processing: true,
                     {#scrollX: true,#}
                     searching: false,
                     ordering: false,

@@ -10,9 +10,11 @@ class Meter(models.Model):
         CLARIFIED = 'Учтено', 'Учтено'
         CLARIFIED_PAID = 'Учтено и оплачено', 'Учтено и оплачено'
         ZERO = 'Нулевое', 'Нулевое'
+
     apartment = models.ForeignKey(Apartment, on_delete=models.CASCADE)
     service = models.ForeignKey(Service, null=True, on_delete=models.SET_NULL)
     number = models.CharField(max_length=50, unique=True)
-    value = models.IntegerField()
+    value = models.FloatField()
     date = models.DateField()
     status = models.CharField(choices=StatusName.choices, max_length=20)
+

@@ -21,16 +21,16 @@ class MeterCreate(CreateView):
     def render_to_response(self, context, **response_kwargs):
         if self.request.is_ajax():
             result = {}
-            if self.request.GET.get('apartment_id'):
-                apartment = Apartment.objects.get(self.request.GET.get('apartment_id'))
-                house_id = apartment.house_id
-                section_id = apartment.section_id
-                result['house_id'] = house_id
-                result['section_id'] = section_id
-            else:
-                house_id = self.request.GET.get('house_id')
-                section_id = self.request.GET.get('section_id')
-            print(result)
+            # if self.request.GET.get('apartment_id'):
+            #     apartment = Apartment.objects.get(self.request.GET.get('apartment_id'))
+            #     house_id = apartment.house_id
+            #     section_id = apartment.section_id
+            #     result['house_id'] = house_id
+            #     result['section_id'] = section_id
+            # else:
+            house_id = self.request.GET.get('house_id')
+            section_id = self.request.GET.get('section_id')
+            print(self.request.GET)
             if house_id:
                 if section_id:
                     result['apartment'] = list(Apartment.objects.filter(
@@ -58,7 +58,26 @@ class MeterClone(MeterCreate):
         kwargs = super(MeterCreate, self).get_form_kwargs()
         try:
             meter_obj = get_object_or_404(Meter, pk=self.kwargs['pk'])
+            self.kwargs['pk'] = meter_obj.pk
             meter_obj.pk = None
+            meter_obj.apartment = None
+            meter_obj.number = str(Meter.objects.last().pk + 1).zfill(11)
+            kwargs['instance'] = meter_obj
+        except:
+            pass
+        return kwargs
+
+
+class MeterNewValue(MeterCreate):
+    template_name = 'admin_meter/meter_newValue.html'
+
+    def get_form_kwargs(self):
+        kwargs = super(MeterCreate, self).get_form_kwargs()
+        try:
+            meter_obj = get_object_or_404(Meter, pk=self.kwargs['pk'])
+            self.kwargs['pk'] = meter_obj.pk
+            meter_obj.pk = None
+            meter_obj.value = ''
             meter_obj.number = str(Meter.objects.last().pk + 1).zfill(11)
             kwargs['instance'] = meter_obj
         except:
@@ -78,7 +97,6 @@ class MeterList(ListView):
 
     def render_to_response(self, context, **response_kwargs):
         if self.request.is_ajax():
-            print(self.request.GET)
             order_by = self.request.GET.get('order_by')
             result = {}
             filter_fields = {
@@ -92,22 +110,64 @@ class MeterList(ListView):
                 result['sections'] = list(Section.objects.filter(house=filter_fields['apartment__house']).values())
 
             filter_fields = {k: v for k, v in filter_fields.items() if v}
-            filtered_qs = self.get_queryset().filter(**filter_fields)
-            filtered_qs = filtered_qs.values('id', 'service__name', 'status', 'apartment__house__name',
-                                             'apartment__section__name', 'value', 'service__unit__name',
-                                             'apartment__number').distinct('service', 'apartment__number')
+            filtered_qs = self.get_queryset().filter(**filter_fields).order_by('service', 'apartment__number', '-pk')
+            filtered_qs = filtered_qs.values('id', 'service', 'apartment', 'service__name', 'status',
+                                             'apartment__house__name', 'apartment__section__name', 'value',
+                                             'service__unit__name', 'apartment__number').distinct('service',
+                                                                                                  'apartment__number')
+            filtered_qs = list(filtered_qs)
             if order_by:
-                filtered_qs = filtered_qs.order_by(order_by)
-            # else:
-            #     filtered_qs = filtered_qs.order_by('pk')
-
-            result['meter'] = list(filtered_qs)
+                if order_by[0] == '-':
+                    filtered_qs = sorted(filtered_qs, key=lambda x: x[order_by[1:]], reverse=True)
+                else:
+                    filtered_qs = sorted(filtered_qs, key=lambda x: x[order_by])
+            else:
+                filtered_qs = sorted(filtered_qs, key=lambda x: x['id'], reverse=True)
+            result['meter'] = filtered_qs
             print(result)
             return JsonResponse(result, safe=False, **response_kwargs)
 
         else:
             return super(ListView, self).render_to_response(context, **response_kwargs)
 
-# class MeterView(ListView):
-#     model = Meter
-#     template_name = 'admin_meter/meter_view.html'
+
+class MeterView(ListView):
+    model = Meter
+    template_name = 'admin_meter/meter_view_list.html'
+
+    def get_queryset(self):
+        return Meter.objects.filter(apartment_id=self.kwargs['apartment_id'])
+
+    def render_to_response(self, context, **response_kwargs):
+        if self.request.is_ajax():
+            order_by = self.request.GET.get('order_by')
+            result = {}
+            filter_fields = {
+                'status': self.request.GET.get('status'),
+                'apartment__house': self.request.GET.get('house'),
+                'apartment__section_id': self.request.GET.get('section'),
+                'apartment__number__contains': self.request.GET.get('apartment'),
+                'service': self.request.GET.get('service'),
+            }
+            if self.request.GET.get('house_select'):
+                result['sections'] = list(Section.objects.filter(house=filter_fields['apartment__house']).values())
+
+            filter_fields = {k: v for k, v in filter_fields.items() if v}
+            filtered_qs = self.get_queryset().filter(**filter_fields).order_by('service', 'apartment__number')
+            filtered_qs = filtered_qs.values('id', 'date', 'service__name', 'status', 'apartment__house__name',
+                                             'apartment__section__name', 'value', 'service__unit__name',
+                                             'apartment__number')
+            filtered_qs = list(filtered_qs)
+            if order_by:
+                if order_by[0] == '-':
+                    filtered_qs = sorted(filtered_qs, key=lambda x: x[order_by[1:]], reverse=True)
+                else:
+                    filtered_qs = sorted(filtered_qs, key=lambda x: x[order_by])
+            else:
+                filtered_qs = sorted(filtered_qs, key=lambda x: x['date'], reverse=True)
+            result['meter'] = filtered_qs
+            print(result)
+            return JsonResponse(result, safe=False, **response_kwargs)
+
+        else:
+            return super(ListView, self).render_to_response(context, **response_kwargs)

@@ -113,7 +113,7 @@
             $('#' + `${target_id} option:not([value=''])`).remove()
         }
 
-    function get_values() {
+    function get_values(values) {
         $.ajax({
             type: 'GET',
             url: {% block ajax_url %}'{% url 'meter_create' %}'{% endblock %},
@@ -124,6 +124,7 @@
                 console.log(data)
                 console.log(apartments_data)
                 if(!select_options['section_id']){
+                    console.log("asdasdasd")
                     clear_options('id_section')
                                     data['section'].forEach(
                     function (item) {
@@ -137,10 +138,23 @@
                         $('#id_apartment').append($('<option>').val(item['id']).text(item['number']));
                     }
                 );
+                if (values){
+                    clear_options('id_section')
+                                    data['section'].forEach(
+                    function (item) {
+                        $('#id_section').append($('<option>').val(item['id']).text(item['name']));
+                    }
+                    );
+                    $('#id_apartment').val(values[0]).change();
+                    $('#id_section').unbind().val(values[1]).change();
+                    set_event_listeners()
+                }
+
             }
         })
     }
-    $('#id_house').change(function () {
+    function set_event_listeners(){
+        $('#id_house').change(function () {
         select_options['house_id'] = this.value
         select_options['section_id'] = ''
         get_values()
@@ -149,16 +163,24 @@
         select_options['section_id'] = this.value
         get_values()
     })
+    }
+
         $(document).ready(function ()
             {
-                $('#id_house').select2({placeholder: "Выберите..."}).val('')
-                $('#id_section').select2({placeholder: "Выберите..."}).val('')
+                let select_house =$('#id_house').select2({placeholder: "Выберите..."})
+                let select_section =$('#id_section').select2({placeholder: "Выберите..."})
+                let select_apartment =$('#id_apartment').select2({placeholder: "Выберите..."})
+
                 {% block clone %}
-                    $('#id_apartment').select2({placeholder: "Выберите..."}).val('')
                     clear_options('id_apartment')
+                    clear_options('id_section')
+                    select_house.val('')
+                    select_section.val('')
+                    select_apartment.val('')
+                    {#clear_options('id_apartment')#}
                  {% endblock %}
 
-                clear_options('id_section')
+                set_event_listeners()
             }
 
         )
