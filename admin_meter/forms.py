@@ -24,7 +24,7 @@ class MeterForm(forms.ModelForm):
                                    queryset=House.objects.all(), required=False)
     section = forms.ModelChoiceField(widget=forms.Select(attrs={'class': 'form-control'}), empty_label='',
                                      queryset=Section.objects.all(), required=False)
-    value = forms.FloatField(widget=forms.NumberInput(attrs={'class': 'form-control', 'step': '0.1'}), required=False)
+    value = forms.FloatField(widget=forms.NumberInput(attrs={'class': 'form-control', 'step': '0.1'}))
     status = forms.CharField(widget=forms.Select(attrs={'class': 'form-control'}, choices=Meter.StatusName.choices))
 
     def __init__(self, *args, **kwargs):

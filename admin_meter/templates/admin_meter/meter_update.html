@@ -1,10 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-
-</body>
-</html>
+{% extends 'admin_meter/meter_create.html' %}
+{% block clone %}
+    let apartment_id = {{meter.apartment_id}}
+    let service_id = {{meter.service_id}}
+    let section_id = {{meter.apartment.section_id}}
+    select_options['house_id'] = {{meter.apartment.house_id}}
+    get_values(values=[apartment_id,section_id])
+{% endblock %}
+{% block ajax_url %}'{% url 'meter_update' meter.pk %}'{% endblock %}

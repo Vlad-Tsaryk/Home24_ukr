@@ -3,6 +3,7 @@
 {% block head %}
     <link rel="stylesheet" type="text/css"
           href="{% static 'admin_panel/bower_components/datatables.net-bs/css/dataTables.jqueryui.min.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'admin_panel/bower_components/daterangepicker/daterangepicker.css' %}" />
 {% endblock %}
 {% block content %}
 
@@ -14,7 +15,7 @@
         <div class="col-xs-12">
 
             <div class="pull-right margin-bottom">
-                <a class="btn btn-success" href="/admin/counter-data/create?flat_id=96&amp;service_id=7">Добавить
+                <a class="btn btn-success" href="#">Добавить
                     показание</a>
             </div>
         </div>
@@ -25,11 +26,9 @@
                 <div class="box-header with-border">
                     <h3 class="box-title"></h3>
                     <div class="box-tools">
-                        <a href="/admin/counter-data/counter-list?CounterDataSearch%5Bflat_id%5D=96"
-                           class="btn btn-default btn-sm">
-                            <span class="hidden-xs">Очистить</span><i class="fa fa-eraser visible-xs"
-                                                                      aria-hidden="true"></i>
-                        </a>
+                        <button onclick="clear_filters()" class="btn btn-default btn-sm">
+                            <span class="hidden-xs">Очистить</span><i class="fa fa-eraser visible-xs" aria-hidden="true"></i>
+                        </button>
                     </div>
                 </div>
 
@@ -40,12 +39,10 @@
                             <tr>
                                 <th style="width: 125px; min-width: 125px">№</th>
                                 <th>Статус</th>
-                                <th style="width: 125px; min-width: 125px"><a class="desc"
-                                                                              href="/admin/counter-data/counter-list?CounterDataSearch%5Bflat_id%5D=96&amp;CounterDataSearch%5Bservice_id%5D=7&amp;sort=searchUidDate"
-                                                                              data-sort="searchUidDate">Дата</a></th>
                                 <th style="width: 125px; min-width: 125px"><a
-                                        href="/admin/counter-data/counter-list?CounterDataSearch%5Bflat_id%5D=96&amp;CounterDataSearch%5Bservice_id%5D=7&amp;sort=-searchUidMonthYear"
-                                        data-sort="-searchUidMonthYear">Месяц</a></th>
+                                        id="date" class="ordering desc" style="cursor: pointer">Дата</a></th>
+                                <th style="width: 125px; min-width: 125px"><a id="date__month" class="ordering" style="cursor: pointer"
+                                        >Месяц</a></th>
                                 <th style="min-width: 200px">Дом</th>
                                 <th style="min-width: 160px">Секция</th>
                                 <th style="width: 110px; min-width: 110px">№ квартиры</th>
@@ -55,189 +52,39 @@
                                 <th style="width: 80px; min-width: 80px">&nbsp;</th>
                             </tr>
                             <tr id="w0-filters" class="filters">
-                                <td><input type="text" class="form-control" name="CounterDataSearch[uid]"></td>
-                                <td><select id="counterdatasearch-status" class="form-control select2-hidden-accessible"
-                                            name="CounterDataSearch[status]" data-s2-options="s2options_7ebc6538"
-                                            data-krajee-select2="select2_0d896465" style="display:none" tabindex="-1"
-                                            aria-hidden="true">
+                                <td><input id="number" type="text" class="form-control column_search" ></td>
+                                <td><select id="status" class="form-control select2 filter" style="width: 100%;">
                                     <option value=""></option>
-                                    <option value="5">Новое</option>
-                                    <option value="10">Учтено</option>
-                                    <option value="12">Учтено и оплачено</option>
-                                    <option value="0">Нулевое</option>
-                                </select><span class="select2 select2-container select2-container--default" dir="ltr"
-                                               style="width: 100%;"><span class="selection"><span
-                                        class="select2-selection select2-selection--single" role="combobox"
-                                        aria-haspopup="true" aria-expanded="false" tabindex="0"
-                                        aria-labelledby="select2-counterdatasearch-status-container"><span
-                                        class="select2-selection__rendered"
-                                        id="select2-counterdatasearch-status-container"><span
-                                        class="select2-selection__placeholder"></span></span><span
-                                        class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span
-                                        class="dropdown-wrapper" aria-hidden="true"></span></span></td>
-                                <td><input type="text" id="counterdatasearch-searchuiddaterange" class="form-control"
-                                           name="CounterDataSearch[searchUidDateRange]"
-                                           data-krajee-daterangepicker="daterangepicker_c8dff207"></td>
+                                    <option value="Новое">Новое</option>
+                                    <option value="Учтено">Учтено</option>
+                                    <option value="Учтено и оплачено">Учтено и оплачено</option>
+                                    <option value="Нулевое">Нулевое</option>
+                                </select></td>
+                                <td><input type="text" id="date_range" class="form-control date_range"></td>
                                 <td>&nbsp;</td>
-                                <td><select id="counterdatasearch-searchhouse"
-                                            class="form-control select2-hidden-accessible"
-                                            name="CounterDataSearch[searchHouse]" data-s2-options="s2options_7ebc6538"
-                                            data-krajee-select2="select2_0d896465" style="display:none" tabindex="-1"
-                                            aria-hidden="true">
+                                <td><select id="house" class="form-control select2_house"
+                                style="width: 100%;">
                                     <option value=""></option>
-                                    <option value="1">ЖК "Башня Чкалов"</option>
-                                    <option value="2">ЖК "Морская Симфония"</option>
-                                    <option value="3">ЖК "Дом Каркашадзе"</option>
-                                    <option value="4">ЖК "Королевские сады"</option>
-                                    <option value="6">ЖК "Балковский"</option>
-                                    <option value="11">ЖК "Адмирал" Дом №11</option>
-                                    <option value="12">ЖК "Адмирал" Дом №12</option>
-                                    <option value="13">ЖК "Адмирал" Дом №13</option>
-                                    <option value="14">ЖК "Новые Черемушки"</option>
-                                    <option value="18">ЖК "Manhattan"</option>
-                                    <option value="19">ЖК "Скай Сити"</option>
-                                    <option value="20">ЖК "Альтаир 3"</option>
-                                    <option value="23">ОСМД 1002 ЖК "Альтаир 2"</option>
-                                    <option value="24">Н-О</option>
-                                    <option value="25">ЖК Искринский</option>
-                                    <option value="51">sssbdcbdf</option>
-                                    <option value="56">Дом 56</option>
-                                    <option value="61">dfdsf</option>
-                                    <option value="78">alert('xss')</option>
-                                    <option value="85">test</option>
-                                    <option value="100">альтаир</option>
-                                    <option value="101">1234</option>
-                                    <option value="105">ЖК "Луч"</option>
-                                    <option value="106">Test 123</option>
-                                    <option value="107">12313</option>
-                                    <option value="132"></option>
-                                    <option value="133">Континент</option>
-                                    <option value="134">Континент</option>
-                                    <option value="139">ЖК Чайка</option>
-                                    <option value="142">Тестовый дом1</option>
-                                    <option value="145">!@#$%^&amp;*()</option>
-                                    <option value="158"></option>
-                                    <option value="165">ЖК "Помидор"</option>
-                                    <option value="170">верстат</option>
-                                    <option value="173"></option>
-                                    <option value="174">Аквамарин</option>
-                                    <option value="175">Генарёк хаус</option>
-                                    <option value="182">ЖК "Огурец"</option>
-                                    <option value="183">ДОм исчез</option>
-                                    <option value="185">Дом Дом</option>
-                                    <option value="186">0000000000</option>
-                                    <option value="188">fgb</option>
-                                    <option value="189"></option>
-                                    <option value="190"></option>
-                                    <option value="191"></option>
-                                    <option value="193">ЖК "Эдельвейс"</option>
-                                </select><span class="select2 select2-container select2-container--default" dir="ltr"
-                                               style="width: 100%;"><span class="selection"><span
-                                        class="select2-selection select2-selection--single" role="combobox"
-                                        aria-haspopup="true" aria-expanded="false" tabindex="0"
-                                        aria-labelledby="select2-counterdatasearch-searchhouse-container"><span
-                                        class="select2-selection__rendered"
-                                        id="select2-counterdatasearch-searchhouse-container"><span
-                                        class="select2-selection__placeholder"></span></span><span
-                                        class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span
-                                        class="dropdown-wrapper" aria-hidden="true"></span></span></td>
-                                <td><select id="counterdatasearch-searchsection"
-                                            class="form-control select2-hidden-accessible"
-                                            name="CounterDataSearch[searchSection]" data-s2-options="s2options_7ebc6538"
-                                            data-krajee-select2="select2_00d9e7b8" style="display:none" tabindex="-1"
-                                            aria-hidden="true">
-                                    <option value="">Выберите дом</option>
-                                </select><span class="select2 select2-container select2-container--default" dir="ltr"
-                                               style="width: 100%;"><span class="selection"><span
-                                        class="select2-selection select2-selection--single" role="combobox"
-                                        aria-haspopup="true" aria-expanded="false" tabindex="0"
-                                        aria-labelledby="select2-counterdatasearch-searchsection-container"><span
-                                        class="select2-selection__rendered"
-                                        id="select2-counterdatasearch-searchsection-container"><span
-                                        class="select2-selection__placeholder">Выберите дом</span></span><span
-                                        class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span
-                                        class="dropdown-wrapper" aria-hidden="true"></span></span></td>
-                                <td><input type="text" class="form-control" name="CounterDataSearch[searchFlat]"></td>
-                                <td><select id="counterdatasearch-service_id"
-                                            class="form-control select2-hidden-accessible"
-                                            name="CounterDataSearch[service_id]" data-s2-options="s2options_7ebc6538"
-                                            data-krajee-select2="select2_0d896465" style="display:none" tabindex="-1"
-                                            aria-hidden="true">
-                                    <option value=""></option>
-                                    <option value="2"></option>
-                                    <option value="5"></option>
-                                    <option value="6">отопление&amp;</option>
-                                    <option value="7" selected="">Охрана</option>
-                                    <option value="16">Уборка !!!</option>
-                                    <option value="21">Горячая вода</option>
-                                    <option value="26">за пивом !!!!!!!!!!!!!</option>
-                                    <option value="28">Электроэнергия</option>
-                                    <option value="29">ГАЗ!!!</option>
-                                    <option value="39">Водоснабжение</option>
-                                    <option value="40">Газоснабжение</option>
-                                    <option value="41">Транспортировка газа</option>
-                                </select><span class="select2 select2-container select2-container--default" dir="ltr"
-                                               style="width: 100%;"><span class="selection"><span
-                                        class="select2-selection select2-selection--single" role="combobox"
-                                        aria-haspopup="true" aria-expanded="false" tabindex="0"
-                                        aria-labelledby="select2-counterdatasearch-service_id-container"><span
-                                        class="select2-selection__rendered"
-                                        id="select2-counterdatasearch-service_id-container" title="Охрана">Охрана</span><span
-                                        class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span
-                                        class="dropdown-wrapper" aria-hidden="true"></span></span></td>
+                                    {% for house in house_list %}
+                                            <option value="{{ house.pk }}">{{ house}}</option>
+                                    {% endfor %}
+                                </select></td>
+                                <td><select id="section" class="form-control select2_section filter" style="width: 100%;">
+                                    <option></option>
+                                </select></td>
+                                <td><input id="apartment" type="text" class="form-control column_search"></td>
+                                <td><select id="service" class="form-control select2 filter" style="width: 100px;">
+                                    <option></option>
+                                    {% for service in service_list %}
+                                        <option value="{{ service.pk }}">{{ service}}</option>
+                                {% endfor %}
+                                </select></td>
                                 <td>&nbsp;</td>
                                 <td>&nbsp;</td>
                                 <td>&nbsp;</td>
                             </tr>
                             </thead>
-                            <tbody>
-                            <tr data-href="/admin/counter-data/510" data-key="510">
-                                <td>28122200510</td>
-                                <td><small class="label label-warning">Новое</small></td>
-                                <td>28.12.2022</td>
-                                <td>Декабрь 2022</td>
-                                <td>ЖК "Башня Чкалов"</td>
-                                <td>Секция 2</td>
-                                <td>3425</td>
-                                <td>Охрана</td>
-                                <td style="background-color: #DFD5; font-weight: normal">1.0</td>
-                                <td style="background-color: #DFD5; font-weight: normal">Убитых дней</td>
-                                <td>
-                                    <div class="btn-group pull-right"><a class="btn btn-default btn-sm"
-                                                                         href="/admin/counter-data/update/510"
-                                                                         title="Редактировать" data-toggle="tooltip"><i
-                                            class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm"
-                                                                             href="/admin/counter-data/delete/510?CounterDataSearch%5Bflat_id%5D=96&amp;CounterDataSearch%5Bservice_id%5D=7"
-                                                                             title="Удалить" data-toggle="tooltip"
-                                                                             data-pjax="0" data-method="post"
-                                                                             data-confirm="Вы уверены, что хотите удалить этот элемент?"><i
-                                            class="fa fa-trash"></i></a></div>
-                                </td>
-                            </tr>
-                            <tr data-href="/admin/counter-data/504" data-key="504">
-                                <td>03112200503</td>
-                                <td><small class="label label-warning">Новое</small></td>
-                                <td>03.11.2022</td>
-                                <td>Ноябрь 2022</td>
-                                <td>ЖК "Башня Чкалов"</td>
-                                <td>Секция 2</td>
-                                <td>3425</td>
-                                <td>Охрана</td>
-                                <td style="background-color: #DFD5; font-weight: normal">0.1</td>
-                                <td style="background-color: #DFD5; font-weight: normal">Убитых дней</td>
-                                <td>
-                                    <div class="btn-group pull-right"><a class="btn btn-default btn-sm"
-                                                                         href="/admin/counter-data/update/504"
-                                                                         title="Редактировать" data-toggle="tooltip"><i
-                                            class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm"
-                                                                             href="/admin/counter-data/delete/504?CounterDataSearch%5Bflat_id%5D=96&amp;CounterDataSearch%5Bservice_id%5D=7"
-                                                                             title="Удалить" data-toggle="tooltip"
-                                                                             data-pjax="0" data-method="post"
-                                                                             data-confirm="Вы уверены, что хотите удалить этот элемент?"><i
-                                            class="fa fa-trash"></i></a></div>
-                                </td>
-                            </tr>
-                            </tbody>
+                            <tbody></tbody>
                         </table>
                     </div>
                     <div class="box-footer clearfix"></div>
@@ -245,14 +92,6 @@
             </div>
         </div>
     </div>
-    {% for meter in meter_list %}
-        <div>
-            {{ meter.number }}
-            {{ meter.service }}
-            {{ meter.apartment_id }}
-        </div>
-
-    {% endfor %}
 
 {% endblock %}
 {% block scripts %}
@@ -266,6 +105,8 @@
     </script>
     <script src="{% static 'admin_panel/bower_components/moment/moment.js' %}"></script>
     <script src="{% static 'admin_panel/bower_components/moment/locale/ru.js' %}"></script>
+    <script type="text/javascript" src="{% static 'admin_panel/bower_components/daterangepicker/daterangepicker.js' %}"></script>
+
        <script>
 
         let numb = 0
@@ -293,6 +134,7 @@
         }
         function clear_filters() {
             $('.column_search').val('');
+            $('#date_range').val('');
             table_head.unbind();
             $('.select2_section option').remove()
             $('.select2_section').append('<option></option>')
@@ -300,11 +142,13 @@
               item.val('').change()
             })
             $('.ordering').attr('class', 'ordering');
+            $('#date').attr('class', 'ordering desc');
             set_filters_listener()
             let keys = Object.keys(sort_data)
             keys.forEach(function (item) {
                 sort_data[item] = ''
             })
+            sort_data['service_sort'] = 'yes'
             numb = 0
             table.draw()
 
@@ -319,10 +163,10 @@
                     sZeroRecords: "Ничего не найдено."
                 },
                 columnDefs: [
-                    {className: "meter", "targets": [0, 1, 2,3,4,5]},
+                    {className: "meter", "targets": [0, 1, 2,3,4,5,6,7,8,9]},
                     {targets: '_all', defaultContent: ''},
                     {
-                targets: [4,5],
+                targets: [8,9],
                 createdCell: function (td, cellData, rowData, row, col) {
                     $(td).css('background-color', '#DFD5')
                 }},
@@ -354,7 +198,8 @@
                     }},
                     {data: 'date',
                     render:function (data) {
-                        return moment(data).format('MMMM YYYY')
+                        let date = moment(data).format('MMMM YYYY')
+                        return date.charAt(0).toUpperCase() + date.slice(1)
                     }},
                     {data: 'apartment__house__name'},
                     {data: 'apartment__section__name'},
@@ -368,18 +213,18 @@
                     {
                         data: 'id',
                         render: function (data, type,row) {
-                            const link_new_value = '{% url 'meter_new_value' 12345 %}'.replace(/12345/, data)
+                            const link_update = '{% url 'meter_update' 12345 %}'.replace(/12345/, data)
                             {#let link_delete = '{% url 'personal_account_delete' 12345 %}'.replace(/12345/, data)#}
-                            let link_view = '{% url 'meter_view_list' 12345 54321%}'.replace(/12345/, row.apartment).replace(/54321/,row.service)
+                            {#let link_view = '{% url 'meter_view_list' 12345 54321%}'.replace(/12345/, row.apartment).replace(/54321/,row.service)#}
                             return `<div class="btn-group pull-right">\
-            <a class="btn btn-default btn-sm" href="${link_new_value}"\
-               title="Снять новое показание счетчика" data-toggle="tooltip">\
-                <i class="fa fa-dashboard"></i>\
+            <a class="btn btn-default btn-sm" href="${link_update}"\
+               title="Редактировать" data-toggle="tooltip">\
+                <i class="fa fa-pencil"></i>\
             </a>\
             <a class="btn btn-default btn-sm"\
-               title="Открыть историю показаний для счетчика" data-toggle="tooltip" data-pjax="0" data-method="post"\
-                href="${link_view}" ">\
-                <i class="fa fa-eye"></i>\
+               title="Удалить" data-toggle="tooltip" data-pjax="0" data-method="post"\
+                href="#" ">\
+                <i class="fa fa-trash"></i>\
             </a>\
         </div>`
                         },
@@ -449,6 +294,7 @@
         })
 
 
+
         $(document).ready(function () {
 
             send_POST();
@@ -456,8 +302,38 @@
             let $select2 = $('.select2').select2({placeholder: ""}).val('');
             let $select2_section = $('.select2_section').select2({placeholder: "Выберите дом"}).val('');
             let $house = $('#house').select2({placeholder: ""});
+            $('#service').val({{ view.kwargs.service_id }}).change()
             filters_array = [$select2,$select2_section,$house]
+            sort_data['service_sort'] = 'yes'
+            sort_data['service'] = {{ view.kwargs.service_id }};
             set_filters_listener()
+            $(function () {
+                let input = $('#date_range')
+                input.daterangepicker({
+                    autoUpdateInput: false,
+                    locale: {
+
+                        cancelLabel: 'Отменить',
+                        applyLabel: 'Применить'
+                    },
+                    applyButtonClasses:'btn btn-success',
+                    cancelButtonClasses:'btn btn-default',
+                });
+                input.on('apply.daterangepicker', function (ev, picker) {
+                    $(this).val(picker.startDate.format('DD/MM/YYYY') + ' - ' + picker.endDate.format('DD/MM/YYYY'));
+                    sort_data['date_range'] = [picker.startDate.format('YYYY-MM-DD'), picker.endDate.format('YYYY-MM-DD')]
+                    {#console.log(sort_data[this.id])#}
+                    {#sort_data[this.id] = $(this).val()#}
+                    console.log(sort_data[this.id])
+                    numb = 0
+                    table.draw()
+                });
+
+                input.on('cancel.daterangepicker', function (ev, picker) {
+                    $(this).val('');
+                });
+
+            });
             {#$('#section__name').select2();#}
             {#$('#floor__name').select2();#}
             {#$('#owner__name').select2();#}

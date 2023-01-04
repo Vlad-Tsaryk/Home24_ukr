@@ -1,16 +1,15 @@
 {
-  "name": "bootstrap-daterangepicker",
-  "version": "2.1.27",
+  "name": "daterangepicker",
+  "version": "3.1",
   "description": "Date range picker component for Bootstrap",
   "main": "daterangepicker.js",
   "style": "daterangepicker.css",
   "scripts": {
-    "scss": "node-sass daterangepicker.scss > daterangepicker.css",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/dangrossman/bootstrap-daterangepicker.git"
+    "url": "https://github.com/dangrossman/daterangepicker.git"
   },
   "author": {
     "name": "Dan Grossman",
@@ -19,14 +18,11 @@
   },
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/dangrossman/bootstrap-daterangepicker/issues"
+    "url": "https://github.com/dangrossman/daterangepicker/issues"
   },
-  "homepage": "https://github.com/dangrossman/bootstrap-daterangepicker",
+  "homepage": "https://github.com/dangrossman/daterangepicker",
   "dependencies": {
     "jquery": ">=1.10",
     "moment": "^2.9.0"
-  },
-  "devDependencies": {
-    "node-sass": "^3.4.2"
   }
 }
