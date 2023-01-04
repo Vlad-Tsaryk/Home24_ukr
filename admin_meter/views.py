@@ -214,6 +214,10 @@ class MeterUpdate(SuccessMessageMixin, UpdateView):
             return redirect('meter_clone', pk=self.object.pk)
         return super().form_valid(form)
 
+    def get_success_url(self):
+        return reverse_lazy('meter_view_list',
+                            kwargs={'apartment_id': self.object.apartment_id, 'service_id': self.object.service_id})
+
 
 def meter_delete(request, pk):
     name = None
