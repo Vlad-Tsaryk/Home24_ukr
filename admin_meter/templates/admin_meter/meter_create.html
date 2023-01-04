@@ -112,6 +112,7 @@
         function clear_options(target_id) {
             $('#' + `${target_id} option:not([value=''])`).remove()
         }
+    {% block ajax_link_set %}{% endblock %}
 
     function get_values(values) {
         $.ajax({
@@ -138,15 +139,16 @@
                     }
                 );
                 if (values){
-                    clear_options('id_section')
-                                    data['section'].forEach(
-                    function (item) {
-                        $('#id_section').append($('<option>').val(item['id']).text(item['name']));
+                    if (values[1]){
+                        $('#id_section').unbind().val(values[1]).change().select2({placeholder: "Выберите..."})
+                        select_options['section_id'] = values[1]
+                        get_values([values[0]])
+                        set_event_listeners()
                     }
-                    );
+                    console.log(values)
                     $('#id_apartment').val(values[0]).change();
-                    $('#id_section').unbind().val(values[1]).change();
-                    set_event_listeners()
+
+                    {#set_event_listeners()#}
                 }
 
             }
@@ -170,6 +172,7 @@
                 let select_section =$('#id_section').select2({placeholder: "Выберите..."})
                 let select_apartment =$('#id_apartment').select2({placeholder: "Выберите..."})
                 $('#id_status').select2({placeholder: "Выберите..."})
+                $('#id_service').select2({placeholder: "Выберите..."})
 
                 {% block clone %}
                     clear_options('id_apartment')

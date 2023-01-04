@@ -18,3 +18,5 @@ class Meter(models.Model):
     date = models.DateField()
     status = models.CharField(choices=StatusName.choices, max_length=20)
 
+    class Meta:
+        ordering = ['pk']

@@ -14,6 +14,11 @@ from django.contrib.messages import success, error
 
 
 # Create your views here.
+class MeterView(DetailView):
+    model = Meter
+    template_name = 'admin_meter/meter_view.html'
+
+
 class MeterCreate(SuccessMessageMixin, CreateView):
     model = Meter
     form_class = MeterForm
@@ -70,16 +75,9 @@ class MeterNewValue(MeterCreate):
     def get_form_kwargs(self):
         kwargs = super(MeterCreate, self).get_form_kwargs()
         try:
-            apartment_obj = Apartment.objects.get(pk=kwargs['apartment_id'])
+            apartment_obj = Apartment.objects.get(pk=self.kwargs['apartment_id'])
             self.kwargs['section_id'] = apartment_obj.section_id
             self.kwargs['house_id'] = apartment_obj.house_id
-
-            # meter_obj = get_object_or_404(Meter, pk=self.kwargs['pk'])
-            # self.kwargs['pk'] = meter_obj.pk
-            # meter_obj.pk = None
-            # meter_obj.value = ''
-            # meter_obj.number = str(Meter.objects.last().pk + 1).zfill(11)
-            # kwargs['instance'] = meter_obj
         except:
             pass
         return kwargs
@@ -219,8 +217,12 @@ class MeterUpdate(SuccessMessageMixin, UpdateView):
 
 def meter_delete(request, pk):
     name = None
+    apartment_id = None
+    service_id = None
     try:
         obj_delete = Meter.objects.get(pk=pk)
+        apartment_id = obj_delete.apartment_id
+        service_id = obj_delete.service_id
         n = f'№{obj_delete.number}({obj_delete.service.name}) дом {obj_delete.apartment.house.name} ' \
             f',кв.{obj_delete.apartment.number} от {obj_delete.date}'
         if obj_delete.delete():
@@ -229,4 +231,4 @@ def meter_delete(request, pk):
         error(request, f"Не удалось удалить счетчик")
     if name:
         success(request, f"Показание {name} удален успешно")
-    return redirect('meter_view_list ')
+    return redirect('meter_view_list', apartment_id=apartment_id, service_id=service_id)
