@@ -131,7 +131,7 @@ class MeterList(ListView):
             return super(ListView, self).render_to_response(context, **response_kwargs)
 
 
-class MeterView(ListView):
+class MeterViewList(ListView):
     model = Meter
     template_name = 'admin_meter/meter_view_list.html'
 
@@ -156,7 +156,7 @@ class MeterView(ListView):
             filtered_qs = self.get_queryset().filter(**filter_fields).order_by('service', 'apartment__number')
             filtered_qs = filtered_qs.values('id', 'date', 'service__name', 'status', 'apartment__house__name',
                                              'apartment__section__name', 'value', 'service__unit__name',
-                                             'apartment__number')
+                                             'apartment__number', 'number')
             filtered_qs = list(filtered_qs)
             if order_by:
                 if order_by[0] == '-':

@@ -9,6 +9,10 @@
     <li class="active">Владельцы квартир</li>
 </ul>
 {% endblock %}
+{% block head %}
+    <link rel="stylesheet" type="text/css"
+          href="{% static 'admin_panel/bower_components/datatables.net-bs/css/dataTables.jqueryui.min.css' %}"/>
+{% endblock %}
 {%  block content %}
 <div class="row">
     <div class="col-xs-12">
