@@ -1,5 +1,16 @@
 {% extends 'layout/basic.html' %}
 {% load static %}
+{% block title %}Новая квартира{% endblock %}
+{% block breadcrumb %}
+        <ul class="breadcrumb">
+        <li><a href="{% url 'statistic' %}"><i class="fa fa-home"></i>Главная</a></li>
+        <li><a href="{% url 'meter_list' %}">Счетчики</a></li>
+        <li class="active">Новое показание</li>
+</ul>
+{% endblock %}
+{% block header_text %}
+    Новое показание
+{% endblock %}
 {% block head %}
 <link rel="stylesheet"
       href="{% static 'admin_panel/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css' %}"/>
@@ -165,6 +176,7 @@
         get_values()
     })
     }
+
 
         $(document).ready(function ()
             {

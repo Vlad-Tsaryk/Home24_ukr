@@ -1,5 +1,16 @@
 {% extends 'layout/basic.html' %}
 {% load static %}
+{% block title %}Показания счетчиков, кв.{{ meter_list.first.apartment }}{% endblock %}
+{% block breadcrumb %}
+        <ul class="breadcrumb">
+        <li><a href="{% url 'statistic' %}"><i class="fa fa-home"></i>Главная</a></li>
+        <li><a href="{% url 'meter_list' %}">Счетчики</a></li>
+        <li class="active">Показания счетчиков, кв.{{ meter_list.first.apartment }}</li>
+</ul>
+{% endblock %}
+{% block header_text %}
+    Показания счетчиков, кв.{{ meter_list.first.apartment }}
+{% endblock %}
 {% block head %}
     <link rel="stylesheet" type="text/css"
           href="{% static 'admin_panel/bower_components/datatables.net-bs/css/dataTables.jqueryui.min.css' %}"/>

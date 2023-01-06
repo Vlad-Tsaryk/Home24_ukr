@@ -7,14 +7,9 @@ from admin_service.models import Service
 
 
 class MeterForm(forms.ModelForm):
-    try:
-        number_init = str(Meter.objects.last().pk + 1)
-    except:
-        number_init = '1'
     service = forms.ModelChoiceField(widget=forms.Select(attrs={'class': 'form-control'}), empty_label='',
                                      queryset=Service.objects.filter(is_counter=True), required=False)
-    number = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}),
-                             initial=number_init.zfill(11))
+    number = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}))
     date = forms.DateField(widget=forms.DateInput(
         attrs={'class': "form-control datetimepicker-input",
                'data-target': '#reservationdate'}))
@@ -29,6 +24,7 @@ class MeterForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(MeterForm, self).__init__(*args, **kwargs)
+        self.initial['number'] = str(Meter.objects.last().pk + 1).zfill(11)
         try:
             if self.instance.apartment:
                 self.initial['house'] = self.instance.apartment.house_id

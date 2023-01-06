@@ -1,4 +1,14 @@
 {% extends 'admin_meter/meter_create.html' %}
+{% block breadcrumb %}
+        <ul class="breadcrumb">
+        <li><a href="{% url 'statistic' %}"><i class="fa fa-home"></i>Главная</a></li>
+        <li><a href="{% url 'meter_list' %}">Счетчики</a></li>
+        <li>
+            <a href="{% url 'meter_view_list' view.kwargs.apartment_id view.kwargs.service_id %}">
+                Показания счетчиков, кв.<span id="apartment_numb"></span></a></li>
+        <li class="active">Новое показание</li>
+</ul>
+{% endblock %}
 {% block ajax_link_set %}
     let service_id = '{{view.kwargs.service_id}}'
     if (service_id != ''){
@@ -14,6 +24,7 @@
 {% endblock %}
 {% block clone %}
     let apartment_id = {{view.kwargs.apartment_id}}
+    $('#apartment_numb').text($(`#id_apartment option[value=${apartment_id}]`).text())
     let section_id = {{view.kwargs.section_id}}
     select_options['house_id'] = {{view.kwargs.house_id}}
     $('#id_house').val(select_options['house_id']).change()

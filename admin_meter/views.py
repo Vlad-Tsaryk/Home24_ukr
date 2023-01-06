@@ -62,7 +62,6 @@ class MeterClone(MeterCreate):
             self.kwargs['pk'] = meter_obj.pk
             meter_obj.pk = None
             meter_obj.apartment = None
-            meter_obj.number = str(Meter.objects.last().pk + 1).zfill(11)
             kwargs['instance'] = meter_obj
         except:
             pass
