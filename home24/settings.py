@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'admin_apartment.apps.AdminApartmentConfig',
     'admin_personal_account.apps.AdminPersonalAccountConfig',
     'admin_meter.apps.AdminMeterConfig',
+    'admin_application.apps.AdminApplicationConfig',
     "debug_toolbar",
 
 

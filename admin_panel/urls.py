@@ -13,6 +13,7 @@ urlpatterns = [
     path('apartment/', include('admin_apartment.urls')),
     path('account/', include('admin_personal_account.urls')),
     path('meter/', include('admin_meter.urls')),
+    path('application/', include('admin_application.urls')),
     path('payment_details/', PaymentDetailsUpdate.as_view(), name='payment_details_update'),
 
 ]
