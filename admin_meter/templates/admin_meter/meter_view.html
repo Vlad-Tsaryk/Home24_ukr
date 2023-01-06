@@ -1,4 +1,16 @@
 {% extends 'layout/basic.html' %}
+{% block title %}Показание счетчикa{% endblock %}
+{% block breadcrumb %}
+        <ul class="breadcrumb">
+        <li><a href="{% url 'statistic' %}"><i class="fa fa-home"></i>Главная</a></li>
+        <li><a href="{% url 'meter_list' %}">Счетчики</a></li>
+        <li><a href="{% url 'meter_view_list' meter.apartment_id meter.service_id %}">Показания счетчиков, кв.{{ meter.apartment.number}}</a></li>
+        <li class="active">Показание счетчикa №{{ meter.number }}</li>
+</ul>
+{% endblock %}
+{% block header_text %}
+    Показание счетчикa
+{% endblock %}
 {% block content %}
 
 
