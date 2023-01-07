@@ -55,10 +55,7 @@
                             <tr id="w0-filters" class="filters">
                                 <td>&nbsp;</td>
                                 <td rowspan="1" colspan="1"><input type="text" class="column_search form-control" id="name"></td>
-                                <td><select id="role" class="form-control select2-hidden-accessible column_search"
-                                            name="UserAdminSearch[role]" data-s2-options="s2options_7ebc6538"
-                                            data-krajee-select2="select2_0d896465" tabindex="-1"
-                                            aria-hidden="true" data-index="2">
+                                <td><select id="role" class="form-control select2 column_search">
                                     <option style="background-color: #00a65a;" value=""></option>
                                     <option style="background-color: #00a65a;" value="Директор">Директор</option>
                                     <option style="background-color: #00a65a;" value="Управляющий">Управляющий</option>
@@ -69,10 +66,7 @@
                                 <th rowspan="1" colspan="1"><input type="text" class="column_search form-control" id="phone"></th>
                                 <th><input type="text" class="form-control column_search" name="UserAdminSearch[email]" id="username"
                                            data-index="4"></th>
-                                <th><select id="status" class="form-control select2-hidden-accessible column_search"
-                                            name="UserAdminSearch[status]" data-s2-options="s2options_7ebc6538"
-                                            data-krajee-select2="select2_0d896465" tabindex="-1"
-                                            aria-hidden="true">
+                                <th><select id="status" class="form-control select2 column_search">
                                     <option value=""></option>
                                     <option value="Активен">Активен</option>
                                     <option value="Новый">Новый</option>
@@ -186,7 +180,10 @@
         $('#system_settings').attr('class', 'active treeview menu-open')
         $('#nav_users').attr('class', 'active')
     </script>
+        <script src="{% static 'admin_panel/bower_components/select2/dist/js/select2.full.min.js' %}"></script>
+    <script src="{% static 'admin_panel/bower_components/select2/dist/js/i18n/ru.min.js' %}"></script>
     <script>
+
     let numb = 0
     let colors = {
                 'Активен': 'label label-success',
@@ -202,7 +199,8 @@
         }
         let table
             function clear_filters() {
-                $('.column_search').val('');
+                $('#users_table thead').unbind();
+                $('.column_search').val('').change();
                 sort_data ={
                 "name":'',
                 "role":'',
@@ -210,6 +208,11 @@
                 "username":'',
                 "status":'',
                 }
+                $('#users_table thead').on('change', ".column_search", function a (e) {
+                sort_data[this.id] = $(this).val()
+                numb=0
+                table.draw()
+                });
                 numb=0
                     table.draw()
 
@@ -284,6 +287,7 @@
 
 
         $(document).ready(function () {
+            $('.select2').select2({placeholder:'Выберите...'})
             send_POST();
             $('.column_search').val('');
         });
