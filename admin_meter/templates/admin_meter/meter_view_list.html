@@ -164,6 +164,17 @@
             table.draw()
 
         }
+        function add_meter_reading(service_id = '{{view.kwargs.service_id}}') {
+            let link = ''
+
+            if (!sort_data['service']){
+                link = '{% url 'meter_new_value' view.kwargs.apartment_id %}'
+            }
+            else {
+                link = '{% url 'meter_new_value_serv' view.kwargs.apartment_id 12345 %}'.replace(/12345/, sort_data['service'])
+            }
+            window.location.href = link
+        }
 
         function send_POST(e) {
             table = $('#meter_view_table').DataTable({
@@ -185,7 +196,7 @@
                 
                 "ajax": {
                     "processing": true,
-                    "url": "{% url 'meter_view_list' apartment_id=view.kwargs.apartment_id service_id=view.kwargs.service_id %}",
+                    "url": "{% url 'meter_view_list' apartment_id=view.kwargs.apartment_id%}",
                     "data": function (d) {
                         return sort_data;
                     },
@@ -226,7 +237,7 @@
                         render: function (data, type,row) {
                             const link_update = '{% url 'meter_update' 12345 %}'.replace(/12345/, data)
                             let link_delete = '{% url 'meter_delete' 12345 %}'.replace(/12345/, data)
-                            {#let link_view = '{% url 'meter_view_list' 12345 54321%}'.replace(/12345/, row.apartment).replace(/54321/,row.service)#}
+                            {#let link_view = '{% url 'meter_view_list_serv' 12345 54321%}'.replace(/12345/, row.apartment).replace(/54321/,row.service)#}
                             return `<div class="btn-group pull-right">\
             <a class="btn btn-default btn-sm" href="${link_update}"\
                title="Редактировать" data-toggle="tooltip">\
@@ -304,30 +315,21 @@
         $('#meter_view_table').on('click', 'tbody tr .meter', function () {
             window.location.href = '{% url 'meter_view' 12345 %}'.replace(/12345/, table.row(this).data().id)
         })
-        function add_meter_reading() {
-            let link = ''
-            if (sort_data['service']){
-                link = '{% url 'meter_new_value_serv' view.kwargs.apartment_id view.kwargs.service_id %}'
-            }
-            else {
-                link = '{% url 'meter_new_value' view.kwargs.apartment_id %}'
-            }
-            window.location.href = link
-        }
+
 
 
 
         $(document).ready(function () {
+            sort_data['service'] = '{{ view.kwargs.service_id }}'
 
             send_POST();
             $('.column_search').val('');
             let $select2 = $('.select2').select2({placeholder: ""}).val('');
             let $select2_section = $('.select2_section').select2({placeholder: "Выберите дом"}).val('');
             let $house = $('#house').select2({placeholder: ""});
-            $('#service').val({{ view.kwargs.service_id }}).change()
+            $('#service').val(sort_data['service']).change()
             filters_array = [$select2,$select2_section,$house]
             sort_data['service_sort'] = 'yes'
-            sort_data['service'] = {{ view.kwargs.service_id }};
             set_filters_listener()
             $(function () {
                 let input = $('#date_range')

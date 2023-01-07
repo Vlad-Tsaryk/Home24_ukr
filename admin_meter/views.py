@@ -158,10 +158,10 @@ class MeterViewList(ListView):
                 'date__range': self.request.GET.getlist('date_range[]'),
             }
             print(self.request.GET)
-            if not self.request.GET.get('service_sort'):
-                if self.kwargs['service_id']:
-                    self.kwargs['first'] = False
-                    filter_fields['service'] = self.kwargs['service_id']
+            # if not self.request.GET.get('service_sort'):
+            #     if self.kwargs['service_id']:
+            #         self.kwargs['first'] = False
+            #         filter_fields['service'] = self.kwargs['service_id']
 
             if self.request.GET.get('house_select'):
                 result['sections'] = list(Section.objects.filter(house=filter_fields['apartment__house']).values())
@@ -214,8 +214,12 @@ class MeterUpdate(SuccessMessageMixin, UpdateView):
         return super().form_valid(form)
 
     def get_success_url(self):
-        return reverse_lazy('meter_view_list',
-                            kwargs={'apartment_id': self.object.apartment_id, 'service_id': self.object.service_id})
+        if self.object.service_id:
+            return reverse_lazy('meter_view_list_serv',
+                                kwargs={'apartment_id': self.object.apartment_id, 'service_id': self.object.service_id})
+        else:
+            return reverse_lazy('meter_view_list',
+                                kwargs={'apartment_id': self.object.apartment_id})
 
 
 def meter_delete(request, pk):
@@ -234,4 +238,4 @@ def meter_delete(request, pk):
         error(request, f"Не удалось удалить счетчик")
     if name:
         success(request, f"Показание {name} удален успешно")
-    return redirect('meter_view_list', apartment_id=apartment_id, service_id=service_id)
+    return redirect('meter_view_list_serv', apartment_id=apartment_id, service_id=service_id)

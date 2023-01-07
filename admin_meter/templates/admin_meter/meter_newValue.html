@@ -4,7 +4,7 @@
         <li><a href="{% url 'statistic' %}"><i class="fa fa-home"></i>Главная</a></li>
         <li><a href="{% url 'meter_list' %}">Счетчики</a></li>
         <li>
-            <a href="{% url 'meter_view_list' view.kwargs.apartment_id view.kwargs.service_id %}">
+            <a id="list_href" href="">
                 Показания счетчиков, кв.<span id="apartment_numb"></span></a></li>
         <li class="active">Новое показание</li>
 </ul>
@@ -15,12 +15,17 @@
     $('#id_service').val(service_id).change()
     }
     let ajax_link = ''
+    let list_link = ''
     if (!service_id){
         ajax_link = '{% url 'meter_new_value' view.kwargs.apartment_id%}'
+        list_link = '{% url 'meter_view_list' view.kwargs.apartment_id%}'
     }
     else{
         ajax_link = '{% url 'meter_new_value_serv' view.kwargs.apartment_id 12345 %}'.replace(/12345/,service_id)
+        list_link = '{% url 'meter_view_list_serv' view.kwargs.apartment_id 12345 %}'.replace(/12345/,service_id)
     }
+    $('#list_href').attr('href',list_link)
+
 {% endblock %}
 {% block clone %}
     let apartment_id = {{view.kwargs.apartment_id}}
