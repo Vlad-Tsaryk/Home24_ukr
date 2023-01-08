@@ -104,17 +104,22 @@
     <script src="{% static 'admin_panel/bower_components/select2/dist/js/select2.full.min.js' %}"></script>
     <script src="{% static 'admin_panel/bower_components/select2/dist/js/i18n/ru.min.js' %}"></script>
     <script>
+    let meter_date = ''
              $(function () {
-             $('#meter_date').datetimepicker({
-                     maxDate: moment(),
+                 meter_date = $('#meter_date').datetimepicker({
+                     {#maxDate: moment(),#}
                      locale: 'ru',
                      format: 'L',
-                    date: moment()
+                    {#defaultDate: moment()#}
                  }
              );
          });
     </script>
     <script>
+
+    if(!$('#id_date').val()) {
+        $('#meter_date').datetimepicker({locale: 'ru',format: 'L',date:moment()})
+    }
     let select_options = {
         'house_id':'',
         'section_id':''

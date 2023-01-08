@@ -1,0 +1,286 @@
+{% extends 'layout/basic.html' %}
+{% load static %}
+{% block content %}
+
+
+    <div class="row">
+        <!--<div class="col-xs-12 col-sm-6">-->
+        <!--<h2 class="page-header">Вызов мастера</h2>-->
+        <!--</div>-->
+        <div class="col-xs-12">
+
+            <div class="pull-right margin-bottom">
+                <a class="btn btn-success" href="/admin/master-request/create">Добавить заявку</a>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <div class="box-header with-border">
+                    <h3 class="box-title"></h3>
+                    <div class="box-tools">
+                        <a href="/admin/master-request/index" class="btn btn-default btn-sm">
+                            <span class="hidden-xs">Очистить</span><i class="fa fa-eraser visible-xs"
+                                                                      aria-hidden="true"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div id="w0" class="grid-view">
+                    <div class="box-body table-responsive no-padding">
+                        <table class="table table-bordered table-hover table-striped linkedRow">
+                            <thead>
+                            <tr>
+                                <th style="width: 100px; min-width: 100px">
+                                <a id="id" class="ordering">№ заявки</a></th>
+                                <th style="width: 135px; min-width: 135px">
+                                <a id="apartment__number" class="ordering">Удобное время</a></th>
+                                <th style="min-width: 125px">
+                                <a id="id" class="ordering">Тип мастера</a></th>
+                                <th style="min-width: 350px">Описание</th>
+                                <th>Квартира</th>
+                                <th style="min-width: 200px">Владелец</th>
+                                <th>Телефон</th>
+                                <th style="min-width: 125px">Мастер</th>
+                                <th style="width: 135px; min-width: 135px">Статус</th>
+                                <th style="width: 80px; min-width: 80px">&nbsp;</th>
+                            </tr>
+                            <tr id="w0-filters" class="filters">
+                                <td><input type="text" class="form-control" name="MasterRequestSearch[id]"></td>
+                                <td><input type="text" id="masterrequestsearch-searchdaterequestrange"
+                                           class="form-control" name="MasterRequestSearch[searchDateRequestRange]"
+                                           data-krajee-daterangepicker="daterangepicker_c8dff207"></td>
+                                <td><select id="master-type" class="form-control select2">
+
+                                </select></td>
+                                <td><input type="text" class="form-control" name="MasterRequestSearch[description]">
+                                </td>
+                                <td><input type="text" class="form-control" name="MasterRequestSearch[searchFlat]"></td>
+                                <td><select id="owner_id"
+                                            class="form-control select2">
+                                                                            </select></td>
+                                <td><input type="text" class="form-control" name="MasterRequestSearch[searchPhone]">
+                                </td>
+                                <td><select id="master_id"
+                                            class="form-control select2"></select></td>
+                                <td><select id="status"
+                                            class="form-control select2">
+                                </select></td>
+                                <td>&nbsp;</td>
+                            </tr>
+                            </thead>
+                            <tbody>
+
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="box-footer clearfix">
+                        <ul class="pagination pagination-sm no-margin pull-right">
+                            <li class="prev disabled"><span>«</span></li>
+                            <li class="active"><a href="/admin/master-request/index?page=1&amp;per-page=50"
+                                                  data-page="0">1</a></li>
+                            <li><a href="/admin/master-request/index?page=2&amp;per-page=50" data-page="1">2</a></li>
+                            <li class="next"><a href="/admin/master-request/index?page=2&amp;per-page=50" data-page="1">»</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+{% block scripts %}
+    <script>
+        $('#nav_meter').attr('class', 'active')
+    </script>
+    <script src="{% static 'admin_panel/bower_components/select2/dist/js/select2.full.min.js' %}"></script>
+    <script src="{% static 'admin_panel/bower_components/select2/dist/js/i18n/ru.min.js' %}"></script>
+    <script type="text/javascript"
+            src="{% static 'admin_panel/bower_components/datatables.net/jquery.dataTables.min.js' %}">
+    </script>
+       <script>
+
+        let numb = 0
+        let sort_data = {}
+        let table
+        let table_head = $('#meter_table thead')
+        let filters_array
+        let label_colors = {
+            'Выполнено': 'label-success',
+            'В работе': 'label-primary',
+            'Новое': 'label-warning',
+        }
+        function check_empty(data) {
+            if (data) {return data}
+            else return '(не задано)'
+        }
+        function set_options(data, target_id) {
+            $('#'+`{target_id} option`).remove()
+            $('#'+`{target_id}`).append(`<option></option>`)
+            data.forEach(function (item) {
+                                $('#'+`${target_id}`).append(`<option value="${item['id']}">${item['name']}</option>`)
+                            })
+        }
+        function clear_filters() {
+            $('.column_search').val('');
+            table_head.unbind();
+            $(`.select2_section option`).remove()
+            $(`.select2_section`).append(`<option></option>`)
+            filters_array.forEach(function(item) {
+              item.val('').change()
+            })
+            $('.ordering').attr('class', 'ordering');
+            set_filters_listener()
+            let keys = Object.keys(sort_data)
+            keys.forEach(function (item) {
+                sort_data[item] = ''
+            })
+            numb = 0
+            table.draw()
+
+        }
+
+        function send_POST(e) {
+            table = $('#meter_table').DataTable({
+                serverSide: true,
+                processing: false,
+                ordering: false,
+                oLanguage: {
+                    sZeroRecords: "Ничего не найдено."
+                },
+                columnDefs: [
+                    {className: "meter", "targets": [0, 1, 2,3,4,5]},
+                    {targets: '_all', defaultContent: ''},
+                    {
+                "targets": [4,5],
+                "createdCell": function (td, cellData, rowData, row, col) {
+                $(td).css('background-color', '#DFD5')
+                }},
+                ],
+                "ajax": {
+                    "processing": true,
+                    "url": "{% url 'meter_list' %}",
+                    "data": function (d) {
+                        return sort_data;
+                    },
+                    dataSrc: function (data) {
+                        if(data['sections']) {
+                            $('.select2_section').select2({placeholder: ""})
+                            set_options(data['sections'],'section')
+                        }
+                        return data['meter']
+                    },
+                },
+                "columns": [
+                    {data: 'apartment__house__name'},
+                    {data: 'apartment__section__name'},
+                    {data: 'apartment__number'},
+                    {data: 'service__name'},
+                    {data: 'value'},
+                    {data: 'service__unit__name',
+                        render: function (data) {
+                         return check_empty(data)
+                     }},
+                    {
+                        data: 'id',
+                        render: function (data, type,row) {
+
+                            const link_new_value = '{% url 'meter_new_value_serv' apartment_id=12345 service_id=54321%}'.replace(/12345/, row.apartment).replace(/54321/,row.service)
+                            let link_view = '{% url 'meter_view_list_serv' 12345 54321%}'.replace(/12345/, row.apartment).replace(/54321/,row.service)
+                            console.log(link_view)
+                            return `<div class="btn-group pull-right">\
+            <a class="btn btn-default btn-sm" href="${link_new_value}"\
+               title="Снять новое показание счетчика" data-toggle="tooltip">\
+                <i class="fa fa-dashboard"></i>\
+            </a>\
+            <a class="btn btn-default btn-sm"\
+               title="Открыть историю показаний для счетчика" data-toggle="tooltip" data-pjax="0" data-method="post"\
+                href="${link_view}" ">\
+                <i class="fa fa-eye"></i>\
+            </a>\
+        </div>`
+                        },
+                                            },
+                ],
+                paging: false,
+                searching: false,
+                info: false,
+            });
+        }
+        function set_filters_listener() {
+            table_head.on('change', ".filter", function a(e) {
+            sort_data[this.id] = $(this).val()
+            numb = 0
+            table.draw()
+        });
+{% comment %}        table_head.on('change', ".select2_section", function a(e) {
+            sort_data[this.id] = $(this).val()
+            numb = 0
+            table.draw()
+        });{% endcomment %}
+        table_head.on('change', ".select2_house", function a(e) {
+            sort_data['section'] = ''
+            sort_data[this.id] = $(this).val()
+            if (sort_data[this.id]){
+                sort_data['house_select'] = true
+            }
+            numb = 0
+            table.draw()
+            sort_data['house_select'] = ''
+        });
+        table_head.on('keyup', ".column_search", function a(e) {
+            sort_data[this.id] = $(this).val()
+            numb = 0
+            table.draw()
+        });
+                table_head.on('click', '.ordering', function () {
+            if (this.className === 'ordering asc') {
+                $(this).attr('class', 'ordering desc')
+                sort_data['order_by'] = '-' + this.id
+            } else {
+                $(this).attr('class', 'ordering asc')
+                sort_data['order_by'] = this.id
+            }
+            table_head.find('.ordering').not(this).attr('class', 'ordering')
+            numb = 0
+            table.draw()
+        })
+                  }
+
+
+
+
+        function confirm_delete(link, event) {
+            alertify.confirm('Подтверждение удаления', 'Удалить дом <b>'
+                + $(event.target).closest("tr ").children().eq(0).text() + '</b> ?',
+                function () {
+                    window.location.href = link
+                },
+                function () {
+                }).set({labels: {ok: 'Подтвердить', cancel: 'Отмена'}});
+            return false;
+        }
+
+{% comment %}        $('#meter_table').on('click', 'tbody tr .meter', function () {
+            window.location.href = '{% url 'meter_view_list_serv' 12345 54321%}'.replace(/12345/, table.row(this).data().apartment).replace(/54321/,table.row(this).data().service)
+        }){% endcomment %}
+
+
+        $(document).ready(function () {
+
+            send_POST();
+            $('.column_search').val('');
+            let $select2 = $('.select2').select2({placeholder: ""}).val('');
+            let $select2_section = $('.select2_section').select2({placeholder: "Выберите дом"}).val('');
+            let $house = $('#house').select2({placeholder: ""});
+            filters_array = [$select2,$select2_section,$house]
+            set_filters_listener()
+            {#$('#section__name').select2();#}
+            {#$('#floor__name').select2();#}
+            {#$('#owner__name').select2();#}
+        });
+    </script>
+
+{% endblock %}

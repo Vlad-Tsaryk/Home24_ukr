@@ -4,11 +4,11 @@
         <ul class="breadcrumb">
         <li><a href="{% url 'statistic' %}"><i class="fa fa-home"></i>Главная</a></li>
         <li><a href="{% url 'apartment_list' %}">Квартиры</a></li>
-        <li class="active">{{ apartment }}</li>
+        <li class="active">{{ apartment.info }}</li>
 </ul>
 {% endblock %}
 {% block header_text %}
-{{ apartment }}
+{{ apartment.info }}
 {% endblock %}
 {% block content %}
 

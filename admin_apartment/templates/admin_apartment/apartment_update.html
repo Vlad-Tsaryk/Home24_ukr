@@ -2,15 +2,15 @@
 {% block ajax_url %}{% url 'apartment_update' apartment.pk %}{% endblock %}
 {% block ready %}
 {% endblock %}
-{% block title %}{{ apartment }}{% endblock %}
+{% block title %}{{ apartment.info }}{% endblock %}
 {% block breadcrumb %}
         <ul class="breadcrumb">
         <li><a href="{% url 'statistic' %}"><i class="fa fa-home"></i>Главная</a></li>
         <li><a href="{% url 'apartment_list' %}">Квартиры</a></li>
-        <li><a href="{% url 'apartment_view' apartment.pk %}">{{ apartment }}</a></li>
+        <li><a href="{% url 'apartment_view' apartment.pk %}">{{ apartment.info }}</a></li>
         <li class="active">Квартира</li>
 </ul>
 {% endblock %}
 {% block header_text %}
-{{ apartment }}
+{{ apartment.info }}
 {% endblock %}

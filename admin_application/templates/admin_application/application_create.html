@@ -1,50 +1,33 @@
 {% extends 'layout/basic.html' %}
 {% load static %}
+{% block head %}
+<link rel="stylesheet"
+      href="{% static 'admin_panel/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css' %}"/>
+    <style>
+    .ck-editor__editable_inline {
+    min-height: 200px;
+    }
+    </style>
+{% endblock %}
 {% block content %}
     <form id="application_form" method="post">
         {% csrf_token %}
         <div class="row">
             <div class="col-xs-12 col-md-7 col-lg-6">
                 <div class="page-header-spec">
-                    <div class="form-group field-masterrequest-date_request">
-                        <div id="masterrequest-date_request-kvdate" class="input-group  date">
+                    <div class="form-group master-date">
+                        <div id="meter_date" class="input-group  date">
                             {{ form.date }}
                             <span class="input-group-addon kv-date-calendar" title="Выбрать дату"><i
                                 class="glyphicon glyphicon-calendar"></i></span></div>
                     </div>
                     <span class="label-mid">от</span>
-                    <div class="form-group field-masterrequest-time_request">
+                    <div class="form-group master-time">
 
-                        <div class="input-group bootstrap-timepicker">
-                            <div class="bootstrap-timepicker-widget dropdown-menu">
-                                <table>
-                                    <tbody>
-                                    <tr>
-                                        <td><a href="#" data-action="incrementHour"><i
-                                                class="glyphicon glyphicon-chevron-up"></i></a></td>
-                                        <td class="separator">&nbsp;</td>
-                                        <td><a href="#" data-action="incrementMinute"><i
-                                                class="glyphicon glyphicon-chevron-up"></i></a></td>
-                                    </tr>
-                                    <tr>
-                                        <td><span class="bootstrap-timepicker-hour">16</span></td>
-                                        <td class="separator">:</td>
-                                        <td><span class="bootstrap-timepicker-minute">00</span></td>
-                                    </tr>
-                                    <tr>
-                                        <td><a href="#" data-action="decrementHour"><i
-                                                class="glyphicon glyphicon-chevron-down"></i></a></td>
-                                        <td class="separator"></td>
-                                        <td><a href="#" data-action="decrementMinute"><i
-                                                class="glyphicon glyphicon-chevron-down"></i></a></td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                            </div>
+                        <div id="meter_time" class="input-group date">
                             {{ form.time }}
-                            <div class="input-group-addon">
-                                <i class="fa fa-clock-o"></i>
-                            </div>
+                            <span class="input-group-addon" title="Выбрать время">
+                                <i class="fa fa-clock-o"></i></span>
                         </div>
                     </div>
                 </div>
@@ -104,84 +87,13 @@
                 </div>
                 <div class="row">
                     <div class="col-xs-12">
-                        <div class="form-group field-masterrequest-comment">
-                            <label class="control-label" for="masterrequest-comment">Комментарий</label>
-                            <ul class="wysihtml5-toolbar" style="">
-                                <li class="dropdown">
-                                    <a class="btn btn-default dropdown-toggle btn-none" data-toggle="dropdown">
+                        <div class="form-group master-comment">
+                            <label class="control-label" for="master-comment">Комментарий</label>
+                            <div id="cke_comment">
+                                {{form.comment}}
+                            </div>
 
-                                        <span class="fa fa-font"></span>
 
-                                        <span class="current-font">Обычный текст</span>
-                                        <b class="caret"></b>
-                                    </a>
-                                    <ul class="dropdown-menu">
-                                        <li><a data-wysihtml5-command="formatBlock" data-wysihtml5-command-value="p"
-                                               tabindex="-1" href="javascript:;" unselectable="on"
-                                               class="wysihtml5-command-active">Обычный текст</a></li>
-                                        <li><a data-wysihtml5-command="formatBlock" data-wysihtml5-command-value="h1"
-                                               tabindex="-1" href="javascript:;" unselectable="on">Заголовок 1</a></li>
-                                        <li><a data-wysihtml5-command="formatBlock" data-wysihtml5-command-value="h2"
-                                               tabindex="-1" href="javascript:;" unselectable="on">Заголовок 2</a></li>
-                                        <li><a data-wysihtml5-command="formatBlock" data-wysihtml5-command-value="h3"
-                                               tabindex="-1" href="javascript:;" unselectable="on">Заголовок 3</a></li>
-                                        <li><a data-wysihtml5-command="formatBlock" data-wysihtml5-command-value="h4"
-                                               tabindex="-1" href="javascript:;" unselectable="on">Заголовок 4</a></li>
-                                        <li><a data-wysihtml5-command="formatBlock" data-wysihtml5-command-value="h5"
-                                               tabindex="-1" href="javascript:;" unselectable="on">Заголовок 5</a></li>
-                                        <li><a data-wysihtml5-command="formatBlock" data-wysihtml5-command-value="h6"
-                                               tabindex="-1" href="javascript:;" unselectable="on">Заголовок 6</a></li>
-                                    </ul>
-                                </li>
-                                <li>
-                                    <div class="btn-group">
-                                        <a class="btn btn-none btn-default" data-wysihtml5-command="bold" title="CTRL+B"
-                                           tabindex="-1" href="javascript:;" unselectable="on">Полужирный</a>
-                                        <a class="btn btn-none btn-default" data-wysihtml5-command="italic"
-                                           title="CTRL+I" tabindex="-1" href="javascript:;" unselectable="on">Курсив</a>
-                                        <a class="btn btn-none btn-default" data-wysihtml5-command="underline"
-                                           title="CTRL+U" tabindex="-1" href="javascript:;" unselectable="on">Подчёркнутый</a>
-
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="btn-group">
-                                        <a class="btn btn-none btn-default" data-wysihtml5-command="insertUnorderedList"
-                                           title="Маркированный список" tabindex="-1" href="javascript:;"
-                                           unselectable="on">
-
-                                            <span class="fa fa-list-ul"></span>
-
-                                        </a>
-                                        <a class="btn btn-none btn-default" data-wysihtml5-command="insertOrderedList"
-                                           title="Нумерованный список" tabindex="-1" href="javascript:;"
-                                           unselectable="on">
-
-                                            <span class="fa fa-list-ol"></span>
-
-                                        </a>
-                                        <a class="btn btn-none btn-default" data-wysihtml5-command="Outdent"
-                                           title="Уменьшить отступ" tabindex="-1" href="javascript:;" unselectable="on">
-
-                                            <span class="fa fa-outdent"></span>
-
-                                        </a>
-                                        <a class="btn btn-none btn-default" data-wysihtml5-command="Indent"
-                                           title="Увеличить отступ" tabindex="-1" href="javascript:;" unselectable="on">
-
-                                            <span class="fa fa-indent"></span>
-
-                                        </a>
-                                    </div>
-                                </li>
-                            </ul>
-                            <textarea id="masterrequest-comment" class="compose-textarea form-control"
-                                      name="MasterRequest[comment]" rows="8" style="display: none;"></textarea><input
-                                type="hidden" name="_wysihtml5_mode" value="1">
-                            <iframe class="wysihtml5-sandbox" security="restricted" allowtransparency="true"
-                                    marginwidth="0" marginheight="0"
-                                    style="display: block; background-color: rgb(255, 255, 255); border-collapse: separate; border-color: rgb(210, 214, 222); border-style: solid; border-width: 1px; clear: none; float: none; margin: 0px; outline: rgb(85, 85, 85) 0px; outline-offset: 0px; padding: 6px 12px; position: static; inset: auto; z-index: auto; vertical-align: text-bottom; text-align: start; box-sizing: border-box; box-shadow: none; border-radius: 0px; width: 1572px; height: 174px;"
-                                    width="0" height="0" frameborder="0"></iframe>
 
                             <div class="help-block"></div>
                         </div>
@@ -190,8 +102,8 @@
                 <div class="row">
                     <div class="col-xs-12 text-right">
                         <div class="form-group">
-                            <a href="/admin/master-request/index" class="btn btn-default">Отменить</a>
-                            <button type="submit" class="btn btn-success">Сохранить</button>
+                            <a href="#" class="btn btn-default">Отменить</a>
+                            <button type="submit" class="btn btn-success" >Сохранить</button>
                         </div>
                     </div>
                 </div>
@@ -202,6 +114,7 @@
 {% endblock %}
 
 {% block scripts %}
+
     <script>
         $('#nav_application').attr('class', 'active')
     </script>
@@ -210,12 +123,52 @@
     <script src="{% static 'admin_panel/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js' %}"></script>
     <script src="{% static 'admin_panel/bower_components/select2/dist/js/select2.full.min.js' %}"></script>
     <script src="{% static 'admin_panel/bower_components/select2/dist/js/i18n/ru.min.js' %}"></script>
+    <script type="text/javascript" src="{% static "admin_panel/plugins/ckeditor5-build-classic/ckeditor.js" %}"></script>
+    <script type="text/javascript" src="{% static "admin_panel/plugins/ckeditor5-build-classic/translations/ru.js" %}"></script>
     <script>
+    ClassicEditor.create( document.querySelector( '#id_comment' ),{
+            language: 'ru',
+        toolbar:{
+        items: [
+			'heading',
+			'|',
+			'bold',
+			'italic',
+			'underline',
+			'link',
+			'bulletedList',
+			'numberedList',
+			'|',
+			'outdent',
+			'indent',
+			'|',
+			'blockQuote',
+			'undo',
+			'redo'
+		]
+        }
+        } )
+        .catch( error => {
+            console.error( error );
+        } );
+    ClassicEditor.editorConfig = function( config )
+    {
+       // misc options
+       config.height = '350px';
+    };
              $(function () {
              $('#meter_date').datetimepicker({
-                     maxDate: moment(),
+                     {#minDate: moment(),#}
                      locale: 'ru',
                      format: 'L',
+                    date: moment()
+                 }
+             );
+             $('#meter_time').datetimepicker({
+                     {#maxDate: moment(),#}
+                     locale: 'ru',
+                     format: 'LT',
+                    stepping:'15',
                     date: moment()
                  }
              );
@@ -223,64 +176,60 @@
     </script>
     <script>
     let select_options = {
-        'house_id':'',
-        'section_id':''
+        'owner_id':'',
+        'master_type':''
     }
-    let apartments_data
         function clear_options(target_id) {
             $('#' + `${target_id} option:not([value=''])`).remove()
         }
     {% block ajax_link_set %}{% endblock %}
-
-    function get_values(values) {
+    function get_values() {
         $.ajax({
             type: 'GET',
-            url: {% block ajax_url %}'{% url 'meter_create' %}'{% endblock %},
+            url: {% block ajax_url %}'{% url 'application_create' %}'{% endblock %},
             data: select_options,
             success: function (data) {
-                clear_options('id_apartment')
-                apartments_data = data['apartment']
                 console.log(data)
-                console.log(apartments_data)
-                if(!select_options['section_id']){
-                    clear_options('id_section')
-                                    data['section'].forEach(
+                if(data['apartments']){
+                    clear_options('id_apartment')
+                    data['apartments'].forEach(
                     function (item) {
-                        $('#id_section').append($('<option>').val(item['id']).text(item['name']));
+                        $('#id_apartment').append($('<option>').val(item['id'])
+                            .text(`Квартира №${item['number']}, ${item['house__name']}`));
+                    }
+                );
+                }
+                if(data['masters']){
+                    clear_options('id_master')
+                    data['masters'].forEach(
+                    function (item) {
+                        $('#id_master').append($('<option>').val(item['id'])
+                            .text(`${item['role__role']} - ${item['first_name']} ${item['last_name']}`));
                     }
                 );
                 }
 
-                data['apartment'].forEach(
-                    function (item) {
-                        $('#id_apartment').append($('<option>').val(item['id']).text(item['number']));
-                    }
-                );
-                if (values){
-                    if (values[1]){
-                        $('#id_section').unbind().val(values[1]).change().select2({placeholder: "Выберите..."})
-                        select_options['section_id'] = values[1]
-                        get_values([values[0]])
-                        set_event_listeners()
-                    }
-                    console.log(values)
-                    $('#id_apartment').val(values[0]).change();
+
 
                     {#set_event_listeners()#}
-                }
+
 
             }
         })
     }
     function set_event_listeners(){
-        $('#id_house').change(function () {
-        select_options['house_id'] = this.value
-        select_options['section_id'] = ''
-        get_values()
+        $('#id_owner').change(function () {
+        select_options['owner_id'] = this.value;
+        select_options['owner_change'] = 'True';
+        get_values();
+        select_options['owner_change'] = ''
+
     })
-    $('#id_section').change(function () {
-        select_options['section_id'] = this.value
-        get_values()
+    $('#id_master_types').change(function () {
+        select_options['master_type'] = this.value
+        select_options['master_type_change'] = 'True'
+        get_values();
+        select_options['master_type_change'] = ''
     })
     }
 
@@ -289,15 +238,9 @@
             {
                 let select_apartment =$('#id_apartment').select2({placeholder: "Выберите...", allowClear:true})
                 let select_master =$('#id_master').select2({placeholder: "Выберите..."})
-                let select_master_types =$('#id_master_types').select2({placeholder: "Выберите..."})
+                let select_master_types =$('#id_master_types').select2({minimumResultsForSearch: Infinity})
                 let select_owner =$('#id_owner').select2({placeholder: "Выберите...", allowClear:true})
-                $('#id_status').select2({placeholder: "Выберите..."})
-
-                {% block clone %}
-                    select_apartment.val('')
-                    {#clear_options('id_apartment')#}
-                 {% endblock %}
-
+                $('#id_status').select2({placeholder: "Выберите...",minimumResultsForSearch: Infinity})
                 set_event_listeners()
             }
 
