@@ -346,8 +346,6 @@
                 input.on('apply.daterangepicker', function (ev, picker) {
                     $(this).val(picker.startDate.format('DD/MM/YYYY') + ' - ' + picker.endDate.format('DD/MM/YYYY'));
                     sort_data['date_range'] = [picker.startDate.format('YYYY-MM-DD'), picker.endDate.format('YYYY-MM-DD')]
-                    {#console.log(sort_data[this.id])#}
-                    {#sort_data[this.id] = $(this).val()#}
                     console.log(sort_data[this.id])
                     numb = 0
                     table.draw()

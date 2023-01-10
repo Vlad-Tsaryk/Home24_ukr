@@ -1,5 +1,8 @@
+from django.db.models.functions import Concat
+from django.db.models import Value, CharField
 from django.http import JsonResponse
 from django.shortcuts import render
+from django.urls import reverse_lazy
 from django.views.generic import CreateView, ListView
 
 from .models import Application
@@ -13,17 +16,14 @@ class ApplicationCreate(CreateView):
     model = Application
     form_class = ApplicationForm
     template_name = 'admin_application/application_create.html'
+    success_url = reverse_lazy('application_list')
 
     def render_to_response(self, context, **response_kwargs):
         if self.request.is_ajax():
             result = {}
             owner_id = self.request.GET.get('owner_id')
             master_role_id = self.request.GET.get('master_type')
-            # apartment_id = self.request.GET.get('apartment_id')
             print(self.request.GET)
-            # if apartment_id:
-            #     result['apartments'] = list(User.objects.get(
-            #         apartment=apartment_id).values('id'))
             if self.request.GET.get('owner_change'):
                 if owner_id:
                     result['apartments'] = list(Apartment.objects.filter(
@@ -49,3 +49,49 @@ class ApplicationCreate(CreateView):
 class ApplicationList(ListView):
     model = Application
     template_name = 'admin_application/application_list.html'
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super(ApplicationList, self).get_context_data(**kwargs)
+        context['owner_list'] = User.objects.filter(role__role=Role.RoleName.OWNER)
+        context['status_list'] = Application.StatusName.values
+        context['master_list'] = User.objects.filter(role__role__in=[Role.RoleName.PLUMBER, Role.RoleName.ELECTRICIAN])
+        context['master_types_list'] = Role.objects.filter(role__in=[Role.RoleName.PLUMBER, Role.RoleName.ELECTRICIAN])
+        return context
+
+    def render_to_response(self, context, **response_kwargs):
+        if self.request.is_ajax():
+            print(self.request.GET)
+            order_by = self.request.GET.get('order_by')
+            result = {}
+            filter_fields = {
+                'status': self.request.GET.get('status'),
+                'id__contains': self.request.GET.get('id'),
+                'owner_id': self.request.GET.get('owner_id'),
+                'apartment_info__contains': self.request.GET.get('apartment'),
+                'master__role': self.request.GET.get('master_type'),
+                'description__contains': self.request.GET.get('description'),
+                'owner__phone__contains': self.request.GET.get('owner_phone'),
+                'master_id': self.request.GET.get('master_id'),
+                'date__range': self.request.GET.getlist('date_range[]'),
+            }
+            if self.request.GET.get('house_select'):
+                result['masters'] = list(User.objects.filter(role=filter_fields['master_role']).values())
+
+            filter_fields = {k: v for k, v in filter_fields.items() if v}
+            filtered_qs = self.get_queryset().annotate(
+                apartment_info=Concat(Value('Квартира №'), 'apartment__number', Value(', '),
+                                      'apartment__house__name',output_field=CharField())).filter(**filter_fields)
+            if order_by:
+                filtered_qs = filtered_qs.order_by(order_by)
+            filtered_qs = filtered_qs.values('id', 'date', 'time', 'status', 'description', 'apartment_info',
+                                             'owner__phone', 'owner__first_name', 'owner__last_name', 'owner_id',
+                                             'master__first_name', 'master__last_name', 'master_id', 'apartment_id',
+                                             'master__role__role')
+
+            print(filtered_qs)
+            result['application'] = list(filtered_qs)
+            print(result)
+            return JsonResponse(result, safe=False, **response_kwargs)
+
+        else:
+            return super(ListView, self).render_to_response(context, **response_kwargs)

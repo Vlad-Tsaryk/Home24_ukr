@@ -1,5 +1,10 @@
 {% extends 'layout/basic.html' %}
 {% load static %}
+{% block head %}
+    <link rel="stylesheet" type="text/css"
+          href="{% static 'admin_panel/bower_components/datatables.net-bs/css/dataTables.jqueryui.min.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'admin_panel/bower_components/daterangepicker/daterangepicker.css' %}" />
+{% endblock %}
 {% block content %}
 
 
@@ -10,7 +15,7 @@
         <div class="col-xs-12">
 
             <div class="pull-right margin-bottom">
-                <a class="btn btn-success" href="/admin/master-request/create">Добавить заявку</a>
+                <a class="btn btn-success" href="{% url 'application_create' %}">Добавить заявку</a>
             </div>
         </div>
     </div>
@@ -20,25 +25,24 @@
                 <div class="box-header with-border">
                     <h3 class="box-title"></h3>
                     <div class="box-tools">
-                        <a href="/admin/master-request/index" class="btn btn-default btn-sm">
-                            <span class="hidden-xs">Очистить</span><i class="fa fa-eraser visible-xs"
-                                                                      aria-hidden="true"></i>
-                        </a>
+                        <button onclick="clear_filters()" class="btn btn-default btn-sm">
+                            <span class="hidden-xs">Очистить</span><i class="fa fa-eraser visible-xs" aria-hidden="true"></i>
+                        </button>
                     </div>
                 </div>
 
                 <div id="w0" class="grid-view">
                     <div class="box-body table-responsive no-padding">
-                        <table class="table table-bordered table-hover table-striped linkedRow">
+                        <table class="table table-bordered table-hover table-striped linkedRow" id="application_table">
                             <thead>
                             <tr>
                                 <th style="width: 100px; min-width: 100px">
-                                <a id="id" class="ordering">№ заявки</a></th>
+                                    <a id="pk" class="ordering">№ заявки</a></th>
                                 <th style="width: 135px; min-width: 135px">
-                                <a id="apartment__number" class="ordering">Удобное время</a></th>
+                                    <a id="apartment__number" class="ordering">Удобное время</a></th>
                                 <th style="min-width: 125px">
-                                <a id="id" class="ordering">Тип мастера</a></th>
-                                <th style="min-width: 350px">Описание</th>
+                                    <a id="id" class="ordering">Тип мастера</a></th>
+                                <th style="min-width: 100px">Описание</th>
                                 <th>Квартира</th>
                                 <th style="min-width: 200px">Владелец</th>
                                 <th>Телефон</th>
@@ -47,25 +51,40 @@
                                 <th style="width: 80px; min-width: 80px">&nbsp;</th>
                             </tr>
                             <tr id="w0-filters" class="filters">
-                                <td><input type="text" class="form-control" name="MasterRequestSearch[id]"></td>
-                                <td><input type="text" id="masterrequestsearch-searchdaterequestrange"
-                                           class="form-control" name="MasterRequestSearch[searchDateRequestRange]"
-                                           data-krajee-daterangepicker="daterangepicker_c8dff207"></td>
-                                <td><select id="master-type" class="form-control select2">
+                                <td><input type="text" class="form-control column_search" id="id"></td>
+                                <td><input type="text" id="date_range" class="form-control date_range"></td>
+                                <td><select id="master_type" class="form-control select2 filter">
+                                    <option value="">Любой специалист</option>
+                                    {% for type in master_types_list %}
+                                        <option value="{{ type.pk }}">{{ type.role }}</option>
+                                    {% endfor %}
 
                                 </select></td>
-                                <td><input type="text" class="form-control" name="MasterRequestSearch[description]">
+                                <td><input type="text" class="form-control column_search" id="description">
                                 </td>
-                                <td><input type="text" class="form-control" name="MasterRequestSearch[searchFlat]"></td>
+                                <td><input type="text" class="form-control column_search" id="apartment"></td>
                                 <td><select id="owner_id"
-                                            class="form-control select2">
-                                                                            </select></td>
-                                <td><input type="text" class="form-control" name="MasterRequestSearch[searchPhone]">
+                                            class="form-control select2 filter">
+                                    <option value=""></option>
+                                    {% for owner in owner_list %}
+                                            <option value="{{ owner.pk }}">{{ owner }}</option>
+                                    {% endfor %}
+                                </select></td>
+                                <td><input type="text" class="form-control column_search" id="owner_phone">
                                 </td>
                                 <td><select id="master_id"
-                                            class="form-control select2"></select></td>
+                                            class="form-control select2 filter">
+                                    <option value=""></option>
+                                    {% for master in master_list %}
+                                                <option value="{{ master.pk }}">{{ master.role.role }} - {{ master }}</option>
+                                    {% endfor %}
+                                </select></td>
                                 <td><select id="status"
-                                            class="form-control select2">
+                                            class="form-control select2 filter">
+                                <option value=""></option>
+                                    {% for status in status_list %}
+                                            <option value="{{ status }}">{{ status }}</option>
+                                    {% endfor %}
                                 </select></td>
                                 <td>&nbsp;</td>
                             </tr>
@@ -95,42 +114,49 @@
     <script>
         $('#nav_meter').attr('class', 'active')
     </script>
+
     <script src="{% static 'admin_panel/bower_components/select2/dist/js/select2.full.min.js' %}"></script>
     <script src="{% static 'admin_panel/bower_components/select2/dist/js/i18n/ru.min.js' %}"></script>
     <script type="text/javascript"
             src="{% static 'admin_panel/bower_components/datatables.net/jquery.dataTables.min.js' %}">
     </script>
-       <script>
-
+    <script src="{% static 'admin_panel/bower_components/moment/moment.js' %}"></script>
+    <script src="{% static 'admin_panel/bower_components/moment/locale/ru.js' %}"></script>
+    <script type="text/javascript"
+            src="{% static 'admin_panel/bower_components/daterangepicker/daterangepicker.js' %}"></script>
+    <script>
         let numb = 0
         let sort_data = {}
         let table
-        let table_head = $('#meter_table thead')
-        let filters_array
+        let table_head = $('#application_table thead')
         let label_colors = {
             'Выполнено': 'label-success',
             'В работе': 'label-primary',
             'Новое': 'label-warning',
         }
+
         function check_empty(data) {
-            if (data) {return data}
-            else return '(не задано)'
+            if (data) {
+                return data
+            } else return '(не задано)'
         }
+
         function set_options(data, target_id) {
-            $('#'+`{target_id} option`).remove()
-            $('#'+`{target_id}`).append(`<option></option>`)
+            $('#' + `{target_id} option`).remove()
+            $('#' + `{target_id}`).append(`<option></option>`)
             data.forEach(function (item) {
-                                $('#'+`${target_id}`).append(`<option value="${item['id']}">${item['name']}</option>`)
-                            })
+                $('#' + `${target_id}`).append(`<option value="${item['id']}">${item['name']}</option>`)
+            })
         }
+
         function clear_filters() {
             $('.column_search').val('');
+            $('.date_range').val('');
             table_head.unbind();
-            $(`.select2_section option`).remove()
-            $(`.select2_section`).append(`<option></option>`)
-            filters_array.forEach(function(item) {
-              item.val('').change()
-            })
+            $('.filter').val('').change()
+{% comment %}            filters_array.forEach(function (item) {
+                item.val('').change()
+            }){% endcomment %}
             $('.ordering').attr('class', 'ordering');
             set_filters_listener()
             let keys = Object.keys(sort_data)
@@ -143,113 +169,124 @@
         }
 
         function send_POST(e) {
-            table = $('#meter_table').DataTable({
+            table = $('#application_table').DataTable({
                 serverSide: true,
                 processing: false,
                 ordering: false,
                 oLanguage: {
                     sZeroRecords: "Ничего не найдено."
                 },
-                columnDefs: [
-                    {className: "meter", "targets": [0, 1, 2,3,4,5]},
-                    {targets: '_all', defaultContent: ''},
-                    {
-                "targets": [4,5],
-                "createdCell": function (td, cellData, rowData, row, col) {
-                $(td).css('background-color', '#DFD5')
-                }},
-                ],
+                {#columnDefs: [#}
+                {#    {className: "meter", "targets": [0, 1, 2, 3, 4, 5]},#}
+                {#    {targets: '_all', defaultContent: ''},#}
+                {#    {#}
+                {#        "targets": [4, 5],#}
+                {#        "createdCell": function (td, cellData, rowData, row, col) {#}
+                {#            $(td).css('background-color', '#DFD5')#}
+                {#        }#}
+                {#    },#}
+                {#],#}
                 "ajax": {
                     "processing": true,
-                    "url": "{% url 'meter_list' %}",
+                    "url": "{% url 'application_list' %}",
                     "data": function (d) {
                         return sort_data;
                     },
                     dataSrc: function (data) {
-                        if(data['sections']) {
+                        if (data['sections']) {
                             $('.select2_section').select2({placeholder: ""})
-                            set_options(data['sections'],'section')
+                            set_options(data['sections'], 'section')
                         }
-                        return data['meter']
+                        console.log(data)
+                        return data['application']
                     },
                 },
                 "columns": [
-                    {data: 'apartment__house__name'},
-                    {data: 'apartment__section__name'},
-                    {data: 'apartment__number'},
-                    {data: 'service__name'},
-                    {data: 'value'},
-                    {data: 'service__unit__name',
+                    {data: 'id'},
+                    {data: 'date',
+                    render:function (data, type, row) {
+                        return moment(`${data} ${row['time']}`).format('DD.MM.YYYY - H:mm')
+                    }},
+                    {data: 'master__role__role'},
+                    {data: 'description'},
+                    {data: 'apartment_info',
+                    render:function (data, type, row) {
+                        let link = '{% url 'apartment_view' 12345 %}'.replace(/12345/,row['apartment_id'])
+                        return `<a href="${link}">${data}</a>`
+                    }},
+                    {data: 'owner__first_name',
+                        render:function (data, type, row) {
+                        let link = '{% url 'owner_view' 12345 %}'.replace(/12345/,row['owner_id'])
+                            return `<a href="${link}">${data + ` ${row['owner__last_name']}`}</a>`
+                        }
+                    },
+                    {data: 'owner__phone',
+                    render: function (data) {
+                            return check_empty(data)
+                        }},
+                    {data: 'master__first_name',
+                        render:function (data, type, row) {
+                        let link = '{% url 'view_user' 12345 %}'.replace(/12345/,row['master_id'])
+                            return `<a href="${link}">${data + ` ${row['master__last_name']}`}</a>`
+                        }
+                    },
+                    {
+                        data: 'status',
                         render: function (data) {
-                         return check_empty(data)
-                     }},
+                            return `<small class="label ${label_colors[data]}">${data}</small>`
+                        }
+                    },
                     {
                         data: 'id',
-                        render: function (data, type,row) {
+                        render: function (data, type, row) {
 
-                            const link_new_value = '{% url 'meter_new_value_serv' apartment_id=12345 service_id=54321%}'.replace(/12345/, row.apartment).replace(/54321/,row.service)
-                            let link_view = '{% url 'meter_view_list_serv' 12345 54321%}'.replace(/12345/, row.apartment).replace(/54321/,row.service)
-                            console.log(link_view)
+                            {#const link_new_value = '{% url 'meter_new_value_serv' apartment_id=12345 service_id=54321%}'.replace(/12345/, row.apartment).replace(/54321/, row.service)#}
+                            {#let link_view = '{% url 'meter_view_list_serv' 12345 54321%}'.replace(/12345/, row.apartment).replace(/54321/, row.service)#}
+                            {#console.log(link_view)#}
                             return `<div class="btn-group pull-right">\
-            <a class="btn btn-default btn-sm" href="${link_new_value}"\
-               title="Снять новое показание счетчика" data-toggle="tooltip">\
-                <i class="fa fa-dashboard"></i>\
+            <a class="btn btn-default btn-sm" href="#"\
+               title="Редактировать" data-toggle="tooltip">\
+                <i class="fa fa-pencil"></i>\
             </a>\
             <a class="btn btn-default btn-sm"\
-               title="Открыть историю показаний для счетчика" data-toggle="tooltip" data-pjax="0" data-method="post"\
-                href="${link_view}" ">\
-                <i class="fa fa-eye"></i>\
+               title="Удалить" data-toggle="tooltip" data-pjax="0" data-method="post"\
+                href="#" ">\
+                <i class="fa fa-trash"></i>\
             </a>\
         </div>`
                         },
-                                            },
+                    },
                 ],
                 paging: false,
                 searching: false,
                 info: false,
             });
         }
+
         function set_filters_listener() {
             table_head.on('change', ".filter", function a(e) {
-            sort_data[this.id] = $(this).val()
-            numb = 0
-            table.draw()
-        });
-{% comment %}        table_head.on('change', ".select2_section", function a(e) {
-            sort_data[this.id] = $(this).val()
-            numb = 0
-            table.draw()
-        });{% endcomment %}
-        table_head.on('change', ".select2_house", function a(e) {
-            sort_data['section'] = ''
-            sort_data[this.id] = $(this).val()
-            if (sort_data[this.id]){
-                sort_data['house_select'] = true
-            }
-            numb = 0
-            table.draw()
-            sort_data['house_select'] = ''
-        });
-        table_head.on('keyup', ".column_search", function a(e) {
-            sort_data[this.id] = $(this).val()
-            numb = 0
-            table.draw()
-        });
-                table_head.on('click', '.ordering', function () {
-            if (this.className === 'ordering asc') {
-                $(this).attr('class', 'ordering desc')
-                sort_data['order_by'] = '-' + this.id
-            } else {
-                $(this).attr('class', 'ordering asc')
-                sort_data['order_by'] = this.id
-            }
-            table_head.find('.ordering').not(this).attr('class', 'ordering')
-            numb = 0
-            table.draw()
-        })
-                  }
-
-
+                sort_data[this.id] = $(this).val()
+                numb = 0
+                table.draw()
+            });
+            table_head.on('keyup', ".column_search", function a(e) {
+                sort_data[this.id] = $(this).val()
+                numb = 0
+                table.draw()
+            });
+            table_head.on('click', '.ordering', function () {
+                if (this.className === 'ordering asc') {
+                    $(this).attr('class', 'ordering desc')
+                    sort_data['order_by'] = '-' + this.id
+                } else {
+                    $(this).attr('class', 'ordering asc')
+                    sort_data['order_by'] = this.id
+                }
+                table_head.find('.ordering').not(this).attr('class', 'ordering')
+                numb = 0
+                table.draw()
+            })
+        }
 
 
         function confirm_delete(link, event) {
@@ -263,23 +300,42 @@
             return false;
         }
 
-{% comment %}        $('#meter_table').on('click', 'tbody tr .meter', function () {
-            window.location.href = '{% url 'meter_view_list_serv' 12345 54321%}'.replace(/12345/, table.row(this).data().apartment).replace(/54321/,table.row(this).data().service)
-        }){% endcomment %}
+        {% comment %}        $('#application_table').on('click', 'tbody tr .meter', function () {
+                    window.location.href = '{% url 'meter_view_list_serv' 12345 54321%}'.replace(/12345/, table.row(this).data().apartment).replace(/54321/,table.row(this).data().service)
+                }){% endcomment %}
 
 
         $(document).ready(function () {
 
             send_POST();
             $('.column_search').val('');
-            let $select2 = $('.select2').select2({placeholder: ""}).val('');
-            let $select2_section = $('.select2_section').select2({placeholder: "Выберите дом"}).val('');
-            let $house = $('#house').select2({placeholder: ""});
-            filters_array = [$select2,$select2_section,$house]
+            $('.select2').select2().val('');
             set_filters_listener()
-            {#$('#section__name').select2();#}
-            {#$('#floor__name').select2();#}
-            {#$('#owner__name').select2();#}
+            $(function () {
+                let input = $('#date_range')
+                input.daterangepicker({
+                    autoUpdateInput: false,
+                    locale: {
+
+                        cancelLabel: 'Отменить',
+                        applyLabel: 'Применить'
+                    },
+                    applyButtonClasses:'btn btn-success',
+                    cancelButtonClasses:'btn btn-default',
+                });
+                input.on('apply.daterangepicker', function (ev, picker) {
+                    $(this).val(picker.startDate.format('DD/MM/YYYY') + ' - ' + picker.endDate.format('DD/MM/YYYY'));
+                    sort_data['date_range'] = [picker.startDate.format('YYYY-MM-DD'), picker.endDate.format('YYYY-MM-DD')]
+                    console.log(sort_data[this.id])
+                    numb = 0
+                    table.draw()
+                });
+
+                input.on('cancel.daterangepicker', function (ev, picker) {
+                    $(this).val('');
+                });
+
+            });
         });
     </script>
 
