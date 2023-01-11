@@ -1,5 +1,15 @@
 {% extends 'layout/basic.html' %}
 {% load static %}
+{% block title %}Заявки вызова мастера{% endblock %}
+{% block breadcrumb %}
+    <ul class="breadcrumb">
+        <li><a href="{% url 'statistic' %}"><i class="fa fa-home"></i>Главная</a></li>
+        <li class="active">Заявки вызова мастера</li>
+    </ul>
+{% endblock %}
+{% block header_text %}
+    Заявки вызова мастера
+{% endblock %}
 {% block head %}
     <link rel="stylesheet" type="text/css"
           href="{% static 'admin_panel/bower_components/datatables.net-bs/css/dataTables.jqueryui.min.css' %}"/>

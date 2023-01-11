@@ -21,3 +21,6 @@ class Application(models.Model):
     date = models.DateField()
     date_add = models.DateTimeField(auto_now_add=True)
     time = models.TimeField()
+
+    class Meta:
+        ordering = ['-pk']

@@ -1,111 +1,76 @@
 {% extends 'layout/basic.html' %}
 {% load static %}
-{% block title %}Новая заявка{% endblock %}
-{% block breadcrumb %}
-    <ul class="breadcrumb">
-        <li><a href="{% url 'statistic' %}"><i class="fa fa-home"></i>Главная</a></li>
-        <li><a href="{% url 'application_list' %}">Заявки вызова мастера</a></li>
-        <li class="active">Новая заявка</li>
-    </ul>
-{% endblock %}
-{% block header_text %}
-    Новая заявка
-{% endblock %}
 {% block head %}
 <link rel="stylesheet"
       href="{% static 'admin_panel/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css' %}"/>
-    <style>
-    .ck-editor__editable_inline {
-    min-height: 200px;
-    }
-    </style>
 {% endblock %}
 {% block content %}
-    <form id="application_form" method="post">
+
+
+
+    <form id="transaction_form" method="post">
         {% csrf_token %}
         <div class="row">
             <div class="col-xs-12 col-md-7 col-lg-6">
                 <div class="page-header-spec">
-                    <div class="form-group master-date">
-                        <div id="meter_date" class="input-group  date">
+                    <div class="form-group">
+                        <div class="input-group">
+                            <div class="input-group-addon">
+                                №
+                            </div>
+                            {{form.number}}
+                        </div>
+                    </div>
+                    <span class="label-mid">от</span>
+                    <div class="form-group">
+                        <div id="transaction_date" class="input-group  date">
                             {{ form.date }}
                             <span class="input-group-addon kv-date-calendar" title="Выбрать дату"><i
                                 class="glyphicon glyphicon-calendar"></i></span></div>
                     </div>
-                    <span class="label-mid">от</span>
-                    <div class="form-group master-time">
-
-                        <div id="meter_time" class="input-group date">
-                            {{ form.time }}
-                            <span class="input-group-addon" title="Выбрать время">
-                                <i class="fa fa-clock-o"></i></span>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
-
         <div class="box">
             <div class="box-body">
                 <div class="row">
-
-                    <div class="col-xs-12 col-md-6">
-                        <div class="form-group">
-                            <label for="user_id">Владелец квартиры</label>
-                            {{ form.owner }}
-                            </div>
-                    </div>
-
-                        <div class="col-xs-12 col-md-6">
-                    {% block update %}
-                    {% endblock %}
-                        </div>
-
-                    <div class="clearfix"></div>
-
-                    <div class="col-xs-12 col-sm-6">
-                        <div class="form-group field-masterrequest-description">
-                            <label class="control-label" for="masterrequest-description">Описание</label>
-                            {{form.description}}
-                            <div class="help-block"></div>
-                        </div>
-                    </div>
-                    <div class="col-xs-12 col-sm-6">
-                        <div class="form-group field-masterrequest-flat_id">
-                            <label class="control-label" for="masterrequest-flat_id">Квартира</label>
-                            {{ form.apartment }}
-
-                            <div class="help-block"></div>
-                        </div>
-                        <div class="form-group field-master-type">
-                            <label class="control-label" for="master-type">Тип мастера</label>
-                            {{ form.master_types }}
-
-                            <div class="help-block"></div>
-                        </div>
-                        <div class="form-group field-masterrequest-status">
-                            <label class="control-label" for="masterrequest-status">Статус</label>
-                            {{ form.status }}
-
-                            <div class="help-block"></div>
-                        </div>
-                        <div class="form-group field-masterrequest-user_admin_id">
-                            <label class="control-label" for="masterrequest-user_admin_id">Мастер</label>
-                            {{form.master}}
-
-                            <div class="help-block"></div>
-                        </div>
+                    <div class="col-xs-12 col-sm-6 col-sm-offset-6">
+                        {{form.is_complete}} <label for="{{form.is_complete.id_for_label}}">Проведен</label>
                     </div>
                 </div>
+
                 <div class="row">
-                    <div class="col-xs-12">
-                        <div class="form-group master-comment">
-                            <label class="control-label" for="master-comment">Комментарий</label>
-                            <div id="cke_comment">
-                                {{form.comment}}
-                            </div>
+                    <div class="col-xs-12 col-sm-6">
+                        {% if view.kwargs.transaction_type == 'income'%}
+                        <div class="form-group">
+                            <label for="{{form.owner.id_for_label}}">Владелец квартиры</label>
 
+                            {{ form.owner }}</div>
+                        <div class="form-group">
+                            <label class="control-label" for="{{form.personal_account.id_for_label}}">Лицевой счет</label>
+                            {{ form.personal_account }}
 
+                            <div class="help-block"></div>
+                        </div>
+                        {% endif %}
+                        <div class="form-group">
+                            <label class="control-label" for="{{form.purpose.id_for_label}}">Статья</label>
+                            {{ form.purpose }}
+
+                            <div class="help-block"></div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label" for="{{form.sum.id_for_label}}">Сумма</label>
+                            {{form.sum}}
+
+                            <div class="help-block"></div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-6">
+
+                        <div class="form-group">
+                            <label class="control-label" for="{{form.manager.id_for_label}}">Менеджер</label>
+                            {{form.manager}}
 
                             <div class="help-block"></div>
                         </div>
@@ -114,17 +79,26 @@
                 <div class="row">
                     <div class="col-xs-12 text-right">
                         <div class="form-group">
-                            <a href="{% url 'application_list' %}" class="btn btn-default">Отменить</a>
-                            <button type="submit" class="btn btn-success" >Сохранить</button>
+                            <a href="/admin/account-transaction/index"
+                               class="btn btn-default margin-bottom-15">Отменить</a>
+                            <input type="submit" class="btn btn-success margin-bottom-15" name="action_save"
+                                   value="Сохранить"></div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="form-group">
+                            <label class="control-label" for="{{form.comment.id_for_label}}">Комментарий</label>
+                            {{form.comment}}
+
+                            <div class="help-block"></div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </form>
-
 {% endblock %}
-
 {% block scripts %}
 
     <script>
@@ -135,52 +109,12 @@
     <script src="{% static 'admin_panel/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js' %}"></script>
     <script src="{% static 'admin_panel/bower_components/select2/dist/js/select2.full.min.js' %}"></script>
     <script src="{% static 'admin_panel/bower_components/select2/dist/js/i18n/ru.min.js' %}"></script>
-    <script type="text/javascript" src="{% static "admin_panel/plugins/ckeditor5-build-classic/ckeditor.js" %}"></script>
-    <script type="text/javascript" src="{% static "admin_panel/plugins/ckeditor5-build-classic/translations/ru.js" %}"></script>
     <script>
-    ClassicEditor.create( document.querySelector( '#id_comment' ),{
-            language: 'ru',
-        toolbar:{
-        items: [
-			'heading',
-			'|',
-			'bold',
-			'italic',
-			'underline',
-			'link',
-			'bulletedList',
-			'numberedList',
-			'|',
-			'outdent',
-			'indent',
-			'|',
-			'blockQuote',
-			'undo',
-			'redo'
-		]
-        }
-        } )
-        .catch( error => {
-            console.error( error );
-        } );
-    ClassicEditor.editorConfig = function( config )
-    {
-       // misc options
-       config.height = '350px';
-    };
              $(function () {
-             $('#meter_date').datetimepicker({
+             $('#transaction_date').datetimepicker({
                      {#minDate: moment(),#}
                      locale: 'ru',
                      format: 'L',
-                    date: moment()
-                 }
-             );
-             $('#meter_time').datetimepicker({
-                     {#maxDate: moment(),#}
-                     locale: 'ru',
-                     format: 'HH:mm',
-                    stepping:'15',
                     date: moment()
                  }
              );
@@ -247,11 +181,10 @@
 
         $(document).ready(function ()
             {
-                let select_apartment =$('#id_apartment').select2({placeholder: "Выберите...", allowClear:true})
-                let select_master =$('#id_master').select2({placeholder: "Выберите..."})
-                let select_master_types =$('#id_master_types').select2({minimumResultsForSearch: Infinity})
                 let select_owner =$('#id_owner').select2({placeholder: "Выберите...", allowClear:true})
-                $('#id_status').select2({placeholder: "Выберите...",minimumResultsForSearch: Infinity})
+                let select_manager =$('#id_manager').select2({placeholder: "Выберите..."})
+                let select_purpose =$('#id_purpose').select2({placeholder: "Выберите..."})
+                let select_personal_account =$('#id_personal_account').select2({placeholder: "Выберите..."})
                 set_event_listeners()
             }
 
@@ -259,16 +192,16 @@
 
     </script>
     <script>
-            $( "#application_form" ).validate( {
+            $( "#transaction_form" ).validate( {
 				rules: {
-					apartment: "required",
-					master: "required",
-					description: "required",
+					sum: {required: true, min:0},
+					manager: "required",
+					personal_account: "required",
 				},
 				messages: {
-					apartment: "Пожалуйста выберите квартиру.",
-					master: "Пожалуйста выберите мастера.",
-					description: "Пожалуйста опишите свою проблему.",
+                    sum: {required:"Пожалуйста введите сумму."},
+					manager: "Пожалуйста выберите менеджера.",
+					personal_account: "Пожалуйста выберите лицевой счет.",
 				},
 				errorElement: "em",
 				errorPlacement: function ( error, element ) {

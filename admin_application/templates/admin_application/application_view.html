@@ -1,8 +1,17 @@
 {% extends 'layout/basic.html' %}
 {% load static %}
+{% block title %}Заявка №{{ application.pk }}{% endblock %}
+{% block breadcrumb %}
+    <ul class="breadcrumb">
+        <li><a href="{% url 'statistic' %}"><i class="fa fa-home"></i>Главная</a></li>
+        <li><a href="{% url 'application_list' %}">Заявки вызова мастера</a></li>
+        <li class="active">Заявка №{{ application.pk }}</li>
+    </ul>
+{% endblock %}
+{% block header_text %}
+    Заявка №{{ application.pk }}
+{% endblock %}
 {% block content %}
-
-
     <div class="row">
         <div class="col-xs-12 col-md-7 col-lg-6">
             <div class="page-header-spec">
@@ -52,7 +61,7 @@
                             <td>Владелец</td>
                             <td>
                                 <a href="{% url 'owner_view' application.owner_id %}">
-                                    {{ application.owner}} </a>
+                                    {{ application.owner }} </a>
                             </td>
                         </tr>
                         <tr>
@@ -63,7 +72,7 @@
                             <td>Квартира</td>
                             <td>
                                 <a href="{% url 'apartment_view' application.apartment_id %}">
-                                    {{ application.apartment.info}} </a>
+                                    {{ application.apartment.info }} </a>
                             </td>
                         </tr>
                         <tr>
@@ -73,7 +82,7 @@
                         <tr>
                             <td>Мастер</td>
                             <td>
-                                <a href="{% url 'view_user' application.master_id%}">
+                                <a href="{% url 'view_user' application.master_id %}">
                                     {{ application.master }} ({{ application.master.role.role }}) </a>
                             </td>
                         </tr>
@@ -96,11 +105,11 @@
 
 {% endblock %}
 {% block scripts %}
-        <script>
+    <script>
         $('#nav_application').attr('class', 'active')
     </script>
-        <script src="{% static 'admin_panel/bower_components/moment/moment.js' %}"></script>
+    <script src="{% static 'admin_panel/bower_components/moment/moment.js' %}"></script>
     <script>
-    $('#date_add').text(moment('{{ application.date_add|date:"c" }}').format('DD.MM.YYYY - HH:mm'))
+        $('#date_add').text(moment('{{ application.date_add|date:"c" }}').format('DD.MM.YYYY - HH:mm'))
     </script>
 {% endblock %}
