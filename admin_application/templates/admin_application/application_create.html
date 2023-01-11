@@ -45,9 +45,10 @@
                             </div>
                     </div>
 
-
-                    <div class="col-xs-12 col-md-6">
-                    </div>
+                        <div class="col-xs-12 col-md-6">
+                    {% block update %}
+                    {% endblock %}
+                        </div>
 
                     <div class="clearfix"></div>
 
@@ -102,7 +103,7 @@
                 <div class="row">
                     <div class="col-xs-12 text-right">
                         <div class="form-group">
-                            <a href="#" class="btn btn-default">Отменить</a>
+                            <a href="{% url 'application_list' %}" class="btn btn-default">Отменить</a>
                             <button type="submit" class="btn btn-success" >Сохранить</button>
                         </div>
                     </div>
@@ -167,7 +168,7 @@
              $('#meter_time').datetimepicker({
                      {#maxDate: moment(),#}
                      locale: 'ru',
-                     format: 'LT',
+                     format: 'HH:mm',
                     stepping:'15',
                     date: moment()
                  }
@@ -183,7 +184,7 @@
             $('#' + `${target_id} option:not([value=''])`).remove()
         }
     {% block ajax_link_set %}{% endblock %}
-    function get_values() {
+    function get_values(values) {
         $.ajax({
             type: 'GET',
             url: {% block ajax_url %}'{% url 'application_create' %}'{% endblock %},
@@ -207,6 +208,11 @@
                             .text(`${item['role__role']} - ${item['first_name']} ${item['last_name']}`));
                     }
                 );
+                }
+                if (values){
+                    values.forEach(function (item) {
+                        $(`${item['target']}`).val(item['value']).change()
+                    })
                 }
             }
         })
@@ -241,4 +247,7 @@
         )
 
     </script>
+    {% block update_script %}
+
+    {% endblock %}
 {% endblock %}

@@ -38,6 +38,14 @@ class ApplicationForm(forms.ModelForm):
     time = forms.TimeField(widget=forms.TimeInput(
         attrs={'class': "form-control"}))
 
+    def __init__(self, *args, **kwargs):
+        super(ApplicationForm, self).__init__(*args, **kwargs)
+        try:
+            if self.instance.master:
+                self.initial['master_types'] = self.instance.master.role
+                print(self.instance.master.role.role)
+        except:
+            pass
     class Meta:
         model = Application
         fields = ['master', 'status', 'comment', 'date', 'time',

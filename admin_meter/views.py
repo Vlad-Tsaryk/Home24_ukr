@@ -1,16 +1,16 @@
 from django.contrib.messages.views import SuccessMessageMixin
-from django.http import JsonResponse, HttpResponseRedirect
-from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib.messages import success, error
+from django.http import JsonResponse
+from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, ListView, DetailView, UpdateView
 
 from admin_apartment.models import Apartment
 from admin_house.models import Section
-from .forms import MeterForm
+from .forms import MeterForm, MeterUpdateForm
 from .models import Meter
 from admin_house.models import House
 from admin_service.models import Service
-from django.contrib.messages import success, error
 
 
 # Create your views here.
@@ -24,7 +24,7 @@ class MeterCreate(SuccessMessageMixin, CreateView):
     form_class = MeterForm
     template_name = 'admin_meter/meter_create.html'
     success_url = reverse_lazy('meter_list')
-    success_message = 'Счетчик успешно создан'
+    success_message = 'Счетчик №%(number)s успешно создан'
 
     def render_to_response(self, context, **response_kwargs):
         if self.request.is_ajax():
@@ -158,11 +158,6 @@ class MeterViewList(ListView):
                 'date__range': self.request.GET.getlist('date_range[]'),
             }
             print(self.request.GET)
-            # if not self.request.GET.get('service_sort'):
-            #     if self.kwargs['service_id']:
-            #         self.kwargs['first'] = False
-            #         filter_fields['service'] = self.kwargs['service_id']
-
             if self.request.GET.get('house_select'):
                 result['sections'] = list(Section.objects.filter(house=filter_fields['apartment__house']).values())
 
@@ -184,9 +179,9 @@ class MeterViewList(ListView):
 
 class MeterUpdate(SuccessMessageMixin, UpdateView):
     model = Meter
-    form_class = MeterForm
+    form_class = MeterUpdateForm
     template_name = 'admin_meter/meter_update.html'
-    success_message = 'Счетчик успешно обновлен'
+    success_message = 'Счетчик №%(number)s успешно обновлен'
 
     def render_to_response(self, context, **response_kwargs):
         if self.request.is_ajax():

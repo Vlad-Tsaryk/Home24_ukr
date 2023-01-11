@@ -1,0 +1,19 @@
+{% extends 'admin_application/application_create.html' %}
+{% block ajax_url %}'{% url 'application_update' application.pk%}'{% endblock %},
+{% block update %}
+    <p><b>Дом:</b> <a href="{% url 'house_view' application.apartment.house_id %}">{{ application.apartment.house.name}}</a></p>
+    <p><b>Секция:</b> {{ application.apartment.section}}</p>
+    <p><b>Этаж:</b> {{ application.apartment.floor }}</p>
+{% endblock %}
+{% block update_script %}
+<script>
+        select_options['owner_id'] = $('#id_owner').val()
+        select_options['owner_change'] = 'True';
+        select_options['master_type'] = $('#id_master_types').val()
+        select_options['master_type_change'] = 'True'
+        get_values(values=[{'target':'#id_apartment','value':`${$('#id_apartment').val()}`},
+                            {'target':'#id_master','value':`${$('#id_master').val()}`}]);
+        select_options['owner_change'] = ''
+        select_options['master_type_change'] = ''
+</script>
+{% endblock %}

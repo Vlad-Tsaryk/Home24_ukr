@@ -19,4 +19,5 @@ class Application(models.Model):
     comment = models.TextField()
     description = models.TextField()
     date = models.DateField()
+    date_add = models.DateTimeField(auto_now_add=True)
     time = models.TimeField()

@@ -29,10 +29,16 @@ class MeterForm(forms.ModelForm):
             if self.instance.apartment:
                 self.initial['house'] = self.instance.apartment.house_id
                 self.initial['section'] = self.instance.apartment.section_id
-                print(self.instance.apartment)
         except:
             pass
 
     class Meta:
         model = Meter
         fields = ['service', 'apartment', 'status', 'value', 'date', 'number']
+
+
+class MeterUpdateForm(MeterForm):
+    def __init__(self, *args, **kwargs):
+        super(MeterForm, self).__init__(*args, **kwargs)
+        self.initial['house'] = self.instance.apartment.house_id
+        self.initial['section'] = self.instance.apartment.section_id
