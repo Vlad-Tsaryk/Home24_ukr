@@ -102,7 +102,7 @@
 {% block scripts %}
 
     <script>
-        $('#nav_application').attr('class', 'active')
+        $('#nav_transaction').attr('class', 'active')
     </script>
     <script src="{% static 'admin_panel/bower_components/moment/moment.js' %}"></script>
     <script src="{% static 'admin_panel/bower_components/moment/locale/ru.js' %}"></script>
@@ -123,7 +123,6 @@
     <script>
     let select_options = {
         'owner_id':'',
-        'master_type':''
     }
         function clear_options(target_id) {
             $('#' + `${target_id} option:not([value=''])`).remove()
@@ -132,32 +131,25 @@
     function get_values(values) {
         $.ajax({
             type: 'GET',
-            url: {% block ajax_url %}'{% url 'application_create' %}'{% endblock %},
+            url: {% block ajax_url %}'{% url 'transaction_create' view.kwargs.transaction_type %}'{% endblock %},
             data: select_options,
             success: function (data) {
                 console.log(data)
-                if(data['apartments']){
-                    clear_options('id_apartment')
-                    data['apartments'].forEach(
+                if(data['personal_accounts']){
+                    clear_options('id_personal_account')
+                    data['personal_accounts'].forEach(
                     function (item) {
-                        $('#id_apartment').append($('<option>').val(item['id'])
-                            .text(`Квартира №${item['number']}, ${item['house__name']}`));
+                        $('#id_personal_account').append($('<option>').val(item['id'])
+                            .text(item['number']));
                     }
                 );
                 }
-                if(data['masters']){
-                    clear_options('id_master')
-                    data['masters'].forEach(
-                    function (item) {
-                        $('#id_master').append($('<option>').val(item['id'])
-                            .text(`${item['role__role']} - ${item['first_name']} ${item['last_name']}`));
-                    }
-                );
-                }
-                if (values){
-                    values.forEach(function (item) {
-                        $(`${item['target']}`).val(item['value']).change()
-                    })
+                if(data['owner_id']){
+                    console.log(data['owner_id'])
+                    $('#id_owner').unbind().val(data['owner_id'])
+                        .change().select2({placeholder: "Выберите...", allowClear:true})
+                    set_event_listeners()
+
                 }
             }
         })
@@ -170,13 +162,16 @@
         select_options['owner_change'] = ''
 
     })
-    $('#id_master_types').change(function () {
-        select_options['master_type'] = this.value
-        select_options['master_type_change'] = 'True'
-        get_values();
-        select_options['master_type_change'] = ''
-    })
     }
+        $('#id_personal_account').change(function () {
+        if(select_options['owner_id']===''){
+            select_options['personal_account'] = this.value
+            select_options['personal_account_change'] = 'True'
+            get_values();
+            select_options['personal_account_change'] = ''
+        }
+
+    })
 
 
         $(document).ready(function ()

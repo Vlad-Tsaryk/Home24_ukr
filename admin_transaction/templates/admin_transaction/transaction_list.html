@@ -1,0 +1,409 @@
+{% extends 'layout/basic.html' %}
+{% load static %}
+{% block head %}
+    <link rel="stylesheet" type="text/css"
+          href="{% static 'admin_panel/bower_components/datatables.net-bs/css/dataTables.jqueryui.min.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'admin_panel/bower_components/daterangepicker/daterangepicker.css' %}" />
+{% endblock %}
+{% block content %}
+
+
+    <div class="row">
+        <!--<div class="col-xs-12 col-sm-6">-->
+        <!--<h2 class="page-header">Квартиры</h2>-->
+        <!--</div>-->
+        <div class="col-xs-12 col-lg-9">
+
+            <div class="row">
+                <div class="col-xs-12 col-md-4">
+                    <div class="small-box bg-green overflow-hidden">
+                        <div class="inner">
+                            <h3>0 грн</h3>
+                            <p>Состояние кассы</p>
+                        </div>
+                        <div class="icon">
+                            <i class="fa fa-dollar"></i>
+                        </div>
+                        <!--<span class="small-box-footer">&nbsp;</span>-->
+                    </div>
+                </div>
+                <div class="col-xs-12 col-md-4">
+                    <div class="small-box bg-blue overflow-hidden">
+                        <div class="inner">
+                            <h3>0 грн</h3>
+                            <p>Баланс по счетам</p>
+                        </div>
+                        <div class="icon">
+                            <i class="fa fa-dollar"></i>
+                        </div>
+                        <!--<span class="small-box-footer">&nbsp;</span>-->
+                    </div>
+                </div>
+                <div class="col-xs-12 col-md-4">
+                    <div class="small-box bg-red overflow-hidden">
+                        <div class="inner">
+                            <h3>0 грн</h3>
+                            <p>Задолженность по счетам</p>
+                        </div>
+                        <div class="icon">
+                            <i class="fa fa-dollar"></i>
+                        </div>
+                        <!--<span class="small-box-footer">&nbsp;</span>-->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-12 col-lg-3">
+            <div class="btn-group pull-right margin-bottom">
+                <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">
+                    Выберите действие <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a href="{% url 'transaction_create' transaction_type='income' %}">Создать приход</a></li>
+                    <li><a href="{% url 'transaction_create' transaction_type='outcome' %}">Создать расход</a></li>
+                    <li><a href="/admin/account-transaction/export">Выгрузить в Excel</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <div class="box-header with-border">
+                    <h3 class="box-title"></h3>
+                    <div class="box-tools">
+                        <a href="/admin/account-transaction/index" class="btn btn-default btn-sm">
+                            <span class="hidden-xs">Очистить</span><i class="fa fa-eraser visible-xs"
+                                                                      aria-hidden="true"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div id="w0" class="grid-view">
+                    <div class="box-body table-responsive no-padding">
+                        <table class="table table-bordered table-hover table-striped linkedRow" id="transaction_table">
+                            <thead>
+                            <tr>
+                                <th style="width: 125px; min-width: 125px">№</th>
+                                <th style="width: 125px; min-width: 125px">
+                                    <a id="date" class="ordering" style="cursor: pointer">Дата</a></th>
+                                <th style="width: 120px; min-width: 120px">Статус</th>
+                                <th>Тип платежа</th>
+                                <th style="min-width: 200px">Владелец</th>
+                                <th style="min-width: 160px">Лицевой счет</th>
+                                <th>Приход/расход</th>
+                                <th style="width: 110px; min-width: 110px">Сумма (грн)</th>
+                                <th style="width: 80px; min-width: 80px">&nbsp;</th>
+                            </tr>
+                            <tr id="w0-filters" class="filters">
+                                <td><input type="text" class="form-control" id="number"></td>
+                                <td><input type="text" id="date_range"
+                                           class="form-control date_range"></td>
+                                <td><select id="is_complete"
+                                            class="form-control select2">
+                                    <option value=""></option>
+                                    <option value="10">Проведен</option>
+                                    <option value="5">Не проведен</option>
+                                </select></td>
+                                <td><select id="purpose"
+                                            class="form-control select2">
+                                    <option value=""></option>
+
+                                </select></td>
+                                <td><select id="owner" class="form-control select2">
+                                    <option value=""></option>
+                                </select></td>
+                                <td><input type="text" class="form-control"
+                                           id="personal_account"></td>
+                                <td><select id="purpose_type"
+                                            class="form-control select2">
+                                    <option value=""></option>
+{#                                    <option value="in">Приход</option>#}
+{#                                    <option value="out">Расход</option>#}
+                                </select></td>
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
+                            </tr>
+                            </thead>
+                            <tbody>
+
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="box-footer clearfix">
+                        <ul class="pagination pagination-sm no-margin pull-right">
+                            <li class="prev disabled"><span>«</span></li>
+                            <li class="active"><a href="/admin/account-transaction/index?page=1&amp;per-page=50"
+                                                  data-page="0">1</a></li>
+                            <li><a href="/admin/account-transaction/index?page=2&amp;per-page=50" data-page="1">2</a>
+                            </li>
+                            <li><a href="/admin/account-transaction/index?page=3&amp;per-page=50" data-page="2">3</a>
+                            </li>
+                            <li class="next"><a href="/admin/account-transaction/index?page=2&amp;per-page=50"
+                                                data-page="1">»</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="box-footer">
+                    <div>Проведен приход: <span class="text-bold">{{ transaction_list.first.count_income }} грн</span></div>
+                    <div>Проведен расход: <span class="text-bold">{{ transaction_list.first.count_outcome }} грн</span></div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+{% block scripts %}
+    <script>
+        $('#nav_transaction').attr('class', 'active')
+    </script>
+
+    <script src="{% static 'admin_panel/bower_components/select2/dist/js/select2.full.min.js' %}"></script>
+    <script src="{% static 'admin_panel/bower_components/select2/dist/js/i18n/ru.min.js' %}"></script>
+    <script type="text/javascript"
+            src="{% static 'admin_panel/bower_components/datatables.net/jquery.dataTables.min.js' %}">
+    </script>
+    <script src="{% static 'admin_panel/bower_components/moment/moment.js' %}"></script>
+    <script src="{% static 'admin_panel/bower_components/moment/locale/ru.js' %}"></script>
+    <script type="text/javascript"
+            src="{% static 'admin_panel/bower_components/daterangepicker/daterangepicker.js' %}"></script>
+    <script>
+        let numb = 0
+        let sort_data = {}
+        let table
+        let table_head = $('#transaction_table thead')
+        let label_colors = {
+            'Проведен': 'label-success',
+            'Не проведен': 'label-danger',
+        }
+
+        function check_empty(data) {
+            if (data) {
+                return data
+            } else return '(не задано)'
+        }
+
+        function set_options(data, target_id) {
+            $('#' + `${target_id} option`).remove()
+            $('#' + `${target_id}`).append(`<option></option>`)
+            data.forEach(function (item) {
+                $('#' + `${target_id}`).append(`<option value="${item['id']}">${item['name']}</option>`)
+            })
+        }
+
+        function clear_filters() {
+            $('.column_search').val('');
+            $('.date_range').val('');
+            table_head.unbind();
+            $('.filter').val('').change()
+{% comment %}            filters_array.forEach(function (item) {
+                item.val('').change()
+            }){% endcomment %}
+            $('.ordering').attr('class', 'ordering');
+            set_filters_listener()
+            let keys = Object.keys(sort_data)
+            keys.forEach(function (item) {
+                sort_data[item] = ''
+            })
+            sort_data['master_type_change'] = 'True'
+            numb = 0
+            table.draw()
+            sort_data['master_type_change'] = ''
+
+        }
+
+        function send_POST(e) {
+            table = $('#transaction_table').DataTable({
+                serverSide: true,
+                processing: false,
+                ordering: false,
+                oLanguage: {
+                    sZeroRecords: "Ничего не найдено."
+                },
+                columnDefs: [
+                    {className: "application", "targets": [0, 1, 2, 3, 4, 5,6,7]},
+                    {targets: '_all', defaultContent: ''},
+                ],
+                "ajax": {
+                    "processing": true,
+                    "url": "{% url 'transaction_list' %}",
+                    "data": function (d) {
+                        return sort_data;
+                    },
+                    dataSrc: function (data) {
+                        if (data['masters']) {
+                            set_options(data['masters'], 'master_id')
+                        }
+                        console.log(data)
+                        return data['transaction']
+                    },
+                },
+                "columns": [
+                    {data: 'number'},
+                    {data: 'date',
+                    render:function (data, type, row) {
+                        return moment(`${data}`).format('DD.MM.YYYY')
+                    }},
+                    {
+                        data: 'is_complete',
+                        render: function (data) {
+                            if (data){
+                                return '<small class="label label-success">Проведен</small>'
+                            }
+                            else {
+                                 return '<small class="label label-danger">Не проведен</small>'
+                            }
+                        }
+                    },
+
+                    {data: 'purpose__name'},
+                    {data: 'owner__first_name',
+                        render:function (data, type, row) {
+                            if (data){
+                                return `${data} ${row['owner__last_name']} ${row['owner__middle_name']}`
+                            }
+                            else {
+                                return check_empty(data)
+                            }
+
+                        }
+                    },
+                    {data: 'personal_account__number',
+                    render:function (data) {
+                        return check_empty(data)
+                    }},
+                    {data: 'type',
+                    render:function (data) {
+                        if (data){
+                            return '<span class="text text-green">Приход</span>'
+                        }
+                        else {
+                            return '<span class="text text-red">Расход</span>'
+                        }
+
+                    }},
+                    {data: 'sum',
+                    render:function (data, type, row) {
+                        if (row['type']){
+                            return `<span class="text text-green">${data}</span>`
+                        }
+                        else {
+                            return `<span class="text text-red">-${data}</span>`
+                        }
+
+                    }},
+
+                    {
+                        data: 'id',
+                        render: function (data, type, row) {
+
+                            {#let link_delete = '{% url 'application_delete' 12345 %}'.replace(/12345/, data)#}
+                            {#let link_update = '{% url 'application_update' 12345 %}'.replace(/12345/, data)#}
+                            return `<div class="btn-group pull-right">\
+            <a class="btn btn-default btn-sm" href="#"\
+               title="Редактировать" data-toggle="tooltip">\
+                <i class="fa fa-pencil"></i>\
+            </a>\
+            <a class="btn btn-default btn-sm"\
+               title="Удалить" data-toggle="tooltip" data-pjax="0" data-method="post"\
+                onclick="return confirm_delete('#',event);">\
+                <i class="fa fa-trash"></i>\
+            </a>\
+        </div>`
+                        },
+                    },
+                ],
+                paging: false,
+                searching: false,
+                info: false,
+            });
+        }
+
+        function set_filters_listener() {
+            table_head.on('change', ".filter", function a(e) {
+                sort_data[this.id] = $(this).val()
+                numb = 0
+                if (this.id==="master_type"){
+                    sort_data['master_type_change'] = 'True'
+                    table.draw()
+                    sort_data['master_type_change'] = ''
+                }
+                else {
+                    table.draw()
+                }
+            });
+            table_head.on('keyup', ".column_search", function a(e) {
+                sort_data[this.id] = $(this).val()
+                numb = 0
+                table.draw()
+            });
+            table_head.on('click', '.ordering', function () {
+                if (this.className === 'ordering asc') {
+                    $(this).attr('class', 'ordering desc')
+                    sort_data['order_by'] = '-' + this.id
+                } else {
+                    $(this).attr('class', 'ordering asc')
+                    sort_data['order_by'] = this.id
+                }
+                table_head.find('.ordering').not(this).attr('class', 'ordering')
+                numb = 0
+                table.draw()
+            })
+
+        }
+
+
+        function confirm_delete(link, event) {
+            alertify.confirm('Подтверждение удаления', 'Удалить заявку <b>№'
+                + $(event.target).closest("tr ").children().eq(0).text() + '</b> ?',
+                function () {
+                    window.location.href = link
+                },
+                function () {
+                }).set({labels: {ok: 'Подтвердить', cancel: 'Отмена'}});
+            return false;
+        }
+
+                $('#transaction_table').on('click', 'tbody tr .application', function () {
+                    window.location.href = '{% url 'application_view' 12345%}'
+                        .replace(/12345/, table.row(this).data().id)
+                })
+
+
+        $(document).ready(function () {
+
+            send_POST();
+            $('.column_search').val('');
+            $('.select2').select2().val('');
+            set_filters_listener()
+            $(function () {
+                let input = $('#date_range')
+                input.daterangepicker({
+                    autoUpdateInput: false,
+                    locale: {
+
+                        cancelLabel: 'Отменить',
+                        applyLabel: 'Применить'
+                    },
+                    applyButtonClasses:'btn btn-success',
+                    cancelButtonClasses:'btn btn-default',
+                });
+                input.on('apply.daterangepicker', function (ev, picker) {
+                    $(this).val(picker.startDate.format('DD/MM/YYYY') + ' - ' + picker.endDate.format('DD/MM/YYYY'));
+                    sort_data['date_range'] = [picker.startDate.format('YYYY-MM-DD'), picker.endDate.format('YYYY-MM-DD')]
+                    console.log(sort_data[this.id])
+                    numb = 0
+                    table.draw()
+                });
+
+                input.on('cancel.daterangepicker', function (ev, picker) {
+                    $(this).val('');
+                });
+
+            });
+        });
+    </script>
+
+{% endblock %}

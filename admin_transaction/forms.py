@@ -25,7 +25,6 @@ class TransactionForm(forms.ModelForm):
                                      required=False)
     sum = forms.IntegerField(widget=forms.NumberInput(attrs={'class': 'form-control', 'step': '1'}))
     comment = forms.CharField(widget=forms.Textarea(attrs={'class': 'form-control', 'rows': 8}), required=False)
-    # is_complete = forms.BooleanField(widget=forms.CheckboxInput())
 
     def __init__(self, *args, **kwargs):
         transaction_type = kwargs.pop('transaction_type', None)
@@ -33,15 +32,20 @@ class TransactionForm(forms.ModelForm):
         super(TransactionForm, self).__init__(*args, **kwargs)
         self.initial['manager'] = user_id
         try:
-            self.initial['number'] = str(Transaction.objects.last().pk + 1).zfill(11)
+            self.initial['number'] = str(Transaction.objects.first().pk + 1).zfill(11)
         except:
             self.initial['number'] = '1'.zfill(11)
         if transaction_type == 'income':
             self.fields['purpose'].queryset = Purpose.objects.filter(transaction_type=Purpose.TransactionType.INCOME)
+            self.initial['type'] = True
         else:
             self.fields['personal_account'].required = False
             self.fields['purpose'].queryset = Purpose.objects.filter(transaction_type=Purpose.TransactionType.OUTCOME)
+            self.initial['type'] = False
 
+    def clean_type(self):
+        print(self.initial['type'])
+        return self.initial['type']
     class Meta:
         model = Transaction
         fields = '__all__'
