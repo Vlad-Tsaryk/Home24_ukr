@@ -9,6 +9,7 @@ from users.models import User, Role
 from admin_purpose.models import Purpose
 from django.contrib.messages import success, error
 
+
 # Create your views here.
 class TransactionCreate(CreateView):
     model = Transaction

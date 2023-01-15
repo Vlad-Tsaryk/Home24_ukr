@@ -1,5 +1,4 @@
 from django.urls import path
-
 from .views import TransactionCreate, TransactionList, TransactionView, TransactionUpdate, TransactionClone,\
     transaction_delete
 

@@ -189,7 +189,7 @@
         }
 
         function numberWithSpaces(nr) {
-            return nr.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+            return nr.toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
         }
 
         function check_empty(data) {
@@ -315,7 +315,7 @@
                         data: 'id',
                         render: function (data, type, row) {
 
-                            {#let link_delete = '{% url 'application_delete' 12345 %}'.replace(/12345/, data)#}
+                            let link_delete = '{% url 'transaction_delete' 12345 %}'.replace(/12345/, data)
                             let link_update = '{% url 'transaction_update' 12345 %}'.replace(/12345/, data)
                             return `<div class="btn-group pull-right">\
             <a class="btn btn-default btn-sm" href="${link_update}"\
@@ -324,7 +324,7 @@
             </a>\
             <a class="btn btn-default btn-sm"\
                title="Удалить" data-toggle="tooltip" data-pjax="0" data-method="post"\
-                onclick="return confirm_delete('#',event);">\
+                onclick="return confirm_delete('${link_delete}',event);">\
                 <i class="fa fa-trash"></i>\
             </a>\
         </div>`
@@ -369,6 +369,16 @@
                 table.draw()
             })
 
+        }
+        function confirm_delete(link,event) {
+            alertify.confirm('Подтверждение удаления', 'Удалить ведомость <b>№'+
+            + $(event.target).closest("tr ").children().eq(0).text() + '</b> ?',
+                function () {
+                    window.location.href = link
+                },
+                function () {
+                }).set({labels: {ok: 'Подтвердить', cancel: 'Отмена'}});
+            return false;
         }
 
         $('#transaction_table').on('click', 'tbody tr .application', function () {

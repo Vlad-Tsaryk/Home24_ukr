@@ -171,10 +171,10 @@
             else return '(не задано)'
         }
         function set_options(data, target_id) {
-            $(`#${target_id} option`).remove()
-            $(`#${target_id}`).append(`<option></option>`)
+            $('#'+`{target_id} option`).remove()
+            $('#'+`{target_id}`).append(`<option></option>`)
             data.forEach(function (item) {
-                                $(`#${target_id}`).append(`<option value="${item['id']}">${item['name']}</option>`)
+                                $('#'+`${target_id}`).append(`<option value="${item['id']}">${item['name']}</option>`)
                             })
         }
 
@@ -194,7 +194,9 @@
             })
             numb = 0
             table.draw()
-
+        }
+        function numberWithSpaces(nr) {
+            return nr.toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
         }
 
         function send_POST(e) {
@@ -235,12 +237,15 @@
                         render: function (data) {
                          return check_empty(data)
                      }},
-                    {#{data: 'floor__name',#}
-                    {# render:function (data) {#}
-                    {#     return check_empty(data)#}
-                    {# }},#}
                     {data: 'owner__name'},
-                    {data: null},
+                    {data: 'balance',
+                        render: function (data) {
+                            let text_color = 'default'
+                            if (data > 0) {text_color = 'green'}
+                            else if (data < 0) {text_color = 'red'}
+                            return `<span class="text text-${text_color}">${numberWithSpaces(data)}</span>`
+                        }
+                    },
                     {
                         data: 'id',
                         render: function (data, type) {
@@ -339,9 +344,7 @@
             let $house = $('#house').select2({placeholder: ""});
             filters_array = [$select2,$select2_house,$house]
             set_filters_listener()
-            {#$('#section__name').select2();#}
-            {#$('#floor__name').select2();#}
-            {#$('#owner__name').select2();#}
+
         });
     </script>
 

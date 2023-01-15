@@ -1,6 +1,7 @@
 from django.urls import path, include
 from admin_panel.views import index
 from admin_purpose.views import PaymentDetailsUpdate
+from django.contrib.auth.decorators import login_required
 
 urlpatterns = [
     path('', index, name='statistic'),

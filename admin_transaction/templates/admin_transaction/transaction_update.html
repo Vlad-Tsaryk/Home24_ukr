@@ -1,2 +1,28 @@
 {% extends 'admin_transaction/transaction_create.html' %}
+{% block update_buttons %}
+    <div class="box-header with-border">
+        <h3 class="box-title"></h3>
+        <div class="box-tools">
+            <a href="{% url 'transaction_clone' transaction.pk %}" class="btn btn-default btn-sm">
+                <span class="hidden-xs">Копировать</span><i class="fa fa-print visible-xs" aria-hidden="true"></i>
+            </a>
+            <button onmousedown="return confirm_delete('{% url 'transaction_delete' transaction.pk %}')" class="btn btn-default btn-sm">
+                <span class="hidden-xs">Удалить</span><i class="fa fa-envelope-o visible-xs" aria-hidden="true"></i>
+            </button>
+        </div>
+    </div>
+{% endblock %}
 {% block ajax_url %}''{% endblock %}
+{% block update_script %}
+        <script>
+            function confirm_delete(link) {
+            alertify.confirm('Подтверждение удаления', 'Удалить ведомость <b>№{{transaction.number}}</b> ?',
+                function () {
+                    window.location.href = link
+                },
+                function () {
+                }).set({labels: {ok: 'Подтвердить', cancel: 'Отмена'}});
+            return false;
+        }
+    </script>
+{% endblock %}

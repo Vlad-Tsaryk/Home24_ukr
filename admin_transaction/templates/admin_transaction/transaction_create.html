@@ -32,6 +32,8 @@
             </div>
         </div>
         <div class="box">
+        {% block update_buttons %}
+        {% endblock %}
             <div class="box-body">
                 <div class="row">
                     <div class="col-xs-12 col-sm-6 col-sm-offset-6">
@@ -112,7 +114,7 @@
     <script>
              $(function () {
              $('#transaction_date').datetimepicker({
-                     {#minDate: moment(),#}
+                     minDate: moment('{{ transaction.date|date:'d.m.Y' }}','L'),
                      locale: 'ru',
                      format: 'L',
                  }
@@ -121,7 +123,7 @@
     </script>
     <script>
         if(!$('#id_date').val()) {
-        $('#transaction_date').datetimepicker({locale: 'ru',format: 'L',date:moment()})
+        $('#transaction_date').datetimepicker({locale: 'ru',format: 'L',minDate: moment(),date:moment()})
     }
     let select_options = {
         'owner_id':'',
@@ -163,7 +165,7 @@
         get_values();
         select_options['owner_change'] = ''
 
-    })
+    });
     }
         $('#id_personal_account').change(function () {
         if(select_options['owner_id']===''){
@@ -173,8 +175,7 @@
             select_options['personal_account_change'] = ''
         }
 
-    })
-
+    });
 
         $(document).ready(function ()
             {

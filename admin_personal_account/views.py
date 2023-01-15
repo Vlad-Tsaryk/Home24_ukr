@@ -97,9 +97,13 @@ class PersonalAccountList(ListView):
                 owner__name=Concat('apartment__owner__first_name', Value(' '),
                                    'apartment__owner__middle_name', Value(' '),
                                    'apartment__owner__last_name'))
-            result['account'] = list(
+            has_debt_list = [personal_account.balance for personal_account in filtered_qs]
+            filtered_qs = list(
                 filtered_qs.values('id', 'number', 'status', 'apartment__house__name', 'apartment__number',
                                    'apartment__section__name', 'owner__name'))
+            for index, personal_account in enumerate(filtered_qs):
+                personal_account['balance'] = has_debt_list[index]
+            result['account'] = filtered_qs
             print(result)
             return JsonResponse(result, safe=False, **response_kwargs)
 
