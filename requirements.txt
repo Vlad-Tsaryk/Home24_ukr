@@ -1,9 +1,9 @@
-django-phonenumber-field==7.0.1
+django-phonenumber-field==7.0.2
 Django==3.2.15
 django-debug-toolbar==3.8.1
 django-dotenv==1.4.2
 django-cleanup==6.0.0
 psycopg2-binary==2.9.5
-phonenumbers==8.13.3
+phonenumbers==8.13.4
 Pillow==9.4.0
-Faker==15.3.4
+Faker==16.4.0

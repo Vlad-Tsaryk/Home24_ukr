@@ -3,7 +3,8 @@
 {% block head %}
     <link rel="stylesheet" type="text/css"
           href="{% static 'admin_panel/bower_components/datatables.net-bs/css/dataTables.jqueryui.min.css' %}"/>
-    <link rel="stylesheet" type="text/css" href="{% static 'admin_panel/bower_components/daterangepicker/daterangepicker.css' %}" />
+    <link rel="stylesheet" type="text/css"
+          href="{% static 'admin_panel/bower_components/daterangepicker/daterangepicker.css' %}"/>
 {% endblock %}
 {% block content %}
 
@@ -73,10 +74,10 @@
                 <div class="box-header with-border">
                     <h3 class="box-title"></h3>
                     <div class="box-tools">
-                        <a href="/admin/account-transaction/index" class="btn btn-default btn-sm">
+                        <button onclick="clear_filters()" class="btn btn-default btn-sm">
                             <span class="hidden-xs">Очистить</span><i class="fa fa-eraser visible-xs"
                                                                       aria-hidden="true"></i>
-                        </a>
+                        </button>
                     </div>
                 </div>
 
@@ -97,30 +98,36 @@
                                 <th style="width: 80px; min-width: 80px">&nbsp;</th>
                             </tr>
                             <tr id="w0-filters" class="filters">
-                                <td><input type="text" class="form-control" id="number"></td>
+                                <td><input type="text" class="form-control column_search" id="number"></td>
                                 <td><input type="text" id="date_range"
                                            class="form-control date_range"></td>
                                 <td><select id="is_complete"
-                                            class="form-control select2">
+                                            class="form-control select2 filter">
                                     <option value=""></option>
-                                    <option value="10">Проведен</option>
-                                    <option value="5">Не проведен</option>
+                                    <option value="1">Проведен</option>
+                                    <option value="0">Не проведен</option>
                                 </select></td>
                                 <td><select id="purpose"
-                                            class="form-control select2">
+                                            class="form-control select2 filter">
                                     <option value=""></option>
+                                    {% for purpose in purpose_list %}
+                                        <option value="{{ purpose.pk }}">{{ purpose }}</option>
+                                    {% endfor %}
 
                                 </select></td>
-                                <td><select id="owner" class="form-control select2">
+                                <td><select id="owner" class="form-control select2 filter">
                                     <option value=""></option>
+                                    {% for owner in owner_list %}
+                                        <option value="{{ owner.pk }}">{{ owner }}</option>
+                                    {% endfor %}
                                 </select></td>
-                                <td><input type="text" class="form-control"
-                                           id="personal_account"></td>
+                                <td><input type="text" class="form-control column_search"
+                                           id="personal_account__number"></td>
                                 <td><select id="purpose_type"
-                                            class="form-control select2">
+                                            class="form-control select2 filter">
                                     <option value=""></option>
-{#                                    <option value="in">Приход</option>#}
-{#                                    <option value="out">Расход</option>#}
+                                    <option value="1">Приход</option>
+                                    <option value="0">Расход</option>
                                 </select></td>
                                 <td>&nbsp;</td>
                                 <td>&nbsp;</td>
@@ -136,6 +143,7 @@
                             <li class="prev disabled"><span>«</span></li>
                             <li class="active"><a href="/admin/account-transaction/index?page=1&amp;per-page=50"
                                                   data-page="0">1</a></li>
+
                             <li><a href="/admin/account-transaction/index?page=2&amp;per-page=50" data-page="1">2</a>
                             </li>
                             <li><a href="/admin/account-transaction/index?page=3&amp;per-page=50" data-page="2">3</a>
@@ -143,11 +151,12 @@
                             <li class="next"><a href="/admin/account-transaction/index?page=2&amp;per-page=50"
                                                 data-page="1">»</a></li>
                         </ul>
+
                     </div>
                 </div>
                 <div class="box-footer">
-                    <div>Проведен приход: <span class="text-bold">{{ transaction_list.first.count_income }} грн</span></div>
-                    <div>Проведен расход: <span class="text-bold">{{ transaction_list.first.count_outcome }} грн</span></div>
+                    <div>Проведен приход: <span class="text-bold" id="income"></span></div>
+                    <div>Проведен расход: <span class="text-bold" id="outcome"></span></div>
                 </div>
 
             </div>
@@ -179,6 +188,10 @@
             'Не проведен': 'label-danger',
         }
 
+        function numberWithSpaces(nr) {
+            return nr.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+        }
+
         function check_empty(data) {
             if (data) {
                 return data
@@ -198,21 +211,17 @@
             $('.date_range').val('');
             table_head.unbind();
             $('.filter').val('').change()
-{% comment %}            filters_array.forEach(function (item) {
-                item.val('').change()
-            }){% endcomment %}
             $('.ordering').attr('class', 'ordering');
             set_filters_listener()
             let keys = Object.keys(sort_data)
             keys.forEach(function (item) {
                 sort_data[item] = ''
             })
-            sort_data['master_type_change'] = 'True'
             numb = 0
             table.draw()
-            sort_data['master_type_change'] = ''
 
         }
+
 
         function send_POST(e) {
             table = $('#transaction_table').DataTable({
@@ -223,7 +232,7 @@
                     sZeroRecords: "Ничего не найдено."
                 },
                 columnDefs: [
-                    {className: "application", "targets": [0, 1, 2, 3, 4, 5,6,7]},
+                    {className: "application", "targets": [0, 1, 2, 3, 4, 5, 6, 7]},
                     {targets: '_all', defaultContent: ''},
                 ],
                 "ajax": {
@@ -233,76 +242,83 @@
                         return sort_data;
                     },
                     dataSrc: function (data) {
-                        if (data['masters']) {
-                            set_options(data['masters'], 'master_id')
+                        if (data['purposes']) {
+                            set_options(data['purposes'], 'purpose')
                         }
+                        $('#outcome').text(check_empty(data['outcome']) + ' грн')
+                        $('#income').text(check_empty(data['income']) + ' грн')
                         console.log(data)
                         return data['transaction']
                     },
                 },
                 "columns": [
                     {data: 'number'},
-                    {data: 'date',
-                    render:function (data, type, row) {
-                        return moment(`${data}`).format('DD.MM.YYYY')
-                    }},
+                    {
+                        data: 'date',
+                        render: function (data) {
+                            return moment(`${data}`).format('DD.MM.YYYY')
+                        }
+                    },
                     {
                         data: 'is_complete',
                         render: function (data) {
-                            if (data){
+                            if (data) {
                                 return '<small class="label label-success">Проведен</small>'
-                            }
-                            else {
-                                 return '<small class="label label-danger">Не проведен</small>'
+                            } else {
+                                return '<small class="label label-danger">Не проведен</small>'
                             }
                         }
                     },
 
                     {data: 'purpose__name'},
-                    {data: 'owner__first_name',
-                        render:function (data, type, row) {
-                            if (data){
+                    {
+                        data: 'owner__first_name',
+                        render: function (data, type, row) {
+                            if (data) {
                                 return `${data} ${row['owner__last_name']} ${row['owner__middle_name']}`
-                            }
-                            else {
+                            } else {
                                 return check_empty(data)
                             }
 
                         }
                     },
-                    {data: 'personal_account__number',
-                    render:function (data) {
-                        return check_empty(data)
-                    }},
-                    {data: 'type',
-                    render:function (data) {
-                        if (data){
-                            return '<span class="text text-green">Приход</span>'
+                    {
+                        data: 'personal_account__number',
+                        render: function (data) {
+                            return check_empty(data)
                         }
-                        else {
-                            return '<span class="text text-red">Расход</span>'
-                        }
+                    },
+                    {
+                        data: 'type',
+                        render: function (data) {
+                            if (data) {
+                                return '<span class="text text-green">Приход</span>'
+                            } else {
+                                return '<span class="text text-red">Расход</span>'
+                            }
 
-                    }},
-                    {data: 'sum',
-                    render:function (data, type, row) {
-                        if (row['type']){
-                            return `<span class="text text-green">${data}</span>`
                         }
-                        else {
-                            return `<span class="text text-red">-${data}</span>`
-                        }
+                    },
+                    {
+                        data: 'sum',
+                        render: function (data, type, row) {
+                            if (row['type']) {
+                                return `<span class="text text-green">${numberWithSpaces(data)}</span>`
+                            } else {
+                                return `<span class="text text-red">-${numberWithSpaces(data)}</span>`
+                            }
 
-                    }},
+                        }
+                    },
 
                     {
                         data: 'id',
                         render: function (data, type, row) {
 
                             {#let link_delete = '{% url 'application_delete' 12345 %}'.replace(/12345/, data)#}
-                            {#let link_update = '{% url 'application_update' 12345 %}'.replace(/12345/, data)#}
+                            let link_update = '{% url 'transaction_update' 12345 %}'.replace(/12345/, data)
                             return `<div class="btn-group pull-right">\
-            <a class="btn btn-default btn-sm" href="#"\
+            <a class="btn btn-default btn-sm" href="${link_update}"\
                title="Редактировать" data-toggle="tooltip">\
                 <i class="fa fa-pencil"></i>\
             </a>\
@@ -325,14 +341,15 @@
             table_head.on('change', ".filter", function a(e) {
                 sort_data[this.id] = $(this).val()
                 numb = 0
-                if (this.id==="master_type"){
-                    sort_data['master_type_change'] = 'True'
-                    table.draw()
-                    sort_data['master_type_change'] = ''
-                }
-                else {
-                    table.draw()
-                }
+                {% comment %}                if (this.id==="purpose_type"){
+                                    sort_data['purpose_type_change'] = 'True'
+                                    table.draw()
+                                    sort_data['purpose_type_change'] = ''
+                                }
+                                else {
+
+                                }{% endcomment %}
+                table.draw()
             });
             table_head.on('keyup', ".column_search", function a(e) {
                 sort_data[this.id] = $(this).val()
@@ -354,22 +371,10 @@
 
         }
 
-
-        function confirm_delete(link, event) {
-            alertify.confirm('Подтверждение удаления', 'Удалить заявку <b>№'
-                + $(event.target).closest("tr ").children().eq(0).text() + '</b> ?',
-                function () {
-                    window.location.href = link
-                },
-                function () {
-                }).set({labels: {ok: 'Подтвердить', cancel: 'Отмена'}});
-            return false;
-        }
-
-                $('#transaction_table').on('click', 'tbody tr .application', function () {
-                    window.location.href = '{% url 'application_view' 12345%}'
-                        .replace(/12345/, table.row(this).data().id)
-                })
+        $('#transaction_table').on('click', 'tbody tr .application', function () {
+            window.location.href = '{% url 'transaction_view' 12345%}'
+                .replace(/12345/, table.row(this).data().id)
+        })
 
 
         $(document).ready(function () {
@@ -387,8 +392,8 @@
                         cancelLabel: 'Отменить',
                         applyLabel: 'Применить'
                     },
-                    applyButtonClasses:'btn btn-success',
-                    cancelButtonClasses:'btn btn-default',
+                    applyButtonClasses: 'btn btn-success',
+                    cancelButtonClasses: 'btn btn-default',
                 });
                 input.on('apply.daterangepicker', function (ev, picker) {
                     $(this).val(picker.startDate.format('DD/MM/YYYY') + ' - ' + picker.endDate.format('DD/MM/YYYY'));

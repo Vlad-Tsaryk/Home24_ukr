@@ -1,13 +1,13 @@
 from django.http import JsonResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
-from django.views.generic import CreateView, ListView, DetailView
+from django.views.generic import CreateView, ListView, DetailView, UpdateView
 from admin_transaction.models import Transaction
 from .forms import TransactionForm
 from admin_personal_account.models import PersonalAccount
 from users.models import User, Role
 from admin_purpose.models import Purpose
-
+from django.contrib.messages import success, error
 
 # Create your views here.
 class TransactionCreate(CreateView):
@@ -18,7 +18,7 @@ class TransactionCreate(CreateView):
 
     def get_form_kwargs(self):
         kwargs = super(TransactionCreate, self).get_form_kwargs()
-        kwargs['transaction_type'] = self.kwargs['transaction_type']
+        kwargs['transaction_type'] = self.kwargs.get('transaction_type')
         kwargs['user_id'] = self.request.user.pk
         return kwargs
 
@@ -45,6 +45,26 @@ class TransactionCreate(CreateView):
             return super(CreateView, self).render_to_response(context, **response_kwargs)
 
 
+class TransactionUpdate(TransactionCreate, UpdateView):
+    template_name = 'admin_transaction/transaction_update.html'
+    model = Transaction
+    form_class = TransactionForm
+    success_url = reverse_lazy('transaction_list')
+
+
+class TransactionClone(TransactionUpdate):
+    template_name = 'admin_transaction/transaction_update.html'
+
+    def get_form_kwargs(self):
+        kwargs = super(TransactionClone, self).get_form_kwargs()
+        transaction_obj = Transaction.objects.get(pk=self.kwargs['pk'])
+        if transaction_obj:
+            transaction_obj.pk = None
+            transaction_obj.number = None
+            kwargs['instance'] = transaction_obj
+        return kwargs
+
+
 class TransactionList(ListView):
     model = Transaction
     template_name = 'admin_transaction/transaction_list.html'
@@ -62,31 +82,26 @@ class TransactionList(ListView):
             result = {}
             filter_fields = {
                 'status': self.request.GET.get('status'),
-                'id__contains': self.request.GET.get('id'),
-                'owner_id': self.request.GET.get('owner_id'),
-                'apartment_info__contains': self.request.GET.get('apartment'),
-                'master__role': self.request.GET.get('master_type'),
-                'description__contains': self.request.GET.get('description'),
-                'owner__phone__contains': self.request.GET.get('owner_phone'),
-                'master_id': self.request.GET.get('master_id'),
+                'number__contains': self.request.GET.get('number'),
+                'owner_id': self.request.GET.get('owner'),
+                'type': self.request.GET.get('purpose_type'),
+                'personal_account__number__contains': self.request.GET.get('personal_account__number'),
+                'purpose': self.request.GET.get('purpose'),
+                'is_complete': self.request.GET.get('is_complete'),
                 'date__range': self.request.GET.getlist('date_range[]'),
             }
-
-            # if self.request.GET.get('master_type_change'):
-            #     if filter_fields['master__role']:
-            #         result['masters'] = list(
-            #             User.objects.filter(role=filter_fields['master__role'])
-            #             .annotate(
-            #                 name=Concat('role__role', Value(' - '), 'first_name', Value(' '), 'last_name', )).values(
-            #                 'id', 'name'))
+            # if self.request.GET.get('purpose_type_change'):
+            #     if filter_fields['type']:
+            #         result['purposes'] = list(
+            #             context['purpose_list'].filter(transaction_type=filter_fields['type']).values('name'))
             #     else:
-            #         result['masters'] = list(context['master_list'].annotate(
-            #                 name=Concat('role__role', Value(' - '), 'first_name', Value(' '), 'last_name', )).values(
-            #                 'id', 'name'))
+            #         result['purposes'] = list(context['purpose_list'].values('name'))
             filter_fields = {k: v for k, v in filter_fields.items() if v}
             filtered_qs = self.get_queryset().filter(**filter_fields)
             if order_by:
                 filtered_qs = filtered_qs.order_by(order_by)
+            result['income'] = str(self.model.count_income(filtered_qs))
+            result['outcome'] = str(self.model.count_outcome(filtered_qs))
             filtered_qs = filtered_qs.values('id', 'date', 'is_complete', 'type', 'number', 'owner__first_name',
                                              'owner__last_name', 'owner_id', 'personal_account__number', 'sum',
                                              'purpose__name', 'owner__middle_name')
@@ -103,3 +118,17 @@ class TransactionList(ListView):
 class TransactionView(DetailView):
     model = Transaction
     template_name = 'admin_transaction/transaction_view.html'
+
+
+def transaction_delete(request, pk):
+    obj_number = None
+    try:
+        obj_delete = Transaction.objects.get(pk=pk)
+        number = obj_delete.number
+        if obj_delete.delete():
+            obj_number = number
+    except:
+        error(request, f"Не удалось удалить ведомость")
+    if obj_number:
+        success(request, f"Ведомость №{obj_number} успешно удалена")
+    return redirect('transaction_list')

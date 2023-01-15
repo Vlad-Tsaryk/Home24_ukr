@@ -23,19 +23,21 @@ class TransactionForm(forms.ModelForm):
     purpose = forms.ModelChoiceField(widget=forms.Select(attrs={'class': 'form-control'}), empty_label='',
                                      queryset=None,
                                      required=False)
-    sum = forms.IntegerField(widget=forms.NumberInput(attrs={'class': 'form-control', 'step': '1'}))
+    sum = forms.FloatField(widget=forms.NumberInput(attrs={'class': 'form-control', 'step': 'any'}))
     comment = forms.CharField(widget=forms.Textarea(attrs={'class': 'form-control', 'rows': 8}), required=False)
 
     def __init__(self, *args, **kwargs):
         transaction_type = kwargs.pop('transaction_type', None)
         user_id = kwargs.pop('user_id', None)
         super(TransactionForm, self).__init__(*args, **kwargs)
-        self.initial['manager'] = user_id
-        try:
-            self.initial['number'] = str(Transaction.objects.first().pk + 1).zfill(11)
-        except:
-            self.initial['number'] = '1'.zfill(11)
-        if transaction_type == 'income':
+        if not self.initial.get('manager'):
+            self.initial['manager'] = user_id
+        if not self.initial.get('number'):
+            try:
+                self.initial['number'] = str(Transaction.objects.first().pk + 1).zfill(11)
+            except:
+                self.initial['number'] = '1'.zfill(11)
+        if transaction_type == 'income' or self.initial.get('type'):
             self.fields['purpose'].queryset = Purpose.objects.filter(transaction_type=Purpose.TransactionType.INCOME)
             self.initial['type'] = True
         else:
@@ -44,8 +46,15 @@ class TransactionForm(forms.ModelForm):
             self.initial['type'] = False
 
     def clean_type(self):
-        print(self.initial['type'])
         return self.initial['type']
+
     class Meta:
         model = Transaction
         fields = '__all__'
+
+
+class TransactionUpdateForm(TransactionForm):
+    def __init__(self, *args, **kwargs):
+        super(TransactionForm, self).__init__(*args, **kwargs)
+        if self.initial['type']:
+            self.fields['purpose'].queryset = Purpose.objects.filter(transaction_type=Purpose.TransactionType.INCOME)

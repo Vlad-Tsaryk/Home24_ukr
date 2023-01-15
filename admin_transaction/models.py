@@ -20,12 +20,20 @@ class Transaction(models.Model):
     type = models.BooleanField()
 
     @staticmethod
-    def count_income():
-        return Transaction.objects.filter(type=True, is_complete=True).aggregate(Sum('sum'))['sum__sum']
+    def count_sum(queryset, transaction_type):
+        result = queryset.filter(type=transaction_type, is_complete=True).aggregate(Sum('sum'))['sum__sum']
+        if result:
+            return result
+        else:
+            return 0
 
     @staticmethod
-    def count_outcome():
-        return Transaction.objects.filter(type=False, is_complete=True).aggregate(Sum('sum'))['sum__sum']
+    def count_income(queryset):
+        return Transaction.count_sum(queryset, True)
+
+    @staticmethod
+    def count_outcome(queryset):
+        return Transaction.count_sum(queryset, False)
 
     class Meta:
         ordering = ['-pk']

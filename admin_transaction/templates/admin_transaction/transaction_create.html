@@ -41,7 +41,7 @@
 
                 <div class="row">
                     <div class="col-xs-12 col-sm-6">
-                        {% if view.kwargs.transaction_type == 'income'%}
+                        {% if view.kwargs.transaction_type == 'income' or transaction.type%}
                         <div class="form-group">
                             <label for="{{form.owner.id_for_label}}">Владелец квартиры</label>
 
@@ -79,7 +79,7 @@
                 <div class="row">
                     <div class="col-xs-12 text-right">
                         <div class="form-group">
-                            <a href="/admin/account-transaction/index"
+                            <a href="{% url 'transaction_list' %}"
                                class="btn btn-default margin-bottom-15">Отменить</a>
                             <input type="submit" class="btn btn-success margin-bottom-15" name="action_save"
                                    value="Сохранить"></div>
@@ -115,12 +115,14 @@
                      {#minDate: moment(),#}
                      locale: 'ru',
                      format: 'L',
-                    date: moment()
                  }
              );
          });
     </script>
     <script>
+        if(!$('#id_date').val()) {
+        $('#transaction_date').datetimepicker({locale: 'ru',format: 'L',date:moment()})
+    }
     let select_options = {
         'owner_id':'',
     }
