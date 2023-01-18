@@ -37,8 +37,9 @@ class PersonalAccountCreate(CreateView):
                                                                    'owner__phone'))}
                 else:
                     result = {'apartment': list(Apartment.objects.filter(
-                        house_id=house_id).values('id', 'number', 'owner__first_name', 'owner__phone',
-                                                  'owner__middle_name', 'owner__last_name', 'owner')),
+                        house_id=house_id, personalaccount__isnull=True).values('id', 'number', 'owner__first_name',
+                                                                                'owner__phone', 'owner__middle_name',
+                                                                                'owner__last_name', 'owner')),
                               'section': list(Section.objects.filter(house_id=house_id).values())}
                 print(result)
                 return JsonResponse(result, safe=False, **response_kwargs)

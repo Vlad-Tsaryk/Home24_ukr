@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'admin_meter.apps.AdminMeterConfig',
     'admin_application.apps.AdminApplicationConfig',
     'admin_transaction.apps.AdminTransactionConfig',
+    'admin_receipt.apps.AdminReceiptConfig',
     "debug_toolbar",
 
 ]

@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import PersonalAccountCreate, PersonalAccountList, PersonalAccountUpdate,PersonalAccountView,\
+from .views import PersonalAccountCreate, PersonalAccountList, PersonalAccountUpdate, PersonalAccountView,\
     personal_account_delete
 
 urlpatterns = [

@@ -82,7 +82,7 @@
     function get_values() {
         $.ajax({
             type: 'GET',
-            url: '{% block ajax_url %}{% url 'personal_account_create' %}{% endblock %}',
+            url: {% block ajax_url %} '{% url 'personal_account_create' %}' {% endblock %},
             data: select_options,
             success: function (data) {
                 clear_owner_info()
