@@ -25,7 +25,6 @@ class TariffCreate(CreateView):
         else:
             context['tariff_service_formset'] = TariffServiceFormSet(prefix='tariff_service',
                                                                      queryset=TariffService.objects.none())
-            print()
         context['service_list'] = Service.objects.all()
         return context
 
