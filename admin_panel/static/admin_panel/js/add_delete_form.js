@@ -15,6 +15,6 @@
         return copyEmptyFormEl
     }
     function delete_form(delete_id){
-            $(`#id_${delete_id}-DELETE`).attr('checked','')
+            $(`#id_${delete_id}-DELETE`).attr('checked','').change()
             $('#form-'+delete_id).hide()
     }

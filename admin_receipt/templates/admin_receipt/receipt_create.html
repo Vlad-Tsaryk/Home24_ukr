@@ -527,8 +527,7 @@
         })
 
         function set_tariff_services() {
-            let receipt_service_table=$('#form-receipt_service-rows')
-            receipt_service_table.find('tr').each(function () {
+            $('#form-receipt_service-rows tr:visible').each(function () {
                 $(this).find('button').click()
             })
             select_options['set_tariff_services'] = true
@@ -545,8 +544,7 @@
             $('#id_receipt_service-'+`${count - 1}-price_unit`).change(function () {
                 $('#id_receipt_service-'+`${count - 1}-consumption`).change()
             })
-            $('#id-receipt_service-' + `${count - 1}-DELETE`).change(function () {
-                console.log('aaaaaaaaaaaaaaaaaaaa')
+            $('#id_receipt_service-'+`${count - 1}-DELETE`).change(function () {
                 let price_total = $('#price-total')
                 price_total.text(
                     parseFloat(price_total.text()) - parseFloat($('#id_receipt_service-' + `${count - 1}-total_price`).val()
@@ -556,7 +554,7 @@
             $('#id_receipt_service-'+`${count - 1}-total_price`).change(function () {
                 let total_price = 0.0
                 for (let i=0;count > i;i++){
-                    total_price += parseFloat($('#id_receipt_service-'+`${i}-total_price`).val())
+                    total_price += parseFloat($('#id_receipt_service-'+`${i}-total_price:visible`).val())
                 }
                 console.log(total_price)
                 $('#price-total').text(total_price).change()
