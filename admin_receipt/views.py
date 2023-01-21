@@ -5,6 +5,7 @@ from admin_personal_account.models import PersonalAccount
 from admin_apartment.models import Apartment
 from admin_house.models import Section
 from admin_meter.models import Meter
+from admin_tariff.models import Tariff, TariffService
 from .forms import ReceiptForm, ReceiptServiceFormSet
 from .models import Receipt, ReceiptService
 
@@ -18,9 +19,9 @@ class ReceiptCreate(CreateView):
     def get_context_data(self, **kwargs):
         context = super(ReceiptCreate, self).get_context_data(**kwargs)
         if self.request.POST:
-            context['receipt_service_formset'] = ReceiptServiceFormSet(self.request.POST, prefix='tariff_service')
+            context['receipt_service_formset'] = ReceiptServiceFormSet(self.request.POST, prefix='receipt_service')
         else:
-            context['receipt_service_formset'] = ReceiptServiceFormSet(prefix='tariff_service',
+            context['receipt_service_formset'] = ReceiptServiceFormSet(prefix='receipt_service',
                                                                        queryset=ReceiptService.objects.none())
         return context
 
@@ -31,7 +32,13 @@ class ReceiptCreate(CreateView):
             section_id = self.request.GET.get('section_id')
             apartment_id = self.request.GET.get('apartment_id')
             personal_account = self.request.GET.get('personal_account')
+            tariff_id = self.request.GET.get('tariff')
             print(self.request.GET)
+            if self.request.GET.get('set_tariff_services'):
+                if tariff_id:
+                    result['tariff_services'] = list(TariffService.objects.filter(tariff=tariff_id).values('service_id',
+                                                                                                           'price'))
+                    print(result)
             if apartment_id or personal_account:
                 if apartment_id:
                     apartment_obj = Apartment.objects.get(pk=apartment_id)

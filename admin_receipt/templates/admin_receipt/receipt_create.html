@@ -136,37 +136,21 @@
                                     </tr>
                                     </thead>
                                     <tbody id="form-receipt_service-rows">
-                                    <tr id="empty-tariff_service" class="form-receipt_service" hidden>
-                                        <td>
-                                            {{ receipt_service_formset.empty_form.id }}
-                                            {{ receipt_service_formset.empty_form.service_id }}
-                                            </td>
-                                        <td>
-                                            {{ receipt_service_formset.empty_form.consumption }}
-                                        </td>
-                                        <td>
-                                            {{ receipt_service_formset.empty_form.unit }}
-                                            </td>
-                                        <td>
-                                            {{ receipt_service_formset.empty_form.price_unit }}</td>
-                                        <td>
-                                            {{ receipt_service_formset.empty_form.total_price }}
-                                        </td>
-                                        <td>
-                                            <button type="button" class="btn btn-default btn-sm form-row-remove-btn"
-                                                    title="Удалить услугу"><i class="fa fa-trash"></i></button>
-                                        </td>
-                                    </tr>
+                                    {{ receipt_service_formset.management_form }}
+
 
                                     </tbody>
                                     <tfoot>
                                     <tr>
                                         <td colspan="4" valing="middle">
-                                            <button type="button"
-                                                    class="btn btn-default btn-hover-change form-row-add-receipt_service-btn">
+                                            <button id="add_receipt_service"
+                                                    type="button"
+                                                    class="btn btn-default btn-hover-change
+                                                     form-row-add-receipt_service-btn">
                                                 Добавить услугу
                                             </button>
-                                            <button type="button" class="btn btn-default set-tariff-services">
+                                            <button type="button" class="btn btn-default set-tariff-services"
+                                            onclick="set_tariff_services()">
                                                 Установить все услуги согласно тарифу
                                             </button>
                                             <button type="button" class="btn btn-default add-counters">
@@ -181,6 +165,32 @@
                                         <td style="width: 40px; min-width: 40px;"></td>
                                     </tr>
                                     </tfoot>
+                                </table>
+                                <table hidden>
+                                    <tr id="empty-receipt_service" class="form-receipt_service" hidden>
+                                        <td>
+                                            {{ receipt_service_formset.empty_form.id }}
+                                            {{ receipt_service_formset.empty_form.service_id }}
+                                        </td>
+                                        <td>
+                                            {{ receipt_service_formset.empty_form.consumption }}
+                                        </td>
+                                        <td>
+                                            {{ receipt_service_formset.empty_form.unit }}
+                                        </td>
+                                        <td>
+                                            {{ receipt_service_formset.empty_form.price_unit }}</td>
+                                        <td>
+                                            {{ receipt_service_formset.empty_form.total_price }}
+                                        </td>
+                                        <td>
+                                            <div hidden>{{ receipt_service_formset.empty_form.DELETE }}</div>
+                                            <button type="button" class="btn btn-default btn-sm form-row-remove-btn"
+                                                    title="Удалить услугу"
+                                                    onclick="delete_form('{{ receipt_service_formset.empty_form.prefix }}')">
+                                                <i class="fa fa-trash"></i></button>
+                                        </td>
+                                    </tr>
                                 </table>
                             </div>
                         </div>
@@ -319,6 +329,16 @@
                         table.rows.add(data['meter_list'])
                         table.draw()
                     }
+                    if (data['tariff_services']){
+                        data['tariff_services'].forEach(function (item) {
+                            let target = add_form('receipt_service', 'empty-receipt_service',
+                                'form-receipt_service-rows', totalReceiptServiceForms)
+                            service_change(parseInt(totalReceiptServiceForms.val()))
+                            target = $(target)
+                            target.find('select').eq(0).val(item['service_id']).change()
+                            target.find('input').eq(2).val(item['price']).change()
+                        })
+                    }
 
                     if (data['apartment_info']) {
                         let apartment_info = data['apartment_info']
@@ -349,7 +369,7 @@
 
                         }
                         console.log('apartment_info', data)
-                    } else if (!select_options['section_id']) {
+                    } else if (data['section']) {
                         $('#owner_name').empty().text('не выбран')
                         $('#owner_phone').empty().text('не выбран')
                         clear_options('id_apartment')
@@ -359,12 +379,11 @@
                                 $('#id_section').append($('<option>').val(item['id']).text(item['name']));
                             }
                         );
-                    } else {
-                        $('#owner_name').empty().text('не выбран')
-                        $('#owner_phone').empty().text('не выбран')
-                        clear_options('id_apartment')
                     }
                     if (data['apartment']) {
+                        clear_options('id_apartment')
+                        $('#owner_name').empty().text('не выбран')
+                        $('#owner_phone').empty().text('не выбран')
                         data['apartment'].forEach(
                             function (item) {
                                 $('#id_apartment').append($('<option>').val(item['id']).text(item['number']));
@@ -471,7 +490,6 @@
             if (apartment) {
                 $('#id_apartment').change(function () {
                     select_options['apartment_id'] = this.value
-                    console.log(select_options)
                     get_values()
                     select_options['apartment_id'] = ''
                 })
@@ -479,18 +497,16 @@
             if (personal_account) {
                 $('#id_personal_account').change(function () {
                     select_options['personal_account'] = this.value
-                    console.log(select_options)
                     get_values()
                     select_options['personal_account'] = ''
                 })
             }
 
-
         }
-
 
         $(document).ready(function () {
                 $('.select2-field').select2({placeholder: "Выберите..."})
+                $('#id_tariff').select2({placeholder: "Выберите...", allowClear:true})
                 $('#id_status').select2({placeholder: "Выберите...", minimumResultsForSearch: Infinity})
                 {% block clone %}
                     clear_options('id_apartment')
@@ -502,6 +518,71 @@
             }
         )
 
+    </script>
+    <script src="{% static 'admin_panel/js/add_delete_form.js' %}"></script>
+    <script>
+        $('#id_tariff').change(function () {
+            select_options['tariff'] = this.value
+            console.log(select_options)
+        })
+
+        function set_tariff_services() {
+            let receipt_service_table=$('#form-receipt_service-rows')
+            receipt_service_table.find('tr').each(function () {
+                $(this).find('button').click()
+            })
+            select_options['set_tariff_services'] = true
+            get_values()
+            select_options['set_tariff_services'] = ''
+
+
+
+        }
+
+        const totalReceiptServiceForms = $('#id_receipt_service-TOTAL_FORMS')
+
+        function service_change(count) {
+            $('#id_receipt_service-'+`${count - 1}-price_unit`).change(function () {
+                $('#id_receipt_service-'+`${count - 1}-consumption`).change()
+            })
+            $('#id-receipt_service-' + `${count - 1}-DELETE`).change(function () {
+                console.log('aaaaaaaaaaaaaaaaaaaa')
+                let price_total = $('#price-total')
+                price_total.text(
+                    parseFloat(price_total.text()) - parseFloat($('#id_receipt_service-' + `${count - 1}-total_price`).val()
+                    )).change()
+            })
+
+            $('#id_receipt_service-'+`${count - 1}-total_price`).change(function () {
+                let total_price = 0.0
+                for (let i=0;count > i;i++){
+                    total_price += parseFloat($('#id_receipt_service-'+`${i}-total_price`).val())
+                }
+                console.log(total_price)
+                $('#price-total').text(total_price).change()
+            })
+            $('#id_receipt_service-'+`${count - 1}-consumption`).change(
+                function (){
+                    let inputs = $(this).closest('tr').find('input')
+                    let price = parseFloat($(this).val())*parseFloat(inputs.eq(2).val())
+                    if (!price){price=0}
+                    inputs.eq(3).val(price).change()
+                }
+            )
+            $('#id_receipt_service-' + `${count - 1}-service_id`).change(function () {
+                let value = $(this).val();
+                let unit_select = $(this).closest('tr').find('select').eq(1);
+                if ($(unit_select).find('option[value="' + `${value}"]`).length === 0) {
+                    value = 0;
+                }
+                unit_select.val(value).change();
+            });
+        }
+
+        $('#add_receipt_service').on('click', function () {
+            add_form('receipt_service', 'empty-receipt_service', 'form-receipt_service-rows', totalReceiptServiceForms)
+            service_change(parseInt(totalReceiptServiceForms.val()))
+        })
     </script>
 
 {% endblock %}

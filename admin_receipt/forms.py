@@ -19,7 +19,7 @@ class ReceiptForm(forms.ModelForm):
     apartment = forms.ModelChoiceField(widget=forms.Select(attrs={'class': 'form-control select2-field'}),
                                        empty_label='',
                                        queryset=Apartment.objects.all())
-    tariff = forms.ModelChoiceField(widget=forms.Select(attrs={'class': 'form-control select2-field'}), empty_label='',
+    tariff = forms.ModelChoiceField(widget=forms.Select(attrs={'class': 'form-control'}), empty_label='',
                                     queryset=Tariff.objects.all())
     status = forms.CharField(
         widget=forms.Select(attrs={'class': 'form-control'}, choices=Receipt.StatusName.choices),
@@ -43,20 +43,26 @@ class ReceiptForm(forms.ModelForm):
         fields = '__all__'
 
 
+class UnitModelChoiceField(forms.ModelChoiceField):
+    def label_from_instance(self, obj):
+        return obj.unit
+
+
 class ReceiptServiceForm(forms.ModelForm):
     service_id = forms.ModelChoiceField(widget=forms.Select(attrs={'class': 'form-control'}),
                                         queryset=Service.objects.all())
-    unit = forms.ModelChoiceField(widget=forms.Select(attrs={'class': 'form-control'}), queryset=Unit.objects.all())
-    total_price = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}))
+    unit = UnitModelChoiceField(widget=forms.Select(attrs={'class': 'form-control', 'disabled': 'disabled'}),
+                                queryset=Service.objects.all())
+    total_price = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control', 'disabled': 'disabled'}))
     consumption = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}))
     price_unit = forms.FloatField(widget=forms.NumberInput(attrs={'class': 'form-control'}))
 
     def __init__(self, *args, **kwargs):
         super(ReceiptServiceForm, self).__init__(*args, **kwargs)
-        self.fields['receipt_id'].initial = None
+
     class Meta:
         model = ReceiptService
-        fields = '__all__'
+        fields = ['service_id', 'consumption', 'price_unit', 'receipt_id']
 
 
 ReceiptServiceFormSet = modelformset_factory(model=ReceiptService, form=ReceiptServiceForm, extra=0, can_delete=True)
