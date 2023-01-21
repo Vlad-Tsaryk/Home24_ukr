@@ -527,6 +527,7 @@
         })
 
         function set_tariff_services() {
+            console.log($('#form-receipt_service-rows tr:visible'))
             $('#form-receipt_service-rows tr:visible').each(function () {
                 $(this).find('button').click()
             })
@@ -536,6 +537,13 @@
 
 
 
+        }
+        function count_total_price() {
+            let total_price = 0.0
+            $('#form-receipt_service-rows tr:visible').each(function () {
+                total_price += parseFloat($(this).find('input').eq(3).val())
+            })
+            return total_price
         }
 
         const totalReceiptServiceForms = $('#id_receipt_service-TOTAL_FORMS')
@@ -552,12 +560,7 @@
             })
 
             $('#id_receipt_service-'+`${count - 1}-total_price`).change(function () {
-                let total_price = 0.0
-                for (let i=0;count > i;i++){
-                    total_price += parseFloat($('#id_receipt_service-'+`${i}-total_price:visible`).val())
-                }
-                console.log(total_price)
-                $('#price-total').text(total_price).change()
+                $('#price-total').text(count_total_price()).change()
             })
             $('#id_receipt_service-'+`${count - 1}-consumption`).change(
                 function (){
