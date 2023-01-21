@@ -5,8 +5,8 @@ from admin_personal_account.models import PersonalAccount
 from admin_apartment.models import Apartment
 from admin_house.models import Section
 from admin_meter.models import Meter
-from .forms import ReceiptForm
-from .models import Receipt
+from .forms import ReceiptForm, ReceiptServiceFormSet
+from .models import Receipt, ReceiptService
 
 
 # Create your views here.
@@ -14,6 +14,15 @@ class ReceiptCreate(CreateView):
     model = Receipt
     form_class = ReceiptForm
     template_name = 'admin_receipt/receipt_create.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(ReceiptCreate, self).get_context_data(**kwargs)
+        if self.request.POST:
+            context['receipt_service_formset'] = ReceiptServiceFormSet(self.request.POST, prefix='tariff_service')
+        else:
+            context['receipt_service_formset'] = ReceiptServiceFormSet(prefix='tariff_service',
+                                                                       queryset=ReceiptService.objects.none())
+        return context
 
     def render_to_response(self, context, **response_kwargs):
         if self.request.is_ajax():
@@ -46,10 +55,10 @@ class ReceiptCreate(CreateView):
                     apartment_info['personal_account'] = PersonalAccount.objects.get(apartment=apartment_id).number
                 except:
                     pass
-                # result['meter_list'] = list(Meter.objects.filter(
-                #     apartment_id=apartment_obj.id).values('number', 'status', 'date', 'apartment__house',
-                #                                           'apartment__number', 'apartment__section', 'service',
-                #                                           'value', 'service__unit'))
+                result['meter_list'] = list(Meter.objects.order_by('-date').filter(
+                    apartment_id=apartment_obj.id).values('number', 'status', 'date', 'apartment__house__name',
+                                                          'apartment__number', 'apartment__section__name',
+                                                          'service__name', 'value', 'service__unit__name'))
                 result['apartment_info'] = apartment_info
                 print(result)
             elif house_id:
@@ -60,6 +69,11 @@ class ReceiptCreate(CreateView):
                     result['apartment'] = list(Apartment.objects.filter(house_id=house_id).values('id', 'number'))
                     result['section'] = list(Section.objects.filter(house_id=house_id).values())
                 print(result)
+            if not self.request.GET.get('meter_set'):
+                result['meter_list'] = list(
+                    Meter.objects.order_by('-date').values('number', 'status', 'date', 'apartment__house__name',
+                                                           'apartment__number', 'apartment__section__name',
+                                                           'service__name', 'value', 'service__unit__name'))
             return JsonResponse(result, safe=False, **response_kwargs)
 
         else:

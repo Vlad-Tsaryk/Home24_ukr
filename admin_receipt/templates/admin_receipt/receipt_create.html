@@ -1,8 +1,8 @@
 {% extends 'layout/basic.html' %}
 {% load static %}
 {% block head %}
-<link rel="stylesheet"
-      href="{% static 'admin_panel/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css' %}"/>
+    <link rel="stylesheet"
+          href="{% static 'admin_panel/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css' %}"/>
 {% endblock %}
 {% block content %}
 
@@ -112,7 +112,7 @@
                         <div class="col-xs-12 col-sm-6">
                             <div class="form-group">
                                 <label for="account_uid">Лицевой счет</label>
-                                {{form.personal_account}}</div>
+                                {{ form.personal_account }}</div>
 
                             <p><b>Владелец:</b> <span id="owner_name"></span></p>
                             <p><b>Телефон:</b> <span id="owner_phone"></span></p>
@@ -135,15 +135,35 @@
                                         <th style="width: 40px; min-width: 40px;"></th>
                                     </tr>
                                     </thead>
-                                    <tbody id="form-invoiceservice-rows">
-
+                                    <tbody id="form-receipt_service-rows">
+                                    <tr id="empty-tariff_service" class="form-receipt_service" hidden>
+                                        <td>
+                                            {{ receipt_service_formset.empty_form.id }}
+                                            {{ receipt_service_formset.empty_form.service_id }}
+                                            </td>
+                                        <td>
+                                            {{ receipt_service_formset.empty_form.consumption }}
+                                        </td>
+                                        <td>
+                                            {{ receipt_service_formset.empty_form.unit }}
+                                            </td>
+                                        <td>
+                                            {{ receipt_service_formset.empty_form.price_unit }}</td>
+                                        <td>
+                                            {{ receipt_service_formset.empty_form.total_price }}
+                                        </td>
+                                        <td>
+                                            <button type="button" class="btn btn-default btn-sm form-row-remove-btn"
+                                                    title="Удалить услугу"><i class="fa fa-trash"></i></button>
+                                        </td>
+                                    </tr>
 
                                     </tbody>
                                     <tfoot>
                                     <tr>
                                         <td colspan="4" valing="middle">
                                             <button type="button"
-                                                    class="btn btn-default btn-hover-change form-row-add-invoiceservice-btn">
+                                                    class="btn btn-default btn-hover-change form-row-add-receipt_service-btn">
                                                 Добавить услугу
                                             </button>
                                             <button type="button" class="btn btn-default set-tariff-services">
@@ -166,6 +186,7 @@
                         </div>
                     </div>
 
+
                     <div class="row">
                         <div class="col-xs-12 text-right">
                             <div class="form-group">
@@ -185,10 +206,11 @@
                         <h3 class="box-title">Показания счетчиков</h3>
                     </div>
 
-                    <div id="counters" data-pjax-container="" data-pjax-push-state="" data-pjax-timeout="1000">
+                    <div id="meters" data-pjax-container="" data-pjax-push-state="" data-pjax-timeout="1000">
                         <div id="w0" class="grid-view">
                             <div class="box-body table-responsive no-padding">
-                                <table class="table table-bordered table-hover table-striped table-nowrap" id="meter_table">
+                                <table class="table table-bordered table-hover table-striped table-nowrap"
+                                       id="meter_table">
                                     <thead>
                                     <tr>
                                         <th style="width: 125px; min-width: 125px">№</th>
@@ -201,22 +223,6 @@
                                         <th>Счетчик</th>
                                         <th style="width: 90px; min-width: 90px">Показания</th>
                                         <th style="width: 90px; min-width: 90px">Ед. изм.</th>
-                                    </tr>
-                                    <tr id="w0-filters" class="filter-hidden">
-                                        <td>&nbsp;</td>
-                                        <td>&nbsp;</td>
-                                        <td>&nbsp;</td>
-                                        <td><input type="hidden" id="filterMonthYear"
-                                                   name="CounterDataSearch[searchUidMonthYear]"><input type="hidden"
-                                                                                                       id="filterFlatId"
-                                                                                                       name="CounterDataSearch[flat_id]">
-                                        </td>
-                                        <td>&nbsp;</td>
-                                        <td>&nbsp;</td>
-                                        <td>&nbsp;</td>
-                                        <td>&nbsp;</td>
-                                        <td>&nbsp;</td>
-                                        <td>&nbsp;</td>
                                     </tr>
                                     </thead>
                                     <tbody></tbody>
@@ -245,7 +251,7 @@
 
 {% endblock %}
 {% block scripts %}
-      <script>
+    <script>
         $('#nav_receipt').attr('class', 'active')
     </script>
     <script src="{% static 'admin_panel/bower_components/moment/moment.js' %}"></script>
@@ -257,238 +263,245 @@
             src="{% static 'admin_panel/bower_components/datatables.net/jquery.dataTables.min.js' %}">
     </script>
     <script>
-        function config_datetimepicker(target_id,min_date){
-            let target = $('#'+`${target_id}`)
+        function config_datetimepicker(target_id, min_date) {
+            let target = $('#' + `${target_id}`)
             let date_options = {
                 locale: 'ru',
                 format: 'L',
             }
-            if(!target.val()){
+            if (!target.val()) {
                 date_options['date'] = moment()
                 date_options['minDate'] = moment()
-            }
-            else {
-                date_options['minDate'] = moment(min_date,'L')
+            } else {
+                date_options['minDate'] = moment(min_date, 'L')
             }
             target.datetimepicker(date_options);
         }
-        config_datetimepicker('id_period_start','{{ receipt.period_start|date:'d.m.Y' }}')
-        config_datetimepicker('id_period_end','{{ receipt.period_end|date:'d.m.Y' }}')
-        config_datetimepicker('id_date','{{ receipt.date|date:'d.m.Y' }}')
+
+        config_datetimepicker('id_period_start', '{{ receipt.period_start|date:'d.m.Y' }}')
+        config_datetimepicker('id_period_end', '{{ receipt.period_end|date:'d.m.Y' }}')
+        config_datetimepicker('id_date', '{{ receipt.date|date:'d.m.Y' }}')
     </script>
     <script>
-    let select_options = {
-        'house_id':'',
-        'section_id':''
-    }
+        let label_colors = {
+            'Учтено': 'label-success',
+            'Учтено и оплачено': 'label-success',
+            'Новое': 'label-warning',
+            'Нулевое': 'label-primary',
+        }
+        let table
+        let select_options = {
+            'house_id': '',
+            'section_id': ''
+        }
+
+        function check_empty(data) {
+            if (data) {
+                return data
+            } else return '(не задано)'
+        }
+
         function clear_options(target_id) {
             $('#' + `${target_id} option:not([value=''])`).remove()
         }
-    {% block ajax_link_set %}{% endblock %}
 
-    function get_values(values) {
-        $.ajax({
-            type: 'GET',
-            url: {% block ajax_url %}'{% url 'receipt_create' %}'{% endblock %},
-            data: select_options,
-            success: function (data) {
-                console.log(data)
+        {% block ajax_link_set %}{% endblock %}
 
-                if(data['apartment_info']){
-                    let apartment_info = data['apartment_info']
-                    let owner_link = '{% url 'owner_view' 12345 %}'.replace(/12345/,apartment_info['owner_id'])
-                    $('#owner_name').empty().append(`<a href="${owner_link}">${apartment_info['owner']}</a>`)
-                    $('#owner_phone').empty().append(`<a href="tel:${apartment_info['owner_phone']}">${apartment_info['owner_phone']}</a>`)
-                    $('#id_tariff').val(apartment_info['tariff_id']).change()
-                    if (apartment_info['personal_account'] && !select_options['personal_account']){
-                        {#$('#id_personal_account').val(apartment_info['personal_account']).change()#}
+        function get_values(values) {
+            $.ajax({
+                type: 'GET',
+                url: {% block ajax_url %}'{% url 'receipt_create' %}'{% endblock %},
+                data: select_options,
+                success: function (data) {
+                    console.log(data)
+                    if (data['meter_list']) {
+                        table.clear()
+                        table.rows.add(data['meter_list'])
+                        table.draw()
                     }
-                    if (data['section']){
+
+                    if (data['apartment_info']) {
+                        let apartment_info = data['apartment_info']
+                        let owner_link = '{% url 'owner_view' 12345 %}'.replace(/12345/, apartment_info['owner_id'])
+                        $('#owner_name').empty().append(`<a href="${owner_link}">${apartment_info['owner']}</a>`)
+                        $('#owner_phone').empty().append(`<a href="tel:${apartment_info['owner_phone']}">${apartment_info['owner_phone']}</a>`)
+                        $('#id_tariff').val(apartment_info['tariff_id']).change()
+                        if (apartment_info['personal_account'] && !select_options['personal_account']) {
+                            $('#id_personal_account').unbind().val(apartment_info['personal_account']).change()
+                            set_event_listeners(false, false, false, true)
+                        }
+                        if (data['section']) {
+                            clear_options('id_apartment')
+                            clear_options('id_section')
+                            data['apartment'].forEach(
+                                function (item) {
+                                    $('#id_apartment').append($('<option>').val(item['id']).text(item['number']));
+                                });
+                            data['section'].forEach(function (item) {
+                                $('#id_section').append($('<option>').val(item['id']).text(item['name']));
+                            });
+
+                            $('#id_section').unbind().val(apartment_info['section_id']).change()
+                            $('#id_apartment').unbind().val(apartment_info['apartment_id']).change()
+                            $('#id_house').unbind().val(apartment_info['house_id']).change()
+                            $('#id_tariff').val(apartment_info['tariff_id']).change()
+                            $('.select2-field').select2({placeholder: "Выберите..."})
+
+                        }
+                        console.log('apartment_info', data)
+                    } else if (!select_options['section_id']) {
+                        $('#owner_name').empty().text('не выбран')
+                        $('#owner_phone').empty().text('не выбран')
                         clear_options('id_apartment')
                         clear_options('id_section')
+                        data['section'].forEach(
+                            function (item) {
+                                $('#id_section').append($('<option>').val(item['id']).text(item['name']));
+                            }
+                        );
+                    } else {
+                        $('#owner_name').empty().text('не выбран')
+                        $('#owner_phone').empty().text('не выбран')
+                        clear_options('id_apartment')
+                    }
+                    if (data['apartment']) {
                         data['apartment'].forEach(
-                        function (item) {
-                            $('#id_apartment').append($('<option>').val(item['id']).text(item['number']));
-                        });
-                        data['section'].forEach(function (item) {
-                            $('#id_section').append($('<option>').val(item['id']).text(item['name']));
-                        });
-                        $('#id_section').unbind().val(apartment_info['section_id']).change()
-                        $('#id_apartment').unbind().val(apartment_info['apartment_id']).change()
-                        $('#id_house').unbind().val(apartment_info['house_id']).change()
-                        $('#id_tariff').val(apartment_info['tariff_id']).change()
-                        $('.select2-field').select2({placeholder: "Выберите..."})
-
+                            function (item) {
+                                $('#id_apartment').append($('<option>').val(item['id']).text(item['number']));
+                            });
                     }
-                    console.log('apartment_info', data)
-                }
-                else if(!select_options['section_id']){
-                    $('#owner_name').empty().text('не выбран')
-                    $('#owner_phone').empty().text('не выбран')
-                    clear_options('id_apartment')
-                    clear_options('id_section')
-                                    data['section'].forEach(
-                    function (item) {
-                        $('#id_section').append($('<option>').val(item['id']).text(item['name']));
-                    }
-                );
-                }
-                else {
-                    $('#owner_name').empty().text('не выбран')
-                    $('#owner_phone').empty().text('не выбран')
-                    clear_options('id_apartment')
-                }
-                if(data['apartment']){
-                    data['apartment'].forEach(
-                    function (item) {
-                        $('#id_apartment').append($('<option>').val(item['id']).text(item['number']));
-                    });
-                }
-                if (values){
-                    if (values[1]){
-                        $('#id_section').unbind().val(values[1]).change().select2({placeholder: "Выберите..."})
-                        select_options['section_id'] = values[1]
-                        get_values([values[0]])
-                        set_event_listeners()
-                    }
-                    console.log(values)
-                    $('#id_apartment').val(values[0]).change();
+                    {% comment %}if (values){
+                        if (values[1]){
+                            $('#id_section').unbind().val(values[1]).change().select2({placeholder: "Выберите..."})
+                            select_options['section_id'] = values[1]
+                            get_values([values[0]])
+                            set_event_listeners()
+                        }
+                        console.log(values)
+                        $('#id_apartment').val(values[0]).change();
 
-                    {#set_event_listeners()#}
+                        {#set_event_listeners()#}
+                    }{% endcomment %}
+
                 }
+            })
+        }
 
-            }
-        })
-    }
-    function send_POST(apartment_id) {
-            let ajax_link;
-            if (apartment_id){
-                ajax_link = "{% url 'meter_view_list' 12345 %}".replace(/12345/,select_options['apartment_id'])
-            }
-            else {
-                ajax_link = "{% url 'meter_list' 12345 %}".replace(/12345/,select_options['apartment_id'])
-            }
-
+        function set_meters() {
             table = $('#meter_table').DataTable({
-                serverSide: true,
+                {#serverSide: true,#}
                 processing: false,
                 ordering: false,
                 oLanguage: {
                     sZeroRecords: "Ничего не найдено."
                 },
                 columnDefs: [
-                    {className: "meter", "targets": [0, 1, 2,3,4,5,6,7,8,9]},
+                    {className: "meter", "targets": [0, 1, 2, 3, 4, 5, 6, 7, 8]},
                     {targets: '_all', defaultContent: ''},
                     {
-                targets: [8,9],
-                createdCell: function (td, cellData, rowData, row, col) {
-                    $(td).css('background-color', '#DFD5')
-                }},
+                        targets: [8],
+                        createdCell: function (td, cellData, rowData, row, col) {
+                            $(td).css('background-color', '#DFD5')
+                        }
+                    },
                 ],
 
-                "ajax": {
-                    "processing": true,
-                    "url": "{% url 'meter_view_list' 12345 %}".replace(/12345/,select_options['apartment_id']),
-                    "data": function (d) {
-                        return {'apartment_id': select_options['apartment_id']};
-                    },
-                },
+                {% comment %}                "ajax": {
+                                    "processing": true,
+                                    "url": "{% url 'receipt_create' %}",
+                                    "data": function (d) {
+                                        return select_options;
+                                    },
+                                },{% endcomment %}
                 "columns": [
                     {data: 'number'},
-                    {data: 'status',
-                    render:function (data) {
-                        return `<small class="label ${label_colors[data]}" id="status">${data}</small>`
-                    }},
-                    {data: 'date',
-                    render:function (data) {
-                        return moment(data).format('L')
-                    }},
-                    {data: 'date',
-                    render:function (data) {
-                        let date = moment(data).format('MMMM YYYY')
-                        return date.charAt(0).toUpperCase() + date.slice(1)
-                    }},
+                    {
+                        data: 'status',
+                        render: function (data) {
+                            return `<small class="label ${label_colors[data]}" id="status">${data}</small>`
+                        }
+                    },
+                    {
+                        data: 'date',
+                        render: function (data) {
+                            return moment(data).format('L')
+                        }
+                    },
+                    {
+                        data: 'date',
+                        render: function (data) {
+                            let date = moment(data).format('MMMM YYYY')
+                            return date.charAt(0).toUpperCase() + date.slice(1)
+                        }
+                    },
                     {data: 'apartment__house__name'},
                     {data: 'apartment__section__name'},
                     {data: 'apartment__number'},
                     {data: 'service__name'},
                     {data: 'value'},
-                    {data: 'service__unit__name',
-                        render: function (data) {
-                         return check_empty(data)
-                     }},
                     {
-                        data: 'id',
-                        render: function (data, type,row) {
-                            const link_update = '{% url 'meter_update' 12345 %}'.replace(/12345/, data)
-                            let link_delete = '{% url 'meter_delete' 12345 %}'.replace(/12345/, data)
-                            {#let link_view = '{% url 'meter_view_list_serv' 12345 54321%}'.replace(/12345/, row.apartment).replace(/54321/,row.service)#}
-                            return `<div class="btn-group pull-right">\
-            <a class="btn btn-default btn-sm" href="${link_update}"\
-               title="Редактировать" data-toggle="tooltip">\
-                <i class="fa fa-pencil"></i>\
-            </a>\
-            <a class="btn btn-default btn-sm"\
-               title="Удалить" data-toggle="tooltip" data-pjax="0" data-method="post"\
-                onmousedown="return confirm_delete('${link_delete}',event);">\
-                <i class="fa fa-trash"></i>\
-            </a>\
-        </div>`
-                        },
-                                            },
+                        data: 'service__unit__name',
+                        render: function (data) {
+                            return check_empty(data)
+                        }
+                    },
                 ],
                 paging: false,
                 searching: false,
                 info: false,
             });
-    }
-    function set_event_listeners(house=false,section=false,apartment=false,personal_account=false){
-        if (house){
-            $('#id_house').change(function () {
-            select_options['house_id'] = this.value
-            select_options['section_id'] = ''
-            get_values()})
+            get_values()
+            select_options['meter_set'] = true
         }
-        if (section){
-            $('#id_section').change(function () {
-            select_options['section_id'] = this.value
-            get_values()})
-        }
-        if (apartment){
-            $('#id_apartment').change(function () {
-                select_options['apartment_id'] = this.value
-                console.log(select_options)
-                get_values()
-                select_options['apartment_id'] = ''
-            })
-        }
-        if (personal_account){
-            $('#id_personal_account').change(function () {
-                select_options['personal_account'] = this.value
-                console.log(select_options)
-                get_values()
-                select_options['personal_account'] = ''
-            })
+
+        function set_event_listeners(house = false, section = false, apartment = false, personal_account = false) {
+            if (house) {
+                $('#id_house').change(function () {
+                    select_options['house_id'] = this.value
+                    select_options['section_id'] = ''
+                    get_values()
+                })
+            }
+            if (section) {
+                $('#id_section').change(function () {
+                    select_options['section_id'] = this.value
+                    get_values()
+                })
+            }
+            if (apartment) {
+                $('#id_apartment').change(function () {
+                    select_options['apartment_id'] = this.value
+                    console.log(select_options)
+                    get_values()
+                    select_options['apartment_id'] = ''
+                })
+            }
+            if (personal_account) {
+                $('#id_personal_account').change(function () {
+                    select_options['personal_account'] = this.value
+                    console.log(select_options)
+                    get_values()
+                    select_options['personal_account'] = ''
+                })
+            }
+
+
         }
 
 
-    }
-
-
-        $(document).ready(function ()
-            {
+        $(document).ready(function () {
                 $('.select2-field').select2({placeholder: "Выберите..."})
-                $('#id_status').select2({placeholder: "Выберите...",minimumResultsForSearch: Infinity})
+                $('#id_status').select2({placeholder: "Выберите...", minimumResultsForSearch: Infinity})
                 {% block clone %}
                     clear_options('id_apartment')
                     clear_options('id_section')
                     {#clear_options('id_apartment')#}
-                 {% endblock %}
-
-                set_event_listeners(true,true,true,true)
+                {% endblock %}
+                set_meters();
+                set_event_listeners(true, true, true, true);
             }
-
         )
 
     </script>
+
 {% endblock %}

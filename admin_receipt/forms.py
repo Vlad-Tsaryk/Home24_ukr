@@ -1,7 +1,9 @@
 from django import forms
+from django.forms import modelformset_factory
 
+from admin_service.models import Unit, Service
 from admin_tariff.models import Tariff
-from .models import Receipt
+from .models import Receipt, ReceiptService
 from admin_apartment.models import Apartment
 from admin_house.models import House, Section
 
@@ -14,7 +16,8 @@ class ReceiptForm(forms.ModelForm):
                                    queryset=House.objects.all(), required=False)
     section = forms.ModelChoiceField(widget=forms.Select(attrs={'class': 'form-control select2-field'}), empty_label='',
                                      queryset=Section.objects.all())
-    apartment = forms.ModelChoiceField(widget=forms.Select(attrs={'class': 'form-control select2-field'}), empty_label='',
+    apartment = forms.ModelChoiceField(widget=forms.Select(attrs={'class': 'form-control select2-field'}),
+                                       empty_label='',
                                        queryset=Apartment.objects.all())
     tariff = forms.ModelChoiceField(widget=forms.Select(attrs={'class': 'form-control select2-field'}), empty_label='',
                                     queryset=Tariff.objects.all())
@@ -25,7 +28,7 @@ class ReceiptForm(forms.ModelForm):
         attrs={'class': "form-control datetimepicker-input"}))
     period_end = forms.DateField(widget=forms.DateInput(
         attrs={'class': "form-control datetimepicker-input"}))
-    personal_account = forms.CharField(widget=forms.TextInput({'class': 'form-control'}), required=False)
+    personal_account = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}), required=False)
 
     def __init__(self, *args, **kwargs):
         super(ReceiptForm, self).__init__(*args, **kwargs)
@@ -38,3 +41,22 @@ class ReceiptForm(forms.ModelForm):
     class Meta:
         model = Receipt
         fields = '__all__'
+
+
+class ReceiptServiceForm(forms.ModelForm):
+    service_id = forms.ModelChoiceField(widget=forms.Select(attrs={'class': 'form-control'}),
+                                        queryset=Service.objects.all())
+    unit = forms.ModelChoiceField(widget=forms.Select(attrs={'class': 'form-control'}), queryset=Unit.objects.all())
+    total_price = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}))
+    consumption = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}))
+    price_unit = forms.FloatField(widget=forms.NumberInput(attrs={'class': 'form-control'}))
+
+    def __init__(self, *args, **kwargs):
+        super(ReceiptServiceForm, self).__init__(*args, **kwargs)
+        self.fields['receipt_id'].initial = None
+    class Meta:
+        model = ReceiptService
+        fields = '__all__'
+
+
+ReceiptServiceFormSet = modelformset_factory(model=ReceiptService, form=ReceiptServiceForm, extra=0, can_delete=True)
