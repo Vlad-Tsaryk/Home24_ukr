@@ -40,7 +40,7 @@
                                                         <span class="input-group-btn">
                                                         <div hidden>{{ service_formset.empty_form.DELETE }}</div>
                     <button type="button" class="btn btn-default form-row-remove-btn"
-                    onclick="delete_form('id_{{ service_formset.empty_form.prefix }}-DELETE')">
+                    onclick="delete_form('{{ service_formset.empty_form.prefix }}')">
                         <i
                             class="fa fa-trash"></i></button>                </span>
                                         </div>
@@ -87,7 +87,7 @@
                                                                                                     <div hidden>{{ service.DELETE }}</div>
                                                                 <button type="button"
                                                                 class="btn btn-default form-row-remove-btn"
-                                                                onclick="delete_form('id_{{ service.prefix }}-DELETE')">
+                                                                onclick="delete_form('{{ service.prefix }}')">
                                                                 <i class="fa fa-trash"></i></button>
                                                             {% endif %}
 {#                                                        <div hidden>{{ service.DELETE }}</div>#}
@@ -130,7 +130,7 @@
                     <div hidden>{{ unit_formset.empty_form.DELETE }}</div>
                                                                 <button type="button"
                                                                 class="btn btn-default form-row-remove-btn"
-                                                                onclick="delete_form('id_{{ unit_formset.empty_form.prefix }}-DELETE')">
+                                                                onclick="delete_form('{{ unit_formset.empty_form.prefix }}')">
                                                                 <i class="fa fa-trash"></i></button>              </span>
                                                     </div>
                                                 </div>
@@ -159,7 +159,7 @@
                                                                                                     <div hidden>{{ unit.DELETE }}</div>
                                                                 <button type="button"
                                                                 class="btn btn-default form-row-remove-btn"
-                                                                onclick="delete_form('id_unit-{{ forloop.counter0 }}-DELETE')">
+                                                                onclick="delete_form('unit-{{ forloop.counter0 }}')">
                                                                 <i class="fa fa-trash"></i></button>
                                                             {% endif %}
 

@@ -156,7 +156,7 @@
                                                         <div hidden>{{ section_formset.empty_form.DELETE }}</div>
                                                         <button type="button"
                                                                 class="btn btn-danger form-row-remove-btn"
-                                                        onclick="delete_form('id_{{ section_formset.empty_form.prefix }}-DELETE')">
+                                                        onclick="delete_form('{{ section_formset.empty_form.prefix }}')">
                                                             <i class="fa fa-trash"></i>
                                                         </button>
                                                     </span>
@@ -177,7 +177,7 @@
                                                         <div hidden>{{ section.DELETE }}</div>
                                                         <button type="button"
                                                                 class="btn btn-danger form-row-remove-btn"
-                                                        onclick="delete_form('id_{{ section.prefix }}-DELETE')">
+                                                        onclick="delete_form('{{ section.prefix }}')">
                                                             <i class="fa fa-trash"></i>
                                                         </button>
                                                     </span>
@@ -204,7 +204,7 @@
                                                         <div hidden>{{ floor_formset.empty_form.DELETE }}</div>
                                                         <button type="button"
                                                                 class="btn btn-danger form-row-remove-btn"
-                                                        onclick="delete_form('id_{{ floor_formset.empty_form.prefix }}-DELETE')">
+                                                        onclick="delete_form('{{ floor_formset.empty_form.prefix }}')">
                                                             <i class="fa fa-trash"></i>
                                                         </button>
                                                     </span>
@@ -225,7 +225,7 @@
                                                         <div hidden>{{ floor.DELETE }}</div>
                                                         <button type="button"
                                                                 class="btn btn-danger form-row-remove-btn"
-                                                        onclick="delete_form('id_{{ floor.prefix }}-DELETE')">
+                                                        onclick="delete_form('{{ floor.prefix }}')">
                                                             <i class="fa fa-trash"></i>
                                                         </button>
                                                     </span>
@@ -257,7 +257,7 @@
                                                     <span class="input-group-btn">
                                                         <div hidden>{{ house_user_formset.empty_form.DELETE }}</div>
                                                         <button type="button" class="btn btn-danger form-row-remove-btn"
-                                                        onclick="delete_form('id_{{ house_user_formset.empty_form.prefix }}-DELETE')">
+                                                        onclick="delete_form('{{ house_user_formset.empty_form.prefix }}')">
                                                             <i class="fa fa-trash"></i>
                                                         </button>
                                                     </span>
@@ -284,7 +284,7 @@
                                                     <span class="input-group-btn">
                                                         <div hidden>{{ house_user.DELETE }}</div>
                                                         <button type="button" class="btn btn-danger form-row-remove-btn"
-                                                        onclick="delete_form('id_{{ house_user.prefix }}-DELETE')">
+                                                        onclick="delete_form('{{ house_user.prefix }}')">
                                                             <i class="fa fa-trash"></i>
                                                         </button>
                                                     </span>

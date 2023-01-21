@@ -1,7 +1,6 @@
     function add_form(form_name, copy_target_id,items_list_id, TotalForm ) {
         let currentFormCount = 0;
         let forms = $(`#${items_list_id} .form-${form_name}`)
-        // console.log(`#${items_list_id} .form-${form_name}`)
         if (forms.length > 0) {
             currentFormCount = parseInt(forms.last().attr('id').split('-').pop()) + 1;
         }
@@ -16,6 +15,6 @@
         return copyEmptyFormEl
     }
     function delete_form(delete_id){
-            $('#'+delete_id).attr('checked','')
-            $(event.target).closest('.row').hide()
+            $(`#id_${delete_id}-DELETE`).attr('checked','')
+            $('#form-'+delete_id).hide()
     }

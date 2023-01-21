@@ -77,7 +77,7 @@
                                         <span class="input-group-btn">
                                             <div hidden>{{ tariff_service.DELETE }}</div>
                     <button type="button" class="btn btn-default form-row-remove-btn"
-                            onclick="delete_form('id_{{ tariff_service.prefix }}-DELETE')"><i
+                            onclick="delete_form('{{ tariff_service.prefix }}')"><i
                             class="fa fa-trash"></i></button>
                 </span>
                                     </div>
@@ -133,7 +133,7 @@
                                         <span class="input-group-btn">
                                             <div hidden>{{ tariff_service_formset.empty_form.DELETE }}</div>
                     <button type="button" class="btn btn-default form-row-remove-btn"
-                            onclick="delete_form('id_{{ tariff_service_formset.empty_form.prefix }}-DELETE')"><i
+                            onclick="delete_form('{{ tariff_service_formset.empty_form.prefix }}')"><i
                             class="fa fa-trash"></i></button>
                 </span>
                                     </div>
@@ -238,16 +238,13 @@ jQuery.validator.addClassRules('price', {
     $('#add_tariff_service').on('click', function (){add_form('tariff_service','empty-tariff_service',
         'form-tariff_service-rows',totalTariffServiceForms);service_change(parseInt(totalTariffServiceForms.val()))})
     function service_change(count) {
-        console.log(count)
             $(`#id_tariff_service-${count-1}-service`).change(function () {
          let value = $(this).val()
         let unit_select = $(this).closest('.row').find('select').eq(1)
         if ($(unit_select).find(`option[value="${value}"]`).length === 0){
             value = 0
         }
-
         unit_select.val(value).change()
-
     })
     }
 
