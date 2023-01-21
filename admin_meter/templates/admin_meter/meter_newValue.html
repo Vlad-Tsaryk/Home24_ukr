@@ -2,7 +2,7 @@
 {% block breadcrumb %}
         <ul class="breadcrumb">
         <li><a href="{% url 'statistic' %}"><i class="fa fa-home"></i>Главная</a></li>
-        <li><a href="{% url 'meter_list' %}">Счетчики</a></li>
+        <li><a href="{% url 'meter-list' %}">Счетчики</a></li>
         <li>
             <a id="list_href" href="">
                 Показания счетчиков, кв.<span id="apartment_numb"></span></a></li>
@@ -17,12 +17,12 @@
     let ajax_link = ''
     let list_link = ''
     if (!service_id){
-        ajax_link = '{% url 'meter_new_value' view.kwargs.apartment_id%}'
-        list_link = '{% url 'meter_view_list' view.kwargs.apartment_id%}'
+        ajax_link = '{% url 'meter-new-value' view.kwargs.apartment_id%}'
+        list_link = '{% url 'meter-view-list-apart' view.kwargs.apartment_id%}'
     }
     else{
-        ajax_link = '{% url 'meter_new_value_serv' view.kwargs.apartment_id 12345 %}'.replace(/12345/,service_id)
-        list_link = '{% url 'meter_view_list_serv' view.kwargs.apartment_id 12345 %}'.replace(/12345/,service_id)
+        ajax_link = '{% url 'meter-new-value-serv' view.kwargs.apartment_id 12345 %}'.replace(/12345/,service_id)
+        list_link = '{% url 'meter-view-list-serv' view.kwargs.apartment_id 12345 %}'.replace(/12345/,service_id)
     }
     $('#list_href').attr('href',list_link)
 

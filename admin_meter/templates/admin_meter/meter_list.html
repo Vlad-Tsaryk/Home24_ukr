@@ -21,7 +21,7 @@
         <div class="col-xs-12">
 
             <div class="pull-right margin-bottom">
-                <a class="btn btn-success" href="{% url 'meter_create' %}">Добавить показание</a>
+                <a class="btn btn-success" href="{% url 'meter-create' %}">Добавить показание</a>
             </div>
         </div>
     </div>
@@ -165,7 +165,7 @@
                 ],
                 "ajax": {
                     "processing": true,
-                    "url": "{% url 'meter_list' %}",
+                    "url": "{% url 'meter-list' %}",
                     "data": function (d) {
                         return sort_data;
                     },
@@ -191,8 +191,8 @@
                         data: 'id',
                         render: function (data, type,row) {
 
-                            const link_new_value = '{% url 'meter_new_value_serv' apartment_id=12345 service_id=54321%}'.replace(/12345/, row.apartment).replace(/54321/,row.service)
-                            let link_view = '{% url 'meter_view_list_serv' 12345 54321%}'.replace(/12345/, row.apartment).replace(/54321/,row.service)
+                            const link_new_value = '{% url 'meter-new-value-serv' apartment_id=12345 service_id=54321%}'.replace(/12345/, row.apartment).replace(/54321/,row.service)
+                            let link_view = '{% url 'meter-view-list-serv' 12345 54321%}'.replace(/12345/, row.apartment).replace(/54321/,row.service)
                             console.log(link_view)
                             return `<div class="btn-group pull-right">\
             <a class="btn btn-default btn-sm" href="${link_new_value}"\
@@ -268,7 +268,7 @@
         }
 
         $('#meter_table').on('click', 'tbody tr .meter', function () {
-            window.location.href = '{% url 'meter_view_list_serv' 12345 54321%}'.replace(/12345/, table.row(this).data().apartment).replace(/54321/,table.row(this).data().service)
+            window.location.href = '{% url 'meter-view-list-serv' 12345 54321%}'.replace(/12345/, table.row(this).data().apartment).replace(/54321/,table.row(this).data().service)
         })
 
 

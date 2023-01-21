@@ -4,7 +4,7 @@
 {% block breadcrumb %}
         <ul class="breadcrumb">
         <li><a href="{% url 'statistic' %}"><i class="fa fa-home"></i>Главная</a></li>
-        <li><a href="{% url 'meter_list' %}">Счетчики</a></li>
+        <li><a href="{% url 'meter-list' %}">Счетчики</a></li>
         <li class="active">Показания счетчиков, кв.{{ meter_list.first.apartment }}</li>
 </ul>
 {% endblock %}
@@ -168,10 +168,10 @@
             let link = ''
 
             if (!sort_data['service']){
-                link = '{% url 'meter_new_value' view.kwargs.apartment_id %}'
+                link = '{% url 'meter-new-value' view.kwargs.apartment_id %}'
             }
             else {
-                link = '{% url 'meter_new_value_serv' view.kwargs.apartment_id 12345 %}'.replace(/12345/, sort_data['service'])
+                link = '{% url 'meter-new-value-serv' view.kwargs.apartment_id 12345 %}'.replace(/12345/, sort_data['service'])
             }
             window.location.href = link
         }
@@ -196,7 +196,7 @@
                 
                 "ajax": {
                     "processing": true,
-                    "url": "{% url 'meter_view_list' apartment_id=view.kwargs.apartment_id%}",
+                    "url": "{% url 'meter-view-list-apart' apartment_id=view.kwargs.apartment_id%}",
                     "data": function (d) {
                         return sort_data;
                     },
@@ -235,8 +235,8 @@
                     {
                         data: 'id',
                         render: function (data, type,row) {
-                            const link_update = '{% url 'meter_update' 12345 %}'.replace(/12345/, data)
-                            let link_delete = '{% url 'meter_delete' 12345 %}'.replace(/12345/, data)
+                            const link_update = '{% url 'meter-update' 12345 %}'.replace(/12345/, data)
+                            let link_delete = '{% url 'meter-delete' 12345 %}'.replace(/12345/, data)
                             {#let link_view = '{% url 'meter_view_list_serv' 12345 54321%}'.replace(/12345/, row.apartment).replace(/54321/,row.service)#}
                             return `<div class="btn-group pull-right">\
             <a class="btn btn-default btn-sm" href="${link_update}"\
@@ -313,7 +313,7 @@
         }
 
         $('#meter_view_table').on('click', 'tbody tr .meter', function () {
-            window.location.href = '{% url 'meter_view' 12345 %}'.replace(/12345/, table.row(this).data().id)
+            window.location.href = '{% url 'meter-view' 12345 %}'.replace(/12345/, table.row(this).data().id)
         })
 
 

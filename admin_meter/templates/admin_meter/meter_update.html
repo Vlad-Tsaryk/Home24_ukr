@@ -3,9 +3,9 @@
 {% block breadcrumb %}
         <ul class="breadcrumb">
         <li><a href="{% url 'statistic' %}"><i class="fa fa-home"></i>Главная</a></li>
-        <li><a href="{% url 'meter_list' %}">Счетчики</a></li>
-        <li><a href="{% url 'meter_view_list_serv' meter.apartment_id meter.service_id %}">Показания счетчиков, кв.{{ meter.apartment.number}}</a></li>
-        <li><a href="{% url 'meter_view' meter.pk %}">Показание счетчикa №{{ meter.number }}</a></li>
+        <li><a href="{% url 'meter-list' %}">Счетчики</a></li>
+        <li><a href="{% url 'meter-view-list-serv' meter.apartment_id meter.service_id %}">Показания счетчиков, кв.{{ meter.apartment.number}}</a></li>
+        <li><a href="{% url 'meter-view' meter.pk %}">Показание счетчикa №{{ meter.number }}</a></li>
         <li class="active">Редактирование</li>
 </ul>
 {% endblock %}
@@ -19,4 +19,4 @@
     select_options['house_id'] = {{meter.apartment.house_id}}
     get_values(values=[apartment_id,section_id])
 {% endblock %}
-{% block ajax_url %}'{% url 'meter_update' meter.pk %}'{% endblock %}
+{% block ajax_url %}'{% url 'meter-update' meter.pk %}'{% endblock %}

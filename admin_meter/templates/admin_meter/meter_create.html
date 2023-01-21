@@ -4,7 +4,7 @@
 {% block breadcrumb %}
         <ul class="breadcrumb">
         <li><a href="{% url 'statistic' %}"><i class="fa fa-home"></i>Главная</a></li>
-        <li><a href="{% url 'meter_list' %}">Счетчики</a></li>
+        <li><a href="{% url 'meter-list' %}">Счетчики</a></li>
         <li class="active">Новое показание</li>
 </ul>
 {% endblock %}
@@ -82,7 +82,7 @@
                 <div class="row">
                     <div class="col-xs-12 text-right">
                         <div class="form-group">
-                            <a href="{% url 'meter_list' %}" class="btn btn-default margin-bottom-15">Отменить</a>
+                            <a href="{% url 'meter-list' %}" class="btn btn-default margin-bottom-15">Отменить</a>
                             <input type="submit" class="btn btn-success margin-bottom-15" name="action_save"
                                    value="Сохранить">
                             <input type="submit" class="btn btn-success margin-bottom-15 bg-green-active"
@@ -133,7 +133,7 @@
     function get_values(values) {
         $.ajax({
             type: 'GET',
-            url: {% block ajax_url %}'{% url 'meter_create' %}'{% endblock %},
+            url: {% block ajax_url %}'{% url 'meter-create' %}'{% endblock %},
             data: select_options,
             success: function (data) {
                 clear_options('id_apartment')

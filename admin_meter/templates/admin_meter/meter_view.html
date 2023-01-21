@@ -3,8 +3,8 @@
 {% block breadcrumb %}
         <ul class="breadcrumb">
         <li><a href="{% url 'statistic' %}"><i class="fa fa-home"></i>Главная</a></li>
-        <li><a href="{% url 'meter_list' %}">Счетчики</a></li>
-        <li><a href="{% url 'meter_view_list_serv' meter.apartment_id meter.service_id %}">Показания счетчиков, кв.{{ meter.apartment.number}}</a></li>
+        <li><a href="{% url 'meter-list' %}">Счетчики</a></li>
+        <li><a href="{% url 'meter-view-list-serv' meter.apartment_id meter.service_id %}">Показания счетчиков, кв.{{ meter.apartment.number}}</a></li>
         <li class="active">Показание счетчикa №{{ meter.number }}</li>
 </ul>
 {% endblock %}
@@ -41,7 +41,7 @@
         <div class="box-header with-border">
             <h3 class="box-title"></h3>
             <div class="box-tools">
-                <a href="{% url 'meter_update' meter.pk %}" class="btn btn-primary btn-sm">
+                <a href="{% url 'meter-update' meter.pk %}" class="btn btn-primary btn-sm">
                     <span class="hidden-xs">Редактировать показание</span><i class="fa fa-pencil visible-xs"
                                                                              aria-hidden="true"></i>
                 </a>

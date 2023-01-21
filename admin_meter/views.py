@@ -23,7 +23,7 @@ class MeterCreate(SuccessMessageMixin, CreateView):
     model = Meter
     form_class = MeterForm
     template_name = 'admin_meter/meter_create.html'
-    success_url = reverse_lazy('meter_list')
+    success_url = reverse_lazy('meter-list')
     success_message = 'Счетчик №%(number)s успешно создан'
 
     def render_to_response(self, context, **response_kwargs):
@@ -48,7 +48,7 @@ class MeterCreate(SuccessMessageMixin, CreateView):
         """If the form is valid, save the associated model."""
         self.object = form.save()
         if self.request.POST.get('action_save_add'):
-            return redirect('meter_clone', pk=self.object.pk)
+            return redirect('meter-clone', pk=self.object.pk)
         return super().form_valid(form)
 
 
@@ -205,15 +205,15 @@ class MeterUpdate(SuccessMessageMixin, UpdateView):
         """If the form is valid, save the associated model."""
         self.object = form.save()
         if self.request.POST.get('action_save_add'):
-            return redirect('meter_clone', pk=self.object.pk)
+            return redirect('meter-clone', pk=self.object.pk)
         return super().form_valid(form)
 
     def get_success_url(self):
         if self.object.service_id:
-            return reverse_lazy('meter_view_list_serv',
+            return reverse_lazy('meter-view-list-serv',
                                 kwargs={'apartment_id': self.object.apartment_id, 'service_id': self.object.service_id})
         else:
-            return reverse_lazy('meter_view_list',
+            return reverse_lazy('meter-view-list-apart',
                                 kwargs={'apartment_id': self.object.apartment_id})
 
 
@@ -233,4 +233,4 @@ def meter_delete(request, pk):
         error(request, f"Не удалось удалить счетчик")
     if name:
         success(request, f"Показание {name} удален успешно")
-    return redirect('meter_view_list_serv', apartment_id=apartment_id, service_id=service_id)
+    return redirect('meter-view-list-serv', apartment_id=apartment_id, service_id=service_id)
