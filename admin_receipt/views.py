@@ -71,7 +71,8 @@ class ReceiptCreate(CreateView):
                 else:
                     apartment_obj = PersonalAccount.objects.get(number=personal_account).apartment
                     result['apartment'] = list(Apartment.objects.filter(house_id=apartment_obj.house_id,
-                                                                        section_id=apartment_obj.section_id).values(
+                                                                        section_id=apartment_obj.section_id,
+                                                                        personalaccount__isnull=False).values(
                         'id', 'number'))
                     result['section'] = list(Section.objects.filter(house_id=apartment_obj.house_id).values())
 
@@ -97,9 +98,11 @@ class ReceiptCreate(CreateView):
             elif house_id:
                 if section_id:
                     result['apartment'] = list(Apartment.objects.filter(
-                        house=house_id, section=section_id).values('id', 'number'))
+                        house=house_id, section=section_id, personalaccount__isnull=False).values('id', 'number'))
                 else:
-                    result['apartment'] = list(Apartment.objects.filter(house_id=house_id).values('id', 'number'))
+                    result['apartment'] = list(Apartment.objects.filter(house_id=house_id,
+                                                                        personalaccount__isnull=False).values('id',
+                                                                                                              'number'))
                     result['section'] = list(Section.objects.filter(house_id=house_id).values())
                 print(result)
             if not self.request.GET.get('meter_set'):

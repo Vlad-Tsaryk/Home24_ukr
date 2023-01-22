@@ -18,7 +18,7 @@ class ReceiptForm(forms.ModelForm):
                                      queryset=Section.objects.all(), required=False)
     apartment = forms.ModelChoiceField(widget=forms.Select(attrs={'class': 'form-control select2-field'}),
                                        empty_label='',
-                                       queryset=Apartment.objects.all())
+                                       queryset=Apartment.objects.all().filter(personalaccount__isnull=False))
     tariff = forms.ModelChoiceField(widget=forms.Select(attrs={'class': 'form-control'}), empty_label='',
                                     queryset=Tariff.objects.all())
     status = forms.CharField(
