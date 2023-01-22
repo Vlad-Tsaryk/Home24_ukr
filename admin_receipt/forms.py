@@ -15,7 +15,7 @@ class ReceiptForm(forms.ModelForm):
     house = forms.ModelChoiceField(widget=forms.Select(attrs={'class': 'form-control select2-field'}), empty_label='',
                                    queryset=House.objects.all(), required=False)
     section = forms.ModelChoiceField(widget=forms.Select(attrs={'class': 'form-control select2-field'}), empty_label='',
-                                     queryset=Section.objects.all())
+                                     queryset=Section.objects.all(), required=False)
     apartment = forms.ModelChoiceField(widget=forms.Select(attrs={'class': 'form-control select2-field'}),
                                        empty_label='',
                                        queryset=Apartment.objects.all())
@@ -41,6 +41,7 @@ class ReceiptForm(forms.ModelForm):
     class Meta:
         model = Receipt
         fields = '__all__'
+        exclude = ['services']
 
 
 class UnitModelChoiceField(forms.ModelChoiceField):
@@ -49,11 +50,12 @@ class UnitModelChoiceField(forms.ModelChoiceField):
 
 
 class ReceiptServiceForm(forms.ModelForm):
-    service_id = forms.ModelChoiceField(widget=forms.Select(attrs={'class': 'form-control'}),
-                                        queryset=Service.objects.all())
+    service = forms.ModelChoiceField(widget=forms.Select(attrs={'class': 'form-control'}),
+                                         queryset=Service.objects.all())
     unit = UnitModelChoiceField(widget=forms.Select(attrs={'class': 'form-control', 'disabled': 'disabled'}),
-                                queryset=Service.objects.all())
-    total_price = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control', 'disabled': 'disabled'}))
+                                queryset=Service.objects.all(), required=False)
+    total_price = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control', 'disabled': 'disabled'}),
+                                  required=False)
     consumption = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}))
     price_unit = forms.FloatField(widget=forms.NumberInput(attrs={'class': 'form-control'}))
 
@@ -62,7 +64,8 @@ class ReceiptServiceForm(forms.ModelForm):
 
     class Meta:
         model = ReceiptService
-        fields = ['service_id', 'consumption', 'price_unit', 'receipt_id']
+        fields = ['service', 'consumption', 'price_unit']
 
 
-ReceiptServiceFormSet = modelformset_factory(model=ReceiptService, form=ReceiptServiceForm, extra=0, can_delete=True)
+ReceiptServiceFormSet = modelformset_factory(model=ReceiptService,
+                                             form=ReceiptServiceForm, extra=0, can_delete=True)

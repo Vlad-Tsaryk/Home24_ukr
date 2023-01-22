@@ -1,20 +1,20 @@
 {% extends 'layout/basic.html' %}
 {% load static %}
 {% block head %}
-    <link rel="stylesheet" type="text/css"
-          href="{% static 'admin_panel/bower_components/datatables.net-bs/css/dataTables.jqueryui.min.css' %}"/>
+
     <link rel="stylesheet" type="text/css"
           href="{% static 'admin_panel/bower_components/daterangepicker/daterangepicker.css' %}"/>
+    <link rel="stylesheet"
+          href="{% static 'admin_panel/plugins/bootstrap-datepicker-1.9.0-dist/css/bootstrap-datepicker3.min.css' %}"/>
 {% endblock %}
 {% block content %}
 
 
     <div class="row">
         <!--<div class="col-xs-12 col-sm-6">-->
-        <!--<h2 class="page-header">Квартиры</h2>-->
+        <!--<h2 class="page-header">Квитанции</h2>-->
         <!--</div>-->
         <div class="col-xs-12 col-lg-9">
-
             <div class="row">
                 <div class="col-xs-12 col-md-4">
                     <div class="small-box bg-green overflow-hidden">
@@ -61,9 +61,10 @@
                     Выберите действие <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu">
-                    <li><a href="{% url 'transaction_create' transaction_type='income' %}">Создать приход</a></li>
-                    <li><a href="{% url 'transaction_create' transaction_type='outcome' %}">Создать расход</a></li>
-                    <li><a href="/admin/account-transaction/export">Выгрузить в Excel</a></li>
+                    <li><a href="{% url 'receipt_create' %}">Создать общую квитанцию</a></li>
+                    <!--                <li><a href="#!">Создать квитанцию на оплату за ЭЭ</a></li>
+                                    <li><a href="#!">Создать квитанцию на оплату за ГАЗ</a></li>-->
+                    <li><a href="#!" class="delete-many">Удалить</a></li>
                 </ul>
             </div>
         </div>
@@ -83,51 +84,49 @@
 
                 <div id="w0" class="grid-view">
                     <div class="box-body table-responsive no-padding">
-                        <table class="table table-bordered table-hover table-striped linkedRow" id="transaction_table">
+                        <table id="receipt_table" class="table table-bordered table-hover table-striped linkedRow">
                             <thead>
                             <tr>
-                                <th style="width: 125px; min-width: 125px">№</th>
+                                <th style="width: 40px; min-width: 40px">
+                                    <input type="checkbox" id="select_all_receipts" name="selection_all">
+                                </th>
+                                <th style="width: 125px; min-width: 125px">№ квитанции</th>
+                                <th style="width: 100px; min-width: 100px">Статус</th>
                                 <th style="width: 125px; min-width: 125px">
                                     <a id="date" class="ordering" style="cursor: pointer">Дата</a></th>
-                                <th style="width: 120px; min-width: 120px">Статус</th>
-                                <th>Тип платежа</th>
+                                <th style="width: 135px; min-width: 135px">
+                                    <a id="date__month" class="ordering" style="cursor: pointer">Месяц</a>
+                                </th>
+                                <th>Квартира</th>
                                 <th style="min-width: 200px">Владелец</th>
-                                <th style="min-width: 160px">Лицевой счет</th>
-                                <th>Приход/расход</th>
-                                <th style="width: 110px; min-width: 110px">Сумма (грн)</th>
-                                <th style="width: 80px; min-width: 80px">&nbsp;</th>
+                                <th style="width: 120px; min-width: 120px">Проведена</th>
+                                <th style="width: 100px; min-width: 100px">Сумма (грн)</th>
+                                <th style="width: 114px; min-width: 114px">&nbsp;</th>
                             </tr>
                             <tr id="w0-filters" class="filters">
+                                <td>&nbsp;</td>
                                 <td><input type="text" class="form-control column_search" id="number"></td>
-                                <td><input type="text" id="date_range"
-                                           class="form-control date_range"></td>
-                                <td><select id="is_complete"
-                                            class="form-control select2 filter">
+                                <td><select id="status" class="form-control select2 filter">
                                     <option value=""></option>
-                                    <option value="1">Проведен</option>
-                                    <option value="0">Не проведен</option>
-                                </select></td>
-                                <td><select id="purpose"
-                                            class="form-control select2 filter">
-                                    <option value=""></option>
-                                    {% for purpose in purpose_list %}
-                                        <option value="{{ purpose.pk }}">{{ purpose }}</option>
+                                    {% for status in status_list %}
+                                        <option value="{{ status }}">{{ status }}</option>
                                     {% endfor %}
-
                                 </select></td>
+                                <td><input type="text" id="date_range" class="form-control date_range"></td>
+                                <td><input type="text" id="date_month_input" class="form-control">
+                                </td>
+                                <td><input id="apartment" type="text" class="form-control column_search"></td>
                                 <td><select id="owner" class="form-control select2 filter">
                                     <option value=""></option>
                                     {% for owner in owner_list %}
                                         <option value="{{ owner.pk }}">{{ owner }}</option>
                                     {% endfor %}
                                 </select></td>
-                                <td><input type="text" class="form-control column_search"
-                                           id="personal_account__number"></td>
-                                <td><select id="purpose_type"
+                                <td><select id="is_complete"
                                             class="form-control select2 filter">
                                     <option value=""></option>
-                                    <option value="1">Приход</option>
-                                    <option value="0">Расход</option>
+                                    <option value="1">Проведена</option>
+                                    <option value="0">Не проведена</option>
                                 </select></td>
                                 <td>&nbsp;</td>
                                 <td>&nbsp;</td>
@@ -141,32 +140,26 @@
                     <div class="box-footer clearfix">
                         <ul class="pagination pagination-sm no-margin pull-right">
                             <li class="prev disabled"><span>«</span></li>
-                            <li class="active"><a href="/admin/account-transaction/index?page=1&amp;per-page=50"
-                                                  data-page="0">1</a></li>
-
-                            <li><a href="/admin/account-transaction/index?page=2&amp;per-page=50" data-page="1">2</a>
+                            <li class="active"><a href="/admin/invoice/index?page=1&amp;per-page=50" data-page="0">1</a>
                             </li>
-                            <li><a href="/admin/account-transaction/index?page=3&amp;per-page=50" data-page="2">3</a>
+                            <li><a href="/admin/invoice/index?page=2&amp;per-page=50" data-page="1">2</a></li>
+                            <li><a href="/admin/invoice/index?page=3&amp;per-page=50" data-page="2">3</a></li>
+                            <li><a href="/admin/invoice/index?page=4&amp;per-page=50" data-page="3">4</a></li>
+                            <li><a href="/admin/invoice/index?page=5&amp;per-page=50" data-page="4">5</a></li>
+                            <li class="next"><a href="/admin/invoice/index?page=2&amp;per-page=50" data-page="1">»</a>
                             </li>
-                            <li class="next"><a href="/admin/account-transaction/index?page=2&amp;per-page=50"
-                                                data-page="1">»</a></li>
                         </ul>
-
                     </div>
                 </div>
-                <div class="box-footer">
-                    <div>Проведен приход: <span class="text-bold" id="income"></span></div>
-                    <div>Проведен расход: <span class="text-bold" id="outcome"></span></div>
-                </div>
-
             </div>
         </div>
     </div>
 
+
 {% endblock %}
 {% block scripts %}
     <script>
-        $('#nav_transaction').attr('class', 'active')
+        $('#nav_receipt').attr('class', 'active')
     </script>
 
     <script src="{% static 'admin_panel/bower_components/select2/dist/js/select2.full.min.js' %}"></script>
@@ -178,14 +171,17 @@
     <script src="{% static 'admin_panel/bower_components/moment/locale/ru.js' %}"></script>
     <script type="text/javascript"
             src="{% static 'admin_panel/bower_components/daterangepicker/daterangepicker.js' %}"></script>
+    <script src="{% static 'admin_panel/plugins/bootstrap-datepicker-1.9.0-dist/js/bootstrap-datepicker.min.js' %}"></script>
     <script>
         let numb = 0
         let sort_data = {}
+        let selected_receipts = []
         let table
-        let table_head = $('#transaction_table thead')
+        let table_head = $('#receipt_table thead')
         let label_colors = {
-            'Проведен': 'label-success',
-            'Не проведен': 'label-danger',
+            'Оплачена': 'label-success',
+            'Не оплачена': 'label-danger',
+            'Частично оплачена': 'label-warning',
         }
 
         function numberWithSpaces(nr) {
@@ -209,6 +205,8 @@
         function clear_filters() {
             $('.column_search').val('');
             $('.date_range').val('');
+            $('#select_all_receipts').prop('checked',false);
+            $('#date_month_input').val('');
             table_head.unbind();
             $('.filter').val('').change()
             $('.ordering').attr('class', 'ordering');
@@ -224,7 +222,7 @@
 
 
         function send_POST(e) {
-            table = $('#transaction_table').DataTable({
+            table = $('#receipt_table').DataTable({
                 serverSide: true,
                 processing: false,
                 ordering: false,
@@ -237,22 +235,29 @@
                 ],
                 "ajax": {
                     "processing": true,
-                    "url": "{% url 'transaction_list' %}",
+                    "url": "{% url 'receipt_list' %}",
                     "data": function (d) {
                         return sort_data;
                     },
                     dataSrc: function (data) {
-                        if (data['purposes']) {
-                            set_options(data['purposes'], 'purpose')
-                        }
-                        $('#outcome').text(check_empty(data['outcome']) + ' грн')
-                        $('#income').text(check_empty(data['income']) + ' грн')
                         console.log(data)
-                        return data['transaction']
+                        return data['receipts']
                     },
                 },
                 "columns": [
+                    {
+                        data: 'id',
+                        render: function (data) {
+                            return `<input type="checkbox" onchange="select_receipt(event)" class="receipt_select" value="${data}">`
+                        }
+                    },
                     {data: 'number'},
+                    {
+                        data: 'status',
+                        render: function (data) {
+                            return `<small class="label ${label_colors[data]}">${data}</small>`
+                        }
+                    },
                     {
                         data: 'date',
                         render: function (data) {
@@ -260,22 +265,18 @@
                         }
                     },
                     {
-                        data: 'is_complete',
+                        data: 'date',
                         render: function (data) {
-                            if (data) {
-                                return '<small class="label label-success">Проведен</small>'
-                            } else {
-                                return '<small class="label label-danger">Не проведен</small>'
-                            }
+                            let date = moment(data).format('MMMM YYYY')
+                            return date.charAt(0).toUpperCase() + date.slice(1)
                         }
                     },
-
-                    {data: 'purpose__name'},
+                    {data: 'apartment_info'},
                     {
-                        data: 'owner__first_name',
+                        data: 'apartment__owner__first_name',
                         render: function (data, type, row) {
                             if (data) {
-                                return `${data} ${row['owner__middle_name']} ${row['owner__last_name']}`
+                                return `${data} ${row['apartment__owner__middle_name']} ${row['apartment__owner__last_name']}`
                             } else {
                                 return check_empty(data)
                             }
@@ -283,51 +284,33 @@
                         }
                     },
                     {
-                        data: 'personal_account__number',
-                        render: function (data) {
-                            return check_empty(data)
-                        }
-                    },
-                    {
-                        data: 'type',
+                        data: 'is_complete',
                         render: function (data) {
                             if (data) {
-                                return '<span class="text text-green">Приход</span>'
+                                return '<small class="label label-success">Проведена</small>'
                             } else {
-                                return '<span class="text text-red">Расход</span>'
+                                return '<small class="label label-danger">Не проведена</small>'
                             }
-
                         }
                     },
-                    {
-                        data: 'sum',
-                        render: function (data, type, row) {
-                            if (row['type']) {
-                                return `<span class="text text-green">${numberWithSpaces(data)}</span>`
-                            } else {
-                                return `<span class="text text-red">-${numberWithSpaces(data)}</span>`
-                            }
-
-                        }
-                    },
+                    {data: 'total_price'},
 
                     {
                         data: 'id',
                         render: function (data, type, row) {
 
-                            let link_delete = '{% url 'transaction_delete' 12345 %}'.replace(/12345/, data)
-                            let link_update = '{% url 'transaction_update' 12345 %}'.replace(/12345/, data)
+                            {#let link_delete = '{% url 'transaction_delete' 12345 %}'.replace(/12345/, data)#}
+                            {#let link_update = '{% url 'transaction_update' 12345 %}'.replace(/12345/, data)#}
+
                             return `<div class="btn-group pull-right">\
-            <a class="btn btn-default btn-sm" href="${link_update}"\
-               title="Редактировать" data-toggle="tooltip">\
-                <i class="fa fa-pencil"></i>\
-            </a>\
-            <a class="btn btn-default btn-sm"\
-               title="Удалить" data-toggle="tooltip" data-pjax="0" data-method="post"\
-                onclick="return confirm_delete('${link_delete}',event);">\
-                <i class="fa fa-trash"></i>\
-            </a>\
-        </div>`
+                                    <a class="btn btn-default btn-sm" href="#"\
+                                    title="Копировать" data-toggle="tooltip"><i class="fa fa-clone"></i></a>\
+                                    <a class="btn btn-default btn-sm" href="#"\
+                                    title="Редактировать" data-toggle="tooltip"><i class="fa fa-pencil"></i></a>\
+                                    <a class="btn btn-default btn-sm" href="#"\
+                                    title="Удалить" data-toggle="tooltip" data-pjax="0" data-method="post">\
+                                    <i class="fa fa-trash"></i></a>\
+                                    </div>`
                         },
                     },
                 ],
@@ -341,14 +324,6 @@
             table_head.on('change', ".filter", function a(e) {
                 sort_data[this.id] = $(this).val()
                 numb = 0
-                {% comment %}                if (this.id==="purpose_type"){
-                                    sort_data['purpose_type_change'] = 'True'
-                                    table.draw()
-                                    sort_data['purpose_type_change'] = ''
-                                }
-                                else {
-
-                                }{% endcomment %}
                 table.draw()
             });
             table_head.on('keyup', ".column_search", function a(e) {
@@ -370,9 +345,32 @@
             })
 
         }
-        function confirm_delete(link,event) {
-            alertify.confirm('Подтверждение удаления', 'Удалить ведомость <b>№'+
-            + $(event.target).closest("tr ").children().eq(0).text() + '</b> ?',
+        let select_all_receipts_bnt = $('#select_all_receipts')
+        select_all_receipts_bnt.change(function () {
+            $('.receipt_select').prop('checked', $(this).prop('checked')).change()
+        })
+        function select_receipt(event) {
+            let val = event.target.value
+            if($(event.target).prop('checked')){
+                if($('.receipt_select').prop('checked')){
+                    select_all_receipts_bnt.prop('checked',true)
+                }
+                selected_receipts.push(val)
+            }
+            else {
+                if(select_all_receipts_bnt.prop('checked')){
+                    select_all_receipts_bnt.prop('checked',false)
+                }
+                const index = selected_receipts.indexOf(val);
+                if (index > -1) {
+                    selected_receipts.splice(index, 1);
+                }
+            }
+        }
+
+        function confirm_delete(link, event) {
+            alertify.confirm('Подтверждение удаления', 'Удалить ведомость <b>№' +
+                +$(event.target).closest("tr ").children().eq(0).text() + '</b> ?',
                 function () {
                     window.location.href = link
                 },
@@ -381,10 +379,10 @@
             return false;
         }
 
-        $('#transaction_table').on('click', 'tbody tr .application', function () {
-            window.location.href = '{% url 'transaction_view' 12345%}'
-                .replace(/12345/, table.row(this).data().id)
-        })
+        {% comment %}        $('#receipt_table').on('click', 'tbody tr .application', function () {
+                    window.location.href = '{% url 'transaction_view' 12345%}'
+                        .replace(/12345/, table.row(this).data().id)
+                }){% endcomment %}
 
 
         $(document).ready(function () {
@@ -393,9 +391,10 @@
             $('.column_search').val('');
             $('.select2').select2().val('');
             set_filters_listener()
+
             $(function () {
-                let input = $('#date_range')
-                input.daterangepicker({
+                let date_range = $('#date_range')
+                date_range.daterangepicker({
                     autoUpdateInput: false,
                     locale: {
 
@@ -405,7 +404,22 @@
                     applyButtonClasses: 'btn btn-success',
                     cancelButtonClasses: 'btn btn-default',
                 });
-                input.on('apply.daterangepicker', function (ev, picker) {
+                $('#date_month_input').datepicker({
+                    format: "mm.yyyy",
+                    startView: 1,
+                    minViewMode: 1,
+                    maxViewMode: 2,
+                    language: "ru",
+                    autoclose: true
+                }).change(function () {
+                    let date = this.value.split('.')
+                    sort_data['date_month'] = parseInt(date[0])
+                    sort_data['date_year'] = parseInt(date[1])
+                    console.log(sort_data)
+                    numb = 0
+                    table.draw()
+                })
+                date_range.on('apply.daterangepicker', function (ev, picker) {
                     $(this).val(picker.startDate.format('DD/MM/YYYY') + ' - ' + picker.endDate.format('DD/MM/YYYY'));
                     sort_data['date_range'] = [picker.startDate.format('YYYY-MM-DD'), picker.endDate.format('YYYY-MM-DD')]
                     console.log(sort_data[this.id])
@@ -413,7 +427,7 @@
                     table.draw()
                 });
 
-                input.on('cancel.daterangepicker', function (ev, picker) {
+                date_range.on('cancel.daterangepicker', function (ev, picker) {
                     $(this).val('');
                 });
 

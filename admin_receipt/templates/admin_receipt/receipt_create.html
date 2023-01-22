@@ -170,7 +170,7 @@
                                     <tr id="empty-receipt_service" class="form-receipt_service" hidden>
                                         <td>
                                             {{ receipt_service_formset.empty_form.id }}
-                                            {{ receipt_service_formset.empty_form.service_id }}
+                                            {{ receipt_service_formset.empty_form.service }}
                                         </td>
                                         <td>
                                             {{ receipt_service_formset.empty_form.consumption }}
@@ -208,6 +208,8 @@
 
                 </div>
             </div>
+            {{ form.errors }}
+            {{ receipt_service_formset.errors }}
         </form>
         <div class="row">
             <div class="col-xs-12">
@@ -338,6 +340,7 @@
                             target.find('select').eq(0).val(item['service_id']).change()
                             target.find('input').eq(2).val(item['price']).change()
                         })
+                        return
                     }
 
                     if (data['apartment_info']) {
@@ -523,7 +526,7 @@
     <script>
         $('#id_tariff').change(function () {
             select_options['tariff'] = this.value
-            console.log(select_options)
+            console.log('tariff',select_options)
         })
 
         function set_tariff_services() {
@@ -543,6 +546,7 @@
             $('#form-receipt_service-rows tr:visible').each(function () {
                 total_price += parseFloat($(this).find('input').eq(3).val())
             })
+            if (!total_price){total_price=0.0}
             return total_price
         }
 
@@ -570,7 +574,7 @@
                     inputs.eq(3).val(price).change()
                 }
             )
-            $('#id_receipt_service-' + `${count - 1}-service_id`).change(function () {
+            $('#id_receipt_service-' + `${count - 1}-service`).change(function () {
                 let value = $(this).val();
                 let unit_select = $(this).closest('tr').find('select').eq(1);
                 if ($(unit_select).find('option[value="' + `${value}"]`).length === 0) {
