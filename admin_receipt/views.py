@@ -182,3 +182,19 @@ class ReceiptList(ListView):
 
         else:
             return super(ListView, self).render_to_response(context, **response_kwargs)
+
+
+class ReceiptView(DetailView):
+    model = Receipt
+    template_name = 'admin_receipt/receipt_view.html'
+
+
+class ReceiptClone(ReceiptUpdate):
+    def get_form_kwargs(self):
+        kwargs = super(ReceiptClone, self).get_form_kwargs()
+        receipt_obj = Receipt.objects.get(pk=self.kwargs.get('pk'))
+        receipt_obj.number = None
+        receipt_obj.pk = None
+        kwargs['instance'] = receipt_obj
+        return kwargs
+

@@ -230,7 +230,7 @@
                     sZeroRecords: "Ничего не найдено."
                 },
                 columnDefs: [
-                    {className: "application", "targets": [0, 1, 2, 3, 4, 5, 6, 7]},
+                    {className: "receipt", "targets": [0, 1, 2, 3, 4, 5, 6, 7,8]},
                     {targets: '_all', defaultContent: ''},
                 ],
                 "ajax": {
@@ -293,7 +293,10 @@
                             }
                         }
                     },
-                    {data: 'total_price'},
+                    {data: 'total_price',
+                    render:function (data) {
+                        return numberWithSpaces(data)
+                    }},
 
                     {
                         data: 'id',
@@ -379,10 +382,10 @@
             return false;
         }
 
-        {% comment %}        $('#receipt_table').on('click', 'tbody tr .application', function () {
-                    window.location.href = '{% url 'transaction_view' 12345%}'
+                $('#receipt_table').on('click', 'tbody tr .receipt', function () {
+                    window.location.href = '{% url 'receipt_view' 12345%}'
                         .replace(/12345/, table.row(this).data().id)
-                }){% endcomment %}
+                })
 
 
         $(document).ready(function () {

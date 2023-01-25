@@ -8,5 +8,7 @@
     set_event_listeners(true, true, true, true);
     $('#id_personal_account').val('{{ receipt.apartment.personalaccount.number }}').change()
     select_options['tariff'] = {{ receipt.tariff_id }}
-
+    {% for i in receipt_service_formset %}
+        service_change({{ forloop.counter }})
+    {% endfor %}
 {% endblock %}

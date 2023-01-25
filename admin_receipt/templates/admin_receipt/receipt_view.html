@@ -1,0 +1,153 @@
+{% extends 'layout/basic.html' %}
+{% block content %}
+
+
+    <div class="row">
+        <div class="col-xs-12 col-md-7 col-lg-6">
+            <div class="page-header-spec">
+                <div class="form-group">
+                    <div class="input-group date">
+                        <div class="input-group-addon">
+                            №
+                        </div>
+                        <div class="form-control pull-right">{{ receipt.number }}</div>
+                    </div>
+                </div>
+                <span class="label-mid">от</span>
+                <div class="form-group">
+                    <div class="input-group date">
+                        <div class="input-group-addon">
+                            <i class="glyphicon glyphicon-calendar"></i>
+                        </div>
+                        <div class="form-control pull-right">{{ receipt.date|date:'d.m.Y' }}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="box">
+        <div class="box-header with-border">
+            <h3 class="box-title">Просмотр квитанции</h3>
+            <div class="box-tools">
+                <a href="/admin/invoice/print/717" class="btn btn-default btn-sm">
+                    <span class="hidden-xs">Печать</span><i class="fa fa-print visible-xs" aria-hidden="true"></i>
+                </a>
+                <a href="/admin/invoice/print/717" class="btn btn-default btn-sm">
+                    <span class="hidden-xs">Отправить на e-mail</span><i class="fa fa-envelope-o visible-xs"
+                                                                         aria-hidden="true"></i>
+                </a>
+                <a href="{% url 'receipt_update' receipt.pk %}" class="btn btn-primary btn-sm">
+                    <span class="hidden-xs">Редактировать квитанцию</span><i class="fa fa-pencil visible-xs"
+                                                                             aria-hidden="true"></i>
+                </a>
+            </div>
+        </div>
+        <div class="box-body">
+            <table class="table table-bordered table-striped table-view">
+                <tbody>
+                <tr>
+                    <td>{% if receipt.is_complete %}Проведена{% else %}Не проведена{% endif %}</td>
+                    <td>
+                        <small class="label label-{% if receipt.is_complete %}success{% else %}danger{% endif %}">
+                            {% if receipt.is_complete %}Проведена{% else %}Не проведена{% endif %}</small>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Статус</td>
+                    <td>
+                        <small class="label label-{% if receipt.status == receipt.StatusName.PAID.value %}success
+                                                  {% elif receipt.status == receipt.StatusName.PRE_PAID.value %}warning
+                                                  {% else %}danger{% endif %}">{{ receipt.status }}</small>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Период</td>
+                    <td>
+                        {{ receipt.period_start|date:'d.m.Y' }} - {{ receipt.period_end|date:'d.m.Y' }}
+                    </td>
+                </tr>
+                <tr>
+                    <td>Владелец</td>
+                    <td>
+                        <a href="{% url 'owner_view' receipt.apartment.owner_id %}">
+                            {{ receipt.apartment.owner }} </a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Лицевой счет</td>
+                    <td>
+                        <a href="{% url 'personal_account_view' receipt.apartment.personalaccount.pk %}">
+                            {{ receipt.apartment.personalaccount }} </a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Телефон</td>
+                    <td>{{ receipt.apartment.owner.phone }}</td>
+                </tr>
+                <tr>
+                    <td>Дом</td>
+                    <td>
+                        <a href="{% url 'house_view' receipt.apartment.house_id %}">
+                            {{ receipt.apartment.house }} </a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Квартира</td>
+                    <td>
+                        <a href="{% url 'apartment_view' receipt.apartment_id %}">
+                            {{ receipt.apartment.number }} </a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Секция</td>
+                    <td>{{ receipt.apartment.section }}</td>
+                </tr>
+                <tr>
+                    <td>Тариф</td>
+                    <td>
+                        {{ receipt.tariff }}
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <div class="table-responsive no-padding margin-top-15">
+                <table class="table table-bordered table-striped">
+                    <thead>
+                    <tr>
+                        <th style="width: 40px; min-width: 40px;">#</th>
+                        <th>Услуга</th>
+                        <th>Количество потребления (расход)</th>
+                        <th style="width: 80px; min-width: 80px;">Ед. изм.</th>
+                        <th>Цена за ед., грн</th>
+                        <th>Стоимость, грн</th>
+                    </tr>
+                    </thead>
+                    <tfoot>
+                    <tr>
+                        <td colspan="5"></td>
+                        <td colspan="2"><b>Итого: {{ receipt.total_price}}</b></td>
+                    </tr>
+                    </tfoot>
+                    <tbody>
+                    {% for receipt_service in receipt.receiptservice_set.all %}
+                    <tr role="row">
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ receipt_service.service }}</td>
+                        <td>{{ receipt_service.consumption }}</td>
+                        <td>{{ receipt_service.service.unit }}</td>
+                        <td>{{ receipt_service.price_unit }}</td>
+                        <td>{{ receipt_service.price}}</td>
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+{% block scripts %}
+    <script>
+        $('#nav_receipt').attr('class', 'active')
+    </script>
+{% endblock %}

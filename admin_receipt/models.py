@@ -10,9 +10,8 @@ from admin_service.models import Service
 class Receipt(models.Model):
     @property
     def total_price(self):
-        print(ReceiptService.objects.filter(receipt=self.pk).values())
-        print(ReceiptService.objects.filter(receipt=self.pk).aggregate(total=Sum(F('consumption')*F('price_unit')))['total'])
-        result = ReceiptService.objects.filter(receipt=self.pk).aggregate(total=Sum(F('consumption')*F('price_unit')))['total']
+        result = ReceiptService.objects.filter(receipt=self.pk).aggregate(
+            total=Sum(F('consumption') * F('price_unit')))['total']
         if result:
             return result
         else:
@@ -42,3 +41,7 @@ class ReceiptService(models.Model):
     service = models.ForeignKey(Service, on_delete=models.CASCADE)
     consumption = models.FloatField()
     price_unit = models.FloatField()
+
+    @property
+    def price(self):
+        return self.consumption * self.price_unit
