@@ -300,12 +300,12 @@
                         render: function (data, type, row) {
 
                             {#let link_delete = '{% url 'transaction_delete' 12345 %}'.replace(/12345/, data)#}
-                            {#let link_update = '{% url 'transaction_update' 12345 %}'.replace(/12345/, data)#}
+                            let link_update = '{% url 'receipt_update' 12345 %}'.replace(/12345/, data)
 
                             return `<div class="btn-group pull-right">\
                                     <a class="btn btn-default btn-sm" href="#"\
                                     title="Копировать" data-toggle="tooltip"><i class="fa fa-clone"></i></a>\
-                                    <a class="btn btn-default btn-sm" href="#"\
+                                    <a class="btn btn-default btn-sm" href="${link_update}"\
                                     title="Редактировать" data-toggle="tooltip"><i class="fa fa-pencil"></i></a>\
                                     <a class="btn btn-default btn-sm" href="#"\
                                     title="Удалить" data-toggle="tooltip" data-pjax="0" data-method="post">\
@@ -352,7 +352,7 @@
         function select_receipt(event) {
             let val = event.target.value
             if($(event.target).prop('checked')){
-                if($('.receipt_select').prop('checked')){
+                if($('.receipt_select:checked').length == $('.receipt_select').length){
                     select_all_receipts_bnt.prop('checked',true)
                 }
                 selected_receipts.push(val)

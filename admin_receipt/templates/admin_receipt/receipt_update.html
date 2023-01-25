@@ -1,0 +1,12 @@
+{% extends 'admin_receipt/receipt_create.html' %}
+{% block ajax_url %}''{% endblock %}
+{% block update %}
+    select_options['tariff_set'] = true
+
+    select_options['meter_set'] = true
+    set_meters();
+    set_event_listeners(true, true, true, true);
+    $('#id_personal_account').val('{{ receipt.apartment.personalaccount.number }}').change()
+    select_options['tariff'] = {{ receipt.tariff_id }}
+
+{% endblock %}

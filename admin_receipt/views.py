@@ -3,7 +3,7 @@ from django.db.models import Value, CharField
 from django.http import JsonResponse
 from django.shortcuts import render
 from django.urls import reverse_lazy
-from django.views.generic import CreateView, ListView, DetailView
+from django.views.generic import CreateView, ListView, DetailView, UpdateView
 from admin_personal_account.models import PersonalAccount
 from admin_apartment.models import Apartment
 from admin_house.models import Section
@@ -30,8 +30,11 @@ class ReceiptCreate(CreateView):
                                                                        queryset=ReceiptService.objects.none())
         return context
 
-    def post(self, request, *args, **kwargs):
+    def get_post_object(self):
         self.object = None
+
+    def post(self, request, *args, **kwargs):
+        self.get_post_object()
         form = self.get_form()
         context = self.get_context_data()
         receipt_service_formset = context['receipt_service_formset']
@@ -114,6 +117,23 @@ class ReceiptCreate(CreateView):
 
         else:
             return super(ReceiptCreate, self).render_to_response(context, **response_kwargs)
+
+
+class ReceiptUpdate(ReceiptCreate, UpdateView):
+    template_name = 'admin_receipt/receipt_update.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(ReceiptUpdate, self).get_context_data(**kwargs)
+        if self.request.POST:
+            context['receipt_service_formset'] = ReceiptServiceFormSet(self.request.POST, prefix='receipt_service')
+        else:
+            context['receipt_service_formset'] = ReceiptServiceFormSet(prefix='receipt_service',
+                                                                       queryset=ReceiptService.objects.filter(
+                                                                           receipt_id=self.kwargs['pk']))
+        return context
+
+    def get_post_object(self):
+        self.object = self.get_object()
 
 
 class ReceiptList(ListView):

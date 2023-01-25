@@ -137,6 +137,32 @@
                                     </thead>
                                     <tbody id="form-receipt_service-rows">
                                     {{ receipt_service_formset.management_form }}
+                                    {% for receipt_service in receipt_service_formset %}
+                                    <tr id="form-{{ receipt_service.prefix }}" class="form-receipt_service">
+                                        <td>
+                                            {{ receipt_service.id }}
+                                            {{ receipt_service.service }}
+                                        </td>
+                                        <td>
+                                            {{ receipt_service.consumption }}
+                                        </td>
+                                        <td>
+                                            {{ receipt_service.unit }}
+                                        </td>
+                                        <td>
+                                            {{ receipt_service.price_unit }}</td>
+                                        <td>
+                                            {{ receipt_service.total_price }}
+                                        </td>
+                                        <td>
+                                            <div hidden>{{ receipt_service.DELETE }}</div>
+                                            <button type="button" class="btn btn-default btn-sm form-row-remove-btn"
+                                                    title="Удалить услугу"
+                                                    onclick="delete_form('{{ receipt_service.prefix }}')">
+                                                <i class="fa fa-trash"></i></button>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
 
 
                                     </tbody>
@@ -159,7 +185,7 @@
                                         </td>
                                         <td style="min-width: 180px;">
                                             <div class="h4">
-                                                Итого: <b><span id="price-total">0.00</span></b> грн
+                                                Итого: <b><span id="price-total">{{ receipt.total_price }}</span></b> грн
                                             </div>
                                         </td>
                                         <td style="width: 40px; min-width: 40px;"></td>
@@ -200,7 +226,7 @@
                     <div class="row">
                         <div class="col-xs-12 text-right">
                             <div class="form-group">
-                                <a href="/admin/invoice/index" class="btn btn-default">Отменить</a>
+                                <a href="{% url 'receipt_list' %}" class="btn btn-default">Отменить</a>
                                 <button type="submit" class="btn btn-success">Сохранить</button>
                             </div>
                         </div>
@@ -326,6 +352,7 @@
                 data: select_options,
                 success: function (data) {
                     console.log(data)
+                    console.log(select_options)
                     if (data['meter_list']) {
                         table.clear()
                         table.rows.add(data['meter_list'])
@@ -348,9 +375,16 @@
                         let owner_link = '{% url 'owner_view' 12345 %}'.replace(/12345/, apartment_info['owner_id'])
                         $('#owner_name').empty().append(`<a href="${owner_link}">${apartment_info['owner']}</a>`)
                         $('#owner_phone').empty().append(`<a href="tel:${apartment_info['owner_phone']}">${apartment_info['owner_phone']}</a>`)
-                        $('#id_tariff').val(apartment_info['tariff_id']).change()
+                        if(select_options['tariff_set']){
+                            select_options['tariff_set'] = false
+                        }
+                        else {
+                            $('#id_tariff').val(apartment_info['tariff_id']).change()
+                        }
+
                         if (apartment_info['personal_account'] && !select_options['personal_account']) {
                             $('#id_personal_account').unbind().val(apartment_info['personal_account']).change()
+                            select_options['personal_account'] = apartment_info['personal_account']
                             set_event_listeners(false, false, false, true)
                         }
                         if (data['section']) {
@@ -364,14 +398,22 @@
                                 $('#id_section').append($('<option>').val(item['id']).text(item['name']));
                             });
 
-                            $('#id_section').unbind().val(apartment_info['section_id']).change()
-                            $('#id_apartment').unbind().val(apartment_info['apartment_id']).change()
-                            $('#id_house').unbind().val(apartment_info['house_id']).change()
-                            $('#id_tariff').val(apartment_info['tariff_id']).change()
+                            let id_section = $('#id_section').unbind()
+                            let apartment_id = $('#id_apartment').unbind()
+                            let house_id = $('#id_house').unbind()
+                            id_section.val(apartment_info['section_id']).change()
+                            apartment_id.val(apartment_info['apartment_id']).change()
+                            house_id.val(apartment_info['house_id']).change()
                             $('.select2-field').select2({placeholder: "Выберите..."})
+                            select_options['section_id'] = apartment_info['section_id']
+                            select_options['apartment_id'] = apartment_info['apartment_id']
+                            select_options['house_id'] = apartment_info['house_id']
+                            console.log('apartment_info', apartment_info)
+                            console.log(select_options)
+                            set_event_listeners(true, true, true, false)
 
                         }
-                        console.log('apartment_info', data)
+
                     } else if (data['section']) {
                         $('#owner_name').empty().text('не выбран')
                         $('#owner_phone').empty().text('не выбран')
@@ -383,7 +425,7 @@
                             }
                         );
                     }
-                    if (data['apartment']) {
+                    if (data['apartment'] && !select_options['personal_account']) {
                         clear_options('id_apartment')
                         $('#owner_name').empty().text('не выбран')
                         $('#owner_phone').empty().text('не выбран')
@@ -392,6 +434,7 @@
                                 $('#id_apartment').append($('<option>').val(item['id']).text(item['number']));
                             });
                     }
+
                     {% comment %}if (values){
                         if (values[1]){
                             $('#id_section').unbind().val(values[1]).change().select2({placeholder: "Выберите..."})
@@ -481,18 +524,25 @@
                 $('#id_house').change(function () {
                     select_options['house_id'] = this.value
                     select_options['section_id'] = ''
+                    select_options['personal_account'] = ''
+                    select_options['apartment_id'] = ''
+                    $('#id_personal_account').val('')
                     get_values()
                 })
             }
             if (section) {
                 $('#id_section').change(function () {
                     select_options['section_id'] = this.value
+                    select_options['apartment_id'] = ''
+                    select_options['personal_account'] = ''
+                    $('#id_personal_account').val('')
                     get_values()
                 })
             }
             if (apartment) {
                 $('#id_apartment').change(function () {
                     select_options['apartment_id'] = this.value
+                    select_options['personal_account'] = ''
                     get_values()
                     select_options['apartment_id'] = ''
                 })
@@ -501,7 +551,6 @@
                 $('#id_personal_account').change(function () {
                     select_options['personal_account'] = this.value
                     get_values()
-                    select_options['personal_account'] = ''
                 })
             }
 
@@ -512,12 +561,18 @@
                 $('#id_tariff').select2({placeholder: "Выберите...", allowClear:true})
                 $('#id_status').select2({placeholder: "Выберите...", minimumResultsForSearch: Infinity})
                 {% block clone %}
+
                     clear_options('id_apartment')
                     clear_options('id_section')
                     {#clear_options('id_apartment')#}
                 {% endblock %}
-                set_meters();
-                set_event_listeners(true, true, true, true);
+                    {% block update %}
+
+                        set_meters();
+                        set_event_listeners(true, true, true, true);
+                    {% endblock %}
+
+
             }
         )
 
@@ -526,7 +581,6 @@
     <script>
         $('#id_tariff').change(function () {
             select_options['tariff'] = this.value
-            console.log('tariff',select_options)
         })
 
         function set_tariff_services() {

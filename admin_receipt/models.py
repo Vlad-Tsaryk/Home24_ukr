@@ -1,5 +1,5 @@
 from django.db import models
-from django.db.models import Sum
+from django.db.models import Sum, F
 
 from admin_apartment.models import Apartment
 from admin_tariff.models import Tariff
@@ -10,7 +10,9 @@ from admin_service.models import Service
 class Receipt(models.Model):
     @property
     def total_price(self):
-        result = ReceiptService.objects.filter(receipt=self.pk).aggregate(Sum('consumption'))['consumption__sum']
+        print(ReceiptService.objects.filter(receipt=self.pk).values())
+        print(ReceiptService.objects.filter(receipt=self.pk).aggregate(total=Sum(F('consumption')*F('price_unit')))['total'])
+        result = ReceiptService.objects.filter(receipt=self.pk).aggregate(total=Sum(F('consumption')*F('price_unit')))['total']
         if result:
             return result
         else:
@@ -30,8 +32,6 @@ class Receipt(models.Model):
     period_start = models.DateField()
     period_end = models.DateField()
     services = models.ManyToManyField(Service, through='ReceiptService')
-
-
 
     class Meta:
         ordering = ['-pk']

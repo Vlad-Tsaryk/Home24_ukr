@@ -38,6 +38,9 @@ class ReceiptForm(forms.ModelForm):
             except:
                 self.initial['number'] = '1'.zfill(11)
 
+    # def clean_tariff(self):
+
+
     class Meta:
         model = Receipt
         fields = '__all__'
@@ -61,7 +64,9 @@ class ReceiptServiceForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(ReceiptServiceForm, self).__init__(*args, **kwargs)
-
+        if self.initial.get('service'):
+            self.initial['unit'] = self.initial['service']
+            self.initial['total_price'] = self.initial['price_unit']*self.initial['consumption']
     class Meta:
         model = ReceiptService
         fields = ['service', 'consumption', 'price_unit']
