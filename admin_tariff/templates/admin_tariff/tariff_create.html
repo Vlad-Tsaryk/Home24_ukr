@@ -39,7 +39,7 @@
                     <div id="form-tariff_service-rows">
                         {{ tariff_service_formset.management_form }}
                         {% for tariff_service in tariff_service_formset %}
-                        <div id="{{ tariff_service.prefix }}" class="row form-tariff_service">
+                        <div id="form-{{ tariff_service.prefix }}" class="row form-tariff_service">
                             {{ tariff_service.id }}
                             <div class="col-xs-6 col-md-4">
                                 <div class="form-group" id="service">
