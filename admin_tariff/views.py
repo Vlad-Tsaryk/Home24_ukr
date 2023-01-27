@@ -62,9 +62,10 @@ class TariffClone(TariffCreate):
         if self.request.POST:
             context['tariff_service_formset'] = TariffServiceFormSet(self.request.POST, prefix='tariff_service')
         else:
-            context['tariff_service_formset'] = TariffServiceFormSet(prefix='tariff_service',
-                                                                     queryset=TariffService.objects.filter(
-                                                                         tariff_id=self.kwargs['pk']))
+            formset = TariffServiceFormSet(prefix='tariff_service',
+                                           queryset=TariffService.objects.filter(tariff_id=self.kwargs['pk']))
+            formset.management_form.initial['INITIAL_FORMS'] = 0
+            context['tariff_service_formset'] = formset
         context['service_list'] = Service.objects.all()
         return context
 
