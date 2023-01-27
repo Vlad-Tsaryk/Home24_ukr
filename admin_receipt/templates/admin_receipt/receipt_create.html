@@ -1,5 +1,16 @@
 {% extends 'layout/basic.html' %}
 {% load static %}
+{% block title %}Новая квитанция{% endblock %}
+{% block breadcrumb %}
+    <ul class="breadcrumb">
+        <li><a href="{% url 'statistic' %}"><i class="fa fa-home"></i>Главная</a></li>
+        <li><a href="{% url 'receipt_list' %}">Квитанции</a></li>
+        <li class="active">Новая квитанция</li>
+    </ul>
+{% endblock %}
+{% block header_text %}
+    Новая квитанция
+{% endblock %}
 {% block head %}
     <link rel="stylesheet"
           href="{% static 'admin_panel/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css' %}"/>
@@ -38,7 +49,8 @@
                             Выберите действие <span class="caret"></span>
                         </button>
                         <ul class="dropdown-menu">
-                            <li><a href="#!" class="set-tariff-services">Выставить все услуги согласно тарифу</a></li>
+                            <li><a onclick="set_tariff_services()" style="cursor: pointer"
+                             class="set-tariff-services">Выставить все услуги согласно тарифу</a></li>
                             <li><a href="#!" class="add-counters">Добавить показания счетчиков</a></li>
                         </ul>
                     </div>
@@ -179,7 +191,7 @@
                                             onclick="set_tariff_services()">
                                                 Установить все услуги согласно тарифу
                                             </button>
-                                            <button type="button" class="btn btn-default add-counters">
+                                            <button id="set_meter_values" type="button" class="btn btn-default">
                                                 Добавить показания счетчиков
                                             </button>
                                         </td>
@@ -352,6 +364,21 @@
                 data: select_options,
                 success: function (data) {
                     console.log(data)
+                    if (data['meters_consumption']){
+                        console.log('meters_consumption',data['meters_consumption'])
+                        for (let [service, value] of Object.entries(data['meters_consumption'])){
+                            console.log($('.form-receipt_service:visible'))
+                            $('.form-receipt_service:visible').each(function () {
+                                if ($(this).find('select').eq(0).val() === service){
+                                    $(this).find('input').eq(1).val(value).change()
+                                }
+                                console.log(this)
+
+                            })
+                            console.log(service, value);
+                        }
+                    }
+
                     console.log(select_options)
                     if (data['meter_list']) {
                         table.clear()
@@ -544,7 +571,6 @@
                     select_options['apartment_id'] = this.value
                     select_options['personal_account'] = ''
                     get_values()
-                    select_options['apartment_id'] = ''
                 })
             }
             if (personal_account) {
@@ -579,6 +605,11 @@
     </script>
     <script src="{% static 'admin_panel/js/add_delete_form.js' %}"></script>
     <script>
+        $('#set_meter_values').click(function () {
+            select_options['set_meter_values'] = true
+            get_values()
+            select_options['set_meter_values'] = ''
+        })
         $('#id_tariff').change(function () {
             select_options['tariff'] = this.value
         })
