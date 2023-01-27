@@ -1,8 +1,19 @@
 {% extends 'admin_receipt/receipt_create.html' %}
+{% block title %}Квитанция{% endblock %}
+{% block breadcrumb %}
+    <ul class="breadcrumb">
+        <li><a href="{% url 'statistic' %}"><i class="fa fa-home"></i>Главная</a></li>
+        <li><a href="{% url 'receipt_list' %}">Квитанции</a></li>
+        <li><a href="{% url 'receipt_list' %}">Квитанция№{{ receipt.number }}</a></li>
+        <li class="active">Редактирование</li>
+    </ul>
+{% endblock %}
+{% block header_text %}
+    Квитанция
+{% endblock %}
 {% block ajax_url %}''{% endblock %}
 {% block update %}
     select_options['tariff_set'] = true
-
     select_options['meter_set'] = true
     set_meters();
     set_event_listeners(true, true, true, true);

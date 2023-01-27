@@ -1,5 +1,15 @@
 {% extends 'layout/basic.html' %}
 {% load static %}
+{% block title %}Квитанции на оплату{% endblock %}
+{% block breadcrumb %}
+    <ul class="breadcrumb">
+        <li><a href="{% url 'statistic' %}"><i class="fa fa-home"></i>Главная</a></li>
+        <li class="active">Квитанции на оплату</li>
+    </ul>
+{% endblock %}
+{% block header_text %}
+    Квитанции на оплату
+{% endblock %}
 {% block head %}
 
     <link rel="stylesheet" type="text/css"
@@ -64,7 +74,7 @@
                     <li><a href="{% url 'receipt_create' %}">Создать общую квитанцию</a></li>
                     <!--                <li><a href="#!">Создать квитанцию на оплату за ЭЭ</a></li>
                                     <li><a href="#!">Создать квитанцию на оплату за ГАЗ</a></li>-->
-                    <li><a href="#!" class="delete-many">Удалить</a></li>
+                    <li><a class="delete-many">Удалить</a></li>
                 </ul>
             </div>
         </div>
@@ -230,7 +240,7 @@
                     sZeroRecords: "Ничего не найдено."
                 },
                 columnDefs: [
-                    {className: "receipt", "targets": [0, 1, 2, 3, 4, 5, 6, 7,8]},
+                    {className: "receipt", "targets": [1, 2, 3, 4, 5, 6, 7,8]},
                     {targets: '_all', defaultContent: ''},
                 ],
                 "ajax": {
@@ -241,6 +251,18 @@
                     },
                     dataSrc: function (data) {
                         console.log(data)
+                        if (data['delete_info']) {
+                            let deleted_data = data['delete_info']
+                            deleted_data['success_msg'].forEach(function (item) {
+                                toastr.success(item)
+                            })
+                            deleted_data['error_msg'].forEach(function (item) {
+                                toastr.success(item)
+                            })
+                        }
+
+                        $('#select_all_receipts').prop('checked',false)
+                        selected_receipts = []
                         return data['receipts']
                     },
                 },
@@ -302,15 +324,16 @@
                         data: 'id',
                         render: function (data, type, row) {
 
-                            {#let link_delete = '{% url 'transaction_delete' 12345 %}'.replace(/12345/, data)#}
+                            let link_clone = '{% url 'receipt_clone' 12345 %}'.replace(/12345/, data)
                             let link_update = '{% url 'receipt_update' 12345 %}'.replace(/12345/, data)
+                            let link_delete = '{% url 'receipt_delete' 12345 %}'.replace(/12345/, data)
 
                             return `<div class="btn-group pull-right">\
-                                    <a class="btn btn-default btn-sm" href="#"\
+                                    <a class="btn btn-default btn-sm" href="${link_clone}"\
                                     title="Копировать" data-toggle="tooltip"><i class="fa fa-clone"></i></a>\
                                     <a class="btn btn-default btn-sm" href="${link_update}"\
                                     title="Редактировать" data-toggle="tooltip"><i class="fa fa-pencil"></i></a>\
-                                    <a class="btn btn-default btn-sm" href="#"\
+                                    <a class="btn btn-default btn-sm" href="${link_delete}"\
                                     title="Удалить" data-toggle="tooltip" data-pjax="0" data-method="post">\
                                     <i class="fa fa-trash"></i></a>\
                                     </div>`
@@ -348,6 +371,14 @@
             })
 
         }
+        $('.delete-many').click(function () {
+            sort_data['delete_receipts'] = true
+            sort_data['selected_receipts'] = selected_receipts
+            numb = 0
+            table.draw()
+            sort_data['selected_receipts'] = ''
+            sort_data['delete_receipts'] = false
+        })
         let select_all_receipts_bnt = $('#select_all_receipts')
         select_all_receipts_bnt.change(function () {
             $('.receipt_select').prop('checked', $(this).prop('checked')).change()
