@@ -23,7 +23,6 @@ class MeterCreate(SuccessMessageMixin, CreateView):
     model = Meter
     form_class = MeterForm
     template_name = 'admin_meter/meter_create.html'
-    success_url = reverse_lazy('meter-list')
     success_message = 'Счетчик №%(number)s успешно создан'
 
     def render_to_response(self, context, **response_kwargs):
@@ -50,6 +49,14 @@ class MeterCreate(SuccessMessageMixin, CreateView):
         if self.request.POST.get('action_save_add'):
             return redirect('meter-clone', pk=self.object.pk)
         return super().form_valid(form)
+
+    def get_success_url(self):
+        if self.object.service_id:
+            return reverse_lazy('meter-view-list-serv',
+                                kwargs={'apartment_id': self.object.apartment_id, 'service_id': self.object.service_id})
+        else:
+            return reverse_lazy('meter-view-list-apart',
+                                kwargs={'apartment_id': self.object.apartment_id})
 
 
 class MeterClone(MeterCreate):
