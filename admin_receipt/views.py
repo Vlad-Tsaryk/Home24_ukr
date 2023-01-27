@@ -1,14 +1,15 @@
 from django.db.models.functions import Concat
-from django.db.models import Value, CharField
+from django.db.models import Value, CharField, F
 from django.http import JsonResponse
-from django.shortcuts import render
+from django.contrib.messages import success, error
+from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, ListView, DetailView, UpdateView
 from admin_personal_account.models import PersonalAccount
 from admin_apartment.models import Apartment
 from admin_house.models import Section
 from admin_meter.models import Meter
-from admin_tariff.models import Tariff, TariffService
+from admin_tariff.models import TariffService
 from .forms import ReceiptForm, ReceiptServiceFormSet
 from .models import Receipt, ReceiptService
 from users.models import User, Role
@@ -51,6 +52,24 @@ class ReceiptCreate(CreateView):
         formset.save()
         return super().form_valid(form)
 
+    def get_meters_consumption(self):
+        metest = Meter.objects.filter(apartment_id=self.request.GET.get('apartment_id'))\
+            .order_by('service', 'status', '-pk', )\
+            .distinct('service', 'status')
+        metest_new = metest.filter(status=Meter.StatusName.NEW)
+        metest_clarified = metest.filter(status__in=[Meter.StatusName.CLARIFIED, Meter.StatusName.CLARIFIED_PAID])
+        test = {}
+        for meter in metest_new:
+            try:
+                value = meter.value-metest_clarified.get(service=meter.service).value
+            except Meter.DoesNotExist:
+                test[meter.service_id] = meter.value
+                continue
+            if value < 0:
+                value = None
+            test[meter.service_id] = value
+        return test
+
     def render_to_response(self, context, **response_kwargs):
         if self.request.is_ajax():
             result = {}
@@ -65,9 +84,10 @@ class ReceiptCreate(CreateView):
                     result['tariff_services'] = list(TariffService.objects.filter(tariff=tariff_id).values('service_id',
                                                                                                            'price'))
             if self.request.GET.get('set_meter_values'):
-                if apartment_id:
-                    meter_new_val = Meter.objects.filter(apartment=apartment_id, status=Meter.StatusName.NEW)
-                    # result['tariff_meter_values'] = Meter.objects.filter(status=)
+                result['meters_consumption'] = self.get_meters_consumption()
+                # if apartment_id:
+                #     meter_new_val = Meter.objects.filter(apartment=apartment_id, status=Meter.StatusName.NEW)
+                #     # result['tariff_meter_values'] = Meter.objects.filter(status=)
             if apartment_id or personal_account:
                 if apartment_id:
                     apartment_obj = Apartment.objects.get(pk=apartment_id)
@@ -92,12 +112,12 @@ class ReceiptCreate(CreateView):
                     apartment_info['personal_account'] = PersonalAccount.objects.get(apartment=apartment_id).number
                 except:
                     pass
-                result['meter_list'] = list(Meter.objects.order_by('-date').filter(
+                result['meter_list'] = list(Meter.objects.order_by('-date', '-number').filter(
                     apartment_id=apartment_obj.id).values('number', 'status', 'date', 'apartment__house__name',
                                                           'apartment__number', 'apartment__section__name',
                                                           'service__name', 'value', 'service__unit__name'))
                 result['apartment_info'] = apartment_info
-                print(result)
+                # print(result)
             elif house_id:
                 if section_id:
                     result['apartment'] = list(Apartment.objects.filter(
@@ -146,11 +166,29 @@ class ReceiptList(ListView):
         context['status_list'] = Receipt.StatusName.values
         return context
 
+    def delete_res(self):
+        delete_info = {
+            'success_msg': [],
+            'error_msg': [],
+        }
+        for pk in self.request.GET.getlist('selected_receipts[]'):
+            obj_number = None
+            try:
+                obj_delete = Receipt.objects.get(pk=pk)
+                obj_number = obj_delete.number
+                if obj_delete.delete():
+                    delete_info['success_msg'].append(f"Квитанция №{obj_number} успешно удалена")
+            except:
+                delete_info['error_msg'].append(f"Не удалось удалить квитанцию №{obj_number}")
+        return delete_info
+
     def render_to_response(self, context, **response_kwargs):
         if self.request.is_ajax():
+            result = {}
+            if self.request.GET.get('delete_receipts'):
+                result['delete_info'] = self.delete_res()
             order_by = self.request.GET.get('order_by')
             print(self.request.GET)
-            result = {}
             filter_fields = {
                 'status': self.request.GET.get('status'),
                 'number__contains': self.request.GET.get('number'),
@@ -198,3 +236,26 @@ class ReceiptClone(ReceiptUpdate):
         kwargs['instance'] = receipt_obj
         return kwargs
 
+    def get_context_data(self, **kwargs):
+        context = super(ReceiptClone, self).get_context_data(**kwargs)
+        if self.request.POST:
+            context['receipt_service_formset'] = ReceiptServiceFormSet(self.request.POST, prefix='receipt_service')
+        else:
+            formset = ReceiptServiceFormSet(prefix='receipt_service',
+                                            queryset=ReceiptService.objects.filter(receipt_id=self.kwargs['pk']))
+            formset.management_form.initial['INITIAL_FORMS'] = 0
+            context['receipt_service_formset'] = formset
+        return context
+
+
+def receipt_delete(request, pk):
+    obj_number = None
+    try:
+        obj_delete = Receipt.objects.get(pk=pk)
+        obj_number = obj_delete.number
+        if obj_delete.delete():
+            success(request, f"Квитанция №{obj_number} успешно удалена")
+    except:
+        error(request, f"Не удалось удалить квитанцию №{obj_number}")
+
+    return redirect('receipt_list')
