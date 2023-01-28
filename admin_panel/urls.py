@@ -1,6 +1,7 @@
 from django.urls import path, include
 from admin_panel.views import index
 from admin_purpose.views import PaymentDetailsUpdate
+from django.conf.urls import handler404
 from django.contrib.auth.decorators import login_required
 
 urlpatterns = [
@@ -20,3 +21,5 @@ urlpatterns = [
     path('payment_details/', PaymentDetailsUpdate.as_view(), name='payment_details_update'),
 
 ]
+
+handler404 = 'admin_panel.views.error_404'
