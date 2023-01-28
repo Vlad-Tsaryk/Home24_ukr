@@ -1,11 +1,11 @@
 from django.urls import path, include
-from admin_panel.views import index
+from admin_panel.views import StatisticView
 from admin_purpose.views import PaymentDetailsUpdate
 from django.conf.urls import handler404
 from django.contrib.auth.decorators import login_required
 
 urlpatterns = [
-    path('', index, name='statistic'),
+    path('', StatisticView.as_view(), name='statistic'),
     path('users/', include('users.urls')),
     path('service/', include('admin_service.urls')),
     path('purpose/', include('admin_purpose.urls')),
