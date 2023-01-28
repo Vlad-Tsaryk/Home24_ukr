@@ -1,12 +1,15 @@
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView
+
+from users.mixins import RolePermissionRequiredMixin
 from .models import Service, Unit
 from .forms import ServiceFormSet, UnitFormSet
 
 
 # Create your views here.
-class ServiceEdit(TemplateView):
+class ServiceEdit(RolePermissionRequiredMixin, TemplateView):
+    permission_required = 'services'
     success_url = reverse_lazy('service')
     template_name = 'admin_service/service_edit.html'
 

@@ -6,6 +6,8 @@ from django.urls import reverse_lazy
 from django.views.generic import CreateView, ListView, DetailView, UpdateView
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.messages import success, error
+
+from users.mixins import RolePermissionRequiredMixin
 from .models import Application
 from .forms import ApplicationForm
 from admin_apartment.models import Apartment
@@ -13,7 +15,8 @@ from users.models import User, Role
 
 
 # Create your views here.
-class ApplicationCreate(SuccessMessageMixin, CreateView):
+class ApplicationCreate(RolePermissionRequiredMixin, SuccessMessageMixin, CreateView):
+    permission_required = 'applications'
     model = Application
     form_class = ApplicationForm
     template_name = 'admin_application/application_create.html'
@@ -48,7 +51,8 @@ class ApplicationCreate(SuccessMessageMixin, CreateView):
             return super(CreateView, self).render_to_response(context, **response_kwargs)
 
 
-class ApplicationList(ListView):
+class ApplicationList(RolePermissionRequiredMixin, ListView):
+    permission_required = 'applications'
     model = Application
     template_name = 'admin_application/application_list.html'
 
@@ -108,7 +112,8 @@ class ApplicationList(ListView):
             return super(ListView, self).render_to_response(context, **response_kwargs)
 
 
-class ApplicationView(DetailView):
+class ApplicationView(RolePermissionRequiredMixin, DetailView):
+    permission_required = 'applications'
     model = Application
     template_name = 'admin_application/application_view.html'
 

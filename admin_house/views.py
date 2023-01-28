@@ -2,12 +2,15 @@ from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.views.generic import CreateView, ListView, UpdateView, DetailView
 from django.contrib import messages
+
+from users.mixins import RolePermissionRequiredMixin
 from .forms import HouseForm, SectionFormSet, FloorFormSet, HouseUserFormSet
 from .models import House, Section, Floor, HouseUser
 
 
 # Create your views here.
-class HouseList(ListView):
+class HouseList(RolePermissionRequiredMixin, ListView):
+    permission_required = 'applications'
     model = House
     template_name = 'admin_house/house_list.html'
 
@@ -31,7 +34,8 @@ class HouseList(ListView):
             return super(ListView, self).render_to_response(context, **response_kwargs)
 
 
-class HouseView(DetailView):
+class HouseView(RolePermissionRequiredMixin, DetailView):
+    permission_required = 'houses'
     model = House
     template_name = 'admin_house/house_view.html'
 
@@ -43,7 +47,8 @@ def house_delete(request, pk):
     return redirect('house_list')
 
 
-class HouseCreate(CreateView):
+class HouseCreate(RolePermissionRequiredMixin, CreateView):
+    permission_required = 'houses'
     model = House
     template_name = 'admin_house/house_create.html'
     form_class = HouseForm
@@ -96,7 +101,8 @@ class HouseCreate(CreateView):
         return redirect(self.success_url)
 
 
-class HouseUpdate(UpdateView):
+class HouseUpdate(RolePermissionRequiredMixin, UpdateView):
+    permission_required = 'houses'
     model = House
     form_class = HouseForm
     template_name = 'admin_house/house_update.html'

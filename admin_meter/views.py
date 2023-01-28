@@ -7,6 +7,7 @@ from django.views.generic import CreateView, ListView, DetailView, UpdateView
 
 from admin_apartment.models import Apartment
 from admin_house.models import Section
+from users.mixins import RolePermissionRequiredMixin
 from .forms import MeterForm, MeterUpdateForm
 from .models import Meter
 from admin_house.models import House
@@ -14,12 +15,13 @@ from admin_service.models import Service
 
 
 # Create your views here.
-class MeterView(DetailView):
+class MeterView(RolePermissionRequiredMixin, DetailView):
     model = Meter
     template_name = 'admin_meter/meter_view.html'
 
 
-class MeterCreate(SuccessMessageMixin, CreateView):
+class MeterCreate(RolePermissionRequiredMixin, SuccessMessageMixin, CreateView):
+    permission_required = 'meters'
     model = Meter
     form_class = MeterForm
     template_name = 'admin_meter/meter_create.html'
@@ -89,7 +91,8 @@ class MeterNewValue(MeterCreate):
         return kwargs
 
 
-class MeterList(ListView):
+class MeterList(RolePermissionRequiredMixin, ListView):
+    permission_required = 'meters'
     model = Meter
     template_name = 'admin_meter/meter_list.html'
 
@@ -136,7 +139,8 @@ class MeterList(ListView):
             return super(ListView, self).render_to_response(context, **response_kwargs)
 
 
-class MeterViewList(ListView):
+class MeterViewList(RolePermissionRequiredMixin, ListView):
+    permission_required = 'meters'
     model = Meter
     template_name = 'admin_meter/meter_view_list.html'
 
@@ -184,7 +188,8 @@ class MeterViewList(ListView):
             return super(ListView, self).render_to_response(context, **response_kwargs)
 
 
-class MeterUpdate(SuccessMessageMixin, UpdateView):
+class MeterUpdate(RolePermissionRequiredMixin, SuccessMessageMixin, UpdateView):
+    permission_required = 'meters'
     model = Meter
     form_class = MeterUpdateForm
     template_name = 'admin_meter/meter_update.html'

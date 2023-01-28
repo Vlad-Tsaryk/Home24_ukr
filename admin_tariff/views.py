@@ -1,5 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import CreateView, ListView, UpdateView, DetailView
+
+from users.mixins import RolePermissionRequiredMixin
 from .models import Tariff, TariffService
 from .forms import TariffForm, TariffServiceFormSet
 from admin_service.models import Service
@@ -7,12 +9,14 @@ from django.contrib import messages
 
 
 # Create your views here.
-class TariffList(ListView):
+class TariffList(RolePermissionRequiredMixin, ListView):
+    permission_required = 'tariffs'
     model = Tariff
     template_name = 'admin_tariff/tariff_list.html'
 
 
-class TariffCreate(CreateView):
+class TariffCreate(RolePermissionRequiredMixin, CreateView):
+    permission_required = 'tariffs'
     model = Tariff
     form_class = TariffForm
     template_name = 'admin_tariff/tariff_create.html'
@@ -70,7 +74,8 @@ class TariffClone(TariffCreate):
         return context
 
 
-class TariffUpdate(UpdateView):
+class TariffUpdate(RolePermissionRequiredMixin, UpdateView):
+    permission_required = 'tariffs'
     model = Tariff
     form_class = TariffForm
     template_name = 'admin_tariff/tariff_update.html'
@@ -107,7 +112,8 @@ class TariffUpdate(UpdateView):
         return redirect(self.success_url)
 
 
-class TariffView(DetailView):
+class TariffView(RolePermissionRequiredMixin, DetailView):
+    permission_required = 'tariffs'
     model = Tariff
     template_name = 'admin_tariff/tariff_view.html'
 

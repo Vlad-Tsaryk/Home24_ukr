@@ -5,6 +5,8 @@ from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, UpdateView, ListView, DetailView
+
+from users.mixins import RolePermissionRequiredMixin
 from .models import Apartment, Section, Floor, House
 from .forms import ApartmentForm
 from django.contrib import messages
@@ -18,7 +20,8 @@ def apartment_house_details(house_id, **response_kwargs):
     return JsonResponse({'section': section_list, 'floor': floor_list}, safe=False, **response_kwargs)
 
 
-class ApartmentCreate(SuccessMessageMixin, CreateView):
+class ApartmentCreate(RolePermissionRequiredMixin, SuccessMessageMixin, CreateView):
+    permission_required = 'apartments'
     model = Apartment
     template_name = 'admin_apartment/apartment_create.html'
     form_class = ApartmentForm
@@ -34,7 +37,8 @@ class ApartmentCreate(SuccessMessageMixin, CreateView):
             return super(CreateView, self).render_to_response(context, **response_kwargs)
 
 
-class ApartmentUpdate(SuccessMessageMixin, UpdateView):
+class ApartmentUpdate(RolePermissionRequiredMixin, SuccessMessageMixin, UpdateView):
+    permission_required = 'apartments'
     model = Apartment
     template_name = 'admin_apartment/apartment_update.html'
     form_class = ApartmentForm
@@ -50,7 +54,8 @@ class ApartmentUpdate(SuccessMessageMixin, UpdateView):
             return super(UpdateView, self).render_to_response(context, **response_kwargs)
 
 
-class ApartmentView(DetailView):
+class ApartmentView(RolePermissionRequiredMixin, DetailView):
+    permission_required = 'apartments'
     model = Apartment
     template_name = 'admin_apartment/apartment_view.html'
 
@@ -69,7 +74,8 @@ def apartment_delete(request, pk):
     return redirect('apartment_list')
 
 
-class ApartmentList(ListView):
+class ApartmentList(RolePermissionRequiredMixin, ListView):
+    permission_required = 'apartments'
     model = Apartment
     template_name = 'admin_apartment/apartment_list.html'
 

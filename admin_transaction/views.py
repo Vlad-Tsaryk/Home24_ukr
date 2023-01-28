@@ -3,6 +3,7 @@ from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, ListView, DetailView, UpdateView
 from admin_transaction.models import Transaction
+from users.mixins import RolePermissionRequiredMixin
 from .forms import TransactionForm
 from admin_personal_account.models import PersonalAccount
 from users.models import User, Role
@@ -11,7 +12,8 @@ from django.contrib.messages import success, error
 
 
 # Create your views here.
-class TransactionCreate(CreateView):
+class TransactionCreate(RolePermissionRequiredMixin, CreateView):
+    permission_required = 'transactions'
     model = Transaction
     form_class = TransactionForm
     template_name = 'admin_transaction/transaction_create.html'
@@ -66,7 +68,8 @@ class TransactionClone(TransactionUpdate):
         return kwargs
 
 
-class TransactionList(ListView):
+class TransactionList(RolePermissionRequiredMixin, ListView):
+    permission_required = 'transactions'
     model = Transaction
     template_name = 'admin_transaction/transaction_list.html'
 
@@ -116,7 +119,8 @@ class TransactionList(ListView):
             return super(ListView, self).render_to_response(context, **response_kwargs)
 
 
-class TransactionView(DetailView):
+class TransactionView(RolePermissionRequiredMixin, DetailView):
+    permission_required = 'transactions'
     model = Transaction
     template_name = 'admin_transaction/transaction_view.html'
 

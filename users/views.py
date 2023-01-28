@@ -5,6 +5,8 @@ from django.shortcuts import redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, UpdateView, DetailView, TemplateView, DeleteView
 from django.http import JsonResponse
+
+from .mixins import RolePermissionRequiredMixin
 from .models import User, Role
 from .forms import CustomUserCreationForm, CustomUserUpdateForm, RoleFormSet
 from django.contrib import messages
@@ -12,7 +14,8 @@ from django.contrib import messages
 
 # Create your views here.
 
-class Users(ListView):
+class Users(RolePermissionRequiredMixin, ListView):
+    permission_required = 'users'
     model = User
     context_object_name = 'user_list'
     template_name = 'users/user_list.html'
@@ -42,14 +45,16 @@ class Users(ListView):
             return super(ListView, self).render_to_response(context, **response_kwargs)
 
 
-class CreateUser(SuccessMessageMixin, CreateView):
+class CreateUser(RolePermissionRequiredMixin, SuccessMessageMixin, CreateView):
+    permission_required = 'users'
     form_class = CustomUserCreationForm
     template_name = 'users/user_create.html'
     success_url = reverse_lazy('user_list')
     success_message = "Пользователь успешно создан"
 
 
-class UpdateUser(SuccessMessageMixin, UpdateView):
+class UpdateUser(RolePermissionRequiredMixin, SuccessMessageMixin, UpdateView):
+    permission_required = 'users'
     model = User
     form_class = CustomUserUpdateForm
     template_name = 'users/user_update.html'
@@ -57,7 +62,8 @@ class UpdateUser(SuccessMessageMixin, UpdateView):
     success_message = "Пользователь успешно изменен"
 
 
-class ViewUser(DetailView):
+class ViewUser(RolePermissionRequiredMixin, DetailView):
+    permission_required = 'users'
     model = User
     template_name = 'users/user_view.html'
 
@@ -72,7 +78,8 @@ def delete_user(request, user_id):
     return redirect('user_list')
 
 
-class UpdateRoles(TemplateView):
+class UpdateRoles(RolePermissionRequiredMixin, TemplateView):
+    permission_required = 'roles'
     template_name = 'users/roles_update.html'
     success_url = reverse_lazy('roles')
 

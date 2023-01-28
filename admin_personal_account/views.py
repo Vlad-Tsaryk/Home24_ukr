@@ -6,6 +6,7 @@ from django.urls import reverse_lazy
 from django.views.generic import CreateView, UpdateView, ListView, DetailView
 from django.contrib import messages
 from admin_house.models import House
+from users.mixins import RolePermissionRequiredMixin
 from .models import PersonalAccount
 from .forms import PersonalAccountForm
 from admin_apartment.models import Apartment, Section
@@ -13,12 +14,14 @@ from admin_apartment.models import Apartment, Section
 
 # Create your views here.
 
-class PersonalAccountView(DetailView):
+class PersonalAccountView(RolePermissionRequiredMixin, DetailView):
+    permission_required = 'personal_accounts'
     model = PersonalAccount
     template_name = 'admin_personal_account/personal_account_view.html'
 
 
-class PersonalAccountCreate(CreateView):
+class PersonalAccountCreate(RolePermissionRequiredMixin, CreateView):
+    permission_required = 'personal_accounts'
     model = PersonalAccount
     form_class = PersonalAccountForm
     template_name = 'admin_personal_account/personal_account_create.html'
@@ -47,7 +50,8 @@ class PersonalAccountCreate(CreateView):
             return super(CreateView, self).render_to_response(context, **response_kwargs)
 
 
-class PersonalAccountUpdate(UpdateView):
+class PersonalAccountUpdate(RolePermissionRequiredMixin, UpdateView):
+    permission_required = 'personal_accounts'
     model = PersonalAccount
     template_name = 'admin_personal_account/personal_account_update.html'
     form_class = PersonalAccountForm
@@ -68,7 +72,8 @@ def personal_account_delete(request, pk):
     return redirect('personal_account_list')
 
 
-class PersonalAccountList(ListView):
+class PersonalAccountList(RolePermissionRequiredMixin, ListView):
+    permission_required = 'personal_accounts'
     model = PersonalAccount
     template_name = 'admin_personal_account/personal_account_list.html'
 

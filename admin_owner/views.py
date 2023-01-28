@@ -3,6 +3,8 @@ from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, UpdateView, ListView, DetailView
+
+from users.mixins import RolePermissionRequiredMixin
 from users.models import User, Role
 from .forms import OwnerChangeForm, OwnerCreateForm
 from django.db.models.functions import Concat
@@ -12,7 +14,8 @@ from django.contrib import messages
 
 # Create your views here.
 
-class OwnerCreate(CreateView, SuccessMessageMixin):
+class OwnerCreate(RolePermissionRequiredMixin, CreateView, SuccessMessageMixin):
+    permission_required = 'owners'
     model = User
     template_name = 'admin_owner/owner_create.html'
     form_class = OwnerCreateForm
@@ -20,7 +23,8 @@ class OwnerCreate(CreateView, SuccessMessageMixin):
     success_url = reverse_lazy('owner_list')
 
 
-class OwnerUpdate(UpdateView, SuccessMessageMixin):
+class OwnerUpdate(RolePermissionRequiredMixin, UpdateView, SuccessMessageMixin):
+    permission_required = 'owners'
     model = User
     template_name = 'admin_owner/owner_update.html'
     form_class = OwnerChangeForm
@@ -29,7 +33,8 @@ class OwnerUpdate(UpdateView, SuccessMessageMixin):
     success_url = reverse_lazy('owner_list')
 
 
-class OwnerView(DetailView):
+class OwnerView(RolePermissionRequiredMixin, DetailView):
+    permission_required = 'owners'
     model = User
     template_name = 'admin_owner/owner_view.html'
     context_object_name = 'owner'
@@ -49,7 +54,8 @@ def owner_delete(request, pk):
     return redirect('owner_list')
 
 
-class OwnerList(ListView):
+class OwnerList(RolePermissionRequiredMixin, ListView):
+    permission_required = 'owners'
     model = User
     template_name = 'admin_owner/owner_list.html'
 
