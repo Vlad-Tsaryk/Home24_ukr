@@ -12,13 +12,13 @@ class Migration(migrations.Migration):
     operations = [
         migrations.AddField(
             model_name='role',
-            name='receipt',
+            name='receipts',
             field=models.BooleanField(default=False),
             preserve_default=False,
         ),
         migrations.AddField(
             model_name='role',
-            name='tariff',
+            name='tariffs',
             field=models.BooleanField(default=False),
             preserve_default=False,
         ),

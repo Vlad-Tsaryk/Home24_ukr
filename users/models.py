@@ -16,18 +16,18 @@ class Role(models.Model):
 
     role = models.CharField(choices=RoleName.choices, max_length=20)
     statistics = models.BooleanField()
-    transaction = models.BooleanField()
-    receipt = models.BooleanField()
-    personal_account = models.BooleanField()
-    apartment = models.BooleanField()
+    transactions = models.BooleanField()
+    receipts = models.BooleanField()
+    personal_accounts = models.BooleanField()
+    apartments = models.BooleanField()
     owners = models.BooleanField()
-    house = models.BooleanField()
-    message = models.BooleanField()
-    application = models.BooleanField()
-    counter = models.BooleanField()
+    houses = models.BooleanField()
+    messages = models.BooleanField()
+    applications = models.BooleanField()
+    meters = models.BooleanField()
     website = models.BooleanField()
     services = models.BooleanField()
-    tariff = models.BooleanField()
+    tariffs = models.BooleanField()
     roles = models.BooleanField()
     users = models.BooleanField()
     payment_details = models.BooleanField()
@@ -55,6 +55,7 @@ class User(AbstractUser):
     notes = models.TextField(blank=True)
     profile_image = models.ImageField(upload_to='users')
     role = models.ForeignKey(Role, on_delete=models.SET_NULL, null=True)
+
     # uid = models.AutoField(unique=True, primary_key=True)
 
     def __str__(self):
@@ -62,6 +63,7 @@ class User(AbstractUser):
 
     def get_owners(self):
         return User.objects.filter(role=Role.objects.get(role=Role.RoleName.OWNER))
+
     def get_new_users(self):
         return User.objects.filter(status=self.StatusName.NEW)
 
