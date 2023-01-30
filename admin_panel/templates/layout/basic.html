@@ -14,12 +14,20 @@
     <link href="{% static 'admin_panel/bower_components/select2/dist/css/select2.min.css' %}" rel="stylesheet"/>
     <link href="{% static 'admin_panel/dist/css/AdminLTE.min.css' %}" rel="stylesheet">
     <link href="{% static 'admin_panel/dist/css/skins/_all-skins.min.css' %}" rel="stylesheet">
-    <link href="{% static 'admin_panel/dist/css/style.css' %}" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic"
           rel="stylesheet">
     <link href="{% static 'admin_panel/plugins/toastr/toastr.min.css' %}" rel="stylesheet">
     <link href="{% static 'admin_panel/plugins/alertifyjs/css/alertify.min.css' %}" rel="stylesheet">
     <link href="{% static 'admin_panel/plugins/alertifyjs/css/themes/default.min.css' %}" rel="stylesheet">
+    <link href="{% static 'admin_panel/dist/css/style.css' %}" rel="stylesheet">
+    <style>
+        .has-error .select2-container--default .select2-selection--single {
+    border-color: #dd4b39;
+}
+        .has-success .select2-container--default .select2-selection--single {
+    border-color: #00a65a;
+}
+    </style>
     {% block head %}
     {% endblock %}
     </head>
@@ -103,7 +111,7 @@
                                     <a class="btn btn-default btn-flat"
                                        href="{% url 'update_user' user.pk %}">Профиль</a></div>
                                 <div class="pull-right">
-                                    <a class="btn btn-default btn-flat" href="/admin/site/logout" data-method="post">Выход</a>
+                                    <a class="btn btn-default btn-flat" href="{% url 'admin-panel-logout' %}" data-method="post">Выход</a>
                                 </div>
                             </li>
                         </ul>
