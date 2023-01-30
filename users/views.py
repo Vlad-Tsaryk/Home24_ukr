@@ -1,14 +1,17 @@
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.messages.views import SuccessMessageMixin
 from django.db.models.functions import Concat
 from django.db.models import Value
 from django.shortcuts import redirect, get_object_or_404
 from django.urls import reverse_lazy
-from django.views.generic import ListView, CreateView, UpdateView, DetailView, TemplateView, DeleteView
-from django.http import JsonResponse
+from django.views import View
+from django.views.generic import ListView, CreateView, UpdateView, DetailView, TemplateView, DeleteView, FormView
+from django.http import JsonResponse, HttpResponseRedirect
 
+import settings
 from .mixins import RolePermissionRequiredMixin
 from .models import User, Role
-from .forms import CustomUserCreationForm, CustomUserUpdateForm, RoleFormSet
+from .forms import CustomUserCreationForm, CustomUserUpdateForm, RoleFormSet, AdminLoginForm
 from django.contrib import messages
 
 
@@ -108,3 +111,35 @@ class UpdateRoles(RolePermissionRequiredMixin, TemplateView):
         else:
             print(formset.errors)
             print('invalid')
+
+
+class AdminLoginView(FormView):
+    template_name = 'admin_panel/login_page.html'
+    form_class = AdminLoginForm
+
+    def get(self, request, *args, **kwargs):
+        if self.request.user.is_authenticated:
+            return redirect('statistic')
+        return super().get(self, request, *args, **kwargs)
+
+    def post(self, request, **kwargs):
+
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(username=username, password=password)
+        if user is not None:
+            if user.status != user.StatusName.DISABLED.value:
+                login(request, user)
+                return redirect('statistic')
+            else:
+                messages.error(request, "Пользователь не активен")
+                return HttpResponseRedirect(settings.LOGIN_URL)
+        else:
+            messages.error(request, "Пользователь не существует")
+            return HttpResponseRedirect(settings.LOGIN_URL)
+
+
+class LogoutView(View):
+    def get(self, request):
+        logout(request)
+        return HttpResponseRedirect(settings.LOGIN_URL)
