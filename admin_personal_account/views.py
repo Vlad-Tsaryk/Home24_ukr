@@ -80,6 +80,8 @@ class PersonalAccountList(RolePermissionRequiredMixin, ListView):
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super(PersonalAccountList, self).get_context_data(**kwargs)
         context['house_list'] = House.objects.all()
+        context['total_debt'] = PersonalAccount.total_debt()
+        context['total_balance'] = PersonalAccount.total_balance()
         return context
 
     def render_to_response(self, context, **response_kwargs):
