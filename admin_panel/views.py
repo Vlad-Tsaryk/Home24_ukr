@@ -1,4 +1,3 @@
-from django.contrib.auth.views import LoginView
 from django.shortcuts import render
 from django.views.generic import TemplateView
 
@@ -21,7 +20,3 @@ def error_403(request, exception):
 
 
 
-
-class AdminLoginView(TemplateView):
-    template_name = 'admin_panel/login_page.html'
-    pass
