@@ -1,0 +1,107 @@
+{% load static %}
+<html style="height: auto; min-height: 100%;" lang="ru-RU">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link rel="icon" type="image/png" href="{% static 'admin_panel/logo-mini.svg' %}">
+    <title>Вход</title>
+    <link href="{% static 'admin_panel/bower_components/bootstrap/dist/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'admin_panel/bower_components/font-awesome/css/font-awesome.min.css' %}" rel="stylesheet">
+    <link href="{% static 'admin_panel/bower_components/Ionicons/css/ionicons.min.css' %}" rel="stylesheet">
+    <link href="{% static 'admin_panel/dist/css/AdminLTE.min.css' %}" rel="stylesheet">
+    <link href="{% static 'admin_panel/dist/css/skins/_all-skins.min.css' %}" rel="stylesheet">
+    <link href="{% static 'admin_panel/plugins/iCheck/flat/blue.css' %}" rel="stylesheet">
+    <link href="{% static 'admin_panel/dist/css/style.css' %}" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic"
+          rel="stylesheet">
+    <link href="{% static 'admin_panel/plugins/toastr/toastr.min.css' %}" rel="stylesheet">
+</head>
+<body class="login-page" style="height: auto; min-height: 100%;">
+
+
+<div class="login-box">
+    <div class="login-logo">
+        <a href="">
+            <img src="" alt="logo">
+        </a>
+    </div>
+    <div class="nav-tabs-custom">
+        <ul class="nav nav-tabs">
+            <li><a href="">Для жильца</a></li>
+            <li class="active"><a href="#tab_2" data-toggle="tab" aria-expanded="true">Для администрации</a></li>
+        </ul>
+        <div class="tab-content">
+
+
+            <div class="tab-pane active" id="tab_2">
+                <div class="login-box-body">
+
+
+                    <p class="login-box-msg">Вход в панель управления</p>
+
+                    <form id="login-form" method="post">
+                        {% csrf_token %}
+                        <div class="form-group has-feedback field-loginform-username required">
+                            {{form.username}}<span
+                                class="fa fa-envelope form-control-feedback"></span>
+                        </div>
+                        <div class="form-group has-feedback field-loginform-password required">
+                            {{form.password}}<span
+                                class="fa fa-lock form-control-feedback"></span>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12">
+
+                                <div class="icheckbox checked">
+                                <label><input type="checkbox"
+                                              id="loginform-rememberme"
+                                              name="LoginForm[rememberMe]"
+                                              value="1" checked=""
+                                              style="position: absolute; opacity: 0;">
+
+                                    Запомнить меня</label>
+                                </div>
+                            </div>
+                            <div class="col-xs-12">
+                                <button type="submit" class="btn btn-primary btn-block" name="login-button">Вход
+                                </button>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="{% static 'admin_panel/plugins/jquery/jquery.min.js' %}"></script>
+<script src="{% static 'admin_panel/bower_components/bootstrap/dist/js/bootstrap.min.js' %}"></script>
+<script src="{% static 'admin_panel/bower_components/fastclick/lib/fastclick.js' %}"></script>
+<script src="{% static 'admin_panel/dist/js/adminlte.min.js' %}"></script>
+<script src="{% static 'admin_panel/plugins/iCheck/icheck.min.js' %}"></script>
+<script src="{% static 'admin_panel/bower_components/jquery-sparkline/dist/jquery.sparkline.min.js' %}"></script>
+<script src="{% static 'admin_panel/bower_components/jquery-slimscroll/jquery.slimscroll.min.js' %}"></script>
+<script src="{% static 'admin_panel/dist/js/main.js' %}"></script>
+<script src="{% static 'admin_panel/plugins/bootstrap-datepicker-1.9.0-dist/js/bootstrap-datepicker.min.js' %}"></script>
+<script src="{% static 'admin_panel/plugins/toastr/toastr.min.js' %}"></script>
+<script>
+    $(function () {
+        $('#loginform-rememberme').iCheck({
+            checkboxClass: 'icheckbox_flat-blue',
+            radioClass: 'icheckbox_flat-blue'
+        });
+    });
+
+</script>
+<script>toastr.options = {"positionClass": "toast-bottom-right"}</script>
+    {% for message in messages %}
+        {{ message }}
+        {% if message.tags == 'error' %}
+            <script>toastr.{{ message.tags }}('{{ message }}')</script>
+        {% endif %}
+    {% endfor %}
+
+</body>
+</html>
