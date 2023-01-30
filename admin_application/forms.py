@@ -11,7 +11,7 @@ class ApartmentModelChoiceField(forms.ModelChoiceField):
 
 class MasterModelChoiceField(forms.ModelChoiceField):
     def label_from_instance(self, obj):
-        return f'{obj.role.role} - {obj}'
+        return f'{obj.role} - {obj}'
 
 
 class ApplicationForm(forms.ModelForm):
@@ -46,6 +46,7 @@ class ApplicationForm(forms.ModelForm):
                 print(self.instance.master.role.role)
         except:
             pass
+
     class Meta:
         model = Application
         fields = ['master', 'status', 'comment', 'date', 'time',
