@@ -4,8 +4,12 @@ from admin_purpose.views import PaymentDetailsUpdate
 from django.conf.urls import handler404
 from django.contrib.auth.decorators import login_required
 
+from users.views import AdminLoginView, LogoutView
+
 urlpatterns = [
     path('', StatisticView.as_view(), name='statistic'),
+    path('site/login/', AdminLoginView.as_view(), name='admin-panel-login'),
+    path('site/logout/', LogoutView.as_view(), name='admin-panel-logout'),
     path('users/', include('users.urls')),
     path('service/', include('admin_service.urls')),
     path('purpose/', include('admin_purpose.urls')),
