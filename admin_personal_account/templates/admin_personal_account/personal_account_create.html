@@ -167,7 +167,7 @@
 					if ( element.prop( "type" ) === "checkbox" ) {
 						error.insertAfter( element.parent( "label" ) );
 					} else {
-                        if($(element).attr('class')==='form-control select2-hidden-accessible'){
+                        if($(element).hasClass('select2-hidden-accessible')){
                             error.insertAfter( $(element).parent('.form-group').find('.select2') );
                         }
                         else error.insertAfter( element );
