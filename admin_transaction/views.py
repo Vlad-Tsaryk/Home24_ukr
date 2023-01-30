@@ -104,8 +104,8 @@ class TransactionList(RolePermissionRequiredMixin, ListView):
             filtered_qs = self.get_queryset().filter(**filter_fields)
             if order_by:
                 filtered_qs = filtered_qs.order_by(order_by)
-            result['income'] = str(self.model.count_income(filtered_qs))
-            result['outcome'] = str(self.model.count_outcome(filtered_qs))
+            result['income'] = '%.2f' % self.model.count_income(filtered_qs)
+            result['outcome'] = '%.2f' % self.model.count_outcome(filtered_qs)
             filtered_qs = filtered_qs.values('id', 'date', 'is_complete', 'type', 'number', 'owner__first_name',
                                              'owner__last_name', 'owner_id', 'personal_account__number', 'sum',
                                              'purpose__name', 'owner__middle_name')
