@@ -6,6 +6,16 @@
     <link rel="stylesheet" type="text/css"
           href="{% static 'admin_panel/bower_components/daterangepicker/daterangepicker.css' %}"/>
 {% endblock %}
+{% block title %}Касса{% endblock %}
+{% block breadcrumb %}
+    <ul class="breadcrumb">
+        <li><a href="{% url 'statistic' %}"><i class="fa fa-home"></i>Главная</a></li>
+        <li class="active">Касса</li>
+    </ul>
+{% endblock %}
+{% block header_text %}
+    Касса
+{% endblock %}
 {% block content %}
 
 

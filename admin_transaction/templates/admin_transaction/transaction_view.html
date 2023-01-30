@@ -1,4 +1,18 @@
 {% extends 'layout/basic.html' %}
+{% block title %}{% if transaction.type %}Приходная
+                        {% else %}Расходная{% endif %} ведомость{% endblock %}
+{% block breadcrumb %}
+    <ul class="breadcrumb">
+        <li><a href="{% url 'statistic' %}"><i class="fa fa-home"></i>Главная</a></li>
+        <li><a href="{% url 'transaction_list' %}">Платежи</a></li>
+        <li class="active">{% if transaction.type %}Приходная
+                        {% else %}Расходная{% endif %} ведомость №{{ transaction.number }}</li>
+    </ul>
+{% endblock %}
+{% block header_text %}
+    {% if transaction.type %}Приходная
+                        {% else %}Расходная{% endif %} ведомость
+{% endblock %}
 {% block content %}
     <div class="row">
         <div class="col-xs-12 col-md-7 col-lg-6">

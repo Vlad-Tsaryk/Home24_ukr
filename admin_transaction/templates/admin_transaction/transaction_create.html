@@ -4,6 +4,20 @@
 <link rel="stylesheet"
       href="{% static 'admin_panel/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css' %}"/>
 {% endblock %}
+{% block title %}Новая {% if view.kwargs.transaction_type == 'income' or transaction.type %}приходная
+                        {% else %}расходная{% endif %} ведомость{% endblock %}
+{% block breadcrumb %}
+    <ul class="breadcrumb">
+        <li><a href="{% url 'statistic' %}"><i class="fa fa-home"></i>Главная</a></li>
+        <li><a href="{% url 'transaction_list' %}">Платежи</a></li>
+        <li class="active">Новая {% if view.kwargs.transaction_type == 'income' or transaction.type %}приходная
+                        {% else %}расходная{% endif %} ведомость</li>
+    </ul>
+{% endblock %}
+{% block header_text %}
+    Новая {% if view.kwargs.transaction_type == 'income' or transaction.type %}приходная
+                        {% else %}расходная{% endif %} ведомость
+{% endblock %}
 {% block content %}
 
 
@@ -208,7 +222,7 @@
 					if ( element.prop( "type" ) === "checkbox" ) {
 						error.insertAfter( element.parent( "label" ) );
 					} else {
-                        if($(element).attr('class')==='form-control select2-hidden-accessible'){
+                        if($(element).hasClass('select2-hidden-accessible')){
                             error.insertAfter( $(element).parent('.form-group').find('.select2') );
                         }
                         else error.insertAfter( element );

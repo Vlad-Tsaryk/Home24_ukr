@@ -1,4 +1,19 @@
 {% extends 'admin_transaction/transaction_create.html' %}
+{% block title %}{% if transaction.type %}Приходная
+                        {% else %}Расходная{% endif %} ведомость{% endblock %}
+{% block breadcrumb %}
+    <ul class="breadcrumb">
+        <li><a href="{% url 'statistic' %}"><i class="fa fa-home"></i>Главная</a></li>
+        <li><a href="{% url 'transaction_list' %}">Платежи</a></li>
+        <li><a href="{% url 'transaction_view' transaction.pk %}">{% if transaction.type %}Приходная
+        {% else %}Расходная{% endif %} ведомость №{{ transaction.number }}</a></li>
+        <li class="active">Редактирование</li>
+    </ul>
+{% endblock %}
+{% block header_text %}
+    {% if transaction.type %}Приходная
+                        {% else %}Расходная{% endif %} ведомость
+{% endblock %}
 {% block update_buttons %}
     <div class="box-header with-border">
         <h3 class="box-title"></h3>
