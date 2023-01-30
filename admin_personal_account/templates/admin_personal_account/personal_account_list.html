@@ -29,7 +29,7 @@
                 <div class="col-xs-12 col-md-4">
                     <div class="small-box bg-blue overflow-hidden">
                         <div class="inner">
-                            <h3>{{ total_balance }} грн</h3>
+                            <h3>{{ total_balance|floatformat:'2' }} грн</h3>
                             <p>Баланс по счетам</p>
                         </div>
                         <div class="icon">
@@ -41,7 +41,7 @@
                 <div class="col-xs-12 col-md-4">
                     <div class="small-box bg-red overflow-hidden">
                         <div class="inner">
-                            <h3>{{ total_debt }} грн</h3>
+                            <h3>{{ total_debt|floatformat:'2' }} грн</h3>
                             <p>Задолженность по счетам</p>
                         </div>
                         <div class="icon">
@@ -60,7 +60,7 @@
                 </button>
                 <ul class="dropdown-menu">
                     <li><a href="{% url 'personal_account_create' %}">Добавить лицевой счет</a></li>
-                    <li><a href="/admin/account/export">Выгрузить в Excel</a></li>
+                    <li><a onclick="to_excel()">Выгрузить в Excel</a></li>
                 </ul>
             </div>
         </div>
@@ -346,6 +346,19 @@
             set_filters_listener()
 
         });
+        function to_excel() {
+            sort_data['to_excel'] = true
+        $.ajax({
+            type: 'GET',
+            url: "{% url 'personal_account_list' %}",
+            data: sort_data,
+            success: function (data) {
+                console.log(data)
+                sort_data['to_excel']=''
+            }
+        })
+
+        }
     </script>
 
 {% endblock %}
