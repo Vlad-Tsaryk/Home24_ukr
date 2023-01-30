@@ -20,7 +20,7 @@
     <div class="invoice-create">
 
 
-        <form id="receipt-form" method="post">
+        <form id="receipt_form" method="post">
             {% csrf_token %}
             <div class="row">
                 <div class="col-xs-12 col-md-7 col-lg-6">
@@ -246,8 +246,6 @@
 
                 </div>
             </div>
-            {{ form.errors }}
-            {{ receipt_service_formset.errors }}
         </form>
         <div class="row">
             <div class="col-xs-12">
@@ -674,5 +672,43 @@
             service_change(parseInt(totalReceiptServiceForms.val()))
         })
     </script>
+    <script>
+            $( "#receipt_form" ).validate( {
+				rules: {
+					apartment: "required",
+					master: "required",
+					description: "required",
+				},
+				messages: {
+					apartment: "Пожалуйста выберите квартиру.",
+					master: "Пожалуйста выберите мастера.",
+					description: "Пожалуйста опишите свою проблему.",
+				},
+				errorElement: "em",
+				errorPlacement: function ( error, element ) {
+					error.addClass( "help-block" );
+					element.parents( ".form-group" ).addClass( "has-feedback" );
+					if ( element.prop( "type" ) === "checkbox" ) {
+						error.insertAfter( element.parent( "label" ) );
+					} else {
+                        if($(element).hasClass('select2-hidden-accessible')){
 
+                            error.insertAfter( $(element).parent('.form-group').find('.select2'));
+                        }
+                        else error.insertAfter( element );
+					}
+				},
+				success: function ( label, element ) {
+				},
+				highlight: function ( element, errorClass, validClass ) {
+					$( element ).parents( ".form-group" ).addClass( "has-error" ).removeClass( "has-success" );
+				},
+				unhighlight: function ( element, errorClass, validClass ) {
+					$( element ).parents( ".form-group" ).addClass( "has-success" ).removeClass( "has-error" );
+				}
+			} );
+             $("select").on("select2:close", function (e) {
+        $(this).valid();
+    });
+    </script>
 {% endblock %}
