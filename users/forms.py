@@ -6,6 +6,13 @@ from .models import User, Role
 from phonenumber_field.formfields import PhoneNumberField
 
 
+class AdminLoginForm(forms.Form):
+    username = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': "E-mail"})
+                               , required=True)
+    password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': "Password"})
+                               , required=True)
+
+
 class CustomUserCreationForm(UserCreationForm):
     first_name = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'})
                                  , required=True)
