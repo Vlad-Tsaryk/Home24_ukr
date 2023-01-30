@@ -8,13 +8,13 @@ from admin_receipt.models import Receipt
 class PersonalAccount(models.Model):
     @property
     def balance(self):
-        result = self.transaction_set.all().filter(is_complete=True).aggregate(models.Sum('sum'))['sum__sum']
+        transaction_sum = self.transaction_set.all().filter(is_complete=True).aggregate(models.Sum('sum'))['sum__sum']
+        receipt_sum = 0
+        if not transaction_sum:
+            transaction_sum = 0
         for i in self.apartment.receipt_set.all().filter(is_complete=True).exclude(status=Receipt.StatusName.PAID):
-            result -= i.total_price
-        if result:
-            return result
-        else:
-            return 0
+            receipt_sum += i.total_price
+        return transaction_sum - receipt_sum
 
     @staticmethod
     def total_debt():
@@ -23,7 +23,7 @@ class PersonalAccount(models.Model):
             balance = personal_account.balance
             if balance < 0:
                 result += balance
-        return '%.2f' % result
+        return result
 
     @staticmethod
     def total_balance():
@@ -32,7 +32,7 @@ class PersonalAccount(models.Model):
             balance = personal_account.balance
             if balance > 0:
                 result += balance
-        return '%.2f' % result
+        return result
 
     class StatusName(models.TextChoices):
         ACTIVE = 'Активен', 'Активен'
