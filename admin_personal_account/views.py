@@ -10,6 +10,7 @@ from users.mixins import RolePermissionRequiredMixin
 from .models import PersonalAccount
 from .forms import PersonalAccountForm
 from admin_apartment.models import Apartment, Section
+from openpyxl import Workbook
 
 
 # Create your views here.
@@ -84,8 +85,26 @@ class PersonalAccountList(RolePermissionRequiredMixin, ListView):
         context['total_balance'] = PersonalAccount.total_balance()
         return context
 
+    def to_excel(self, value_list):
+        wb = Workbook()
+        ws = wb.active
+        ws['A1'] = 'Лицевой счет'
+        ws['B1'] = 'Статус'
+        ws['C1'] = 'Дом'
+        ws['D1'] = 'Секция'
+        ws['E1'] = 'Квартира'
+        ws['F1'] = 'Владелец'
+        ws['G1'] = 'Остаток'
+        for account in value_list:
+            ws.append(list(account.values())[1:])
+        print(wb.save('document_template.xlsx'))
+        print('excel_saved')
+
+        return JsonResponse('document_template.xlsx', safe=False)
+
     def render_to_response(self, context, **response_kwargs):
         if self.request.is_ajax():
+
             print(self.request.GET)
             result = {}
             filter_fields = {
@@ -107,12 +126,14 @@ class PersonalAccountList(RolePermissionRequiredMixin, ListView):
                                    'apartment__owner__last_name'))
             has_debt_list = [personal_account.balance for personal_account in filtered_qs]
             filtered_qs = list(
-                filtered_qs.values('id', 'number', 'status', 'apartment__house__name', 'apartment__number',
-                                   'apartment__section__name', 'owner__name'))
+                filtered_qs.values('id', 'number', 'status', 'apartment__house__name', 'apartment__section__name',
+                                   'apartment__number', 'owner__name'))
             for index, personal_account in enumerate(filtered_qs):
                 personal_account['balance'] = has_debt_list[index]
             result['account'] = filtered_qs
             print(result)
+            if self.request.GET.get('to_excel'):
+                return self.to_excel(value_list=result['account'])
             return JsonResponse(result, safe=False, **response_kwargs)
 
         else:
