@@ -1,3 +1,4 @@
+from django.contrib.messages.views import SuccessMessageMixin
 from django.db.models.functions import Concat
 from django.db.models import Value, CharField, F
 from django.http import JsonResponse
@@ -23,7 +24,7 @@ class ReceiptCreate(RolePermissionRequiredMixin, CreateView):
     form_class = ReceiptForm
     template_name = 'admin_receipt/receipt_create.html'
     success_url = reverse_lazy('receipt_list')
-
+    success_message = 'создана'
     def get_context_data(self, **kwargs):
         context = super(ReceiptCreate, self).get_context_data(**kwargs)
         if self.request.POST:
@@ -52,18 +53,19 @@ class ReceiptCreate(RolePermissionRequiredMixin, CreateView):
         for receipt_service in receipt_service_formset:
             receipt_service.receipt = receipt
         formset.save()
+        success(self.request, f'Квитанция {receipt.number} {self.success_message} успешно')
         return super().form_valid(form)
 
     def get_meters_consumption(self):
-        metest = Meter.objects.filter(apartment_id=self.request.GET.get('apartment_id'))\
-            .order_by('service', 'status', '-pk', )\
+        metest = Meter.objects.filter(apartment_id=self.request.GET.get('apartment_id')) \
+            .order_by('service', 'status', '-pk', ) \
             .distinct('service', 'status')
         metest_new = metest.filter(status=Meter.StatusName.NEW)
-        metest_clarified = metest.filter(status__in=[Meter.StatusName.CLARIFIED, Meter.StatusName.CLARIFIED_PAID])
+        metest_clarified = metest
         test = {}
         for meter in metest_new:
             try:
-                value = meter.value-metest_clarified.get(service=meter.service).value
+                value = meter.value - metest_clarified.get(service=meter.service).value
             except Meter.DoesNotExist:
                 test[meter.service_id] = meter.value
                 continue
@@ -143,6 +145,7 @@ class ReceiptCreate(RolePermissionRequiredMixin, CreateView):
 
 class ReceiptUpdate(ReceiptCreate, UpdateView):
     template_name = 'admin_receipt/receipt_update.html'
+    success_message = 'обновлена'
 
     def get_context_data(self, **kwargs):
         context = super(ReceiptUpdate, self).get_context_data(**kwargs)
@@ -232,6 +235,7 @@ class ReceiptView(RolePermissionRequiredMixin, DetailView):
 
 
 class ReceiptClone(ReceiptUpdate):
+    success_message = 'создана'
     def get_form_kwargs(self):
         kwargs = super(ReceiptClone, self).get_form_kwargs()
         receipt_obj = Receipt.objects.get(pk=self.kwargs.get('pk'))
