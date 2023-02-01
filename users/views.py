@@ -59,6 +59,7 @@ class CreateUser(RolePermissionRequiredMixin, SuccessMessageMixin, CreateView):
 class UpdateUser(RolePermissionRequiredMixin, SuccessMessageMixin, UpdateView):
     permission_required = 'users'
     model = User
+    context_object_name = 'obj_user'
     form_class = CustomUserUpdateForm
     template_name = 'users/user_update.html'
     success_url = reverse_lazy('user_list')
@@ -68,6 +69,7 @@ class UpdateUser(RolePermissionRequiredMixin, SuccessMessageMixin, UpdateView):
 class ViewUser(RolePermissionRequiredMixin, DetailView):
     permission_required = 'users'
     model = User
+    context_object_name = 'obj_user'
     template_name = 'users/user_view.html'
 
 
@@ -124,11 +126,14 @@ class AdminLoginView(FormView):
 
     def post(self, request, **kwargs):
 
-        username = request.POST['username']
-        password = request.POST['password']
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        remember_me = request.POST.get('remember_me')
         user = authenticate(username=username, password=password)
         if user is not None:
             if user.status != user.StatusName.DISABLED.value:
+                if not remember_me:
+                    request.session.set_expiry(0)
                 login(request, user)
                 return redirect('statistic')
             else:
