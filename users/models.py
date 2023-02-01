@@ -61,7 +61,8 @@ class User(AbstractUser):
     def __str__(self):
         return ' '.join((self.first_name, self.middle_name, self.last_name))
 
-    def get_owners(self):
+    @staticmethod
+    def get_owners():
         return User.objects.filter(role=Role.objects.get(role=Role.RoleName.OWNER))
 
     def get_new_users(self):
