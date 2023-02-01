@@ -40,11 +40,10 @@ class ReceiptForm(forms.ModelForm):
 
     # def clean_tariff(self):
 
-
     class Meta:
         model = Receipt
         fields = '__all__'
-        exclude = ['services']
+        exclude = ['services', 'total_price']
 
 
 class UnitModelChoiceField(forms.ModelChoiceField):
