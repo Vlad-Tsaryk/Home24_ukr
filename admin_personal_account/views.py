@@ -6,6 +6,7 @@ from django.urls import reverse_lazy
 from django.views.generic import CreateView, UpdateView, ListView, DetailView
 from django.contrib import messages
 from admin_house.models import House
+from admin_transaction.models import Transaction
 from users.mixins import RolePermissionRequiredMixin
 from .models import PersonalAccount
 from .forms import PersonalAccountForm
@@ -81,8 +82,9 @@ class PersonalAccountList(RolePermissionRequiredMixin, ListView):
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super(PersonalAccountList, self).get_context_data(**kwargs)
         context['house_list'] = House.objects.all()
-        context['total_debt'] = PersonalAccount.total_debt()
-        context['total_balance'] = PersonalAccount.total_balance()
+        context['account_total_debt'] = PersonalAccount.total_debt()
+        context['account_total_balance'] = PersonalAccount.total_balance()
+        context['transactions_total_balance'] = Transaction.total_balance()
         return context
 
     def to_excel(self, value_list):

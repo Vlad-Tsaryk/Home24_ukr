@@ -76,6 +76,9 @@ class TransactionList(RolePermissionRequiredMixin, ListView):
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super(TransactionList, self).get_context_data(**kwargs)
         context['owner_list'] = User.objects.filter(role__role=Role.RoleName.OWNER)
+        context['account_total_debt'] = PersonalAccount.total_debt()
+        context['account_total_balance'] = PersonalAccount.total_balance()
+        context['transactions_total_balance'] = Transaction.total_balance()
         context['purpose_list'] = Purpose.objects.all()
         return context
 

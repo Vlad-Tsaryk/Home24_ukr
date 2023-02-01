@@ -11,6 +11,7 @@ from admin_apartment.models import Apartment
 from admin_house.models import Section
 from admin_meter.models import Meter
 from admin_tariff.models import TariffService
+from admin_transaction.models import Transaction
 from users.mixins import RolePermissionRequiredMixin
 from .forms import ReceiptForm, ReceiptServiceFormSet
 from .models import Receipt, ReceiptService
@@ -25,6 +26,7 @@ class ReceiptCreate(RolePermissionRequiredMixin, CreateView):
     template_name = 'admin_receipt/receipt_create.html'
     success_url = reverse_lazy('receipt_list')
     success_message = 'создана'
+
     def get_context_data(self, **kwargs):
         context = super(ReceiptCreate, self).get_context_data(**kwargs)
         if self.request.POST:
@@ -53,6 +55,7 @@ class ReceiptCreate(RolePermissionRequiredMixin, CreateView):
         for receipt_service in receipt_service_formset:
             receipt_service.receipt = receipt
         formset.save()
+        receipt.set_total_price()
         success(self.request, f'Квитанция {receipt.number} {self.success_message} успешно')
         return super().form_valid(form)
 
@@ -170,6 +173,9 @@ class ReceiptList(RolePermissionRequiredMixin, ListView):
         context = super(ReceiptList, self).get_context_data(**kwargs)
         context['owner_list'] = User.objects.filter(role__role=Role.RoleName.OWNER)
         context['status_list'] = Receipt.StatusName.values
+        context['account_total_debt'] = PersonalAccount.total_debt()
+        context['account_total_balance'] = PersonalAccount.total_balance()
+        context['transactions_total_balance'] = Transaction.total_balance()
         return context
 
     def delete_res(self):
@@ -212,14 +218,10 @@ class ReceiptList(RolePermissionRequiredMixin, ListView):
             ).filter(**filter_fields)
             if order_by:
                 filtered_qs = filtered_qs.order_by(order_by)
-            total_price_list = [receipt.total_price for receipt in filtered_qs]
             filtered_qs = filtered_qs.values('id', 'date', 'apartment_info', 'status', 'number',
                                              'apartment__owner__first_name', 'apartment__owner__last_name',
                                              'apartment__owner__middle_name', 'apartment__owner_id',
-                                             'is_complete')
-            for index, receipt in enumerate(filtered_qs):
-                receipt['total_price'] = total_price_list[index]
-            print(filtered_qs)
+                                             'is_complete', 'total_price')
             result['receipts'] = list(filtered_qs)
             print(result)
             return JsonResponse(result, safe=False, **response_kwargs)
@@ -236,6 +238,7 @@ class ReceiptView(RolePermissionRequiredMixin, DetailView):
 
 class ReceiptClone(ReceiptUpdate):
     success_message = 'создана'
+
     def get_form_kwargs(self):
         kwargs = super(ReceiptClone, self).get_form_kwargs()
         receipt_obj = Receipt.objects.get(pk=self.kwargs.get('pk'))
