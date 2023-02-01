@@ -1,10 +1,12 @@
 from django.db.models import Value
 from django.db.models.functions import Concat
-from django.http import JsonResponse
-from django.shortcuts import render, redirect
+from django.http import JsonResponse, HttpResponse
+from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, UpdateView, ListView, DetailView
 from django.contrib import messages
+from openpyxl.writer.excel import save_virtual_workbook
+
 from admin_house.models import House
 from admin_transaction.models import Transaction
 from users.mixins import RolePermissionRequiredMixin
@@ -97,16 +99,22 @@ class PersonalAccountList(RolePermissionRequiredMixin, ListView):
         ws['E1'] = 'Квартира'
         ws['F1'] = 'Владелец'
         ws['G1'] = 'Остаток'
+        ws.column_dimensions["A"].width = 20
+        ws.column_dimensions["B"].width = 20
+        ws.column_dimensions["C"].width = 25
+        ws.column_dimensions["D"].width = 20
+        ws.column_dimensions["E"].width = 15
+        ws.column_dimensions["F"].width = 30
+        ws.column_dimensions["G"].width = 20
         for account in value_list:
             ws.append(list(account.values())[1:])
-        print(wb.save('document_template.xlsx'))
-        print('excel_saved')
-
-        return JsonResponse('document_template.xlsx', safe=False)
+        response = HttpResponse(save_virtual_workbook(wb),
+                                content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+        response['Content-Disposition'] = 'attachment; filename=export.xlsx'
+        return response
 
     def render_to_response(self, context, **response_kwargs):
         if self.request.is_ajax():
-
             print(self.request.GET)
             result = {}
             filter_fields = {
@@ -137,6 +145,5 @@ class PersonalAccountList(RolePermissionRequiredMixin, ListView):
             if self.request.GET.get('to_excel'):
                 return self.to_excel(value_list=result['account'])
             return JsonResponse(result, safe=False, **response_kwargs)
-
         else:
             return super(ListView, self).render_to_response(context, **response_kwargs)

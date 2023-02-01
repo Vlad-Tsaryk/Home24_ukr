@@ -60,7 +60,7 @@
                 </button>
                 <ul class="dropdown-menu">
                     <li><a href="{% url 'personal_account_create' %}">Добавить лицевой счет</a></li>
-                    <li><a onclick="to_excel()">Выгрузить в Excel</a></li>
+                    <li><a style="cursor: pointer" id="download_btn" onclick="to_excel()">Выгрузить в Excel</a></li>
                 </ul>
             </div>
         </div>
@@ -142,6 +142,7 @@
 
             </div>
         </div>
+    {% csrf_token %}
     </div>
 
 {% endblock %}
@@ -149,6 +150,8 @@
     <script>
         $('#nav_account').attr('class', 'active')
     </script>
+    <script src="{% static 'admin_panel/bower_components/moment/moment.js' %}"></script>
+    <script src="{% static 'admin_panel/bower_components/moment/locale/ru.js' %}"></script>
     <script src="{% static 'admin_panel/bower_components/select2/dist/js/select2.full.min.js' %}"></script>
     <script src="{% static 'admin_panel/bower_components/select2/dist/js/i18n/ru.min.js' %}"></script>
     <script type="text/javascript"
@@ -198,7 +201,7 @@
         function numberWithSpaces(nr) {
             return nr.toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
         }
-
+        let data_account = []
         function send_POST(e) {
             table = $('#account_table').DataTable({
                 serverSide: true,
@@ -222,6 +225,7 @@
                             $('.select2_house').select2({placeholder: ""})
                             set_options(data['sections'],'section')
                         }
+                        data_account=data['account']
                         return data['account']
                     },
                 },
@@ -352,8 +356,15 @@
             type: 'GET',
             url: "{% url 'personal_account_list' %}",
             data: sort_data,
+            xhrFields: {responseType: 'blob'},
+            dataType: 'binary',
             success: function (data) {
-                console.log(data)
+                var a = document.createElement("a");
+                  a.href = URL.createObjectURL(data);
+                  let date = moment().format('L')
+                  let time = moment().format('LT')
+                  a.download = `accounts_${date}_${time}.xlsx`;
+                  a.click();
                 sort_data['to_excel']=''
             }
         })
