@@ -20,6 +20,14 @@ class Transaction(models.Model):
     type = models.BooleanField()
 
     @staticmethod
+    def total_balance():
+        queryset = Transaction.objects.all()
+        result = Transaction.count_income(queryset) - Transaction.count_outcome(queryset)
+        if result < 0:
+            result = 0
+        return result
+
+    @staticmethod
     def count_sum(queryset, transaction_type):
         result = queryset.filter(type=transaction_type, is_complete=True).aggregate(Sum('sum'))['sum__sum']
         if result:
