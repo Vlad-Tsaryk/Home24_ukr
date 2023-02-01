@@ -8,12 +8,11 @@ from admin_receipt.models import Receipt
 class PersonalAccount(models.Model):
     @property
     def balance(self):
-        transaction_sum = self.transaction_set.all().filter(is_complete=True).aggregate(models.Sum('sum'))['sum__sum']
-        receipt_sum = 0
-        if not transaction_sum:
-            transaction_sum = 0
-        for i in self.apartment.receipt_set.all().filter(is_complete=True).exclude(status=Receipt.StatusName.PAID):
-            receipt_sum += i.total_price
+        transaction_sum = self.transaction_set.all().filter(is_complete=True)\
+                              .aggregate(models.Sum('sum'))['sum__sum'] or 0
+        receipt_sum = self.apartment.receipt_set.all().filter(is_complete=True)\
+            .exclude(status=Receipt.StatusName.PAID)\
+            .aggregate(total_price=models.Sum('total_price'))['total_price'] or 0
         return transaction_sum - receipt_sum
 
     @staticmethod
