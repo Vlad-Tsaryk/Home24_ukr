@@ -14,7 +14,7 @@
         <div class="box-header with-border">
         <h3 class="box-title"></h3>
         <div class="box-tools">
-            <a href="{% url 'update_user' object.pk %}" class="btn btn-primary btn-sm">
+            <a href="{% url 'update_user' obj_user.pk %}" class="btn btn-primary btn-sm">
                 <span class="hidden-xs">Редактировать пользователя</span><i class="fa fa-pencil visible-xs" aria-hidden="true"></i>
             </a>
         </div>
@@ -26,24 +26,24 @@
                     <tbody>
                         <tr>
                             <td>Пользователь</td>
-                            <td>{{ object.first_name}} {{ object.last_name }}</td>
+                            <td>{{ obj_user.first_name}} {{ obj_user.last_name }}</td>
                         </tr>
                         <tr>
                             <td>Роль</td>
-                            <td>{{ object.role }}</td>
+                            <td>{{ obj_user.role }}</td>
                         </tr>
                         <tr>
                             <td>Телефон</td>
-                            <td>{{ object.phone }}</td>
+                            <td>{{ obj_user.phone }}</td>
                         </tr>
                         <tr>
                             <td>Email(логин)</td>
-                            <td>{{ object.username }}</td>
+                            <td>{{ obj_user.username }}</td>
                         </tr>
                         <tr>
                             <td>Статус</td>
-                            <td><small class="label {{ object.get_status_label_color }}"
-                                       id="status">{{ object.status }}</small></td>
+                            <td><small class="label {{ obj_user.get_status_label_color }}"
+                                       id="status">{{ obj_user.status }}</small></td>
                         </tr>
                     </tbody>
                 </table>
