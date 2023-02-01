@@ -8,14 +8,10 @@ from admin_service.models import Service
 
 # Create your models here.
 class Receipt(models.Model):
-    @property
-    def total_price(self):
+    def set_total_price(self):
         result = ReceiptService.objects.filter(receipt=self.pk).aggregate(
             total=Sum(F('consumption') * F('price_unit')))['total']
-        if result:
-            return result
-        else:
-            return 0
+        self.total_price = result or 0
 
     class StatusName(models.TextChoices):
         PAID = 'Оплачена', 'Оплачена'
@@ -31,6 +27,7 @@ class Receipt(models.Model):
     period_start = models.DateField()
     period_end = models.DateField()
     services = models.ManyToManyField(Service, through='ReceiptService')
+    total_price = models.FloatField(default=0)
 
     class Meta:
         ordering = ['-pk']
@@ -41,7 +38,3 @@ class ReceiptService(models.Model):
     service = models.ForeignKey(Service, on_delete=models.CASCADE)
     consumption = models.FloatField()
     price_unit = models.FloatField()
-
-    @property
-    def price(self):
-        return self.consumption * self.price_unit
