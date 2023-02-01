@@ -13,6 +13,14 @@ class PersonalAccountForm(forms.ModelForm):
     number = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}),
                              initial=str(PersonalAccount.objects.last().pk + 1).zfill(11))
 
+    def __init__(self, *args, **kwargs):
+        super(PersonalAccountForm, self).__init__(*args, **kwargs)
+        if not self.initial.get('number'):
+            try:
+                self.initial['number'] = str(PersonalAccount.objects.order_by('-pk').first().pk + 1).zfill(11)
+            except:
+                self.initial['number'] = '1'.zfill(11)
+
     class Meta:
         model = PersonalAccount
         fields = ['status', 'apartment', 'number']
