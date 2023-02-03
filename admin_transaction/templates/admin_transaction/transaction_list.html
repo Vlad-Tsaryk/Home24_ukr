@@ -73,7 +73,7 @@
                 <ul class="dropdown-menu">
                     <li><a href="{% url 'transaction_create' transaction_type='income' %}">Создать приход</a></li>
                     <li><a href="{% url 'transaction_create' transaction_type='outcome' %}">Создать расход</a></li>
-                    <li><a onclick="to_excel()">Выгрузить в Excel</a></li>
+                    <li><a onclick="to_excel()" style="cursor: pointer">Выгрузить в Excel</a></li>
                 </ul>
             </div>
         </div>
@@ -203,9 +203,13 @@
         }
 
         function check_empty(data) {
-            if (data) {
-                return data
-            } else return '(не задано)'
+            if (data){
+                if (data.length > 3){
+                    return data
+                }
+                }
+                return '(не задано)'
+
         }
 
         function set_options(data, target_id) {
@@ -282,14 +286,9 @@
 
                     {data: 'purpose__name'},
                     {
-                        data: 'owner__first_name',
+                        data: 'owner__name',
                         render: function (data, type, row) {
-                            if (data) {
-                                return `${data} ${row['owner__middle_name']} ${row['owner__last_name']}`
-                            } else {
                                 return check_empty(data)
-                            }
-
                         }
                     },
                     {
@@ -429,17 +428,25 @@
 
             });
         });
-        function to_excel() {
-            select_options['to_excel'] = true
-        $.ajax({
-            type: 'GET',
-            url: "{% url 'transaction_list' %}",
-            data: select_options,
-            success: function (data) {
-                select_options['to_excel']=''
-            }
-        })
 
+        function to_excel() {
+            sort_data['to_excel'] = true
+            $.ajax({
+                type: 'GET',
+                url: "{% url 'transaction_list' %}",
+                data: sort_data,
+                xhrFields: {responseType: 'blob'},
+                dataType: 'binary',
+                success: function (data) {
+                    let a = document.createElement("a");
+                    a.href = URL.createObjectURL(data);
+                    let date = moment().format('L')
+                    let time = moment().format('LT')
+                    a.download = `transactions_${date}__${time}.xlsx`;
+                    a.click();
+                    sort_data['to_excel'] = ''
+                }
+            })
         }
     </script>
 

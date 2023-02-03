@@ -1,7 +1,13 @@
-from django.http import JsonResponse
+from django.db.models import Value
+from django.db.models.functions import Concat
+from django.http import JsonResponse, HttpResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, ListView, DetailView, UpdateView
+from openpyxl.utils import get_column_letter
+from openpyxl.workbook import Workbook
+from openpyxl.writer.excel import save_virtual_workbook
+
 from admin_transaction.models import Transaction
 from users.mixins import RolePermissionRequiredMixin
 from .forms import TransactionForm
@@ -82,6 +88,28 @@ class TransactionList(RolePermissionRequiredMixin, ListView):
         context['purpose_list'] = Purpose.objects.all()
         return context
 
+    def to_excel(self, value_list):
+        wb = Workbook()
+        ws = wb.active
+        title_list = ['№', 'Дата', 'Приход/расход', 'Статус', 'Статья', 'Сумма', 'Валюта', 'Лицевой счет',
+                      'Владелец квартиры']
+        ws.append(title_list)
+        status_dict = {0: 'Не проведен', 1: 'Проведен'}
+        type_dict = {0: 'Расход', 1: 'Приход'}
+        for transaction in value_list:
+            transaction_list = list(transaction.values())
+            transaction_list[2] = type_dict[transaction_list[2]]
+            transaction_list[3] = status_dict[transaction_list[3]]
+            transaction_list[6] = 'UAH'
+            ws.append(transaction_list)
+        for i in range(1, len(title_list) + 1):
+            col_letter = get_column_letter(i)
+            ws.column_dimensions[col_letter].width = 20
+        response = HttpResponse(save_virtual_workbook(wb),
+                                content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+        response['Content-Disposition'] = 'attachment; filename=export.xlsx'
+        return response
+
     def render_to_response(self, context, **response_kwargs):
         if self.request.is_ajax():
             print(self.request.GET)
@@ -105,17 +133,21 @@ class TransactionList(RolePermissionRequiredMixin, ListView):
             #         result['purposes'] = list(context['purpose_list'].values('name'))
             filter_fields = {k: v for k, v in filter_fields.items() if v}
             filtered_qs = self.get_queryset().filter(**filter_fields)
+            filtered_qs = filtered_qs.annotate(
+                owner__name=Concat('owner__first_name', Value(' '),
+                                   'owner__middle_name', Value(' '),
+                                   'owner__last_name'))
+
             if order_by:
                 filtered_qs = filtered_qs.order_by(order_by)
             result['income'] = '%.2f' % self.model.count_income(filtered_qs)
             result['outcome'] = '%.2f' % self.model.count_outcome(filtered_qs)
-            filtered_qs = filtered_qs.values('id', 'date', 'is_complete', 'type', 'number', 'owner__first_name',
-                                             'owner__last_name', 'owner_id', 'personal_account__number', 'sum',
-                                             'purpose__name', 'owner__middle_name')
-
-            print(filtered_qs)
+            filtered_qs = filtered_qs.values('number', 'date', 'type', 'is_complete', 'purpose__name',
+                                             'sum', 'id', 'owner__name', 'personal_account__number', )
             result['transaction'] = list(filtered_qs)
             print(result)
+            if self.request.GET.get('to_excel'):
+                return self.to_excel(value_list=result['transaction'])
             return JsonResponse(result, safe=False, **response_kwargs)
 
         else:
