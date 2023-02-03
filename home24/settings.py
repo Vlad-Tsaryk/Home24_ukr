@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'admin_application.apps.AdminApplicationConfig',
     'admin_transaction.apps.AdminTransactionConfig',
     'admin_receipt.apps.AdminReceiptConfig',
+    'excel_templates.apps.ExcelTemplatesConfig',
     "debug_toolbar",
 
 ]
