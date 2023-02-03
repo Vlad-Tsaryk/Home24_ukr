@@ -5,6 +5,7 @@ from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, UpdateView, ListView, DetailView
 from django.contrib import messages
+from openpyxl.utils import get_column_letter
 from openpyxl.writer.excel import save_virtual_workbook
 
 from admin_house.models import House
@@ -92,22 +93,13 @@ class PersonalAccountList(RolePermissionRequiredMixin, ListView):
     def to_excel(self, value_list):
         wb = Workbook()
         ws = wb.active
-        ws['A1'] = 'Лицевой счет'
-        ws['B1'] = 'Статус'
-        ws['C1'] = 'Дом'
-        ws['D1'] = 'Секция'
-        ws['E1'] = 'Квартира'
-        ws['F1'] = 'Владелец'
-        ws['G1'] = 'Остаток'
-        ws.column_dimensions["A"].width = 20
-        ws.column_dimensions["B"].width = 20
-        ws.column_dimensions["C"].width = 25
-        ws.column_dimensions["D"].width = 20
-        ws.column_dimensions["E"].width = 15
-        ws.column_dimensions["F"].width = 30
-        ws.column_dimensions["G"].width = 20
+        title_list = ['Лицевой счет', 'Статус', 'Дом', 'Секция', 'Квартира', 'Владелец', 'Остаток']
+        ws.append(title_list)
         for account in value_list:
             ws.append(list(account.values())[1:])
+        for i in range(1, len(title_list)+1):
+            col_letter = get_column_letter(i)
+            ws.column_dimensions[col_letter].width = 20
         response = HttpResponse(save_virtual_workbook(wb),
                                 content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
         response['Content-Disposition'] = 'attachment; filename=export.xlsx'
