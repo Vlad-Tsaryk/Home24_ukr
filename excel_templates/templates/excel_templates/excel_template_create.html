@@ -1,0 +1,64 @@
+{% extends 'layout/basic.html' %}
+{% block content %}
+
+
+    <div class="box">
+        <div class="box-header with-border">
+            <h3 class="box-title">Список шаблонов</h3>
+        </div>
+        <div class="box-body">
+            {% for template in excel_template_list %}
+                <div class="template">
+                    <p>{{ template.name }}
+                        {% if template.default %}<span class="text-bold">(по-умолчанию)</span>{% endif %}
+                    </p>
+                    <a href="{{ template.file.url }}"><i class="fa fa-download" aria-hidden="true"></i>
+                        Скачать шаблон</a>
+                    <a href="{% url 'excel-template-set-default' template.pk %}" class="text-success">
+                        • Назначить шаблоном по умолчанию</a>
+                    <a onclick="confirm_delete('{% url 'excel-template-delete' template.pk %}','{{ template.name }}')"
+                       class="text-danger" style="cursor: pointer">
+                        <i class="fa fa-trash" aria-hidden="true"></i> Удалить шаблон</a>
+                </div>
+            {% endfor %}
+
+            <form id="w0" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="row">
+                    <div class="col-xs-12 col-sm-6">
+                        <div class="form-group field-id_file">
+                            <label class="control-label" for="id_file">Загрузить пользовательский
+                                шаблон</label>
+                            {{ form.file }}
+                        </div>
+                        <div class="form-group field-id_name required">
+                            <label class="control-label" for="id_name">Название</label>
+                            {{ form.name }}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 text-center">
+                            <a href="{% url 'excel-template-create' %}" class="btn btn-default">Отменить</a>
+                            <button type="submit" class="btn btn-success">Сохранить</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+{% endblock %}
+{% block scripts %}
+    <script>
+            function confirm_delete(link, name) {
+            alertify.confirm('Подтверждение удаления', 'Удалить шаблон <b>'
+                + name + '</b> ?',
+                function () {
+                    window.location.href = link
+                },
+                function () {
+                }).set({labels: {ok: 'Подтвердить', cancel: 'Отмена'}});
+            return false;
+        }
+    </script>
+{% endblock %}
