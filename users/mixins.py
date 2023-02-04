@@ -1,7 +1,7 @@
-from django.contrib.auth.mixins import PermissionRequiredMixin
+from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin
 
 
-class RolePermissionRequiredMixin(PermissionRequiredMixin):
+class RolePermissionRequiredMixin(LoginRequiredMixin, PermissionRequiredMixin):
 
     def has_permission(self):
         perms = self.get_permission_required()
