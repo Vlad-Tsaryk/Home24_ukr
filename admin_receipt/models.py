@@ -13,6 +13,13 @@ class Receipt(models.Model):
             total=Sum(F('consumption') * F('price_unit')))['total']
         self.total_price = result or 0
 
+    @property
+    def address_for_excel(self):
+        apartment = self.apartment
+        owner = apartment.owner
+        return f'{owner.last_name} {owner.first_name[0]}. {owner.middle_name[0]}. {apartment.house.address} ' \
+               f'квартира {apartment.number}'
+
     class StatusName(models.TextChoices):
         PAID = 'Оплачена', 'Оплачена'
         PRE_PAID = 'Частично оплачена', 'Частично оплачена'
