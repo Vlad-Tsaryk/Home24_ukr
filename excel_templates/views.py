@@ -30,8 +30,12 @@ class ExcelTemplateDelete(DeleteView):
     def delete(self, request, *args, **kwargs):
         obj = self.get_object()
         messages.success(self.request, f'Шаблон {obj.name} успешно удален')
-        self.success_url = reverse_lazy('excel-template-set-default',
-                                        kwargs={'pk': ExcelTemplate.objects.exclude(pk=obj.pk).last().pk})
+        if obj.default and ExcelTemplate.objects.count() > 1:
+
+            self.success_url = reverse_lazy('excel-template-set-default',
+                                            kwargs={'pk': ExcelTemplate.objects.exclude(pk=obj.pk).last().pk})
+        else:
+            self.success_url = reverse_lazy('excel-template-create')
         return super(ExcelTemplateDelete, self).delete(request, *args, **kwargs)
 
     def get(self, request, *args, **kwargs):
