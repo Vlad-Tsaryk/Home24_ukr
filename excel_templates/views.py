@@ -121,40 +121,51 @@ class ExcelTemplatePrint(SingleObjectMixin, TemplateView):
                     cell.value = receipt_selectors[val]
                 elif val == '$LOOP 1$':
                     loop_coord = cell.row
-        aaa = ws[loop_coord + 1]
-        # ws.move_range("A10:O10", rows=5, cols=1, translate=True)
-        print(aaa)
+        target_row = ws[loop_coord + 1]
         row_number = receipt_services.count()
-        ws.insert_rows(loop_coord + 2, amount=row_number-1)
-        cell_to_marge = None
-        merged_cell = None
-        print(aaa)
+        row_height = ws.row_dimensions[loop_coord].height
         ws.delete_rows(loop_coord)
+        cell_range = CellRange(f"{target_row[0].coordinate}:{target_row[-1].coordinate}")
+        for row in range(1, row_number + 2):
+            for merged_cell in ws.merged_cells:
+                if merged_cell.coord not in cell_range:
+                    continue
+                cr = CellRange(merged_cell.coord)
+                cr.shift(row_shift=row)
+                ws.merge_cells(cr.coord)
+        ws.insert_rows(loop_coord + 1, amount=row_number - 2)
+
         for row in range(1, row_number):
-            for index, cell in enumerate(aaa):
+            ws.row_dimensions[loop_coord+row+1].height = row_height
+            for cell in target_row:
                 new_cell = ws.cell(row=cell.row + row, column=cell.column, value=cell.value)
                 if cell.has_style:
-                    new_cell._style = copy(cell._style)
-                if isinstance(cell, MergedCell):
-                    merged_cell = f'{get_column_letter(cell.column)}{cell.row + row}'
-                    if index == len(aaa) - 1:
-                        ws.merge_cells(f'{cell_to_marge}:{merged_cell}')
-                else:
-                    if cell_to_marge and merged_cell:
-                        print(f'{cell_to_marge}:{merged_cell}')
-                        ws.merge_cells(f'{cell_to_marge}:{merged_cell}')
-                    cell_to_marge = f'{get_column_letter(cell.column)}{cell.row + row}'
-
-        for row, receipt_service in zip(ws.iter_rows(min_row=loop_coord, max_row=loop_coord + row_number),
-                                        receipt_services):
+                    new_cell._style = deepcopy(cell._style)
+        for row, receipt_service in zip(
+                ws.iter_rows(min_row=loop_coord, max_row=loop_coord + row_number, max_col=target_row[-1].column),
+                receipt_services):
             for cell in row:
                 if isinstance(cell, Cell):
                     cell.value = get_receipt_service_selectors(cell.value, receipt_service)
 
-                # print(merged_cell.coordinate)
-        # area = CellRange("A1:O1")  # area being copied
-        # for row, copy_cell in zip(ws.iter_rows(min_row=15, max_col=len(aaa), max_row=15), aaa):
-        #     for cell_a in row:
+        # for row in range(1, row_number):
+        #     for index, cell in enumerate(target_row):
+        #         new_cell = ws.cell(row=cell.row + row, column=cell.column, value=cell.value)
+        #         if cell.has_style:
+        #             new_cell._style = copy(cell._style)
+        #         if isinstance(cell, MergedCell):
+        #             merged_cell = f'{get_column_letter(cell.column)}{cell.row + row}'
+        #             if index == len(target_row) - 1:
+        #                 ws.merge_cells(f'{cell_to_marge}:{merged_cell}')
+        #         else:
+        #             if cell_to_marge and merged_cell:
+        #                 print(f'{cell_to_marge}:{merged_cell}')
+        #                 ws.merge_cells(f'{cell_to_marge}:{merged_cell}')
+        #
+        #             cell_to_marge = f'{get_column_letter(cell.column)}{cell.row + row}'
+
+        # print(merged_cell.coordinate)
+        # for copy_cell in target_row:
         #         print(copy_cell.value)
         #         cell_a = deepcopy(copy_cell)
         #         cell_a.row = 15
@@ -168,47 +179,40 @@ class ExcelTemplatePrint(SingleObjectMixin, TemplateView):
         #     return tgt[coord]
         #
         # copy_cell(ws['B10'], 'A15', ws)
-        # for mcr in ws.merged_cells:
-        #     if mcr.coord not in area:
-        #         continue
-        #     print(mcr)
-        #     cr = CellRange(mcr.coord)
-        #     cr.shift(row_shift=10)
-        #     ws.merge_cells(cr.coord)
-        if loop_coord:
-            a = ws[loop_coord + 1]
-            # ws.insert_rows(loop_coord + 2, loop_coord + 5)
-            # ws.insert_rows(10, amount=5)
-            # merged_cells_range = ws.merged_cell_ranges
-            # print(merged_cells_range)
-            # test_merg = []
-            # for marg in merged_cells_range:
-            #     test_merg.append(marg.format)
-            # for merged_cell in a:
-            #     print(type(merged_cell))
-            #     if isinstance(merged_cell, MergedCell):
-            #         # if merged_cell in merged_cells_range:
-            #         #     print('asdasd')
-            #         print(merged_cell)
-            #         print(merged_cell.column)
-            #         print(merged_cell.row)
-            #         copy(merged_cell)
-            #         MergedCell(ws, row=merged_cell.row+5, column=merged_cell.column)
-            #         print('--------------------')
-            #     print(isinstance(merged_cell, MergedCell))
-            #     print(merged_cell)
-            #     merged_cell.shift(0, 3)
-            # ws.insert_rows(loop_coord+3, 3)
-            # for row in range(4):
-            #     # ws.insert_rows(loop_coord + row)
-            #     print('hello')
-            #     for c, cell in zip(range(1, ws.max_column + 1), a):
-            #         new_cell = ws.cell(row=loop_coord+row, column=c, value=cell.value)
-            #         if cell.has_style:
-            #             new_cell._style = copy(cell._style)
-            # ws[loop_coord].append(ws[loop_coord])
-            print(loop_coord)
-            # ws[loop_coord + 1] = ws[loop_coord]
+
+        # if loop_coord:
+        #     a = ws[loop_coord + 1]
+        # ws.insert_rows(loop_coord + 2, loop_coord + 5)
+        # ws.insert_rows(10, amount=5)
+        # merged_cells_range = ws.merged_cell_ranges
+        # print(merged_cells_range)
+        # test_merg = []
+        # for marg in merged_cells_range:
+        #     test_merg.append(marg.format)
+        # for merged_cell in a:
+        #     print(type(merged_cell))
+        #     if isinstance(merged_cell, MergedCell):
+        #         # if merged_cell in merged_cells_range:
+        #         #     print('asdasd')
+        #         print(merged_cell)
+        #         print(merged_cell.column)
+        #         print(merged_cell.row)
+        #         copy(merged_cell)
+        #         MergedCell(ws, row=merged_cell.row+5, column=merged_cell.column)
+        #         print('--------------------')
+        #     print(isinstance(merged_cell, MergedCell))
+        #     print(merged_cell)
+        #     merged_cell.shift(0, 3)
+        # ws.insert_rows(loop_coord+3, 3)
+        # for row in range(4):
+        #     # ws.insert_rows(loop_coord + row)
+        #     print('hello')
+        #     for c, cell in zip(range(1, ws.max_column + 1), a):
+        #         new_cell = ws.cell(row=loop_coord+row, column=c, value=cell.value)
+        #         if cell.has_style:
+        #             new_cell._style = copy(cell._style)
+        # ws[loop_coord].append(ws[loop_coord])
+        # ws[loop_coord + 1] = ws[loop_coord]
         response = HttpResponse(save_virtual_workbook(wb),
                                 content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
         response['Content-Disposition'] = f'attachment; filename=receipt__{receipt_selectors["$receiptNumber$"]}_' \
