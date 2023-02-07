@@ -1,4 +1,15 @@
 {% extends 'layout/basic.html' %}
+{% block title %}Квитанция{% endblock %}
+{% block breadcrumb %}
+    <ul class="breadcrumb">
+        <li><a href="{% url 'statistic' %}"><i class="fa fa-home"></i>Главная</a></li>
+        <li><a href="{% url 'receipt_list' %}">Квитанции</a></li>
+        <li class="active">Квитанция №{{ receipt.number }}</li>
+    </ul>
+{% endblock %}
+{% block header_text %}
+    Квитанция
+{% endblock %}
 {% block content %}
 
 
@@ -29,10 +40,10 @@
         <div class="box-header with-border">
             <h3 class="box-title">Просмотр квитанции</h3>
             <div class="box-tools">
-                <a href="/admin/invoice/print/717" class="btn btn-default btn-sm">
+                <a href="{% url 'excel-template-print' receipt.pk %}" class="btn btn-default btn-sm">
                     <span class="hidden-xs">Печать</span><i class="fa fa-print visible-xs" aria-hidden="true"></i>
                 </a>
-                <a href="/admin/invoice/print/717" class="btn btn-default btn-sm">
+                <a href="{% url 'excel-template-print' receipt.pk %}" class="btn btn-default btn-sm">
                     <span class="hidden-xs">Отправить на e-mail</span><i class="fa fa-envelope-o visible-xs"
                                                                          aria-hidden="true"></i>
                 </a>

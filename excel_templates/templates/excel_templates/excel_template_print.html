@@ -1,4 +1,16 @@
 {% extends 'layout/basic.html' %}
+{% block title %}Печатная форма документа {% endblock %}
+{% block breadcrumb %}
+    <ul class="breadcrumb">
+        <li><a href="{% url 'statistic' %}"><i class="fa fa-home"></i>Главная</a></li>
+        <li><a href="{% url 'receipt_list' %}">Квитанции</a></li>
+        <li><a href="{% url 'receipt_view' receipt.pk %}">Квитанция №{{ receipt.number }}</a></li>
+        <li class="active">Печатная форма документа</li>
+    </ul>
+{% endblock %}
+{% block header_text %}
+    Печатная форма документа
+{% endblock %}
 {% block content %}
 
 
@@ -22,7 +34,8 @@
                             <div class="radio">
                                 <label for="template_id-{{ template.pk }}">
                                     <input type="radio" id="template_id-{{ template.pk }}" name="template_id"
-                                           value="{{ template.pk }}"> {{ template.name }} </label>
+                                           value="{{ template.pk }}" {% if template.default %}checked{% endif %}>
+                                    {{ template.name }} </label>
                             </div>
                         </div>
                         {% endfor %}
@@ -31,8 +44,9 @@
                 <div class="row">
                     <div class="col-xs-12 text-right">
                         <div class="form-group">
-                            <button name="action_download" type="submit" class="btn btn-success">Скачать</button>
-                            <button name="action_send_email" type="submit" class="btn btn-default">Отправить на e-mail
+                            <button name="action_download" type="submit" class="btn btn-success" value="1">Скачать</button>
+                            <button name="action_send_email" type="submit" class="btn btn-default" value="2">
+                                Отправить на e-mail
                             </button>
                         </div>
                     </div>
@@ -41,4 +55,9 @@
         </div>
     </div>
 
+{% endblock %}
+{% block scripts %}
+  <script>
+        $('#nav_receipt').attr('class', 'active')
+    </script>
 {% endblock %}

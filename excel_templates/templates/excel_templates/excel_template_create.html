@@ -1,4 +1,15 @@
 {% extends 'layout/basic.html' %}
+{% block title %}Настройка шаблонов{% endblock %}
+{% block breadcrumb %}
+    <ul class="breadcrumb">
+        <li><a href="{% url 'statistic' %}"><i class="fa fa-home"></i>Главная</a></li>
+        <li><a href="{% url 'receipt_list' %}">Квитанции</a></li>
+        <li class="active">Настройка шаблонов </li>
+    </ul>
+{% endblock %}
+{% block header_text %}
+    Настройка шаблонов
+{% endblock %}
 {% block content %}
 
 
@@ -49,6 +60,9 @@
 
 {% endblock %}
 {% block scripts %}
+      <script>
+        $('#nav_receipt').attr('class', 'active')
+    </script>
     <script>
             function confirm_delete(link, name) {
             alertify.confirm('Подтверждение удаления', 'Удалить шаблон <b>'
