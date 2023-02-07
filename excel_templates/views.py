@@ -128,32 +128,34 @@ class ExcelTemplatePrint(RolePermissionRequiredMixin, SingleObjectMixin, Templat
                     cell.value = receipt_selectors[val]
                 elif val == '$LOOP 1$':
                     loop_coord = cell.row
-        target_row = ws[loop_coord + 1]
-        row_number = receipt_services.count()
-        row_height = ws.row_dimensions[loop_coord].height
-        ws.delete_rows(loop_coord)
-        cell_range = CellRange(f"{target_row[0].coordinate}:{target_row[-1].coordinate}")
-        for row in range(1, row_number + 2):
-            for merged_cell in ws.merged_cells:
-                if merged_cell.coord not in cell_range:
-                    continue
-                cr = CellRange(merged_cell.coord)
-                cr.shift(row_shift=row)
-                ws.merge_cells(cr.coord)
-        ws.insert_rows(loop_coord + 1, amount=row_number - 2)
+        if loop_coord:
+            target_row = ws[loop_coord + 1]
+            row_number = receipt_services.count()
+            row_height = ws.row_dimensions[loop_coord].height
+            ws.delete_rows(loop_coord)
+            cell_range = CellRange(f"{target_row[0].coordinate}:{target_row[-1].coordinate}")
+            for row in range(1, row_number + 1):
+                for merged_cell in ws.merged_cells:
+                    if merged_cell.coord not in cell_range:
+                        continue
+                    cr = CellRange(merged_cell.coord)
+                    cr.shift(row_shift=row)
+                    ws.merge_cells(cr.coord)
+            if row_number > 1:
+                ws.insert_rows(loop_coord + 1, amount=row_number - 1)
+                for row in range(1, row_number):
+                    ws.row_dimensions[loop_coord + row + 1].height = row_height
+                    for cell in target_row:
+                        new_cell = ws.cell(row=cell.row + row, column=cell.column, value=cell.value)
+                        if cell.has_style:
+                            new_cell._style = copy(cell._style)
 
-        for row in range(1, row_number):
-            ws.row_dimensions[loop_coord + row + 1].height = row_height
-            for cell in target_row:
-                new_cell = ws.cell(row=cell.row + row, column=cell.column, value=cell.value)
-                if cell.has_style:
-                    new_cell._style = copy(cell._style)
-        for row, receipt_service in zip(
-                ws.iter_rows(min_row=loop_coord, max_row=loop_coord + row_number, max_col=target_row[-1].column),
-                receipt_services):
-            for cell in row:
-                if isinstance(cell, Cell):
-                    cell.value = get_receipt_service_selectors(cell.value, receipt_service)
+            for row, receipt_service in zip(
+                    ws.iter_rows(min_row=loop_coord, max_row=loop_coord + row_number, max_col=target_row[-1].column),
+                    receipt_services):
+                for cell in row:
+                    if isinstance(cell, Cell):
+                        cell.value = get_receipt_service_selectors(cell.value, receipt_service)
 
         # for row in range(1, row_number):
         #     for index, cell in enumerate(target_row):
