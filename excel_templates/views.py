@@ -1,28 +1,30 @@
-from copy import copy, deepcopy
-from datetime import datetime
+from copy import copy
 
 from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
+from django.core.mail import EmailMessage
 from django.http import HttpResponse
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic import CreateView, DeleteView, TemplateView
 from django.views.generic.detail import SingleObjectMixin
+from openpyxl.cell import Cell
 from openpyxl.reader.excel import load_workbook
-from openpyxl.utils import get_column_letter
 from openpyxl.worksheet.cell_range import CellRange
 from openpyxl.writer.excel import save_virtual_workbook
-from openpyxl.cell import Cell, MergedCell
 
 from admin_purpose.models import PaymentDetails
-from admin_receipt.models import Receipt, ReceiptService
+from admin_receipt.models import Receipt
 from excel_templates.models import ExcelTemplate
+from settings import EMAIL_HOST
+from users.mixins import RolePermissionRequiredMixin
 from .forms import ExcelTemplateCreateForm
 
 
 # Create your views here.
-class ExcelTemplateCreate(SuccessMessageMixin, CreateView):
+class ExcelTemplateCreate(RolePermissionRequiredMixin, SuccessMessageMixin, CreateView):
+    permission_required = 'receipts'
     model = ExcelTemplate
     form_class = ExcelTemplateCreateForm
     template_name = 'excel_templates/excel_template_create.html'
@@ -35,7 +37,8 @@ class ExcelTemplateCreate(SuccessMessageMixin, CreateView):
         return context
 
 
-class ExcelTemplateDelete(DeleteView):
+class ExcelTemplateDelete(RolePermissionRequiredMixin, DeleteView):
+    permission_required = 'receipts'
     model = ExcelTemplate
 
     def delete(self, request, *args, **kwargs):
@@ -53,7 +56,8 @@ class ExcelTemplateDelete(DeleteView):
         return self.delete(request, *args, **kwargs)
 
 
-class ExcelTemplateSetDefault(SingleObjectMixin, View):
+class ExcelTemplateSetDefault(RolePermissionRequiredMixin, SingleObjectMixin, View):
+    permission_required = 'receipts'
     model = ExcelTemplate
 
     def get(self, request, *args, **kwargs):
@@ -70,13 +74,16 @@ class ExcelTemplateSetDefault(SingleObjectMixin, View):
         return redirect('excel-template-create')
 
 
-class ExcelTemplatePrint(SingleObjectMixin, TemplateView):
+class ExcelTemplatePrint(RolePermissionRequiredMixin, SingleObjectMixin, TemplateView):
+    permission_required = 'receipts'
     model = Receipt
     template_name = 'excel_templates/excel_template_print.html'
 
     def get_context_data(self, **kwargs):
         context = super(SingleObjectMixin, self).get_context_data(**kwargs)
+        context['receipt'] = self.get_object()
         context['excel_template_list'] = ExcelTemplate.objects.all().order_by('-pk')
+        print(context)
         return context
 
     def post(self, request, *args, **kwargs):
@@ -136,11 +143,11 @@ class ExcelTemplatePrint(SingleObjectMixin, TemplateView):
         ws.insert_rows(loop_coord + 1, amount=row_number - 2)
 
         for row in range(1, row_number):
-            ws.row_dimensions[loop_coord+row+1].height = row_height
+            ws.row_dimensions[loop_coord + row + 1].height = row_height
             for cell in target_row:
                 new_cell = ws.cell(row=cell.row + row, column=cell.column, value=cell.value)
                 if cell.has_style:
-                    new_cell._style = deepcopy(cell._style)
+                    new_cell._style = copy(cell._style)
         for row, receipt_service in zip(
                 ws.iter_rows(min_row=loop_coord, max_row=loop_coord + row_number, max_col=target_row[-1].column),
                 receipt_services):
@@ -213,9 +220,22 @@ class ExcelTemplatePrint(SingleObjectMixin, TemplateView):
         #             new_cell._style = copy(cell._style)
         # ws[loop_coord].append(ws[loop_coord])
         # ws[loop_coord + 1] = ws[loop_coord]
-        response = HttpResponse(save_virtual_workbook(wb),
-                                content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
-        response['Content-Disposition'] = f'attachment; filename=receipt__{receipt_selectors["$receiptNumber$"]}_' \
-                                          f'{receipt_selectors["$receiptDate$"]}.xlsx'
-        print(response['Content-Disposition'])
-        return response
+        ws_save = save_virtual_workbook(wb)
+
+        if self.request.POST.get('action_send_email'):
+            email = EmailMessage()
+            email.attach(f'receipt__{receipt_selectors["$receiptNumber$"]}_{receipt_selectors["$receiptDate$"]}.xlsx',
+                         ws_save, 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+            email.from_email = EMAIL_HOST
+            email.subject = 'Test'
+            email.body = 'Test'
+            email.to = [obj.apartment.owner.username]
+            if email.send():
+                messages.success(request, 'Email отправлен успешно')
+            return self.render_to_response(self.get_context_data())
+        elif self.request.POST.get('action_download'):
+            response = HttpResponse(ws_save,
+                                    content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+            response['Content-Disposition'] = f'attachment; filename=receipt__{receipt_selectors["$receiptNumber$"]}_' \
+                                              f'{receipt_selectors["$receiptDate$"]}.xlsx'
+            return response
