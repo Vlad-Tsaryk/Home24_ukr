@@ -16,6 +16,7 @@ from admin_service.models import Service
 
 # Create your views here.
 class MeterView(RolePermissionRequiredMixin, DetailView):
+    permission_required = 'meters'
     model = Meter
     template_name = 'admin_meter/meter_view.html'
 
