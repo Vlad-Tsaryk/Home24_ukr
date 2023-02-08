@@ -1,0 +1,220 @@
+{% extends 'layout/basic.html' %}
+{% load static %}
+{% block head %}
+    <style>
+    .ck-editor__editable{
+        min-height: 200px;
+    }
+    </style>
+{% endblock %}
+{% block title %}Новое сообщение{% endblock %}
+{% block breadcrumb %}
+    <ul class="breadcrumb">
+        <li><a href="{% url 'statistic' %}"><i class="fa fa-home"></i>Главная</a></li>
+        <li><a href="{% url 'message_list' %}">Сообщения</a></li>
+        <li class="active">Новое сообщение</li>
+    </ul>
+{% endblock %}
+{% block header_text %}
+    Новое сообщение
+{% endblock %}
+{% block content %}
+    <div class="box">
+
+        <form id="w0" method="post">
+            {% csrf_token %}
+            <div class="box-header with-border">
+                <h3 class="box-title"></h3>
+            </div>
+            <div class="box-body">
+                <div class="form-group field-message-name required">
+
+                    {{ form.subject }}
+
+                    <div class="help-block"></div>
+                </div>
+                <div class="form-group field-message-description">
+                    {{ form.text }}
+                </div>
+                <div class="row">
+
+                    <div class="col-xs-12 col-md-6">
+                        <h4>Кому отправить:</h4>
+
+
+                        <div class="form-group field-messageaddress-user_has_debt">
+
+                            <input type="hidden" name="MessageAddress[user_has_debt]" value="0"><label><input
+                                type="checkbox" id="messageaddress-user_has_debt" class=""
+                                name="MessageAddress[user_has_debt]" value="1"> Владельцам с задолженностями</label>
+
+                            <div class="help-block"></div>
+                        </div>
+                        <div class="form-group field-messageaddress-house_id ">
+                            <label class="control-label" for="messageaddress-house_id">ЖК</label>
+                            {{ form.house }}
+
+                            <div class="help-block"></div>
+                        </div>
+                        <div class="form-group field-messageaddress-section_id ">
+                            <label class="control-label" for="messageaddress-section_id">Секция</label>
+                            {{ form.section }}
+
+                            <div class="help-block"></div>
+                        </div>
+                        <div class="form-group field-messageaddress-floor_id ">
+                            <label class="control-label" for="messageaddress-floor_id">Этаж</label>
+                            {{ form.floor }}
+
+
+                            <div class="help-block"></div>
+                        </div>
+                        <div class="form-group field-messageaddress-flat_id ">
+                            <label class="control-label" for="messageaddress-flat_id">Квартира</label>
+                            {{ form.apartment }}
+
+                            <div class="help-block"></div>
+                        </div>
+                        {{ form.apartment.id }}
+
+                    </div>
+
+                </div>
+            </div>
+            <div class="box-footer">
+                <div class="pull-right">
+                    <button type="submit" class="btn btn-success"><i class="fa fa-envelope-o"></i> Отправить</button>
+                </div>
+            </div>
+            {{ form.errors }}
+        </form>
+    </div>
+
+{% endblock %}
+{% block scripts %}
+        <script src="{% static 'admin_panel/bower_components/select2/dist/js/select2.full.min.js' %}"></script>
+    <script src="{% static 'admin_panel/bower_components/select2/dist/js/i18n/ru.min.js' %}"></script>
+        <script type="text/javascript" src="{% static "admin_panel/plugins/ckeditor5-build-classic/ckeditor.js" %}"></script>
+    <script type="text/javascript" src="{% static "admin_panel/plugins/ckeditor5-build-classic/translations/ru.js" %}"></script>
+    <script>
+    $('.select2-field').select2({placeholder: "Всем...",allowClear:true})
+    </script>
+    <script>
+    $(document).ready(
+            ClassicEditor.create( document.querySelector( '#id_text' ),{
+            language: 'ru',
+        toolbar:{
+        items: [
+			'heading',
+			'|',
+			'bold',
+			'italic',
+			'underline',
+			'link',
+			'bulletedList',
+			'numberedList',
+			'|',
+			'outdent',
+			'indent',
+			'|',
+			'blockQuote',
+			'undo',
+			'redo'
+		]
+        }
+        } )
+        .catch( error => {
+            console.error( error );
+        } )
+    )
+
+    </script>
+    <script>
+        let select_options = {}
+
+        function clear_options(target_id) {
+            $('#' + `${target_id} option:not([value=''])`).remove()
+        }
+
+        function get_values(values) {
+            $.ajax({
+                type: 'GET',
+                url: '{% url 'message_create' %}',
+                data: select_options,
+                success: function (data) {
+                    console.log(data)
+                    console.log(select_options)
+                    if (data['sections']) {
+                        clear_options('id_apartment')
+                        clear_options('id_section')
+                        data['sections'].forEach(
+                            function (item) {
+                                $('#id_section').append($('<option>').val(item['id']).text(item['name']));
+                            }
+                        );
+                    }
+                    if (data['floors']) {
+                        clear_options('id_apartment')
+                        clear_options('id_floor')
+                        data['floors'].forEach(
+                            function (item) {
+                                $('#id_floor').append($('<option>').val(item['id']).text(item['name']));
+                            }
+                        );
+                    }
+                    if (data['apartments']) {
+                        clear_options('id_apartment')
+                        data['apartments'].forEach(
+                            function (item) {
+                                $('#id_apartment').append($('<option>').val(item['id']).text(item['number']));
+                            });
+                    }
+                }
+            })
+        }
+
+        function set_event_listeners(house = false, section = false, floor = false, apartment = false) {
+            if (house) {
+                $('#id_house').change(function () {
+                    select_options['house_id'] = this.value
+                    select_options['section_id'] = ''
+                    select_options['floor_id'] = ''
+                    select_options['apartment_id'] = ''
+                    get_values()
+                })
+            }
+            if (section) {
+                $('#id_section').change(function () {
+                    select_options['section_id'] = this.value
+                    select_options['apartment_id'] = ''
+                    get_values()
+                })
+            }
+            if (floor) {
+                $('#id_floor').change(function () {
+                    select_options['floor_id'] = this.value
+                    select_options['apartment_id'] = ''
+                    get_values()
+                })
+            }
+            {% comment %}            if (apartment) {
+                            $('#id_apartment').change(function () {
+                                select_options['apartment_id'] = this.value
+                                get_values()
+                            })
+                        }{% endcomment %}
+
+
+        }
+
+        $(document).ready(function () {
+                clear_options('id_apartment')
+                clear_options('id_section')
+                clear_options('id_floor')
+                set_event_listeners(true, true, true, true);
+
+
+            }
+        )
+    </script>
+{% endblock %}
