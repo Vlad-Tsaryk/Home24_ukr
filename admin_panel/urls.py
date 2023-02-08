@@ -22,6 +22,7 @@ urlpatterns = [
     path('application/', include('admin_application.urls')),
     path('transaction/', include('admin_transaction.urls')),
     path('receipt/', include('admin_receipt.urls')),
+    path('message/', include('admin_messages.urls')),
     path('payment_details/', PaymentDetailsUpdate.as_view(), name='payment_details_update'),
 
 ]
