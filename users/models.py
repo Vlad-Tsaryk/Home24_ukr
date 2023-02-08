@@ -88,10 +88,4 @@ class User(AbstractUser):
         ordering = ['-date_joined']
 
 
-class Message(models.Model):
-    sender = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name='sender')
-    receiver = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name='receiver')
-    subject = models.CharField(max_length=78)
-    text = models.TextField()
-    is_read = models.BooleanField()
-    created = models.DateTimeField(auto_now_add=True)
+
