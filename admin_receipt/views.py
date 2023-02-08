@@ -1,4 +1,3 @@
-from django.contrib.messages.views import SuccessMessageMixin
 from django.db.models.functions import Concat
 from django.db.models import Value, CharField, F
 from django.http import JsonResponse
@@ -178,7 +177,7 @@ class ReceiptList(RolePermissionRequiredMixin, ListView):
         context['transactions_total_balance'] = Transaction.total_balance()
         return context
 
-    def delete_res(self):
+    def delete_receipts(self):
         delete_info = {
             'success_msg': [],
             'error_msg': [],
@@ -198,7 +197,7 @@ class ReceiptList(RolePermissionRequiredMixin, ListView):
         if self.request.is_ajax():
             result = {}
             if self.request.GET.get('delete_receipts'):
-                result['delete_info'] = self.delete_res()
+                result['delete_info'] = self.delete_receipts()
             order_by = self.request.GET.get('order_by')
             print(self.request.GET)
             filter_fields = {
