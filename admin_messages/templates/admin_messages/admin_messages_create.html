@@ -21,7 +21,7 @@
 {% block content %}
     <div class="box">
 
-        <form id="w0" method="post">
+        <form id="message_form" method="post">
             {% csrf_token %}
             <div class="box-header with-border">
                 <h3 class="box-title"></h3>
@@ -42,35 +42,35 @@
                         <h4>Кому отправить:</h4>
 
 
-                        <div class="form-group field-messageaddress-user_has_debt">
+                        <div class="form-group field-message-user_has_debt">
 
-                            <input type="hidden" name="MessageAddress[user_has_debt]" value="0"><label><input
-                                type="checkbox" id="messageaddress-user_has_debt" class=""
-                                name="MessageAddress[user_has_debt]" value="1"> Владельцам с задолженностями</label>
+                            <input type="hidden" name="message[user_has_debt]" value="0"><label><input
+                                type="checkbox" id="message-user_has_debt" class=""
+                                name="message[user_has_debt]" value="1"> Владельцам с задолженностями</label>
 
                             <div class="help-block"></div>
                         </div>
-                        <div class="form-group field-messageaddress-house_id ">
-                            <label class="control-label" for="messageaddress-house_id">ЖК</label>
+                        <div class="form-group field-message-house_id ">
+                            <label class="control-label" for="message-house_id">ЖК</label>
                             {{ form.house }}
 
                             <div class="help-block"></div>
                         </div>
-                        <div class="form-group field-messageaddress-section_id ">
-                            <label class="control-label" for="messageaddress-section_id">Секция</label>
+                        <div class="form-group field-message-section_id ">
+                            <label class="control-label" for="message-section_id">Секция</label>
                             {{ form.section }}
 
                             <div class="help-block"></div>
                         </div>
-                        <div class="form-group field-messageaddress-floor_id ">
-                            <label class="control-label" for="messageaddress-floor_id">Этаж</label>
+                        <div class="form-group field-message-floor_id ">
+                            <label class="control-label" for="message-floor_id">Этаж</label>
                             {{ form.floor }}
 
 
                             <div class="help-block"></div>
                         </div>
-                        <div class="form-group field-messageaddress-flat_id ">
-                            <label class="control-label" for="messageaddress-flat_id">Квартира</label>
+                        <div class="form-group field-message-flat_id ">
+                            <label class="control-label" for="message-flat_id">Квартира</label>
                             {{ form.apartment }}
 
                             <div class="help-block"></div>
@@ -92,6 +92,9 @@
 
 {% endblock %}
 {% block scripts %}
+    <script>
+    $('#nav_message').attr('class', 'active')
+    </script>
         <script src="{% static 'admin_panel/bower_components/select2/dist/js/select2.full.min.js' %}"></script>
     <script src="{% static 'admin_panel/bower_components/select2/dist/js/i18n/ru.min.js' %}"></script>
         <script type="text/javascript" src="{% static "admin_panel/plugins/ckeditor5-build-classic/ckeditor.js" %}"></script>
@@ -216,5 +219,42 @@
 
             }
         )
+    </script>
+    <script>
+            $( "#message_form" ).validate( {
+				rules: {
+					subject: "required",
+					text: "required",
+				},
+				messages: {
+					subject: "Пожалуйста введите тему сообщения.",
+					text: "Пожалуйста введите текст сообщения.",
+				},
+				errorElement: "em",
+				errorPlacement: function ( error, element ) {
+					error.addClass( "help-block" );
+					element.parents( ".form-group" ).addClass( "has-feedback" );
+					if ( element.prop( "type" ) === "checkbox" ) {
+						error.insertAfter( element.parent( "label" ) );
+					} else {
+                        if($(element).hasClass('select2-hidden-accessible')){
+
+                            error.insertAfter( $(element).parent('.form-group').find('.select2'));
+                        }
+                        else error.insertAfter( element );
+					}
+				},
+				success: function ( label, element ) {
+				},
+				highlight: function ( element, errorClass, validClass ) {
+					$( element ).parents( ".form-group" ).addClass( "has-error" ).removeClass( "has-success" );
+				},
+				unhighlight: function ( element, errorClass, validClass ) {
+					$( element ).parents( ".form-group" ).addClass( "has-success" ).removeClass( "has-error" );
+				}
+			} );
+             $("select").on("select2:close", function (e) {
+        $(this).valid();
+    });
     </script>
 {% endblock %}
