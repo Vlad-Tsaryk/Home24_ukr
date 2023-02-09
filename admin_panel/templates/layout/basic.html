@@ -163,7 +163,8 @@
                         </li>
                     {% endif %}
                     {% if user.role.messages %}
-                        <li><a href="/admin/message/index"><i class="fa fa-envelope-o"></i> <span>Сообщения</span></a>
+                        <li id="nav_message"><a href="{% url 'message_list' %}"><i class="fa fa-envelope-o"></i>
+                            <span>Сообщения</span></a>
                         </li>
                     {% endif %}
                     {% if user.role.applications %}
