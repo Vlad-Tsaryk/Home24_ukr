@@ -1,6 +1,7 @@
 from django.contrib import messages
-from django.http import JsonResponse, HttpResponseRedirect
+from django.http import JsonResponse, HttpResponseRedirect, HttpResponse
 from django.urls import reverse_lazy
+from django.views import View
 from django.views.generic import CreateView, ListView, DetailView, DeleteView
 
 from admin_apartment.models import Apartment
@@ -16,20 +17,6 @@ class MessageCreate(CreateView):
     form_class = MessageForm
     template_name = 'admin_messages/admin_messages_create.html'
     success_url = reverse_lazy('message_list')
-
-    # def delete_messages(self):
-    #     delete_info = {
-    #         'success_msg': [],
-    #         'error_msg': [],
-    #     }
-    #     for pk in self.request.GET.getlist('selection[]'):
-    #         try:
-    #             obj_delete = Message.objects.get(pk=pk)
-    #             if obj_delete.delete():
-    #                 delete_info['success_msg'].append(f"Сообщение успешно удалено")
-    #         except:
-    #             delete_info['error_msg'].append(f"Не удалось удалить сообщение")
-    #     return delete_info
 
     def render_to_response(self, context, **response_kwargs):
         if self.request.is_ajax():
@@ -69,7 +56,7 @@ class MessageCreate(CreateView):
         owners = User.get_owners().filter(**owner_filters)
         form.receivers.add(*owners)
         self.object = form
-        # messages.success(self.request, 'Сообщение успешно создано')
+        messages.success(self.request, 'Сообщение успешно создано')
         return HttpResponseRedirect(self.get_success_url())
 
 
@@ -96,3 +83,14 @@ class MessageDelete(DeleteView):
     def get(self, request, *args, **kwargs):
         return self.delete(request, *args, **kwargs)
 
+
+class MessageDeleteMany(View):
+    def delete(self, request, *args, **kwargs):
+        object_list = self.request.POST.getlist('selected_messages[]')
+        for obj_pk in object_list:
+            Message.objects.get(pk=obj_pk).delete()
+        messages.success(self.request, 'Сообщения удалены успешно')
+        return HttpResponse('Success')
+
+    def post(self, request, *args, **kwargs):
+        return self.delete(request, *args, **kwargs)
