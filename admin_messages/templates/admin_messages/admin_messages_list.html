@@ -1,7 +1,17 @@
 {% extends 'layout/basic.html' %}
 {% load static %}
 {% block head %}
-<link href="{% static 'admin_panel/plugins/iCheck/flat/blue.css' %}" rel="stylesheet">
+    <link href="{% static 'admin_panel/plugins/iCheck/flat/blue.css' %}" rel="stylesheet">
+{% endblock %}
+{% block title %}Сообщения {% endblock %}
+{% block breadcrumb %}
+    <ul class="breadcrumb">
+        <li><a href="{% url 'statistic' %}"><i class="fa fa-home"></i>Главная</a></li>
+        <li class="active">Сообщения </li>
+    </ul>
+{% endblock %}
+{% block header_text %}
+    Сообщения
 {% endblock %}
 {% block content %}
 
@@ -24,6 +34,7 @@
             <div class="box-tools pull-right">
                 <div class="has-feedback">
                     <form action="" method="get">
+
                         <input type="text" name="search" value="" class="form-control input-sm" placeholder="Поиск">
                         <span class="glyphicon glyphicon-search form-control-feedback"></span>
                     </form>
@@ -36,8 +47,10 @@
                 <div class="mailbox-controls">
                     <button type="button" class="btn btn-default btn-sm checkbox-toggle"><i class="fa fa-square-o"></i>
                     </button>
-                    <button type="button" class="btn btn-default btn-sm delete-many"><i class="fa fa-trash-o"></i>
+                    <button id="delete_many" type="button" class="btn btn-default btn-sm delete-many"><i
+                            class="fa fa-trash-o"></i>
                     </button>
+
                     <div class="pull-right">
                         <ul class="pagination pagination-sm no-margin pull-right">
                             <li class="prev disabled"><span>«</span></li>
@@ -62,20 +75,17 @@
                         </thead>
                         <tbody>
                         {% for message in message_list %}
-                        <tr data-href="/admin/message/264" data-key="264">
-                            <td>
-                                <input type="checkbox" name="selection[]" value="264"
-                                                                  style="position: absolute; opacity: 0;">
-{#                                <div class="icheckbox_flat-blue" style="position: relative;" aria-checked="false"#}
-{#                                     aria-disabled="false">#}
-{#                                    <ins class="iCheck-helper"#}
-{#                                         style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>#}
-{#                                </div>#}
-                            </td>
-                            <td><a href="{% url 'message_view' message.pk %}">{{ message.get_receiver_label}}</a></td>
-                            <td><strong>{{ message.subject }}</strong> - {{message.text|striptags}}</td>
-                            <td>{{ message.created|date:'d.m.Y - H:m' }}</td>
-                        </tr>
+                            {% url 'message_view' message.pk as message_url%}
+                            <tr data-href="{{message_url}}">
+                                <td>
+                                    <input type="checkbox" name="selection[]" value="{{ message.pk }}"
+                                           style="position: absolute; opacity: 0;">
+                                </td>
+                                <td><a href="{{message_url}}">{{ message.get_receiver_label }}</a>
+                                </td>
+                                <td><strong>{{ message.subject }}</strong> - {{ message.text|striptags }}</td>
+                                <td>{{ message.created|date:'d.m.Y - H:m' }}</td>
+                            </tr>
                         {% endfor %}
                         </tbody>
                     </table>
@@ -101,30 +111,66 @@
         </div>
 
     </div>
+    <form>{% csrf_token %}</form>
 {% endblock %}
 {% block scripts %}
+    <script>
+        $('#nav_message').attr('class', 'active')
+    </script>
     <script src="{% static 'admin_panel/plugins/iCheck/icheck.min.js' %}"></script>
-<script>
-//Enable iCheck plugin for checkboxes
-    //iCheck for checkbox and radio inputs
-    $('.mailbox-messages input[type="checkbox"]').iCheck({
-        checkboxClass: 'icheckbox_flat-blue',
-        radioClass: 'iradio_flat-blue'
-    });
+    <script>
+        let checkboxes = $('.mailbox-messages input[type="checkbox"]')
+        let selected_messages = []
+        console.log(selected_messages)
+        checkboxes.iCheck({
+            checkboxClass: 'icheckbox_flat-blue',
+            radioClass: 'iradio_flat-blue'
+        });
+        checkboxes.on('ifChecked', function () {
+            selected_messages.push(this.value)
+        });
+        checkboxes.on('ifUnchecked', function () {
+            let index = selected_messages.indexOf(this.value);
+            if (index > -1) {
+                selected_messages.splice(index, 1);
+            }
+        });
 
-    //Enable check and uncheck all functionality
-    $(".checkbox-toggle").click(function () {
-        var clicks = $(this).data('clicks');
-        if (clicks) {
-            //Uncheck all checkboxes
-            $(".mailbox-messages input[type='checkbox']").iCheck("uncheck");
-            $(".checkbox-toggle > .fa").removeClass("fa-check-square-o").addClass('fa-square-o');
-        } else {
-            //Check all checkboxes
-            $(".mailbox-messages input[type='checkbox']").iCheck("check");
-            $(".checkbox-toggle > .fa").removeClass("fa-square-o").addClass('fa-check-square-o');
-        }
-        $(this).data("clicks", !clicks);
-    });
-</script>
+        //Enable check and uncheck all functionality
+        $(".checkbox-toggle").click(function () {
+            let clicks = $(this).data('clicks');
+            console.log(clicks)
+            if (clicks) {
+                //Uncheck all checkboxes
+                $(".mailbox-messages input[type='checkbox']").iCheck("uncheck");
+                $(".checkbox-toggle > .fa").removeClass("fa-check-square-o").addClass('fa-square-o');
+            } else {
+                //Check all checkboxes
+                $(".mailbox-messages input[type='checkbox']").iCheck("check");
+                $(".checkbox-toggle > .fa").removeClass("fa-square-o").addClass('fa-check-square-o');
+            }
+            $(this).data("clicks", !clicks);
+            console.log( $(this).data())
+        });
+    </script>
+    <script>
+        $('#delete_many').click(function () {
+            alertify.confirm('Подтверждение удаления', 'Удалить выбранные сообщения ?',
+                function () {
+                    $.ajax({
+                    type: 'POST',
+                    url: '{% url 'message_delete_many' %}',
+                    data: {'selected_messages':selected_messages},
+                    headers: {
+                        "X-CSRFToken": $("input[name=csrfmiddlewaretoken]").val()
+                    },
+                    success: function (data) {
+                        location.reload();
+                    }
+                })
+                },
+                function () {
+                }).set({labels: {ok: 'Подтвердить', cancel: 'Отмена'}});
+            })
+    </script>
 {% endblock %}
