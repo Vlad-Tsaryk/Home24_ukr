@@ -1,0 +1,127 @@
+{% extends 'layout/basic.html' %}
+{% block title %}Редактирование страницы {% endblock %}
+{% block breadcrumb %}
+    <ul class="breadcrumb">
+        <li><a href="{% url 'statistic' %}"><i class="fa fa-home"></i>Главная</a></li>
+        <li class="active">Редактирование страницы </li>
+    </ul>
+{% endblock %}
+{% block header_text %}
+    Редактирование страницы
+{% endblock %}
+{% block content %}
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Редактирование страницы "Контакты"</h3>
+                </div>
+                <div class="box-body">
+                    <form id="contact_form" method="post">
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="col-xs-12 col-md-8">
+                                <h3 class="page-header">Контактная информация</h3>
+                                <div class="form-group field-{{ contact_page_form.title.id_for_label }}">
+                                    <label class="control-label" for="{{ contact_page_form.title.id_for_label }}">Заголовок</label>
+                                    {{ contact_page_form.title }}
+                                    <div class="help-block"></div>
+                                </div>
+                                <div class="form-group field-{{ contact_page_form.text.id_for_label }}">
+                                    <label class="control-label" for="{{ contact_page_form.text.id_for_label }}">Краткий
+                                        текст</label>
+                                    {{ contact_page_form.text }}
+                                    <div class="help-block"></div>
+                                </div>
+                                <div class="form-group field-{{ contact_page_form.site_url.id_for_label }}">
+                                    <label class="control-label" for="{{ contact_page_form.site_url.id_for_label }}">Ссылка
+                                        на коммерческий сайт</label>
+                                    {{ contact_page_form.site_url }}
+                                    <div class="help-block"></div>
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-md-4">
+                                <h3 class="page-header">Контакты</h3>
+                                <div class="form-group field-{{ contact_page_form.full_name.id_for_label }}">
+                                    <label class="control-label" for="{{ contact_page_form.full_name.id_for_label }}">ФИО</label>
+                                    {{ contact_page_form.full_name }}
+                                    <div class="help-block"></div>
+                                </div>
+                                <div class="form-group field-{{ contact_page_form.full_name.id_for_label }}">
+                                    <label class="control-label"
+                                           for="{{ contact_page_form.full_name.id_for_label }}">Локация</label>
+                                    {{ contact_page_form.location }}
+                                    <div class="help-block"></div>
+                                </div>
+                                <div class="form-group field-{{ contact_page_form.address.id_for_label }}">
+                                    <label class="control-label" for="{{ contact_page_form.address.id_for_label }}">Адрес</label>
+                                    {{ contact_page_form.address }}
+                                    <div class="help-block"></div>
+                                </div>
+                                <div class="form-group field-{{ contact_page_form.phone.id_for_label }}">
+                                    <label class="control-label" for="{{ contact_page_form.phone.id_for_label }}">Телефон</label>
+                                    {{ contact_page_form.phone }}
+                                    <div class="help-block"></div>
+                                </div>
+                                <div class="form-group field-{{ contact_page_form.email.id_for_label }}">
+                                    <label class="control-label"
+                                           for="{{ contact_page_form.email.id_for_label }}">E-mail</label>
+                                    {{ contact_page_form.email }}
+                                    <div class="help-block"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <h3 class="page-header">Карта</h3>
+                                <div class="form-group field-{{ contact_page_form.map_code.id_for_label }}">
+                                    <label class="control-label" for="{{ contact_page_form.map_code.id_for_label }}">Код
+                                        карты</label>
+                                    {{ contact_page_form.map_code }}
+                                    <div class="help-block"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <h3 class="page-header">Настройки SEO</h3>
+                                <div class="form-group field-{{ seo_form.title.id_for_label }}">
+                                    <label class="control-label" for="{{ seo_form.title.id_for_label }}">Title</label>
+                                    {{ seo_form.title }}
+                                    <div class="help-block"></div>
+                                </div>
+                                <div class="form-group field-{{ seo_form.description.id_for_label }}">
+                                    <label class="control-label" for="{{ seo_form.description.id_for_label }}">Description</label>
+                                    {{ seo_form.description }}
+                                    <div class="help-block"></div>
+                                </div>
+                                <div class="form-group field-{{ seo_form.keywords.id_for_label }}">
+                                    <label class="control-label"
+                                           for="{{ seo_form.keywords.id_for_label }}">Keywords</label>
+                                    {{ seo_form.keywords }}
+                                    <div class="help-block"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12 text-center">
+                                <div class="form-group">
+                                    <a href="{% url 'website_contact_page' %}" class="btn btn-default">Отменить</a>
+                                    <button type="submit" class="btn btn-success">Сохранить</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}
+{% block scripts %}
+    <script>
+        $('#website_settings').attr('class', 'active treeview menu-open')
+        $('#nav_contact_page').attr('class', 'active')
+    </script>
+{% endblock %}

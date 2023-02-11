@@ -1,0 +1,221 @@
+{% extends 'layout/basic.html' %}
+{% load static %}
+{% block head %}
+    <style>
+        .ck-editor__editable {
+            min-height: 200px;
+        }
+    </style>
+{% endblock %}
+{% block title %}Редактирование страницы {% endblock %}
+{% block breadcrumb %}
+    <ul class="breadcrumb">
+        <li><a href="{% url 'statistic' %}"><i class="fa fa-home"></i>Главная</a></li>
+        <li class="active">Редактирование страницы </li>
+    </ul>
+{% endblock %}
+{% block header_text %}
+    Редактирование страницы
+{% endblock %}
+{% block content %}
+
+
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Редактирование страницы "Тарифы"</h3>
+                </div>
+                <div class="box-body">
+                    <form id="tariffs_page_form" method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <h3 class="page-header">Информация</h3>
+                        <div class="row">
+                            <div class="col-md-8">
+                                <div class="form-group field-{{ tariffs_page_form.title.id_for_label }}">
+                                    <label class="control-label" for="{{ tariffs_page_form.title.id_for_label }}">
+                                        Заголовок</label>
+                                    {{ tariffs_page_form.title }}
+
+                                    <div class="help-block"></div>
+                                </div>
+                                <div class="form-group field-{{ tariffs_page_form.text.id_for_label }}">
+                                    <label class="control-label" for="{{ tariffs_page_form.text.id_for_label }}">Краткий
+                                        текст</label>
+                                    {{ tariffs_page_form.text }}
+                                    <div class="help-block"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row near-img">
+                            <div class="col-xs-12">
+                                <h3 class="page-header">Изображения</h3>
+                            </div>
+                            <div id="form-tariff_block-rows">
+                                {{ tariff_block_formset.management_form }}
+                                {% for tariff_block in tariff_block_formset %}
+                                    <div id="form-{{ tariff_block.prefix }}" class="col-md-4 form-tariff_block">
+                                        <h4>
+                                            <span>Тариф {{ forloop.counter }}</span>
+                                            <a class="pull-right text-red"
+                                               onclick="delete_form('{{ tariff_block.prefix }}')"
+                                               style="cursor: pointer">
+                                                <i class="fa fa-trash"></i></a>
+                                        </h4>
+                                        <img src="{% if tariff_block.instance.image %}
+                                    {{ tariff_block.instance.image.url }}
+                                       {% else %}{% static 'admin_panel/dist/img/placeholder_522x350.jpeg' %}
+                                {% endif %}"
+                                             alt="" class="img-responsive margin-bottom-15">
+                                        {% for hidden in tariff_block.hidden_fields %}
+                                            <div class="form-group field-{{ hidden.id_for_label }}">
+                                                {{ hidden }}
+                                                <div class="help-block"></div>
+                                            </div>
+                                        {% endfor %}
+                                        <div class="form-group">
+                                            <label for="{{ tariff_block.image.id_for_label }}">
+                                                Файл</label>
+                                            {{ tariff_block.image }}
+                                            <div class="form-group">
+                                                <label for="{{ tariff_block.title.id_for_label }}">Подпись</label>
+                                                {{ tariff_block.title }}
+                                            </div>
+                                            <div hidden>{{ tariff_block.DELETE }}</div>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                            <div id="empty-tariff_block" class="col-md-4 form-tariff_block" hidden>
+                                <h4>
+                                    <span>Тариф __tariff_number__</span>
+                                    <a class="pull-right text-red"
+                                       onclick="delete_form('{{ tariff_block_formset.empty_form.prefix }}')"
+                                       style="cursor: pointer">
+                                        <i class="fa fa-trash"></i></a>
+                                </h4>
+                                <img src="{% static 'admin_panel/dist/img/placeholder_522x350.jpeg' %}"
+                                     alt="" class="img-responsive margin-bottom-15">
+                                <div class="form-group">
+                                    <label for="{{ tariff_block_formset.empty_form.image.id_for_label }}">
+                                        Файл</label>
+                                    {{ tariff_block_formset.empty_form.image }}
+                                    <div class="form-group">
+                                        <label for="{{ tariff_block_formset.empty_form.title.id_for_label }}">Подпись</label>
+                                        {{ tariff_block_formset.empty_form.title }}
+                                    </div>
+                                    <div hidden>{{ tariff_block_formset.empty_form.DELETE }}</div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <h3 class="page-header">Настройки SEO</h3>
+                                <div class="form-group field-{{ seo_form.title.id_for_label }}">
+                                    <label class="control-label"
+                                           for="{{ seo_form.title.id_for_label }}">Title</label>
+                                    {{ seo_form.title }}
+                                    <div class="help-block"></div>
+                                </div>
+                                <div class="form-group field-{{ seo_form.description.id_for_label }}">
+                                    <label class="control-label" for="{{ seo_form.description.id_for_label }}">
+                                        Description</label>
+                                    {{ seo_form.description }}
+                                    <div class="help-block"></div>
+                                </div>
+                                <div class="form-group field-{{ seo_form.keywords.id_for_label }}">
+                                    <label class="control-label"
+                                           for="{{ seo_form.keywords.id_for_label }}">Keywords</label>
+                                    {{ seo_form.keywords }}
+                                    <div class="help-block"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-12 text-center">
+                                <div class="form-group">
+                                    <a href="{% url 'website_tariffs_page' %}" class="btn btn-default">Отменить</a>
+                                    <button type="button" role="button" id="add_tariff_block"
+                                            class="btn btn-success bg-green-active form-row-add-tariff_block-btn">
+                                        Добавить тариф
+                                    </button>
+                                    <button type="submit" class="btn btn-success">Сохранить</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block scripts %}
+    <script>
+        $('#website_settings').attr('class', 'active treeview menu-open')
+        $('#nav_tariffs_page').attr('class', 'active')
+    </script>
+    <script type="text/javascript"
+            src="{% static "admin_panel/plugins/ckeditor5-build-classic/ckeditor.js" %}"></script>
+    <script type="text/javascript"
+            src="{% static "admin_panel/plugins/ckeditor5-build-classic/translations/ru.js" %}"></script>
+    <script src="{% static 'admin_panel/js/add_delete_form.js' %}"></script>
+    <script>
+        {% for tariff_block in  tariff_block_formset.errors %}
+            {% for error in  tariff_block.image %}
+                toastr.error('Тариф {{ forloop.parentloop.counter }} - {{ error|join:"" }}')
+            {% endfor %}
+        {% endfor %}
+    </script>
+    <script>
+        let totalWebsiteTariffForms = $('#id_tariff_block-TOTAL_FORMS')
+        $(document).ready(function () {
+            init_cke_editor($('.compose-textarea:visible'))
+        })
+
+        function init_cke_editor(targets) {
+            targets.each(function () {
+                ClassicEditor.create(this, {
+                    language: 'ru',
+                    toolbar: {
+                        items: [
+                            'heading',
+                            '|',
+                            'bold',
+                            'italic',
+                            'underline',
+                            'link',
+                            'bulletedList',
+                            'numberedList',
+                            '|',
+                            'outdent',
+                            'indent',
+                            '|',
+                            'blockQuote',
+                            'undo',
+                            'redo'
+                        ]
+                    }
+                })
+                    .catch(error => {
+                        console.error(error);
+                    })
+            })
+
+        }
+
+        function set_tariff_number(form) {
+            let target = $(form).find('h4').find('span')
+            target.text(target.text().replace('__tariff_number__', totalWebsiteTariffForms.val()))
+            init_cke_editor($(form).find('.compose-textarea'))
+        }
+
+        $('#add_tariff_block').on('click', function () {
+            let form = add_form('tariff_block', 'empty-tariff_block', 'form-tariff_block-rows', totalWebsiteTariffForms)
+            set_tariff_number(form)
+        })
+    </script>
+{% endblock %}

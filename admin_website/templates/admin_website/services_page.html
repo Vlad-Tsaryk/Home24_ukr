@@ -1,0 +1,214 @@
+{% extends 'layout/basic.html' %}
+{% load static %}
+{% block head %}
+        <style>
+        .ck-editor__editable {
+            min-height: 200px;
+        }
+    </style>
+{% endblock %}
+{% block title %}Редактирование страницы {% endblock %}
+{% block breadcrumb %}
+    <ul class="breadcrumb">
+        <li><a href="{% url 'statistic' %}"><i class="fa fa-home"></i>Главная</a></li>
+        <li class="active">Редактирование страницы </li>
+    </ul>
+{% endblock %}
+{% block header_text %}
+    Редактирование страницы
+{% endblock %}
+{% block content %}
+
+
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Редактирование страницы "Услуги"</h3>
+                </div>
+                <div class="box-body">
+                    <form id="services_form" method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="row near-img">
+                            <div class="col-xs-12">
+                                <h3 class="page-header">Услуги</h3>
+                            </div>
+                            <div id="form-service_block-rows">
+                                {{ service_block_formset.management_form }}
+                                {% for service_block in service_block_formset %}
+
+                                    <div id="form-{{ service_block.prefix }}" class="col-md-4 form-service_block">
+                                        <h4>
+                                            <span>Услуга {{ forloop.counter }}</span>
+                                            <a class="pull-right text-red"
+                                               onclick="delete_form('{{ service_block.prefix }}')"
+                                            style="cursor: pointer">
+                                                <i class="fa fa-trash"></i></a>
+                                        </h4>
+                                        <img src="{% if service_block.instance.image %}
+                                    {{ service_block.instance.image.url }}
+                                       {% else %}{% static 'admin_panel/dist/img/placeholder_522x350.jpeg' %}
+                                {% endif %}"
+                                             alt="" class="img-responsive margin-bottom-15">
+                                        {% for hidden in service_block.hidden_fields %}
+                                            <div class="form-group field-{{ hidden.id_for_label }}">
+                                                {{ hidden }}
+                                                <div class="help-block"></div>
+                                            </div>
+                                        {% endfor %}
+                                        <div class="form-group">
+                                            <label for="{{ service_block.image.id_for_label }}">
+                                                Рекомендуемый размер: (650x300)</label>
+                                            {{ service_block.image }}
+                                            <div class="form-group">
+                                                <label for="{{ service_block.title.id_for_label }}">Название
+                                                    услуги</label>
+                                                {{ service_block.title }}
+                                            </div>
+                                            <div class="form-group margin-bottom-30">
+                                                <label for="{{ service_block.text.id_for_label }}">
+                                                    Описание услуги</label>
+                                                {{ service_block.text }}
+                                            </div>
+                                            <div hidden>{{ service_block.DELETE }}</div>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                            <div id="empty-service_block" class="col-md-4 form-service_block" hidden>
+                                        <h4>
+                                            <span>Услуга __service_number__</span>
+
+                                            <a class="pull-right text-red" style="cursor: pointer"
+                                               onclick="delete_form('{{ service_block_formset.empty_form.prefix }}')">
+                                                <i class="fa fa-trash"></i></a>
+                                            </h4>
+
+                                        <img src="{% static 'admin_panel/dist/img/placeholder_522x350.jpeg' %}"
+                                             alt="" class="img-responsive margin-bottom-15">
+                                        <div class="form-group">
+                                            <label for="{{ service_block_formset.empty_form.image.id_for_label }}">
+                                                Рекомендуемый размер: (650x300)</label>
+                                            {{ service_block_formset.empty_form.image }}
+                                            <div class="form-group">
+                                                <label for="{{ service_block_formset.empty_form.title.id_for_label }}">Название
+                                                    услуги</label>
+                                                {{ service_block_formset.empty_form.title }}
+                                            </div>
+                                            <div class="form-group margin-bottom-30">
+                                                <label for="{{ service_block_formset.empty_form.text.id_for_label }}">
+                                                    Описание услуги</label>
+                                                {{ service_block_formset.empty_form.text }}
+                                            </div>
+                                            <div hidden>{{ service_block_formset.empty_form.DELETE }}</div>
+                                        </div>
+
+                            </div>
+                        </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <h3 class="page-header">Настройки SEO</h3>
+                                    <div class="form-group field-{{ seo_form.title.id_for_label }}">
+                                        <label class="control-label"
+                                               for="{{ seo_form.title.id_for_label }}">Title</label>
+                                        {{ seo_form.title }}
+                                        <div class="help-block"></div>
+                                    </div>
+                                    <div class="form-group field-{{ seo_form.description.id_for_label }}">
+                                        <label class="control-label" for="{{ seo_form.description.id_for_label }}">
+                                            Description</label>
+                                        {{ seo_form.description }}
+                                        <div class="help-block"></div>
+                                    </div>
+                                    <div class="form-group field-{{ seo_form.keywords.id_for_label }}">
+                                        <label class="control-label"
+                                               for="{{ seo_form.keywords.id_for_label }}">Keywords</label>
+                                        {{ seo_form.keywords }}
+                                        <div class="help-block"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-12 text-center">
+                                    <div class="form-group">
+                                        <a href="{% url 'website_services_page' %}" class="btn btn-default">Отменить</a>
+                                        <button id="add_service_block" type="button" role="button"
+                                                class="btn btn-success bg-green-active form-row-add-service_block-btn">
+                                            Добавить услугу
+                                        </button>
+                                        <button type="submit" class="btn btn-success">Сохранить</button>
+                                    </div>
+                                </div>
+                            </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+{% endblock %}
+{% block scripts %}
+        <script>
+        $('#website_settings').attr('class', 'active treeview menu-open')
+        $('#nav_services_page').attr('class', 'active')
+    </script>
+        <script type="text/javascript"
+            src="{% static "admin_panel/plugins/ckeditor5-build-classic/ckeditor.js" %}"></script>
+    <script type="text/javascript"
+            src="{% static "admin_panel/plugins/ckeditor5-build-classic/translations/ru.js" %}"></script>
+<script src="{% static 'admin_panel/js/add_delete_form.js' %}"></script>
+    <script>
+            {% for service_block in  service_block_formset.errors %}
+            {% for error in  service_block.image %}
+            toastr.error('Услуга {{ forloop.parentloop.counter }} - {{ error|join:"" }}')
+            {% endfor %}
+        {% endfor %}
+    </script>
+    <script>
+    let totalWebsiteServiceForms = $('#id_service_block-TOTAL_FORMS')
+    $(document).ready(function () {
+        init_cke_editor($('.compose-textarea:visible'))
+    })
+    function init_cke_editor(targets) {
+        targets.each(function () {
+            ClassicEditor.create(this, {
+                    language: 'ru',
+                    toolbar: {
+                        items: [
+                            'heading',
+                            '|',
+                            'bold',
+                            'italic',
+                            'underline',
+                            'link',
+                            'bulletedList',
+                            'numberedList',
+                            '|',
+                            'outdent',
+                            'indent',
+                            '|',
+                            'blockQuote',
+                            'undo',
+                            'redo'
+                        ]
+                    }
+                })
+                    .catch(error => {
+                        console.error(error);
+                    })
+        })
+
+    }
+    function set_service_number(form){
+        let target = $(form).find('h4').find('span')
+        target.text(target.text().replace('__service_number__',totalWebsiteServiceForms.val()))
+        init_cke_editor($(form).find('.compose-textarea'))
+    }
+    $('#add_service_block').on('click', function () {
+            let form = add_form('service_block', 'empty-service_block', 'form-service_block-rows', totalWebsiteServiceForms)
+            set_service_number(form)
+        })
+    </script>
+{% endblock %}
