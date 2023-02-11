@@ -172,7 +172,8 @@
                             <span>Заявки вызова мастера</span></a></li>
                     {% endif %}
                     {% if user.role.meters %}
-                        <li id="nav_meter"><a href="{% url 'meter-list' %}"><i class="fa fa-dashboard"></i> <span>Показания счетчиков</span></a>
+                        <li id="nav_meter"><a href="{% url 'meter-list' %}"><i class="fa fa-dashboard"></i>
+                            <span>Показания счетчиков</span></a>
                         </li>
                     {% endif %}
                     {% if user.role.website %}
@@ -180,15 +181,22 @@
                             <i class="fa fa-desktop"></i> <span>Управление сайтом</span>
                             <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span></a>
                             <ul class="treeview-menu">
-                                <li id="nav_main_page"><a href="{% url 'website_main_page' %}"><i class="fa fa-circle-o"></i>
+                                <li id="nav_main_page"><a href="{% url 'website_main_page' %}">
+                                    <i class="fa fa-circle-o"></i>
                                     <span>Главная страница</span></a></li>
-                                <li><a href="/admin/website/about"><i class="fa fa-circle-o"></i> <span>О нас</span></a>
+                                <li id="nav_about_page"><a href="/admin/website/about">
+                                    <i class="fa fa-circle-o"></i> <span>О нас</span></a>
                                 </li>
-                                <li><a href="/admin/website/services"><i class="fa fa-circle-o"></i> <span>Услуги</span></a>
+                                <li id="nav_services_page"><a href="{% url 'website_services_page' %}">
+                                    <i class="fa fa-circle-o"></i>
+                                    <span>Услуги</span></a>
                                 </li>
-                                <li><a href="/admin/website/tariffs"><i class="fa fa-circle-o"></i> <span>Тарифы</span></a>
+                                <li id="nav_tariffs_page"><a href="{% url 'website_tariffs_page' %}">
+                                    <i class="fa fa-circle-o"></i>
+                                    <span>Тарифы</span></a>
                                 </li>
-                                <li><a href="/admin/website/contact"><i class="fa fa-circle-o"></i>
+                                <li id="nav_contact_page"><a href="{% url 'website_contact_page' %}">
+                                    <i class="fa fa-circle-o"></i>
                                     <span>Контакты</span></a></li>
                             </ul>
                         </li>
@@ -275,7 +283,7 @@
 <script src="{% static 'admin_panel/plugins/alertifyjs/alertify.min.js' %}"></script>
 <script src="{% static 'admin_panel/plugins/jquery-validation-1.19.5/dist/jquery.validate.min.js' %}"></script>
 <script src="{% static 'admin_panel/plugins/jquery-validation-1.19.5/dist/localization/messages_ru.min.js' %}"></script>
-<script>toastr.options = {"positionClass": "toast-bottom-right"}</script>
+<script>toastr.options = {"positionClass": "toast-bottom-right", "timeOut": "7000",}</script>
 {% if messages %}
     {% for message in messages %}
         {{ message }}
