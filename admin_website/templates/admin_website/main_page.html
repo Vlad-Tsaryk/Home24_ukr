@@ -1,0 +1,870 @@
+{% extends 'layout/basic.html' %}
+{% block content %}
+
+
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Редактирование страницы "Главная"</h3>
+                    <div class="box-tools">
+                        <a href="/admin/website/update-seo-files" class="btn btn-default btn-sm updateSeoFiles">
+                            <span class="hidden-xs">Обновить robots и sitemap</span><i class="fa fa-refresh visible-xs"
+                                                                                       aria-hidden="true"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="box-body">
+                    <form id="main_page_form" method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <h3 class="page-header">Слайдер</h3>
+                        <div class="row site-main-slider">
+                            <div class="col-md-4">
+                                <h4>Слайд 1</h4>
+                                <img src="{{ main_page.image1 }}"
+                                     alt="" class="img-responsive margin-bottom-15">
+                                <div class="form-group margin-bottom-30 field-websitehomeslide-0-imagefile">
+                                    <label class="control-label" for="websitehomeslide-0-imagefile">Рекомендуемый
+                                        размер: (1920x800)</label>
+                                    {{form.image1}}
+                                    <div class="help-block"></div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <h4>Слайд 2</h4>
+                                <img src="{{ main_page.image2 }}"
+                                     alt="" class="img-responsive margin-bottom-15">
+                                <div class="form-group margin-bottom-30 field-websitehomeslide-1-imagefile">
+                                    <label class="control-label" for="websitehomeslide-1-imagefile">Рекомендуемый
+                                        размер: (1920x800)</label>
+                                    {{form.image2}}
+                                    <div class="help-block"></div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <h4>Слайд 3</h4>
+                                <img src="{{ main_page.image3 }}"
+                                     alt="" class="img-responsive margin-bottom-15">
+                                <div class="form-group margin-bottom-30 field-websitehomeslide-2-imagefile">
+                                    <label class="control-label" for="websitehomeslide-2-imagefile">Рекомендуемый
+                                        размер: (1920x800)</label>
+                                    {{form.image3}}
+                                    <div class="help-block"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <h3 class="page-header">Краткая информация</h3>
+                                <div class="form-group field-websitehomeform-hometitle">
+                                    <label class="control-label" for="websitehomeform-hometitle">Заголовок</label>
+                                    {{form.title}}
+
+                                    <div class="help-block"></div>
+                                </div>
+                                <div class="form-group field-websitehomeform-homedescription">
+                                    <label class="control-label" for="websitehomeform-homedescription">Краткий
+                                        текст</label>
+                                    {{ form.text }}
+
+                                    <div class="help-block"></div>
+                                </div>
+                                <div class="form-group field-websitehomeform-homeisshowapps">
+
+                                    <label>{{ form.show_app_urls }} Показать ссылки на
+                                    приложения</label>
+
+                                    <div class="help-block"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row near-img">
+                            <div class="col-xs-12">
+                                <h3 class="page-header">Рядом с нами</h3>
+                            </div>
+                            <div class="col-md-4">
+                                <h4>Блок 1</h4>
+                                <img src="http://myhouse24.avada-media.ua/site/glide?path=%2Fupload%2FWebsiteHomeFeature%2F1%2Fimage.jpeg&amp;w=1000&amp;h=600&amp;fit=crop"
+                                     alt="" class="img-responsive margin-bottom-15">
+                                <div class="form-group field-websitehomefeature-0-id">
+
+                                    <input type="hidden" id="websitehomefeature-0-id" class="form-control"
+                                           name="WebsiteHomeFeature[0][id]" value="1">
+
+                                    <div class="help-block"></div>
+                                </div>
+                                <div class="form-group field-websitehomefeature-0-imagefile">
+                                    <label class="control-label" for="websitehomefeature-0-imagefile">Рекомендуемый
+                                        размер: (1000x600)</label>
+                                    <input type="hidden" name="WebsiteHomeFeature[0][imageFile]" value=""><input
+                                        type="file" id="websitehomefeature-0-imagefile"
+                                        name="WebsiteHomeFeature[0][imageFile]" accept="image/*">
+
+                                    <div class="help-block"></div>
+                                </div>
+                                <div class="form-group field-websitehomefeature-0-title">
+                                    <label class="control-label" for="websitehomefeature-0-title">Заголовок
+                                        блока</label>
+                                    <input type="text" id="websitehomefeature-0-title" class="form-control"
+                                           name="WebsiteHomeFeature[0][title]" value="Магазины, Банки, Школы">
+
+                                    <div class="help-block"></div>
+                                </div>
+                                <div class="form-group margin-bottom-30 field-websitehomefeature-0-description">
+                                    <label class="control-label" for="websitehomefeature-0-description">Описание</label>
+                                    <ul class="wysihtml5-toolbar" style="">
+                                        <li class="dropdown">
+                                            <a class="btn btn-default dropdown-toggle btn-none" data-toggle="dropdown">
+
+                                                <span class="fa fa-font"></span>
+
+                                                <span class="current-font">Обычный текст</span>
+                                                <b class="caret"></b>
+                                            </a>
+                                            <ul class="dropdown-menu">
+                                                <li><a data-wysihtml5-command="formatBlock"
+                                                       data-wysihtml5-command-value="p" tabindex="-1"
+                                                       href="javascript:;" unselectable="on">Обычный текст</a></li>
+                                                <li><a data-wysihtml5-command="formatBlock"
+                                                       data-wysihtml5-command-value="h1" tabindex="-1"
+                                                       href="javascript:;" unselectable="on">Заголовок 1</a></li>
+                                                <li><a data-wysihtml5-command="formatBlock"
+                                                       data-wysihtml5-command-value="h2" tabindex="-1"
+                                                       href="javascript:;" unselectable="on">Заголовок 2</a></li>
+                                                <li><a data-wysihtml5-command="formatBlock"
+                                                       data-wysihtml5-command-value="h3" tabindex="-1"
+                                                       href="javascript:;" unselectable="on">Заголовок 3</a></li>
+                                                <li><a data-wysihtml5-command="formatBlock"
+                                                       data-wysihtml5-command-value="h4" tabindex="-1"
+                                                       href="javascript:;" unselectable="on">Заголовок 4</a></li>
+                                                <li><a data-wysihtml5-command="formatBlock"
+                                                       data-wysihtml5-command-value="h5" tabindex="-1"
+                                                       href="javascript:;" unselectable="on">Заголовок 5</a></li>
+                                                <li><a data-wysihtml5-command="formatBlock"
+                                                       data-wysihtml5-command-value="h6" tabindex="-1"
+                                                       href="javascript:;" unselectable="on">Заголовок 6</a></li>
+                                            </ul>
+                                        </li>
+                                        <li>
+                                            <div class="btn-group">
+                                                <a class="btn btn-none btn-default" data-wysihtml5-command="bold"
+                                                   title="CTRL+B" tabindex="-1" href="javascript:;" unselectable="on">Полужирный</a>
+                                                <a class="btn btn-none btn-default" data-wysihtml5-command="italic"
+                                                   title="CTRL+I" tabindex="-1" href="javascript:;" unselectable="on">Курсив</a>
+                                                <a class="btn btn-none btn-default" data-wysihtml5-command="underline"
+                                                   title="CTRL+U" tabindex="-1" href="javascript:;" unselectable="on">Подчёркнутый</a>
+
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="btn-group">
+                                                <a class="btn btn-none btn-default"
+                                                   data-wysihtml5-command="insertUnorderedList"
+                                                   title="Маркированный список" tabindex="-1" href="javascript:;"
+                                                   unselectable="on">
+
+                                                    <span class="fa fa-list-ul"></span>
+
+                                                </a>
+                                                <a class="btn btn-none btn-default"
+                                                   data-wysihtml5-command="insertOrderedList"
+                                                   title="Нумерованный список" tabindex="-1" href="javascript:;"
+                                                   unselectable="on">
+
+                                                    <span class="fa fa-list-ol"></span>
+
+                                                </a>
+                                                <a class="btn btn-none btn-default" data-wysihtml5-command="Outdent"
+                                                   title="Уменьшить отступ" tabindex="-1" href="javascript:;"
+                                                   unselectable="on">
+
+                                                    <span class="fa fa-outdent"></span>
+
+                                                </a>
+                                                <a class="btn btn-none btn-default" data-wysihtml5-command="Indent"
+                                                   title="Увеличить отступ" tabindex="-1" href="javascript:;"
+                                                   unselectable="on">
+
+                                                    <span class="fa fa-indent"></span>
+
+                                                </a>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                    <textarea id="websitehomefeature-0-description"
+                                              class="compose-textarea form-control"
+                                              name="WebsiteHomeFeature[0][description]" style="display: none;">&lt;p&gt;
+
+Район расположения жилого комплекса  имеет всю необходимую для проживания социальную инфраструктуру – в непосредственной близости находятся лечебно-профилактические учреждения, аптеки, магазины, отделения банков, частные и коммерческие детские сады, школы
+
+&lt;br&gt;&lt;/p&gt;</textarea><input type="hidden" name="_wysihtml5_mode" value="1">
+                                    <iframe class="wysihtml5-sandbox" security="restricted" allowtransparency="true"
+                                            marginwidth="0" marginheight="0"
+                                            style="display: block; background-color: rgb(255, 255, 255); border-collapse: separate; border-color: rgb(210, 214, 222); border-style: solid; border-width: 1px; clear: none; float: none; margin: 0px; outline: rgb(85, 85, 85) 0px; outline-offset: 0px; padding: 6px 12px; position: static; inset: auto; z-index: auto; vertical-align: text-bottom; text-align: start; box-sizing: border-box; box-shadow: none; border-radius: 0px; width: 100%; height: auto;"
+                                            width="0" height="0" frameborder="0"></iframe>
+
+                                    <div class="help-block"></div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <h4>Блок 2</h4>
+                                <img src="http://myhouse24.avada-media.ua/site/glide?path=%2Fupload%2FWebsiteHomeFeature%2F2%2Fimage.jpg&amp;w=1000&amp;h=600&amp;fit=crop"
+                                     alt="" class="img-responsive margin-bottom-15">
+                                <div class="form-group field-websitehomefeature-1-id">
+
+                                    <input type="hidden" id="websitehomefeature-1-id" class="form-control"
+                                           name="WebsiteHomeFeature[1][id]" value="2">
+
+                                    <div class="help-block"></div>
+                                </div>
+                                <div class="form-group field-websitehomefeature-1-imagefile">
+                                    <label class="control-label" for="websitehomefeature-1-imagefile">Рекомендуемый
+                                        размер: (1000x600)</label>
+                                    <input type="hidden" name="WebsiteHomeFeature[1][imageFile]" value=""><input
+                                        type="file" id="websitehomefeature-1-imagefile"
+                                        name="WebsiteHomeFeature[1][imageFile]" accept="image/*">
+
+                                    <div class="help-block"></div>
+                                </div>
+                                <div class="form-group field-websitehomefeature-1-title">
+                                    <label class="control-label" for="websitehomefeature-1-title">Заголовок
+                                        блока</label>
+                                    <input type="text" id="websitehomefeature-1-title" class="form-control"
+                                           name="WebsiteHomeFeature[1][title]" value="Рестораны и Кафе">
+
+                                    <div class="help-block"></div>
+                                </div>
+                                <div class="form-group margin-bottom-30 field-websitehomefeature-1-description">
+                                    <label class="control-label" for="websitehomefeature-1-description">Описание</label>
+                                    <ul class="wysihtml5-toolbar" style="">
+                                        <li class="dropdown">
+                                            <a class="btn btn-default dropdown-toggle btn-none" data-toggle="dropdown">
+
+                                                <span class="fa fa-font"></span>
+
+                                                <span class="current-font">Обычный текст</span>
+                                                <b class="caret"></b>
+                                            </a>
+                                            <ul class="dropdown-menu">
+                                                <li><a data-wysihtml5-command="formatBlock"
+                                                       data-wysihtml5-command-value="p" tabindex="-1"
+                                                       href="javascript:;" unselectable="on">Обычный текст</a></li>
+                                                <li><a data-wysihtml5-command="formatBlock"
+                                                       data-wysihtml5-command-value="h1" tabindex="-1"
+                                                       href="javascript:;" unselectable="on">Заголовок 1</a></li>
+                                                <li><a data-wysihtml5-command="formatBlock"
+                                                       data-wysihtml5-command-value="h2" tabindex="-1"
+                                                       href="javascript:;" unselectable="on">Заголовок 2</a></li>
+                                                <li><a data-wysihtml5-command="formatBlock"
+                                                       data-wysihtml5-command-value="h3" tabindex="-1"
+                                                       href="javascript:;" unselectable="on">Заголовок 3</a></li>
+                                                <li><a data-wysihtml5-command="formatBlock"
+                                                       data-wysihtml5-command-value="h4" tabindex="-1"
+                                                       href="javascript:;" unselectable="on">Заголовок 4</a></li>
+                                                <li><a data-wysihtml5-command="formatBlock"
+                                                       data-wysihtml5-command-value="h5" tabindex="-1"
+                                                       href="javascript:;" unselectable="on">Заголовок 5</a></li>
+                                                <li><a data-wysihtml5-command="formatBlock"
+                                                       data-wysihtml5-command-value="h6" tabindex="-1"
+                                                       href="javascript:;" unselectable="on">Заголовок 6</a></li>
+                                            </ul>
+                                        </li>
+                                        <li>
+                                            <div class="btn-group">
+                                                <a class="btn btn-none btn-default" data-wysihtml5-command="bold"
+                                                   title="CTRL+B" tabindex="-1" href="javascript:;" unselectable="on">Полужирный</a>
+                                                <a class="btn btn-none btn-default" data-wysihtml5-command="italic"
+                                                   title="CTRL+I" tabindex="-1" href="javascript:;" unselectable="on">Курсив</a>
+                                                <a class="btn btn-none btn-default" data-wysihtml5-command="underline"
+                                                   title="CTRL+U" tabindex="-1" href="javascript:;" unselectable="on">Подчёркнутый</a>
+
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="btn-group">
+                                                <a class="btn btn-none btn-default"
+                                                   data-wysihtml5-command="insertUnorderedList"
+                                                   title="Маркированный список" tabindex="-1" href="javascript:;"
+                                                   unselectable="on">
+
+                                                    <span class="fa fa-list-ul"></span>
+
+                                                </a>
+                                                <a class="btn btn-none btn-default"
+                                                   data-wysihtml5-command="insertOrderedList"
+                                                   title="Нумерованный список" tabindex="-1" href="javascript:;"
+                                                   unselectable="on">
+
+                                                    <span class="fa fa-list-ol"></span>
+
+                                                </a>
+                                                <a class="btn btn-none btn-default" data-wysihtml5-command="Outdent"
+                                                   title="Уменьшить отступ" tabindex="-1" href="javascript:;"
+                                                   unselectable="on">
+
+                                                    <span class="fa fa-outdent"></span>
+
+                                                </a>
+                                                <a class="btn btn-none btn-default" data-wysihtml5-command="Indent"
+                                                   title="Увеличить отступ" tabindex="-1" href="javascript:;"
+                                                   unselectable="on">
+
+                                                    <span class="fa fa-indent"></span>
+
+                                                </a>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                    <textarea id="websitehomefeature-1-description"
+                                              class="compose-textarea form-control"
+                                              name="WebsiteHomeFeature[1][description]" style="display: none;">&lt;p&gt;
+
+В непосредственной близости от жилого комплекса&amp;nbsp; расположены рыбный ресторан&amp;nbsp; и итальянская пиццерия. Кроме того, всего в десяти минутах ходьбы от комплекса находятся  рестораны испанской, итальянской, американской, украинской и русской кухни, пиццерии, кафе и лаунж-бары на любой вкус.
+
+&lt;br&gt;&lt;/p&gt;</textarea><input type="hidden" name="_wysihtml5_mode" value="1">
+                                    <iframe class="wysihtml5-sandbox" security="restricted" allowtransparency="true"
+                                            marginwidth="0" marginheight="0"
+                                            style="display: block; background-color: rgb(255, 255, 255); border-collapse: separate; border-color: rgb(210, 214, 222); border-style: solid; border-width: 1px; clear: none; float: none; margin: 0px; outline: rgb(85, 85, 85) 0px; outline-offset: 0px; padding: 6px 12px; position: static; inset: auto; z-index: auto; vertical-align: text-bottom; text-align: start; box-sizing: border-box; box-shadow: none; border-radius: 0px; width: 100%; height: auto;"
+                                            width="0" height="0" frameborder="0"></iframe>
+
+                                    <div class="help-block"></div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <h4>Блок 3</h4>
+                                <img src="http://myhouse24.avada-media.ua/site/glide?path=%2Fupload%2FWebsiteHomeFeature%2F3%2Fimage.jpg&amp;w=1000&amp;h=600&amp;fit=crop"
+                                     alt="" class="img-responsive margin-bottom-15">
+                                <div class="form-group field-websitehomefeature-2-id">
+
+                                    <input type="hidden" id="websitehomefeature-2-id" class="form-control"
+                                           name="WebsiteHomeFeature[2][id]" value="3">
+
+                                    <div class="help-block"></div>
+                                </div>
+                                <div class="form-group field-websitehomefeature-2-imagefile">
+                                    <label class="control-label" for="websitehomefeature-2-imagefile">Рекомендуемый
+                                        размер: (1000x600)</label>
+                                    <input type="hidden" name="WebsiteHomeFeature[2][imageFile]" value=""><input
+                                        type="file" id="websitehomefeature-2-imagefile"
+                                        name="WebsiteHomeFeature[2][imageFile]" accept="image/*">
+
+                                    <div class="help-block"></div>
+                                </div>
+                                <div class="form-group field-websitehomefeature-2-title">
+                                    <label class="control-label" for="websitehomefeature-2-title">Заголовок
+                                        блока</label>
+                                    <input type="text" id="websitehomefeature-2-title" class="form-control"
+                                           name="WebsiteHomeFeature[2][title]" value="Пляж">
+
+                                    <div class="help-block"></div>
+                                </div>
+                                <div class="form-group margin-bottom-30 field-websitehomefeature-2-description">
+                                    <label class="control-label" for="websitehomefeature-2-description">Описание</label>
+                                    <ul class="wysihtml5-toolbar" style="">
+                                        <li class="dropdown">
+                                            <a class="btn btn-default dropdown-toggle btn-none" data-toggle="dropdown">
+
+                                                <span class="fa fa-font"></span>
+
+                                                <span class="current-font">Обычный текст</span>
+                                                <b class="caret"></b>
+                                            </a>
+                                            <ul class="dropdown-menu">
+                                                <li><a data-wysihtml5-command="formatBlock"
+                                                       data-wysihtml5-command-value="p" tabindex="-1"
+                                                       href="javascript:;" unselectable="on">Обычный текст</a></li>
+                                                <li><a data-wysihtml5-command="formatBlock"
+                                                       data-wysihtml5-command-value="h1" tabindex="-1"
+                                                       href="javascript:;" unselectable="on">Заголовок 1</a></li>
+                                                <li><a data-wysihtml5-command="formatBlock"
+                                                       data-wysihtml5-command-value="h2" tabindex="-1"
+                                                       href="javascript:;" unselectable="on">Заголовок 2</a></li>
+                                                <li><a data-wysihtml5-command="formatBlock"
+                                                       data-wysihtml5-command-value="h3" tabindex="-1"
+                                                       href="javascript:;" unselectable="on">Заголовок 3</a></li>
+                                                <li><a data-wysihtml5-command="formatBlock"
+                                                       data-wysihtml5-command-value="h4" tabindex="-1"
+                                                       href="javascript:;" unselectable="on">Заголовок 4</a></li>
+                                                <li><a data-wysihtml5-command="formatBlock"
+                                                       data-wysihtml5-command-value="h5" tabindex="-1"
+                                                       href="javascript:;" unselectable="on">Заголовок 5</a></li>
+                                                <li><a data-wysihtml5-command="formatBlock"
+                                                       data-wysihtml5-command-value="h6" tabindex="-1"
+                                                       href="javascript:;" unselectable="on">Заголовок 6</a></li>
+                                            </ul>
+                                        </li>
+                                        <li>
+                                            <div class="btn-group">
+                                                <a class="btn btn-none btn-default" data-wysihtml5-command="bold"
+                                                   title="CTRL+B" tabindex="-1" href="javascript:;" unselectable="on">Полужирный</a>
+                                                <a class="btn btn-none btn-default" data-wysihtml5-command="italic"
+                                                   title="CTRL+I" tabindex="-1" href="javascript:;" unselectable="on">Курсив</a>
+                                                <a class="btn btn-none btn-default" data-wysihtml5-command="underline"
+                                                   title="CTRL+U" tabindex="-1" href="javascript:;" unselectable="on">Подчёркнутый</a>
+
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="btn-group">
+                                                <a class="btn btn-none btn-default"
+                                                   data-wysihtml5-command="insertUnorderedList"
+                                                   title="Маркированный список" tabindex="-1" href="javascript:;"
+                                                   unselectable="on">
+
+                                                    <span class="fa fa-list-ul"></span>
+
+                                                </a>
+                                                <a class="btn btn-none btn-default"
+                                                   data-wysihtml5-command="insertOrderedList"
+                                                   title="Нумерованный список" tabindex="-1" href="javascript:;"
+                                                   unselectable="on">
+
+                                                    <span class="fa fa-list-ol"></span>
+
+                                                </a>
+                                                <a class="btn btn-none btn-default" data-wysihtml5-command="Outdent"
+                                                   title="Уменьшить отступ" tabindex="-1" href="javascript:;"
+                                                   unselectable="on">
+
+                                                    <span class="fa fa-outdent"></span>
+
+                                                </a>
+                                                <a class="btn btn-none btn-default" data-wysihtml5-command="Indent"
+                                                   title="Увеличить отступ" tabindex="-1" href="javascript:;"
+                                                   unselectable="on">
+
+                                                    <span class="fa fa-indent"></span>
+
+                                                </a>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                    <textarea id="websitehomefeature-2-description"
+                                              class="compose-textarea form-control"
+                                              name="WebsiteHomeFeature[2][description]" style="display: none;">&lt;p&gt;
+
+Жилой комплекс расположен на берегу Черного моря в районе Аркадия. В десяти минутах ходьбы от него находится знаменитые пляжи Аркадия и Чайка, а чуть дальше – пляжи курортный, 13-ая станция Большого Фонтана, Пляжник и другие знаменитые пляжи Одессы!&lt;br&gt;&lt;/p&gt;</textarea><input
+                                        type="hidden" name="_wysihtml5_mode" value="1">
+                                    <iframe class="wysihtml5-sandbox" security="restricted" allowtransparency="true"
+                                            marginwidth="0" marginheight="0"
+                                            style="display: block; background-color: rgb(255, 255, 255); border-collapse: separate; border-color: rgb(210, 214, 222); border-style: solid; border-width: 1px; clear: none; float: none; margin: 0px; outline: rgb(85, 85, 85) 0px; outline-offset: 0px; padding: 6px 12px; position: static; inset: auto; z-index: auto; vertical-align: text-bottom; text-align: start; box-sizing: border-box; box-shadow: none; border-radius: 0px; width: 100%; height: auto;"
+                                            width="0" height="0" frameborder="0"></iframe>
+
+                                    <div class="help-block"></div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <h4>Блок 4</h4>
+                                <img src="http://myhouse24.avada-media.ua/site/glide?path=%2Fupload%2FWebsiteHomeFeature%2F4%2Fimage.jpg&amp;w=1000&amp;h=600&amp;fit=crop"
+                                     alt="" class="img-responsive margin-bottom-15">
+                                <div class="form-group field-websitehomefeature-3-id">
+
+                                    <input type="hidden" id="websitehomefeature-3-id" class="form-control"
+                                           name="WebsiteHomeFeature[3][id]" value="4">
+
+                                    <div class="help-block"></div>
+                                </div>
+                                <div class="form-group field-websitehomefeature-3-imagefile">
+                                    <label class="control-label" for="websitehomefeature-3-imagefile">Рекомендуемый
+                                        размер: (1000x600)</label>
+                                    <input type="hidden" name="WebsiteHomeFeature[3][imageFile]" value=""><input
+                                        type="file" id="websitehomefeature-3-imagefile"
+                                        name="WebsiteHomeFeature[3][imageFile]" accept="image/*">
+
+                                    <div class="help-block"></div>
+                                </div>
+                                <div class="form-group field-websitehomefeature-3-title">
+                                    <label class="control-label" for="websitehomefeature-3-title">Заголовок
+                                        блока</label>
+                                    <input type="text" id="websitehomefeature-3-title" class="form-control"
+                                           name="WebsiteHomeFeature[3][title]" value="Спортивный Комплекс">
+
+                                    <div class="help-block"></div>
+                                </div>
+                                <div class="form-group margin-bottom-30 field-websitehomefeature-3-description">
+                                    <label class="control-label" for="websitehomefeature-3-description">Описание</label>
+                                    <ul class="wysihtml5-toolbar" style="">
+                                        <li class="dropdown">
+                                            <a class="btn btn-default dropdown-toggle btn-none" data-toggle="dropdown">
+
+                                                <span class="fa fa-font"></span>
+
+                                                <span class="current-font">Обычный текст</span>
+                                                <b class="caret"></b>
+                                            </a>
+                                            <ul class="dropdown-menu">
+                                                <li><a data-wysihtml5-command="formatBlock"
+                                                       data-wysihtml5-command-value="p" tabindex="-1"
+                                                       href="javascript:;" unselectable="on">Обычный текст</a></li>
+                                                <li><a data-wysihtml5-command="formatBlock"
+                                                       data-wysihtml5-command-value="h1" tabindex="-1"
+                                                       href="javascript:;" unselectable="on">Заголовок 1</a></li>
+                                                <li><a data-wysihtml5-command="formatBlock"
+                                                       data-wysihtml5-command-value="h2" tabindex="-1"
+                                                       href="javascript:;" unselectable="on">Заголовок 2</a></li>
+                                                <li><a data-wysihtml5-command="formatBlock"
+                                                       data-wysihtml5-command-value="h3" tabindex="-1"
+                                                       href="javascript:;" unselectable="on">Заголовок 3</a></li>
+                                                <li><a data-wysihtml5-command="formatBlock"
+                                                       data-wysihtml5-command-value="h4" tabindex="-1"
+                                                       href="javascript:;" unselectable="on">Заголовок 4</a></li>
+                                                <li><a data-wysihtml5-command="formatBlock"
+                                                       data-wysihtml5-command-value="h5" tabindex="-1"
+                                                       href="javascript:;" unselectable="on">Заголовок 5</a></li>
+                                                <li><a data-wysihtml5-command="formatBlock"
+                                                       data-wysihtml5-command-value="h6" tabindex="-1"
+                                                       href="javascript:;" unselectable="on">Заголовок 6</a></li>
+                                            </ul>
+                                        </li>
+                                        <li>
+                                            <div class="btn-group">
+                                                <a class="btn btn-none btn-default" data-wysihtml5-command="bold"
+                                                   title="CTRL+B" tabindex="-1" href="javascript:;" unselectable="on">Полужирный</a>
+                                                <a class="btn btn-none btn-default" data-wysihtml5-command="italic"
+                                                   title="CTRL+I" tabindex="-1" href="javascript:;" unselectable="on">Курсив</a>
+                                                <a class="btn btn-none btn-default" data-wysihtml5-command="underline"
+                                                   title="CTRL+U" tabindex="-1" href="javascript:;" unselectable="on">Подчёркнутый</a>
+
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="btn-group">
+                                                <a class="btn btn-none btn-default"
+                                                   data-wysihtml5-command="insertUnorderedList"
+                                                   title="Маркированный список" tabindex="-1" href="javascript:;"
+                                                   unselectable="on">
+
+                                                    <span class="fa fa-list-ul"></span>
+
+                                                </a>
+                                                <a class="btn btn-none btn-default"
+                                                   data-wysihtml5-command="insertOrderedList"
+                                                   title="Нумерованный список" tabindex="-1" href="javascript:;"
+                                                   unselectable="on">
+
+                                                    <span class="fa fa-list-ol"></span>
+
+                                                </a>
+                                                <a class="btn btn-none btn-default" data-wysihtml5-command="Outdent"
+                                                   title="Уменьшить отступ" tabindex="-1" href="javascript:;"
+                                                   unselectable="on">
+
+                                                    <span class="fa fa-outdent"></span>
+
+                                                </a>
+                                                <a class="btn btn-none btn-default" data-wysihtml5-command="Indent"
+                                                   title="Увеличить отступ" tabindex="-1" href="javascript:;"
+                                                   unselectable="on">
+
+                                                    <span class="fa fa-indent"></span>
+
+                                                </a>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                    <textarea id="websitehomefeature-3-description"
+                                              class="compose-textarea form-control"
+                                              name="WebsiteHomeFeature[3][description]" style="display: none;">&lt;p&gt;
+
+Всего в 5 минутах ходьбы от жилого комплекса&amp;nbsp; находится Спортивный комплекс Международного гуманитарного университета - это современный оборудованный комплекс с залами для проведения волейбольных соревнований, соревнований по танцам и борьбе и других спортивных мероприятий!&lt;br&gt;&lt;/p&gt;</textarea><input
+                                        type="hidden" name="_wysihtml5_mode" value="1">
+                                    <iframe class="wysihtml5-sandbox" security="restricted" allowtransparency="true"
+                                            marginwidth="0" marginheight="0"
+                                            style="display: block; background-color: rgb(255, 255, 255); border-collapse: separate; border-color: rgb(210, 214, 222); border-style: solid; border-width: 1px; clear: none; float: none; margin: 0px; outline: rgb(85, 85, 85) 0px; outline-offset: 0px; padding: 6px 12px; position: static; inset: auto; z-index: auto; vertical-align: text-bottom; text-align: start; box-sizing: border-box; box-shadow: none; border-radius: 0px; width: 100%; height: auto;"
+                                            width="0" height="0" frameborder="0"></iframe>
+
+                                    <div class="help-block"></div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <h4>Блок 5</h4>
+                                <img src="http://myhouse24.avada-media.ua/site/glide?path=%2Fupload%2FWebsiteHomeFeature%2F5%2Fimage.jpeg&amp;w=1000&amp;h=600&amp;fit=crop"
+                                     alt="" class="img-responsive margin-bottom-15">
+                                <div class="form-group field-websitehomefeature-4-id">
+
+                                    <input type="hidden" id="websitehomefeature-4-id" class="form-control"
+                                           name="WebsiteHomeFeature[4][id]" value="5">
+
+                                    <div class="help-block"></div>
+                                </div>
+                                <div class="form-group field-websitehomefeature-4-imagefile">
+                                    <label class="control-label" for="websitehomefeature-4-imagefile">Рекомендуемый
+                                        размер: (1000x600)</label>
+                                    <input type="hidden" name="WebsiteHomeFeature[4][imageFile]" value=""><input
+                                        type="file" id="websitehomefeature-4-imagefile"
+                                        name="WebsiteHomeFeature[4][imageFile]" accept="image/*">
+
+                                    <div class="help-block"></div>
+                                </div>
+                                <div class="form-group field-websitehomefeature-4-title">
+                                    <label class="control-label" for="websitehomefeature-4-title">Заголовок
+                                        блока</label>
+                                    <input type="text" id="websitehomefeature-4-title" class="form-control"
+                                           name="WebsiteHomeFeature[4][title]" value="Клубная Жизнь">
+
+                                    <div class="help-block"></div>
+                                </div>
+                                <div class="form-group margin-bottom-30 field-websitehomefeature-4-description">
+                                    <label class="control-label" for="websitehomefeature-4-description">Описание</label>
+                                    <ul class="wysihtml5-toolbar" style="">
+                                        <li class="dropdown">
+                                            <a class="btn btn-default dropdown-toggle btn-none" data-toggle="dropdown">
+
+                                                <span class="fa fa-font"></span>
+
+                                                <span class="current-font">Обычный текст</span>
+                                                <b class="caret"></b>
+                                            </a>
+                                            <ul class="dropdown-menu">
+                                                <li><a data-wysihtml5-command="formatBlock"
+                                                       data-wysihtml5-command-value="p" tabindex="-1"
+                                                       href="javascript:;" unselectable="on">Обычный текст</a></li>
+                                                <li><a data-wysihtml5-command="formatBlock"
+                                                       data-wysihtml5-command-value="h1" tabindex="-1"
+                                                       href="javascript:;" unselectable="on">Заголовок 1</a></li>
+                                                <li><a data-wysihtml5-command="formatBlock"
+                                                       data-wysihtml5-command-value="h2" tabindex="-1"
+                                                       href="javascript:;" unselectable="on">Заголовок 2</a></li>
+                                                <li><a data-wysihtml5-command="formatBlock"
+                                                       data-wysihtml5-command-value="h3" tabindex="-1"
+                                                       href="javascript:;" unselectable="on">Заголовок 3</a></li>
+                                                <li><a data-wysihtml5-command="formatBlock"
+                                                       data-wysihtml5-command-value="h4" tabindex="-1"
+                                                       href="javascript:;" unselectable="on">Заголовок 4</a></li>
+                                                <li><a data-wysihtml5-command="formatBlock"
+                                                       data-wysihtml5-command-value="h5" tabindex="-1"
+                                                       href="javascript:;" unselectable="on">Заголовок 5</a></li>
+                                                <li><a data-wysihtml5-command="formatBlock"
+                                                       data-wysihtml5-command-value="h6" tabindex="-1"
+                                                       href="javascript:;" unselectable="on">Заголовок 6</a></li>
+                                            </ul>
+                                        </li>
+                                        <li>
+                                            <div class="btn-group">
+                                                <a class="btn btn-none btn-default" data-wysihtml5-command="bold"
+                                                   title="CTRL+B" tabindex="-1" href="javascript:;" unselectable="on">Полужирный</a>
+                                                <a class="btn btn-none btn-default" data-wysihtml5-command="italic"
+                                                   title="CTRL+I" tabindex="-1" href="javascript:;" unselectable="on">Курсив</a>
+                                                <a class="btn btn-none btn-default" data-wysihtml5-command="underline"
+                                                   title="CTRL+U" tabindex="-1" href="javascript:;" unselectable="on">Подчёркнутый</a>
+
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="btn-group">
+                                                <a class="btn btn-none btn-default"
+                                                   data-wysihtml5-command="insertUnorderedList"
+                                                   title="Маркированный список" tabindex="-1" href="javascript:;"
+                                                   unselectable="on">
+
+                                                    <span class="fa fa-list-ul"></span>
+
+                                                </a>
+                                                <a class="btn btn-none btn-default"
+                                                   data-wysihtml5-command="insertOrderedList"
+                                                   title="Нумерованный список" tabindex="-1" href="javascript:;"
+                                                   unselectable="on">
+
+                                                    <span class="fa fa-list-ol"></span>
+
+                                                </a>
+                                                <a class="btn btn-none btn-default" data-wysihtml5-command="Outdent"
+                                                   title="Уменьшить отступ" tabindex="-1" href="javascript:;"
+                                                   unselectable="on">
+
+                                                    <span class="fa fa-outdent"></span>
+
+                                                </a>
+                                                <a class="btn btn-none btn-default" data-wysihtml5-command="Indent"
+                                                   title="Увеличить отступ" tabindex="-1" href="javascript:;"
+                                                   unselectable="on">
+
+                                                    <span class="fa fa-indent"></span>
+
+                                                </a>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                    <textarea id="websitehomefeature-4-description"
+                                              class="compose-textarea form-control"
+                                              name="WebsiteHomeFeature[4][description]" style="display: none;">&lt;div&gt;
+
+Район расположения жилого комплекса&amp;nbsp; Аркадия является культовым местом ночного отдыха и развлечения – буквально в 5-10 минутах ходьбы от комплекса находятся такие места сосредоточения клубной жизни страны!&lt;br&gt;&lt;/div&gt;</textarea><input
+                                        type="hidden" name="_wysihtml5_mode" value="1">
+                                    <iframe class="wysihtml5-sandbox" security="restricted" allowtransparency="true"
+                                            marginwidth="0" marginheight="0"
+                                            style="display: block; background-color: rgb(255, 255, 255); border-collapse: separate; border-color: rgb(210, 214, 222); border-style: solid; border-width: 1px; clear: none; float: none; margin: 0px; outline: rgb(85, 85, 85) 0px; outline-offset: 0px; padding: 6px 12px; position: static; inset: auto; z-index: auto; vertical-align: text-bottom; text-align: start; box-sizing: border-box; box-shadow: none; border-radius: 0px; width: 100%; height: auto;"
+                                            width="0" height="0" frameborder="0"></iframe>
+
+                                    <div class="help-block"></div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <h4>Блок 6</h4>
+                                <img src="http://myhouse24.avada-media.ua/site/glide?path=%2Fupload%2FWebsiteHomeFeature%2F6%2Fimage.jpeg&amp;w=1000&amp;h=600&amp;fit=crop"
+                                     alt="" class="img-responsive margin-bottom-15">
+                                <div class="form-group field-websitehomefeature-5-id">
+
+                                    <input type="hidden" id="websitehomefeature-5-id" class="form-control"
+                                           name="WebsiteHomeFeature[5][id]" value="6">
+
+                                    <div class="help-block"></div>
+                                </div>
+                                <div class="form-group field-websitehomefeature-5-imagefile">
+                                    <label class="control-label" for="websitehomefeature-5-imagefile">Рекомендуемый
+                                        размер: (1000x600)</label>
+                                    <input type="hidden" name="WebsiteHomeFeature[5][imageFile]" value=""><input
+                                        type="file" id="websitehomefeature-5-imagefile"
+                                        name="WebsiteHomeFeature[5][imageFile]" accept="image/*">
+
+                                    <div class="help-block"></div>
+                                </div>
+                                <div class="form-group field-websitehomefeature-5-title">
+                                    <label class="control-label" for="websitehomefeature-5-title">Заголовок
+                                        блока</label>
+                                    <input type="text" id="websitehomefeature-5-title" class="form-control"
+                                           name="WebsiteHomeFeature[5][title]" value="Удобная транспортная развязка">
+
+                                    <div class="help-block"></div>
+                                </div>
+                                <div class="form-group margin-bottom-30 field-websitehomefeature-5-description">
+                                    <label class="control-label" for="websitehomefeature-5-description">Описание</label>
+                                    <ul class="wysihtml5-toolbar" style="">
+                                        <li class="dropdown">
+                                            <a class="btn btn-default dropdown-toggle btn-none" data-toggle="dropdown">
+
+                                                <span class="fa fa-font"></span>
+
+                                                <span class="current-font">Обычный текст</span>
+                                                <b class="caret"></b>
+                                            </a>
+                                            <ul class="dropdown-menu">
+                                                <li><a data-wysihtml5-command="formatBlock"
+                                                       data-wysihtml5-command-value="p" tabindex="-1"
+                                                       href="javascript:;" unselectable="on">Обычный текст</a></li>
+                                                <li><a data-wysihtml5-command="formatBlock"
+                                                       data-wysihtml5-command-value="h1" tabindex="-1"
+                                                       href="javascript:;" unselectable="on">Заголовок 1</a></li>
+                                                <li><a data-wysihtml5-command="formatBlock"
+                                                       data-wysihtml5-command-value="h2" tabindex="-1"
+                                                       href="javascript:;" unselectable="on">Заголовок 2</a></li>
+                                                <li><a data-wysihtml5-command="formatBlock"
+                                                       data-wysihtml5-command-value="h3" tabindex="-1"
+                                                       href="javascript:;" unselectable="on">Заголовок 3</a></li>
+                                                <li><a data-wysihtml5-command="formatBlock"
+                                                       data-wysihtml5-command-value="h4" tabindex="-1"
+                                                       href="javascript:;" unselectable="on">Заголовок 4</a></li>
+                                                <li><a data-wysihtml5-command="formatBlock"
+                                                       data-wysihtml5-command-value="h5" tabindex="-1"
+                                                       href="javascript:;" unselectable="on">Заголовок 5</a></li>
+                                                <li><a data-wysihtml5-command="formatBlock"
+                                                       data-wysihtml5-command-value="h6" tabindex="-1"
+                                                       href="javascript:;" unselectable="on">Заголовок 6</a></li>
+                                            </ul>
+                                        </li>
+                                        <li>
+                                            <div class="btn-group">
+                                                <a class="btn btn-none btn-default" data-wysihtml5-command="bold"
+                                                   title="CTRL+B" tabindex="-1" href="javascript:;" unselectable="on">Полужирный</a>
+                                                <a class="btn btn-none btn-default" data-wysihtml5-command="italic"
+                                                   title="CTRL+I" tabindex="-1" href="javascript:;" unselectable="on">Курсив</a>
+                                                <a class="btn btn-none btn-default" data-wysihtml5-command="underline"
+                                                   title="CTRL+U" tabindex="-1" href="javascript:;" unselectable="on">Подчёркнутый</a>
+
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="btn-group">
+                                                <a class="btn btn-none btn-default"
+                                                   data-wysihtml5-command="insertUnorderedList"
+                                                   title="Маркированный список" tabindex="-1" href="javascript:;"
+                                                   unselectable="on">
+
+                                                    <span class="fa fa-list-ul"></span>
+
+                                                </a>
+                                                <a class="btn btn-none btn-default"
+                                                   data-wysihtml5-command="insertOrderedList"
+                                                   title="Нумерованный список" tabindex="-1" href="javascript:;"
+                                                   unselectable="on">
+
+                                                    <span class="fa fa-list-ol"></span>
+
+                                                </a>
+                                                <a class="btn btn-none btn-default" data-wysihtml5-command="Outdent"
+                                                   title="Уменьшить отступ" tabindex="-1" href="javascript:;"
+                                                   unselectable="on">
+
+                                                    <span class="fa fa-outdent"></span>
+
+                                                </a>
+                                                <a class="btn btn-none btn-default" data-wysihtml5-command="Indent"
+                                                   title="Увеличить отступ" tabindex="-1" href="javascript:;"
+                                                   unselectable="on">
+
+                                                    <span class="fa fa-indent"></span>
+
+                                                </a>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                    <textarea id="websitehomefeature-5-description"
+                                              class="compose-textarea form-control"
+                                              name="WebsiteHomeFeature[5][description]" style="display: none;">&lt;p&gt;
+
+ЖК&amp;nbsp; расположена  на берегу Черного моря в районе Аркадии и имеет удобную транспортную развязку, позволяющую даже в час Пик быстро и без проблем доехать в течение десяти минут до центра города или выехать на автострады Одесской обл!&lt;br&gt;&lt;/p&gt;</textarea><input
+                                        type="hidden" name="_wysihtml5_mode" value="1">
+                                    <iframe class="wysihtml5-sandbox" security="restricted" allowtransparency="true"
+                                            marginwidth="0" marginheight="0"
+                                            style="display: block; background-color: rgb(255, 255, 255); border-collapse: separate; border-color: rgb(210, 214, 222); border-style: solid; border-width: 1px; clear: none; float: none; margin: 0px; outline: rgb(85, 85, 85) 0px; outline-offset: 0px; padding: 6px 12px; position: static; inset: auto; z-index: auto; vertical-align: text-bottom; text-align: start; box-sizing: border-box; box-shadow: none; border-radius: 0px; width: 100%; height: auto;"
+                                            width="0" height="0" frameborder="0"></iframe>
+
+                                    <div class="help-block"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <h3 class="page-header">Настройки SEO</h3>
+                                <div class="form-group field-websitehomeform-homemetatitle">
+                                    <label class="control-label" for="websitehomeform-homemetatitle">Title</label>
+                                    <input type="text" id="websitehomeform-homemetatitle" class="form-control"
+                                           name="WebsiteHomeForm[homeMetaTitle]"
+                                           value="Сайт Управляющей Компании ЖКХ - &quot;МОЙ ДОМ 24&quot;!">
+
+                                    <div class="help-block"></div>
+                                </div>
+                                <div class="form-group field-websitehomeform-homemetadescription">
+                                    <label class="control-label"
+                                           for="websitehomeform-homemetadescription">Description</label>
+                                    <textarea id="websitehomeform-homemetadescription" class="form-control"
+                                              name="WebsiteHomeForm[homeMetaDescription]" rows="6">Универсальная система для управляющей компании ЖКХ многоквартирного дома "МОЙ ДОМ 24" - сайт управляющей компании + база управления квартирами + мобильное приложение - гибкая индивидуальная настройка для любой организации. Удобная комьютерная программа для ОСМД!
+</textarea>
+
+                                    <div class="help-block"></div>
+                                </div>
+                                <div class="form-group field-websitehomeform-homemetakeywords">
+                                    <label class="control-label" for="websitehomeform-homemetakeywords">Keywords</label>
+                                    <textarea id="websitehomeform-homemetakeywords" class="form-control"
+                                              name="WebsiteHomeForm[homeMetaKeywords]" rows="6">программа для ОСМД, управление домом, управление многоквартирным домом, система учета квартир, программа для жильцов дома,  сайт управляющей компании, мой дом 21, crm для жильцо!</textarea>
+
+                                    <div class="help-block"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12 text-center">
+                                <div class="form-group">
+                                    <a href="/admin/website/home" class="btn btn-default">Отменить</a>
+                                    <button type="submit" class="btn btn-success">Сохранить</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}
