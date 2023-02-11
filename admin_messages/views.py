@@ -8,11 +8,13 @@ from admin_apartment.models import Apartment
 from admin_house.models import Section, Floor
 from admin_messages.forms import MessageForm
 from users.models import User
+from users.mixins import RolePermissionRequiredMixin
 from admin_messages.models import Message
 
 
 # Create your views here.
-class MessageCreate(CreateView):
+class MessageCreate(RolePermissionRequiredMixin, CreateView):
+    permission_required = 'messages'
     model = Message
     form_class = MessageForm
     template_name = 'admin_messages/admin_messages_create.html'
@@ -60,18 +62,21 @@ class MessageCreate(CreateView):
         return HttpResponseRedirect(self.get_success_url())
 
 
-class MessageList(ListView):
+class MessageList(RolePermissionRequiredMixin, ListView):
+    permission_required = 'messages'
     model = Message
     template_name = 'admin_messages/admin_messages_list.html'
     ordering = '-created'
 
 
-class MessageView(DetailView):
+class MessageView(RolePermissionRequiredMixin, DetailView):
+    permission_required = 'messages'
     model = Message
     template_name = 'admin_messages/admin_messages_view.html'
 
 
-class MessageDelete(DeleteView):
+class MessageDelete(RolePermissionRequiredMixin, DeleteView):
+    permission_required = 'messages'
     model = Message
     success_message = 'Сообщение удалено успешно'
     success_url = reverse_lazy('message_list')
@@ -84,7 +89,9 @@ class MessageDelete(DeleteView):
         return self.delete(request, *args, **kwargs)
 
 
-class MessageDeleteMany(View):
+class MessageDeleteMany(RolePermissionRequiredMixin, View):
+    permission_required = 'messages'
+
     def delete(self, request, *args, **kwargs):
         object_list = self.request.POST.getlist('selected_messages[]')
         for obj_pk in object_list:
