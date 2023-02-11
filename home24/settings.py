@@ -58,6 +58,8 @@ INSTALLED_APPS = [
     'admin_receipt.apps.AdminReceiptConfig',
     'excel_templates.apps.ExcelTemplatesConfig',
     'admin_messages.apps.AdminMessagesConfig',
+    'admin_website.apps.AdminWebsiteConfig',
+    'website.apps.WebsiteConfig',
     "debug_toolbar",
 
 ]
