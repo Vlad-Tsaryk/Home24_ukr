@@ -7,6 +7,16 @@
         }
     </style>
 {% endblock %}
+{% block title %}Редактирование страницы {% endblock %}
+{% block breadcrumb %}
+    <ul class="breadcrumb">
+        <li><a href="{% url 'statistic' %}"><i class="fa fa-home"></i>Главная</a></li>
+        <li class="active">Редактирование страницы </li>
+    </ul>
+{% endblock %}
+{% block header_text %}
+    Редактирование страницы
+{% endblock %}
 {% block content %}
 
 
@@ -176,7 +186,6 @@
             </div>
         </div>
     </div>
-
 {% endblock %}
 {% block scripts %}
     <script>
@@ -184,11 +193,22 @@
         $('#nav_main_page').attr('class', 'active')
     </script>
     <script>
-        {% for error in  main_page_form.errors %}
-            toastr.error('{{ error|join:"" }}')
+        {% for error in  main_page_form.image1.errors %}
+            toastr.error('Слайд 1 - {{ error }}')
+        {% endfor %}
+        {% for error in  main_page_form.image2.errors %}
+            toastr.error('Слайд 2 - {{ error}}')
+        {% endfor %}
+        {% for error in  main_page_form.image3.errors %}
+            toastr.error('Слайд 3 - {{ error }}')
         {% endfor %}
         {% for error in  seo_form.errors %}
             toastr.error('{{ error|join:"" }}')
+        {% endfor %}
+        {% for block_error in  block_formset.errors %}
+            {% for error in  block_error.image %}
+            toastr.error('Блок {{ forloop.parentloop.counter }} - {{ error|join:"" }}')
+            {% endfor %}
         {% endfor %}
     </script>
     <script type="text/javascript"
