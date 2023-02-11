@@ -176,11 +176,11 @@
                         </li>
                     {% endif %}
                     {% if user.role.website %}
-                        <li class="treeview"><a href="#!">
+                        <li id="website_settings" class="treeview"><a href="#!">
                             <i class="fa fa-desktop"></i> <span>Управление сайтом</span>
                             <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span></a>
                             <ul class="treeview-menu">
-                                <li><a href="/admin/website/home"><i class="fa fa-circle-o"></i>
+                                <li id="nav_main_page"><a href="{% url 'website_main_page' %}"><i class="fa fa-circle-o"></i>
                                     <span>Главная страница</span></a></li>
                                 <li><a href="/admin/website/about"><i class="fa fa-circle-o"></i> <span>О нас</span></a>
                                 </li>

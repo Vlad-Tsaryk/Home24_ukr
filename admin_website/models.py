@@ -2,7 +2,7 @@ from django.db import models
 
 
 # Create your models here.
-class SEO(models.Model):
+class Seo(models.Model):
     title = models.CharField(max_length=70)
     description = models.TextField()
     keywords = models.TextField()
@@ -16,7 +16,7 @@ class MainPage(models.Model):
     text = models.TextField()
     title = models.CharField(max_length=70)
     show_app_urls = models.BooleanField(default=True)
-    seo = models.OneToOneField(SEO, on_delete=models.PROTECT)
+    seo = models.OneToOneField(Seo, on_delete=models.PROTECT)
 
 
 class Block(models.Model):
