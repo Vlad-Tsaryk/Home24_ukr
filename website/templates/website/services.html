@@ -1,0 +1,47 @@
+{% extends 'layout/website.html' %}
+{% block seo_title %}{{ service_page.seo.title }}{% endblock %}
+{% block seo_description %}{{ service_page.seo.description }}{% endblock %}
+{% block seo_keywords %}{{ service_page.seo.keywords }}{% endblock %}
+{% block content %}
+    <div class="breadcrumbs">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12">
+                    <ol class="breadcrumb">
+                        <li><a href="{% url 'main_page' %}">Главная</a></li>
+                        <li class="active">Услуги</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="services">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="page-header">
+                        <h1>Наши услуги</h1>
+                    </div>
+                </div>
+            </div>
+            {% for service_block in service_page.serviceblock_set.all %}
+                <div class="row">
+                    <div class="col-xs-12 col-md-7">
+                        <img src="{{ service_block.image.url }}" class="img-responsive img-thumbnail" alt="">
+                    </div>
+                    <div class="col-xs-12 col-md-5">
+                        <div class="page-header">
+                            <h3>{{ service_block.title }}</h3>
+                        </div>
+                        {{ service_block.text|safe }}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
+{% block scripts %}
+    <script>
+        $('#nav_services').attr('class', 'active')
+    </script>
+{% endblock %}

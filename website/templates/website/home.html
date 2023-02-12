@@ -1,0 +1,94 @@
+{% extends 'layout/website.html' %}
+{% load static %}
+{% block seo_title %}{{ main_page.seo.title }}{% endblock %}
+{% block seo_description %}{{ main_page.seo.description }}{% endblock %}
+{% block seo_keywords %}{{ main_page.seo.keywords }}{% endblock %}
+{% block content %}
+    <div class="slider">
+            <div>
+                <div class="slideTitle hidden-xs">{{ main_page.title }}</div>
+                <img src="{{ main_page.image1.url }}" class="img-responsive" alt="">
+            </div>
+            <div>
+                <div class="slideTitle hidden-xs">{{ main_page.title }}</div>
+                <img src="{{ main_page.image2.url }}" class="img-responsive" alt="">
+            </div>
+            <div>
+                <div class="slideTitle hidden-xs">{{ main_page.title }}</div>
+                <img src="{{ main_page.image3.url }}" class="img-responsive" alt="">
+            </div>
+    </div>
+
+<div class="info">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12 col-sm-7 col-md-8">
+                <div class="page-header">
+                    <h1>{{ main_page.title}}</h1>
+                </div>
+                <div class="box">
+                    {{ main_page.text|safe }}
+                    <div class="row">
+                        <div class="col-xs-4">
+                            <a href="/about" class="btn btn-primary">Подробнее</a>
+                        </div>
+                        {% if main_page.show_app_urls %}
+                        <div class="col-xs-8">
+                            <a href="https://itunes.apple.com/">
+                                <img src="{% static "website/img/appstore.png" %}"
+                                     class="img-responsive imgStore" alt="">
+                            </a>
+                            <a href="https://play.google.com/">
+                                <img src="{% static "website/img/googleplay.png" %}"
+                                     class="img-responsive imgStore" alt="">
+                            </a>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-5 col-md-4">
+                <div class="page-header">
+                    <h3>Контакты</h3>
+                </div>
+                <div class="box">
+                    <p><i class="fas fa-user-circle"></i> {{contact_info.full_name }}</p>
+                    <p><i class="fas fa-compass"></i> {{contact_info.location}}</p>
+                    <p><i class="fas fa-map-marker"></i> {{contact_info.address}}</p>
+                    <p><i class="fas fa-phone"></i> <a href="tel:{{contact_info.phone}}"> {{contact_info.phone}}</a></p>
+                    <p><i class="fas fa-envelope"></i> <a
+                            href="mailto:{{contact_info.email}}"> {{contact_info.email}}</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="advantages">
+    <div class="container">
+        <div class="row row-eq-height">
+            <div class="col-xs-12">
+                <div class="page-header">
+                    <h3>Рядом с нами</h3>
+                </div>
+            </div>
+            {% for block in main_page.block_set.all %}
+            <div class="col-xs-12 col-sm-6 col-md-4 advantage-item">
+                <div class="thumbnail">
+                    <img src="{{ block.image.url }}"
+                         class="img-responsive" alt="">
+                    <div class="caption">
+                        <h3>{{ block.title}}</h3>
+                        <p>{{ block.description|safe }}</p>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block scripts %}
+    <script>
+    $('#nav_home').attr('class','active')
+    </script>
+{% endblock %}

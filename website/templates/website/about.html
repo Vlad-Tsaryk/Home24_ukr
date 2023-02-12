@@ -1,0 +1,133 @@
+{% extends 'layout/website.html' %}
+{% block seo_title %}{{ about_page.seo.title }}{% endblock %}
+{% block seo_description %}{{ about_page.seo.description }}{% endblock %}
+{% block seo_keywords %}{{ about_page.seo.keywords }}{% endblock %}
+{% block content %}
+    <div class="breadcrumbs">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12">
+                    <ol class="breadcrumb">
+                        <li><a href="{% url 'main_page' %}">Главная</a></li>
+                        <li class="active">О нас</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="about">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="box clearfix">
+                        <div class="page-header">
+                            <h1>{{ about_page.title }}</h1>
+                        </div>
+                        <img src="{{ about_page.photo.url }}" class="img-responsive imgFloatRight" alt="">
+                        {{ about_page.text|safe }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% if about_page.gallery_set.all %}
+        <div class="gallery g1">
+            <div class="container">
+                <div class="row">
+                    {% for gallery in about_page.gallery_set.all %}
+                        <div class="col-xs-12 col-sm-6 col-md-3 item" data-src="{{ gallery.image.url }}">
+                            <a href="{{ gallery.image.url }}" class="big">
+                                <img src="{{ gallery.image.url }}" alt="" class="img-responsive img-thumbnail">
+                            </a>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
+    <div class="about">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="box clearfix">
+                        <div class="page-header">
+                            <h3>{{ about_page.additional_title }}</h3>
+                        </div>
+                        {{ about_page.additional_text|safe }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% if about_page.additionalgallery_set %}
+        <div class="gallery g2">
+            <div class="container">
+                <div class="row">
+                    {% for additional_gallery in about_page.additionalgallery_set.all %}
+                        <div class="col-xs-12 col-sm-6 col-md-3 item" data-src="{{ additional_gallery.image.url }}">
+                            <a href="{{ additional_gallery.image.url }}" class="big">
+                                <img src="{{ additional_gallery.image.url }}" alt=""
+                                     class="img-responsive img-thumbnail">
+                            </a>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
+    {% if about_page.document_set %}
+        <div class="documents">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="box">
+                            <div class="page-header">
+                                <h3>Документы</h3>
+                            </div>
+                            {% for document in about_page.document_set.all %}
+                                <div class="media">
+                                    <div class="media-left">
+                                        <div class="media-object">
+                                            {% if document.file.name|slice:"-3:" == "pdf" %}
+                                                <i class="far fa-file-pdf fa-3x"></i>
+                                            {% elif  document.file.name|slice:"-3:" == "jpg" %}
+                                                <img class="fa fa-3x pull-left" width="32" height="42"
+                                                     src="{{ document.file.url }}"
+                                                     alt="">
+                                            {% else %}
+                                                <i class="far fa-file fa-3x"></i>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                    <div class="media-body">
+                                        <h4 class="media-heading">{{ document.name }}</h4>
+                                        <a href="{{ document.file.url }}" download>
+                                            <i class="fa fa-download" aria-hidden="true"></i> Скачать</a>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}
+{% block scripts %}
+    <script>
+        $('#nav_contact').attr('class', 'active')
+    </script>
+    <script>
+    var lightbox = $('.g1 .item a').simpleLightbox({
+    captionsData: 'alt',
+    });
+
+    var lightbox2 = $('.g2 .item a').simpleLightbox({
+    captionsData: 'alt',
+    });
+    </script>
+{% endblock %}
