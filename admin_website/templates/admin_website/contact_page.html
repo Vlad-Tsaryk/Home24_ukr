@@ -1,4 +1,12 @@
 {% extends 'layout/basic.html' %}
+{% load static %}
+{% block head %}
+    <style>
+        .ck-editor__editable {
+            min-height: 200px;
+        }
+    </style>
+{% endblock %}
 {% block title %}Редактирование страницы {% endblock %}
 {% block breadcrumb %}
     <ul class="breadcrumb">
@@ -123,5 +131,42 @@
     <script>
         $('#website_settings').attr('class', 'active treeview menu-open')
         $('#nav_contact_page').attr('class', 'active')
+    </script>
+        <script type="text/javascript"
+            src="{% static "admin_panel/plugins/ckeditor5-build-classic/ckeditor.js" %}"></script>
+    <script type="text/javascript"
+            src="{% static "admin_panel/plugins/ckeditor5-build-classic/translations/ru.js" %}"></script>
+    <script>
+        $(document).ready(
+            $('.compose-textarea').each(function () {
+                ClassicEditor.create(this, {
+                    language: 'ru',
+                    toolbar: {
+                        items: [
+                            'heading',
+                            '|',
+                            'bold',
+                            'italic',
+                            'underline',
+                            'link',
+                            'bulletedList',
+                            'numberedList',
+                            '|',
+                            'outdent',
+                            'indent',
+                            '|',
+                            'blockQuote',
+                            'undo',
+                            'redo'
+                        ]
+                    }
+                })
+                    .catch(error => {
+                        console.error(error);
+                    })
+
+            })
+        )
+
     </script>
 {% endblock %}

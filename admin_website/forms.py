@@ -51,11 +51,11 @@ BlockFormSet = modelformset_factory(Block, BlockForm, extra=0, max_num=6)
 
 
 class ContactPageForm(forms.ModelForm):
-
     def __init__(self, *args, **kwargs):
         super(ContactPageForm, self).__init__(*args, **kwargs)
         for visible in self.visible_fields():
             visible.field.widget.attrs['class'] = 'form-control'
+        self.fields['text'].widget.attrs['class'] = 'form-control compose-textarea'
 
     class Meta:
         model = ContactPage
