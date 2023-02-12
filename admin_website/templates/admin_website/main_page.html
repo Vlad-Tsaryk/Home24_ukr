@@ -216,7 +216,6 @@
     <script type="text/javascript"
             src="{% static "admin_panel/plugins/ckeditor5-build-classic/translations/ru.js" %}"></script>
     <script>
-        $(document).ready(
             $('.compose-textarea').each(function () {
                 ClassicEditor.create(this, {
                     language: 'ru',
@@ -245,7 +244,6 @@
                     })
 
             })
-        )
 
     </script>
 {% endblock %}
