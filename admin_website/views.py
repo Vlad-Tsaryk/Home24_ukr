@@ -1,10 +1,12 @@
+from django.contrib import messages
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
-from django.views.generic import TemplateView, UpdateView
+from django.views.generic import TemplateView, UpdateView, DeleteView
 
 from admin_website.forms import MainPageForm, SeoForm, BlockFormSet, ContactPageForm, ServicePageForm, \
-    ServiceBlockFormSet, TariffPageForm, TariffBlockFormSet
-from admin_website.models import MainPage, ContactPage, ServicePage, TariffPage
+    ServiceBlockFormSet, TariffPageForm, TariffBlockFormSet, AboutPageForm, DocumentFormSet, GalleryForm, \
+    AdditionalGalleryForm
+from admin_website.models import MainPage, ContactPage, ServicePage, TariffPage, AboutPage, Gallery, AdditionalGallery
 from users.mixins import RolePermissionRequiredMixin
 
 
@@ -148,3 +150,93 @@ class TariffPageUpdate(RolePermissionRequiredMixin, TemplateView):
             return redirect(self.success_url)
         else:
             return super().render_to_response(context)
+
+
+class AboutPageUpdate(RolePermissionRequiredMixin, TemplateView):
+    permission_required = 'website'
+    template_name = 'admin_website/about_page.html'
+    success_url = reverse_lazy('website_about_page')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        self.object = AboutPage.objects.first()
+        context['gallery_list'] = Gallery.objects.filter(about_page=self.object)
+        context['additional_gallery_list'] = AdditionalGallery.objects.filter(about_page=self.object)
+        if self.request.POST:
+            context['about_page_form'] = AboutPageForm(
+                self.request.POST, self.request.FILES,
+                instance=self.object,
+                prefix='about_page')
+            context['seo_form'] = SeoForm(
+                self.request.POST,
+                instance=self.object.seo,
+                prefix='seo')
+            context['document_formset'] = DocumentFormSet(
+                self.request.POST, self.request.FILES,
+                queryset=self.object.document_set.all(),
+                prefix='document')
+            context['gallery_form'] = GalleryForm(
+                self.request.POST, self.request.FILES, prefix='gallery')
+            context['additional_gallery_form'] = AdditionalGalleryForm(
+                self.request.POST, self.request.FILES, prefix='additional_gallery')
+
+        else:
+            context['about_page_form'] = AboutPageForm(
+                instance=self.object,
+                prefix='about_page')
+            context['seo_form'] = SeoForm(
+                instance=self.object.seo,
+                prefix='seo')
+            context['document_formset'] = DocumentFormSet(
+                queryset=self.object.document_set.all(),
+                prefix='document')
+            context['gallery_form'] = GalleryForm(prefix='gallery')
+            context['additional_gallery_form'] = AdditionalGalleryForm(prefix='additional_gallery')
+        return context
+
+    def post(self, request, *args, **kwargs):
+        context = self.get_context_data()
+        about_page_form = context['about_page_form']
+        seo_form = context['seo_form']
+        document_formset = context['document_formset']
+        gallery_form = context['gallery_form']
+        additional_gallery_form = context['additional_gallery_form']
+        if about_page_form.is_valid() and seo_form.is_valid() and document_formset.is_valid() \
+                and gallery_form.is_valid() and additional_gallery_form.is_valid():
+            print('asdasdasd')
+            seo_form.save()
+            about_page = about_page_form.save()
+            gallery = gallery_form.save(commit=False)
+            additional_gallery = additional_gallery_form.save(commit=False)
+            if gallery.image:
+                gallery.about_page = about_page
+                gallery_form.save()
+            if additional_gallery.image:
+                additional_gallery.about_page = about_page
+                additional_gallery_form.save()
+            documents = document_formset.save(commit=False)
+            for document in documents:
+                document.about_page = about_page
+            document_formset.save()
+            return redirect(self.success_url)
+        else:
+            return super().render_to_response(context)
+
+
+class GalleryDelete(RolePermissionRequiredMixin, DeleteView):
+    permission_required = 'website'
+    model = Gallery
+    success_url = reverse_lazy('website_about_page')
+    success_message = 'Изображение из фотогалереи успешно удалено'
+
+    def delete(self, request, *args, **kwargs):
+        messages.success(self.request, self.success_message)
+        return super(GalleryDelete, self).delete(request, *args, **kwargs)
+
+    def get(self, request, *args, **kwargs):
+        return self.delete(request, *args, **kwargs)
+
+
+class AdditionalGalleryDelete(GalleryDelete):
+    model = AdditionalGallery
+    success_message = 'Изображение из дополнительной фотогалереи успешно удалено'

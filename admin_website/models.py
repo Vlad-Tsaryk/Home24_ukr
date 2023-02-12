@@ -61,3 +61,28 @@ class TariffBlock(models.Model):
     image = models.ImageField(upload_to='website/tariff_page/blocks')
     title = models.CharField(max_length=70)
     tariff_page = models.ForeignKey(TariffPage, on_delete=models.CASCADE)
+
+
+class AboutPage(models.Model):
+    title = models.CharField(max_length=70)
+    text = models.TextField()
+    photo = models.ImageField(upload_to='website/about_page')
+    additional_title = models.CharField(max_length=70)
+    additional_text = models.TextField()
+    seo = models.OneToOneField(Seo, on_delete=models.PROTECT)
+
+
+class Document(models.Model):
+    about_page = models.ForeignKey(AboutPage, on_delete=models.CASCADE)
+    file = models.FileField(upload_to='website/about_page/documents')
+    title = models.CharField(max_length=70)
+
+
+class Gallery(models.Model):
+    about_page = models.ForeignKey(AboutPage, on_delete=models.CASCADE)
+    image = models.ImageField(upload_to='website/about_page/gallery')
+
+
+class AdditionalGallery(models.Model):
+    about_page = models.ForeignKey(AboutPage, on_delete=models.CASCADE)
+    image = models.FileField(upload_to='website/about_page/additional_gallery')
