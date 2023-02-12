@@ -125,16 +125,18 @@ class AdminLoginView(FormView):
         return super().get(self, request, *args, **kwargs)
 
     def post(self, request, **kwargs):
-
         username = request.POST.get('username')
         password = request.POST.get('password')
         remember_me = request.POST.get('remember_me')
         user = authenticate(username=username, password=password)
         if user is not None:
             if user.status != user.StatusName.DISABLED.value:
-                if not remember_me:
-                    request.session.set_expiry(0)
+
+                print(request.session)
                 login(request, user)
+                if not remember_me:
+                    settings.SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+                    print(request.session.get_expire_at_browser_close())
                 return redirect('statistic')
             else:
                 messages.error(request, "Пользователь не активен")
