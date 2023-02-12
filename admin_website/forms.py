@@ -157,21 +157,21 @@ class DocumentForm(forms.ModelForm):
                            validators=[FileExtensionValidator(allowed_extensions=["pdf", "jpg"],
                                                               message='Только файлы c расширением PDF и JPG')])
 
-    def clean_file(self):
-        file = self.cleaned_data.get('file')
-        if file:
-            try:
-                with io.BytesIO(file.read()) as f:
-                    img = Image.open(f)
-                    if img.size != (32, 42):
-                        img = img.resize((32, 42))
-                    output = io.BytesIO()
-                    img.save(output, format='JPEG')
-                    output.seek(0)
-                    return InMemoryUploadedFile(output, 'ImageField', file.name,
-                                                'image/jpeg', output.getbuffer().nbytes, None)
-            except OSError:
-                return file
+    # def clean_file(self):
+    #     file = self.cleaned_data.get('file')
+    #     if file:
+    #         try:
+    #             with io.BytesIO(file.read()) as f:
+    #                 img = Image.open(f)
+    #                 if img.size != (32, 42):
+    #                     img = img.resize((32, 42))
+    #                 output = io.BytesIO()
+    #                 img.save(output, format='JPEG')
+    #                 output.seek(0)
+    #                 return InMemoryUploadedFile(output, 'ImageField', file.name,
+    #                                             'image/jpeg', output.getbuffer().nbytes, None)
+    #         except OSError:
+    #             return file
 
     class Meta:
         model = Document
