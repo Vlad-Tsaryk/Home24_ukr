@@ -1,4 +1,4 @@
-{% extends 'layout/basic.html' %}
+{% extends 'layout/admin_panel.html' %}
 {% load static %}
 {% block title %}Редактирование страницы {% endblock %}
 {% block breadcrumb %}
@@ -145,7 +145,7 @@
                                                 <i class="fa fa-file-pdf-o fa-3x pull-left"
                                                    style="width: 32px;" aria-hidden="true"></i>
                                                 {% elif  document.instance.file.name|slice:"-3:" == "jpg" %}
-                                                <img class="fa fa-3x pull-left"
+                                                <img class="fa fa-3x pull-left" width="32" height="42"
                                                  src="{{ document.instance.file.url }}"
                                                  alt="">
                                                 {% else %}
