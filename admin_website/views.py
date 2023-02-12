@@ -23,8 +23,8 @@ class MainPageUpdate(RolePermissionRequiredMixin, TemplateView):
             context['main_page_form'] = MainPageForm(self.request.POST, self.request.FILES, instance=self.object,
                                                      prefix='main_page')
             context['seo_form'] = SeoForm(self.request.POST, instance=self.object.seo, prefix='seo')
-            context['block_formset'] = BlockFormSet(self.request.POST, queryset=self.object.block_set.all(),
-                                                    prefix='block')
+            context['block_formset'] = BlockFormSet(self.request.POST, self.request.FILES,
+                                                    queryset=self.object.block_set.all(), prefix='block')
         else:
             context['main_page_form'] = MainPageForm(instance=self.object, prefix='main_page')
             context['seo_form'] = SeoForm(instance=self.object.seo, prefix='seo')
