@@ -52,7 +52,7 @@
                     <span class="hidden-xs">Редактировать ведомость</span><i class="fa fa-pencil visible-xs"
                                                                              aria-hidden="true"></i>
                 </a>
-                <a href="/admin/account-transaction/export-one/1245?export=xls" class="btn btn-default btn-sm">
+                <a href="{% url 'transaction_to_excel' transaction.pk %}" class="btn btn-default btn-sm">
                     <span class="hidden-xs">Выгрузить в Excel</span><i class="fa fa-pencil visible-xs"
                                                                        aria-hidden="true"></i>
                 </a>
@@ -64,30 +64,38 @@
                 <tr>
                     <td>Владелец квартиры</td>
                     <td>
+                        {% if transaction.owner %}
                         <a href="{% url 'owner_view' transaction.owner_id %}">
                             {{ transaction.owner}} </a>
+                        {% else %}
+                        Не указано
+                        {% endif %}
                     </td>
                 </tr>
                 <tr>
                     <td>Лицевой счет</td>
                     <td>
+                        {% if transaction.personal_account %}
                         <a href="{% url 'personal_account_view' transaction.personal_account_id %}">
-                            {{ transaction.personal_account }} </a>
+                            {{ transaction.personal_account}} </a>
+                        {% else %}
+                        Не указано
+                        {% endif %}
                     </td>
                 </tr>
                 <tr>
                     <td>Статья</td>
-                    <td>{{ transaction.purpose }}</td>
+                    <td>{{ transaction.purpose|default_if_none:"Не указано" }}</td>
                 </tr>
                 <tr>
                     <td>Квитанция</td>
                     <td>
-                        не указано
+                        Не указано
                     </td>
                 </tr>
                 <tr>
                     <td>Услуга</td>
-                    <td></td>
+                    <td>Не указано</td>
                 </tr>
                 <tr>
                     <td>Менеджер</td>

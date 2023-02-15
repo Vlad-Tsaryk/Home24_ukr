@@ -1,9 +1,12 @@
+from django.contrib import messages
 from django.db.models import Value
 from django.db.models.functions import Concat
-from django.http import JsonResponse, HttpResponse
+from django.http import JsonResponse, HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
-from django.views.generic import CreateView, ListView, DetailView, UpdateView
+from django.views import View
+from django.views.generic import CreateView, ListView, DetailView, UpdateView, DeleteView
+from django.views.generic.detail import SingleObjectMixin
 from openpyxl.utils import get_column_letter
 from openpyxl.workbook import Workbook
 from openpyxl.writer.excel import save_virtual_workbook
@@ -160,15 +163,54 @@ class TransactionView(RolePermissionRequiredMixin, DetailView):
     template_name = 'admin_transaction/transaction_view.html'
 
 
-def transaction_delete(request, pk):
-    obj_number = None
-    try:
-        obj_delete = Transaction.objects.get(pk=pk)
-        number = obj_delete.number
-        if obj_delete.delete():
-            obj_number = number
-    except:
-        error(request, f"Не удалось удалить ведомость")
-    if obj_number:
-        success(request, f"Ведомость №{obj_number} успешно удалена")
-    return redirect('transaction_list')
+class TransactionDelete(RolePermissionRequiredMixin, DeleteView):
+    permission_required = 'transactions'
+    model = Transaction
+    success_url = reverse_lazy('transaction_list')
+
+    def delete(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        success_url = self.get_success_url()
+        obj_number = self.object.number
+        try:
+            if self.object.delete():
+                messages.success(self.request, f"Ведомость №{obj_number} успешно удалена")
+        except:
+            messages.error(request, f"Не удалось удалить ведомость")
+        return HttpResponseRedirect(success_url)
+
+    def get(self, request, *args, **kwargs):
+        return self.delete(request, *args, **kwargs)
+
+
+class TransactionToExcel(View, SingleObjectMixin):
+    model = Transaction
+
+    def get(self, request, *args, **kwargs):
+        transaction = self.get_object()
+        wb = Workbook()
+        ws = wb.active
+        status_dict = {0: 'Не проведен', 1: 'Проведен'}
+        type_dict = {0: 'Расход', 1: 'Приход'}
+        date = transaction.date.strftime('%d.%m.%Y')
+        number = transaction.number
+        content = [['Платеж', number],
+                   ['Дата', date],
+                   ['Владелец квартиры', str(transaction.owner or '')],
+                   ['Лицевой счет', str(transaction.personal_account or '')],
+                   ['Приход/расход', type_dict[transaction.type]],
+                   ['Статус', status_dict[transaction.is_complete]],
+                   ['Статья', str(transaction.purpose)],
+                   ['Сумма', transaction.sum],
+                   ['Валюта', 'UAH'],
+                   ['Комментарий', transaction.comment],
+                   ['Менеджер', str(transaction.manager)]]
+        for row_content in content:
+            ws.append(row_content)
+        ws.column_dimensions['A'].width = 20
+        ws.column_dimensions['B'].width = 40
+        file_name = f'transaction__#{number}_{date}'
+        response = HttpResponse(save_virtual_workbook(wb),
+                                content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+        response['Content-Disposition'] = f'attachment; filename={file_name}.xlsx'
+        return response

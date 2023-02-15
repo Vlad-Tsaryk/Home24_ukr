@@ -1,6 +1,6 @@
 from django.urls import path
-from .views import TransactionCreate, TransactionList, TransactionView, TransactionUpdate, TransactionClone,\
-    transaction_delete
+from .views import TransactionCreate, TransactionList, TransactionView, TransactionUpdate, TransactionClone, \
+    TransactionDelete, TransactionToExcel
 
 urlpatterns = [
     path('', TransactionList.as_view(), name='transaction_list'),
@@ -8,5 +8,6 @@ urlpatterns = [
     path('update/<pk>', TransactionUpdate.as_view(), name='transaction_update'),
     path('clone/<pk>', TransactionClone.as_view(), name='transaction_clone'),
     path('create/type=<transaction_type>', TransactionCreate.as_view(), name='transaction_create'),
-    path('delete/<pk>', transaction_delete, name='transaction_delete'),
+    path('delete/<pk>', TransactionDelete.as_view(), name='transaction_delete'),
+    path('to_excel/<pk>', TransactionToExcel.as_view(), name='transaction_to_excel'),
 ]
