@@ -58,10 +58,17 @@ class OwnerChangeForm(UserChangeForm, OwnerCreateForm):
     password2 = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control pass-value'})
                                 , required=False)
 
-
     class Meta:
         model = User
         fields = [
             'first_name', 'last_name', 'phone', 'role', 'status',
             'username', 'password1', 'password2', 'middle_name',
             'telegram', 'viber', 'birth_date', 'notes', 'profile_image']
+
+
+class OwnerInviteForm(forms.Form):
+    phone = PhoneNumberField(widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': '+380731234567'}),
+                             required=False)
+    phone.error_messages['invalid'] = "Введите корректный номер телефона."
+    email = forms.CharField(widget=forms.EmailInput(attrs={'class': 'form-control',
+                                                           'placeholder': 'your_email@gmail.com'}))

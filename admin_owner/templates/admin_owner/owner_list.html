@@ -22,8 +22,8 @@
             </button>
             <ul class="dropdown-menu">
                 <li><a href="{% url 'owner_create' %}">Добавить владельца квартиры</a></li>
-                <li><a href="/admin/message/create?MessageAddress%5Buser_has_debt%5D=1">Отправить сообщение должникам</a></li>
-                <li><a href="/admin/user/invite">Отправить приглашение</a></li>
+                <li><a href="{% url 'message_create_has_debt' 1 %}">Отправить сообщение должникам</a></li>
+                <li><a href="{% url 'owner_invite' %}">Отправить приглашение</a></li>
             </ul>
         </div>
     </div>
@@ -176,7 +176,7 @@
 <li><a href="/admin/user/index?page=3&amp;per-page=50" data-page="2">3</a></li>
 <li class="next"><a href="/admin/user/index?page=2&amp;per-page=50" data-page="1">»</a></li></ul></div></div>
             <div class="box-footer">
-                <div>Количество владельцев: <span class="text-bold">{{ object_list.count }}</span></div>
+                <div>Количество владельцев: <span class="text-bold" id="owner_count"></span></div>
             </div>
         </div>
     </div>
@@ -241,7 +241,13 @@
                         "data": function (d) {
                             return sort_data;
                         },
-                        "dataSrc": "",
+{% comment %}                        "success":function (data) {
+                          console.log(data)
+                        },{% endcomment %}
+                        "dataSrc": function (data) {
+                            $('#owner_count').text(data.length)
+                            return data
+                        },
                     },
                     "columns": [
                         {data: "id"},
@@ -278,14 +284,23 @@
                             render: function (data, type) {
                         return `<small class="${colors[data]}">${data}</small>`;
                     }},
-                        {data: null},
+                        {data: 'has_debt',
+                        render:function (data) {
+                            if (data){
+                                return 'Да'
+                            }
+                            else {
+                                return 'Нет'
+                            }
+                        }},
 
                         {data: "id",
                             render:function (data, type) {
                             let link_update = '{% url 'owner_update' 12345 %}'.replace(/12345/, data)
                             let link_delete = '{% url 'owner_delete' 12345 %}'.replace(/12345/, data)
+                            let link_message = '{% url 'message_create_owner' 12345 %}'.replace(/12345/, data)
                                     return `<div class="btn-group pull-right"><a class="btn btn-default btn-sm"
-                                    href="#" title="Отправить сообщение" data-toggle="tooltip">
+                                    href="${link_message}" title="Отправить сообщение" data-toggle="tooltip">
                                     <i class="fa fa-envelope"></i></a>
                                     <a class="btn btn-default btn-sm" href="${link_update}" title="Редактировать"
                                     data-toggle="tooltip"><i class="fa fa-pencil"></i></a>

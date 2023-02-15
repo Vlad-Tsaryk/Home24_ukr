@@ -1,12 +1,15 @@
 from django.contrib.messages.views import SuccessMessageMixin
-from django.http import JsonResponse
+from django.core.mail import EmailMessage
+from django.http import JsonResponse, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy
-from django.views.generic import CreateView, UpdateView, ListView, DetailView
+from django.views.generic import CreateView, UpdateView, ListView, DetailView, DeleteView, FormView
 
+from admin_personal_account.models import PersonalAccount
+from settings import EMAIL_HOST
 from users.mixins import RolePermissionRequiredMixin
 from users.models import User, Role
-from .forms import OwnerChangeForm, OwnerCreateForm
+from .forms import OwnerChangeForm, OwnerCreateForm, OwnerInviteForm
 from django.db.models.functions import Concat
 from django.db.models import Value
 from django.contrib import messages
@@ -40,18 +43,24 @@ class OwnerView(RolePermissionRequiredMixin, DetailView):
     context_object_name = 'owner'
 
 
-def owner_delete(request, pk):
-    user_name = None
-    try:
-        obj_delete = User.objects.get(pk=pk)
-        name = obj_delete.__str__()
-        if obj_delete.delete():
-            user_name = name
-    except:
-        messages.error(request, f"Не удалось удалить пользователя")
-    if user_name:
-        messages.success(request, f"Пользователь {user_name} удален успешно")
-    return redirect('owner_list')
+class OwnerDelete(RolePermissionRequiredMixin, DeleteView):
+    permission_required = 'owners'
+    model = User
+    success_url = reverse_lazy('owner_list')
+
+    def delete(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        success_url = self.get_success_url()
+        name = self.object.__str__()
+        try:
+            if self.object.delete():
+                messages.success(self.request, f"Пользователь {name} удален успешно")
+        except:
+            messages.error(request, f"Не удалось удалить пользователя")
+        return HttpResponseRedirect(success_url)
+
+    def get(self, request, *args, **kwargs):
+        return self.delete(request, *args, **kwargs)
 
 
 class OwnerList(RolePermissionRequiredMixin, ListView):
@@ -82,7 +91,29 @@ class OwnerList(RolePermissionRequiredMixin, ListView):
             for owner in result_list:
                 owner['apartment'] = list(filtered_qs.get(
                     pk=owner['id']).apartment_set.all().values('id', 'number', 'house__name', 'house_id'))
+                owner['has_debt'] = PersonalAccount.owner_has_debt(owner['id'])
             print(result_list)
             return JsonResponse(result_list, safe=False, **response_kwargs)
         else:
             return super(ListView, self).render_to_response(context, **response_kwargs)
+
+
+class OwnerInvite(RolePermissionRequiredMixin, FormView):
+    permission_required = 'owners'
+    template_name = 'admin_owner/owner_invite.html'
+    form_class = OwnerInviteForm
+    success_url = reverse_lazy('owner_invite')
+
+    def form_valid(self, form):
+        email = EmailMessage()
+        email.from_email = EMAIL_HOST
+        email.subject = 'Test'
+        email.body = 'Вас приглашают подключиться к системе Demo CRM 24.\n\
+        Скачайте приложение:\n\
+        Play Market: https://play.google.com/store/apps/details?id=com.avadamedia.program.myhouse24&hl=uk\n\
+        App Store: https://itunes.apple.com/us/app/%D0%BC%D0%BE%D0%B9%D0%B4%D0%BE%D0%BC24/id1308075440?l=ru&ls=1&mt=8\n\
+        Для дальнейшей информации свяжитесь с администрацией.'
+        email.to = [form.cleaned_data.get('email')]
+        if email.send():
+            messages.success(self.request, 'Email отправлен успешно')
+        return super(OwnerInvite, self).form_valid(form)
