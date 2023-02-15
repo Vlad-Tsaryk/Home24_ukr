@@ -1,0 +1,120 @@
+{% extends 'layout/admin_panel.html' %}
+{% load static %}
+{% block title %}Пригласить владельца квартир{% endblock %}
+{% block header_text %}
+    Пригласить владельца квартир
+{% endblock %}
+{% block breadcrumb %}
+    <ul class="breadcrumb"><li><a href="{% url 'statistic' %}"><i class="fa fa-home"></i> Главная</a></li>
+        <li><a href="{% url 'owner_list' %}">Владельцы квартир</a></li>
+    <li class="active">Пригласить владельца квартир</li>
+</ul>
+{% endblock %}
+{% block content %}
+
+
+    <div class="box">
+        <div class="box-header with-border">
+            <h3 class="box-title">Отправить приглашение</h3>
+        </div>
+        <div class="box-body">
+            <form id="owner_invite_form" method="post">
+                {% csrf_token %}
+                <div class="row">
+                    <div class="col-xs-12 col-sm-6">
+                        <div class="form-group field-{{ form.phone.id_for_label }}">
+                            <label class="control-label" for="{{ form.phone.id_for_label }}">Телефон</label>
+                            {{ form.phone }}
+                        </div>
+
+                        <div class="form-group field-{{ form.email.id_for_label }}">
+                            <label class="control-label" for="{{ form.email.id_for_label }}">Email</label>
+                            {{ form.email }}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 text-center">
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-success">Отправить приглашение</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+{% endblock %}
+{% block scripts %}
+    <script src="{% static 'admin_panel/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js' %}"></script>
+    <script src="{% static 'admin_panel/plugins/jquery-validation-1.19.5/demo/marketo/jquery.maskedinput.js' %}"></script>
+    <script src="{% static 'admin_panel/plugins/jquery-validation-1.19.5/dist/additional-methods.min.js' %}"></script>
+        <script>
+        $('#nav_owners').attr('class', 'active')
+    </script>
+    <script>
+        {% for error in form.phone.errors %}
+            toastr.error('{{ error }}')
+        {% endfor %}
+        $('#id_phone').mask('+38 (999) 999-99-99')
+        $.validator.addMethod("validateEmail", function (value, element) {
+            let regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+            return regex.test(value);
+        });
+        $("#owner_invite_form").validate({
+            rules: {
+                email: {
+                    required: true,
+                    validateEmail: true,
+                    email: false
+
+                },
+            },
+            messages: {
+                email: {
+                    required: 'Пожалуйста введите email адрес',
+                    validateEmail: "Пожалуйста введите правильный email адрес."
+                },
+            },
+            errorElement: "em",
+            errorPlacement: function (error, element) {
+                // Add the `help-block` class to the error element
+                error.addClass("help-block");
+
+                // Add `has-feedback` class to the parent div.form-group
+                // in order to add icons to inputs
+                element.parents(".form-group").addClass("has-feedback");
+
+                if (element.prop("type") === "checkbox") {
+                    error.insertAfter(element.parent("label"));
+                } else {
+                    if (element.parent(".input-group").length) {
+                        error.insertAfter(element.parent(".input-group"));
+                    } else {
+                        error.insertAfter(element);
+                    }
+
+                }
+
+                // Add the span element, if doesn't exists, and apply the icon classes to it.
+                if (!element.next("span")[0]) {
+                    $("<span class='glyphicon glyphicon-remove form-control-feedback'></span>").insertAfter(element);
+                }
+            },
+            success: function (label, element) {
+                // Add the span element, if doesn't exists, and apply the icon classes to it.
+                if (!$(element).next("span")[0]) {
+                    $("<span class='glyphicon glyphicon-ok form-control-feedback'></span>").insertAfter($(element));
+                }
+            },
+            highlight: function (element, errorClass, validClass) {
+                $(element).parents(".form-group").addClass("has-error").removeClass("has-success");
+                $(element).next("span").addClass("glyphicon-remove").removeClass("glyphicon-ok");
+            },
+            unhighlight: function (element, errorClass, validClass) {
+                $(element).parents(".form-group").addClass("has-success").removeClass("has-error");
+                $(element).next("span").addClass("glyphicon-ok").removeClass("glyphicon-remove");
+            }
+        });
+    </script>
+{% endblock %}
