@@ -27,59 +27,58 @@
                 <h3 class="box-title"></h3>
             </div>
             <div class="box-body">
-                <div class="form-group field-message-name required">
+                <div class="form-group field-{{ form.subject.id_for_label }}">
 
                     {{ form.subject }}
 
                     <div class="help-block"></div>
                 </div>
-                <div class="form-group field-message-description">
+                <div class="form-group field-{{ form.text.id_for_label }}">
                     {{ form.text }}
                 </div>
+
                 <div class="row">
 
                     <div class="col-xs-12 col-md-6">
                         <h4>Кому отправить:</h4>
 
+                        {% block user_create %}
+                        <div class="form-group field-{{ form.owners_has_debt.id_for_label }}">
 
-                        <div class="form-group field-message-user_has_debt">
-
-                            <input type="hidden" name="message[user_has_debt]" value="0"><label><input
-                                type="checkbox" id="message-user_has_debt" class=""
-                                name="message[user_has_debt]" value="1"> Владельцам с задолженностями</label>
+                            <label>{{form.owners_has_debt}} Владельцам с задолженностями</label>
 
                             <div class="help-block"></div>
                         </div>
-                        <div class="form-group field-message-house_id ">
-                            <label class="control-label" for="message-house_id">ЖК</label>
+                        <div class="form-group field-{{ form.house.id_for_label }} ">
+                            <label class="control-label" for="{{ form.house.id_for_label }}">ЖК</label>
                             {{ form.house }}
 
                             <div class="help-block"></div>
                         </div>
-                        <div class="form-group field-message-section_id ">
-                            <label class="control-label" for="message-section_id">Секция</label>
+                        <div class="form-group field-{{ form.apartment.id_for_label }} ">
+                            <label class="control-label" for="{{ form.section.id_for_label }}">Секция</label>
                             {{ form.section }}
 
                             <div class="help-block"></div>
                         </div>
-                        <div class="form-group field-message-floor_id ">
-                            <label class="control-label" for="message-floor_id">Этаж</label>
+                        <div class="form-group field-{{ form.apartment.id_for_label }} ">
+                            <label class="control-label" for="{{ form.floor.id_for_label }}">Этаж</label>
                             {{ form.floor }}
 
 
                             <div class="help-block"></div>
                         </div>
-                        <div class="form-group field-message-flat_id ">
-                            <label class="control-label" for="message-flat_id">Квартира</label>
+                        <div class="form-group field-{{ form.apartment.id_for_label }} ">
+                            <label class="control-label" for="{{ form.apartment.id_for_label }}">Квартира</label>
                             {{ form.apartment }}
 
                             <div class="help-block"></div>
                         </div>
                         {{ form.apartment.id }}
-
+                         {% endblock %}
                     </div>
-
                 </div>
+
             </div>
             <div class="box-footer">
                 <div class="pull-right">
@@ -132,6 +131,7 @@
     )
 
     </script>
+    {% block user_create_scripts %}
     <script>
         let select_options = {}
 
@@ -200,14 +200,6 @@
                     get_values()
                 })
             }
-            {% comment %}            if (apartment) {
-                            $('#id_apartment').change(function () {
-                                select_options['apartment_id'] = this.value
-                                get_values()
-                            })
-                        }{% endcomment %}
-
-
         }
 
         $(document).ready(function () {
@@ -220,6 +212,7 @@
             }
         )
     </script>
+    {% endblock %}
     <script>
             $( "#message_form" ).validate( {
 				rules: {
