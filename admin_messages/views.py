@@ -7,6 +7,7 @@ from django.views.generic import CreateView, ListView, DetailView, DeleteView
 from admin_apartment.models import Apartment
 from admin_house.models import Section, Floor
 from admin_messages.forms import MessageForm
+from admin_personal_account.models import PersonalAccount
 from users.models import User
 from users.mixins import RolePermissionRequiredMixin
 from admin_messages.models import Message
@@ -19,6 +20,11 @@ class MessageCreate(RolePermissionRequiredMixin, CreateView):
     form_class = MessageForm
     template_name = 'admin_messages/admin_messages_create.html'
     success_url = reverse_lazy('message_list')
+
+    def get_form_kwargs(self):
+        if self.kwargs.get('has_debt'):
+            self.initial = {'owners_has_debt': True}
+        return super(MessageCreate, self).get_form_kwargs()
 
     def render_to_response(self, context, **response_kwargs):
         if self.request.is_ajax():
@@ -56,10 +62,36 @@ class MessageCreate(RolePermissionRequiredMixin, CreateView):
         }
         owner_filters = {k: v for k, v in owner_filters.items() if v}
         owners = User.get_owners().filter(**owner_filters)
-        form.receivers.add(*owners)
+        if self.request.POST.get('owners_has_debt'):
+            owner_list = []
+            for owner in owners:
+                if owner not in owner_list:
+                    if PersonalAccount.owner_has_debt(owner_id=owner.id):
+                        owner_list.append(owner)
+            form.receivers.add(*owner_list)
+        else:
+            form.receivers.add(*owners)
         self.object = form
         messages.success(self.request, 'Сообщение успешно создано')
         return HttpResponseRedirect(self.get_success_url())
+
+
+class MessageCreateOwner(MessageCreate):
+    template_name = 'admin_messages/admin_message_create_user.html'
+
+    def get_form_kwargs(self):
+        if self.kwargs.get('owner_id'):
+            self.initial = {'receiver': self.kwargs.get('owner_id')}
+        return super(MessageCreateOwner, self).get_form_kwargs()
+
+    def form_valid(self, form):
+        form = form.save(commit=False)
+        form.sender = self.request.user
+        form.save()
+        if self.request.POST.get('receiver'):
+            form.receivers.add(self.request.POST.get('receiver'))
+        messages.success(self.request, 'Сообщение успешно создано')
+        return HttpResponseRedirect(self.success_url)
 
 
 class MessageList(RolePermissionRequiredMixin, ListView):
