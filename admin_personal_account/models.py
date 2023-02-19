@@ -18,7 +18,7 @@ class PersonalAccount(models.Model):
     @staticmethod
     def owner_has_debt(owner_id):
         balance = 0
-        for personal_account in PersonalAccount.objects.filter(apartment__owner=owner_id):
+        for personal_account in PersonalAccount.objects.select_related('apartment').filter(apartment__owner=owner_id):
             balance += personal_account.balance
         if balance >= 0:
             return False
@@ -28,7 +28,7 @@ class PersonalAccount(models.Model):
     @staticmethod
     def total_debt():
         result = 0
-        for personal_account in PersonalAccount.objects.all():
+        for personal_account in PersonalAccount.objects.select_related('apartment').all():
             balance = personal_account.balance
             if balance < 0:
                 result += balance
@@ -37,7 +37,7 @@ class PersonalAccount(models.Model):
     @staticmethod
     def total_balance():
         result = 0
-        for personal_account in PersonalAccount.objects.all():
+        for personal_account in PersonalAccount.objects.select_related('apartment').all():
             balance = personal_account.balance
             if balance > 0:
                 result += balance

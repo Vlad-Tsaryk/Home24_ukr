@@ -66,7 +66,7 @@ class MeterClone(MeterCreate):
     template_name = 'admin_meter/mater_clone.html'
 
     def get_form_kwargs(self):
-        kwargs = super(MeterCreate, self).get_form_kwargs()
+        kwargs = super(MeterClone, self).get_form_kwargs()
         try:
             meter_obj = get_object_or_404(Meter, pk=self.kwargs['pk'])
             self.kwargs['pk'] = meter_obj.pk

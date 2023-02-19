@@ -100,6 +100,9 @@ class MessageList(RolePermissionRequiredMixin, ListView):
     template_name = 'admin_messages/admin_messages_list.html'
     ordering = '-created'
 
+    def get_queryset(self):
+        return Message.objects.select_related('house', 'section', 'floor', 'apartment').prefetch_related('receivers')
+
 
 class MessageView(RolePermissionRequiredMixin, DetailView):
     permission_required = 'messages'

@@ -69,23 +69,26 @@
                     <li class="dropdown notifications-menu">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             <i class="fa fa-child fa-lg"></i>
-                            {% with user_count=user.get_new_users.count %}
-                                <span class="label label-warning">{{ user_count }}</span>
+                            {% with new_users=user.get_new_users %}
+                                {% with users_count=new_users.count %}
+                                <span class="label label-warning">{{ users_count }}</span>
                                 </a>
                                 <ul class="dropdown-menu">
 
-                                <li class="header">Новых пользователей: {{ user_count }}</li>
+                                <li class="header">Новых пользователей: {{ users_count }}</li>
                                 <li>
-                            {% endwith %}
+                                    {% endwith %}
+
                             <!-- inner menu: contains the actual data -->
                             <ul class="menu">
-                                {% for new_user in user.get_new_users %}
+                                {% for new_user in new_users %}
                                     <li>
                                         <a href="{% url 'update_user' new_user.pk %}">
                                             {{ new_user }}
                                         </a>
                                     </li>
                                 {% endfor %}
+                            {% endwith %}
                             </ul>
                             </li>
                             <li class="footer"><a href="{% url 'user_list' %}">Перейти в раздел пользователей</a></li>

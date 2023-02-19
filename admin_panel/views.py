@@ -78,7 +78,6 @@ class StatisticView(RolePermissionRequiredMixin, TemplateView):
         context['transactions_outcome'] = sorted(context['transactions_outcome'], key=lambda d: d['month'])
         context['receipts_debt_by_month'] = sorted(context['receipts_debt_by_month'], key=lambda d: d['month'])
         context['receipts_paid_by_month'] = sorted(context['receipts_paid_by_month'], key=lambda d: d['month'])
-        print(context['transactions_income'])
         return context
 
 

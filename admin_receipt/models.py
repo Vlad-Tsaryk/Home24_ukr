@@ -45,3 +45,7 @@ class ReceiptService(models.Model):
     service = models.ForeignKey(Service, on_delete=models.CASCADE)
     consumption = models.FloatField()
     price_unit = models.FloatField()
+
+    @property
+    def price(self):
+        return self.price_unit*self.consumption
