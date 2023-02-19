@@ -88,25 +88,41 @@ class ExcelTemplatePrint(RolePermissionRequiredMixin, SingleObjectMixin, Templat
 
     def post(self, request, *args, **kwargs):
         obj = self.get_object()
-        print('hello')
-        excel_template = ExcelTemplate.objects.get(pk=self.request.POST.get('template_id')).file
+        excel_template = ExcelTemplate.objects.get(pk=self.request.POST.get('template_id'))
         print(excel_template)
         print(obj)
+        if self.request.POST.get('action_send_email'):
+            if ReceiptToExcel(obj, 'action_send_email', excel_template).get_excel():
+                messages.success(request, 'Email отправлен успешно')
+            return self.render_to_response(self.get_context_data())
+        elif self.request.POST.get('action_download'):
+            return ReceiptToExcel(obj, 'action_download', excel_template).get_excel()
+
+
+class ReceiptToExcel:
+    def __init__(self, receipt_object, response_type, excel_template, **kwargs):
+        self.receipt_object = receipt_object
+        self.response_type = response_type
+        self.excel_template = excel_template.file
+        for key, value in kwargs.items():
+            setattr(self, key, value)
+
+    def get_excel(self):
         ru_months = ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь',
                      'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь']
-        account_balance = obj.apartment.personalaccount.balance
+        account_balance = self.receipt_object.apartment.personalaccount.balance
         receipt_selectors = {
             '$payCompany$': PaymentDetails.objects.first().name,
-            '$receiptAddress$': obj.address_for_excel,
-            '$receiptNumber$': obj.number,
-            '$accountNumber$': obj.apartment.personalaccount.number,
-            '$receiptDate$': obj.date.strftime('%d.%m.%Y'),
-            '$receiptMonth$': f'{ru_months[obj.date.month - 1]} {obj.date.year}',
+            '$receiptAddress$': self.receipt_object.address_for_excel,
+            '$receiptNumber$': self.receipt_object.number,
+            '$accountNumber$': self.receipt_object.apartment.personalaccount.number,
+            '$receiptDate$': self.receipt_object.date.strftime('%d.%m.%Y'),
+            '$receiptMonth$': f'{ru_months[self.receipt_object.date.month - 1]} {self.receipt_object.date.year}',
             '$accountBalance$': account_balance,
-            '$receiptPayable$': account_balance - obj.total_price,
-            '$total$': obj.total_price,
+            '$receiptPayable$': account_balance - self.receipt_object.total_price,
+            '$total$': self.receipt_object.total_price,
         }
-        receipt_services = obj.receiptservice_set.all()
+        receipt_services = self.receipt_object.receiptservice_set.all()
 
         def get_receipt_service_selectors(selector, receipt_service):
             receipt_service_selectors = {
@@ -118,7 +134,7 @@ class ExcelTemplatePrint(RolePermissionRequiredMixin, SingleObjectMixin, Templat
             }
             return receipt_service_selectors.get(selector) or selector
 
-        wb = load_workbook(excel_template)
+        wb = load_workbook(self.excel_template)
         ws = wb.active
         loop_coord = None
         for row in ws.iter_rows():
@@ -158,20 +174,22 @@ class ExcelTemplatePrint(RolePermissionRequiredMixin, SingleObjectMixin, Templat
                         cell.value = get_receipt_service_selectors(cell.value, receipt_service)
         ws_save = save_virtual_workbook(wb)
 
-        if self.request.POST.get('action_send_email'):
+        if self.response_type == 'action_send_email':
             email = EmailMessage()
             email.attach(f'receipt__{receipt_selectors["$receiptNumber$"]}_{receipt_selectors["$receiptDate$"]}.xlsx',
                          ws_save, 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
             email.from_email = EMAIL_HOST
             email.subject = 'Test'
             email.body = 'Test'
-            email.to = [obj.apartment.owner.username]
+            email.to = [self.receipt_object.apartment.owner.username]
             if email.send():
-                messages.success(request, 'Email отправлен успешно')
-            return self.render_to_response(self.get_context_data())
-        elif self.request.POST.get('action_download'):
-            response = HttpResponse(ws_save,
+                return True
+            return False
+        elif self.response_type == 'action_download':
+            response = HttpResponse(ws_save, charset='utf-8',
                                     content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
             response['Content-Disposition'] = f'attachment; filename=receipt__{receipt_selectors["$receiptNumber$"]}_' \
                                               f'{receipt_selectors["$receiptDate$"]}.xlsx'
+
             return response
+
