@@ -60,6 +60,11 @@ INSTALLED_APPS = [
     'admin_messages.apps.AdminMessagesConfig',
     'admin_website.apps.AdminWebsiteConfig',
     'website.apps.WebsiteConfig',
+    'cabinet.apps.CabinetConfig',
+    'cabinet_profile.apps.CabinetProfileConfig',
+    'cabinet_tariff.apps.CabinetTariffConfig',
+    'cabinet_messages.apps.CabinetMessagesConfig',
+    'cabinet_receipts.apps.CabinetReceiptsConfig',
     "debug_toolbar",
 
 ]
@@ -144,6 +149,10 @@ DATE_INPUT_FORMATS = ('%d-%m-%Y', '%d.%m.%Y')
 # User auth
 AUTH_USER_MODEL = 'users.User'
 LOGIN_URL = reverse_lazy('admin-panel-login')
+AUTHENTICATION_BACKENDS = [
+    'users.backends.AdminBackend',
+    'users.backends.OwnerBackend',
+]
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
