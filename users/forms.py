@@ -11,6 +11,12 @@ class AdminLoginForm(forms.Form):
                                , required=True)
     password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': "Password"})
                                , required=True)
+    remember_me = forms.BooleanField(widget=forms.CheckboxInput(), initial=True, required=False)
+
+
+class CabinetLoginForm(AdminLoginForm):
+    username = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': "E-mail или ID"})
+                               , required=True)
 
 
 class CustomUserCreationForm(UserCreationForm):

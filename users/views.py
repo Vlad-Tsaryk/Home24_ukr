@@ -1,5 +1,7 @@
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.messages.views import SuccessMessageMixin
+from django.contrib.sessions.backends.db import SessionStore
+from django.contrib.sessions.models import Session
 from django.db.models.functions import Concat
 from django.db.models import Value
 from django.shortcuts import redirect, get_object_or_404
@@ -11,7 +13,7 @@ from django.http import JsonResponse, HttpResponseRedirect
 import settings
 from .mixins import RolePermissionRequiredMixin
 from .models import User, Role
-from .forms import CustomUserCreationForm, CustomUserUpdateForm, RoleFormSet, AdminLoginForm
+from .forms import CustomUserCreationForm, CustomUserUpdateForm, RoleFormSet, AdminLoginForm, CabinetLoginForm
 from django.contrib import messages
 
 
@@ -115,35 +117,61 @@ class UpdateRoles(RolePermissionRequiredMixin, TemplateView):
             print('invalid')
 
 
-class AdminLoginView(FormView):
-    template_name = 'admin_panel/login_page.html'
-    form_class = AdminLoginForm
+class LoginView(FormView):
+    user_type = ''
 
     def get(self, request, *args, **kwargs):
+        if self.request.COOKIES.get(f'{self.user_type}_session_key') != 'None':
+            try:
+                session_object_model = Session.objects.get(
+                    session_key=self.request.COOKIES.get(f'{self.user_type}_session_key'))
+                if session_object_model.get_decoded():
+                    session_store = SessionStore(session_object_model.session_key)
+                    user_id = session_object_model.get_decoded().get('_auth_user_id')
+                    if user_id:
+                        self.request.session = session_store
+                        self.request.user = User.objects.get(pk=user_id)
+            except (Session.DoesNotExist, KeyError, User.DoesNotExist):
+                self.request.session = SessionStore(None)
         if self.request.user.is_authenticated:
-            return redirect('statistic')
+            return redirect(self.success_url)
         return super().get(self, request, *args, **kwargs)
 
-    def post(self, request, **kwargs):
-        username = request.POST.get('username')
-        password = request.POST.get('password')
-        remember_me = request.POST.get('remember_me')
-        user = authenticate(username=username, password=password)
+    def form_valid(self, form):
+        user = authenticate(self.request, username=form.cleaned_data['username'],
+                            password=form.cleaned_data['password'], user_type=self.user_type)
         if user is not None:
-            if user.status != user.StatusName.DISABLED.value:
-
-                print(request.session)
-                login(request, user)
-                if not remember_me:
-                    settings.SESSION_EXPIRE_AT_BROWSER_CLOSE = True
-                    print(request.session.get_expire_at_browser_close())
-                return redirect('statistic')
-            else:
-                messages.error(request, "Пользователь не активен")
-                return HttpResponseRedirect(settings.LOGIN_URL)
+            login(self.request, user)
+            # if self.request.session:
+            #     self.request.session = SessionStore(None)
+            # session[self.user_type] = user.id
+            # session.save()
+            if not form.cleaned_data['remember_me']:
+                self.request.session.set_expiry(0)
+            response = redirect(self.success_url)
+            response.set_cookie(f'{self.user_type}_session_key', self.request.session.session_key,
+                                max_age=self.request.session.get_expiry_age())
+            return response
         else:
-            messages.error(request, "Пользователь не существует")
             return HttpResponseRedirect(settings.LOGIN_URL)
+
+
+class AdminLoginView(LoginView):
+    template_name = 'admin_panel/login_page.html'
+    form_class = AdminLoginForm
+    success_url = reverse_lazy('statistic')
+    user_type = 'admin'
+
+
+class CabinetLoginView(LoginView):
+    template_name = 'cabinet/login_page.html'
+    form_class = CabinetLoginForm
+    success_url = reverse_lazy('cabinet_profile')
+    user_type = 'owner'
+    # def get(self, request, *args, **kwargs):
+    #     # if self.request.user.is_authenticated:
+    #     #     return redirect('ca')
+    #     return super(LoginView).get(self, request, *args, **kwargs)
 
 
 class LogoutView(View):

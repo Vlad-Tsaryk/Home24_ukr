@@ -25,15 +25,15 @@
     </div>
     <div class="nav-tabs-custom">
         <ul class="nav nav-tabs">
-            <li><a href="{% url 'cabinet_login' %}">Для жильца</a></li>
-            <li class="active"><a href="#tab_2" data-toggle="tab" aria-expanded="true">Для администрации</a></li>
+            <li class="active"><a href="#tab_1" data-toggle="tab" aria-expanded="true">Для жильца</a></li>
+            <li ><a href="{% url 'admin-panel-login' %}">Для администрации</a></li>
         </ul>
         <div class="tab-content">
 
 
             <div class="tab-pane active" id="tab_2">
                 <div class="login-box-body">
-                    <p class="login-box-msg">Вход в личный кабинет</p>
+                    <p class="login-box-msg">Вход в панель управления</p>
                     <form id="login-form" method="post">
                         {% csrf_token %}
                         <div class="form-group has-feedback field-loginform-username required">
