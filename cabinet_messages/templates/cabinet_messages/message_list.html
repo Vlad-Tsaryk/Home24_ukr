@@ -1,0 +1,163 @@
+{% extends 'layout/cabinet.html' %}
+{% load static %}
+{% block head %}
+    <link href="{% static 'admin_panel/plugins/iCheck/flat/blue.css' %}" rel="stylesheet">
+{% endblock %}
+{% block title %}Сообщения {% endblock %}
+{% block breadcrumb %}
+    <ul class="breadcrumb">
+        <li><a href="{% url 'statistic' %}"><i class="fa fa-home"></i>Главная</a></li>
+        <li class="active">Сообщения </li>
+    </ul>
+{% endblock %}
+{% block header_text %}
+    Сообщения
+{% endblock %}
+{% block content %}
+    <div class="box">
+        <div class="box-header with-border">
+            <h3 class="box-title"></h3>
+
+            <div class="box-tools pull-right">
+                <div class="has-feedback">
+                    <form action="" method="get">
+
+                        <input type="text" name="search" value="" class="form-control input-sm" placeholder="Поиск">
+                        <span class="glyphicon glyphicon-search form-control-feedback"></span>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="box-body no-padding">
+
+            <div id="w0" class="grid-view">
+                <div class="mailbox-controls">
+                    <button type="button" class="btn btn-default btn-sm checkbox-toggle"><i class="fa fa-square-o"></i>
+                    </button>
+                    <button id="delete_many" type="button" class="btn btn-default btn-sm delete-many"><i
+                            class="fa fa-trash-o"></i>
+                    </button>
+
+                    <div class="pull-right">
+                        <ul class="pagination pagination-sm no-margin pull-right">
+                            <li class="prev disabled"><span>«</span></li>
+                            <li class="active"><a href="/admin/message/index?page=1&amp;per-page=50" data-page="0">1</a>
+                            </li>
+                            <li><a href="/admin/message/index?page=2&amp;per-page=50" data-page="1">2</a></li>
+                            <li class="next"><a href="/admin/message/index?page=2&amp;per-page=50" data-page="1">»</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="table-responsive mailbox-messages">
+                    <table class="table table-hover table-striped linkedRow">
+                        <thead>
+                        <tr>
+                            <th>&nbsp;</th>
+                            <th style="min-width: 200px">Получатели</th>
+                            <th>Текст</th>
+                            <th style="width: 135px; min-width: 135px">Дата</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for message in message_list %}
+                            {% url 'cabinet_message_view' message.pk as message_url%}
+                            <tr data-href="{{message_url}}">
+                                <td>
+                                    <input type="checkbox" name="selection[]" value="{{ message.pk }}"
+                                           style="position: absolute; opacity: 0;">
+                                </td>
+                                <td><a href="{{message_url}}">{{ message.sender }}</a>
+                                </td>
+                                <td><strong>{{ message.subject }}</strong> - {{ message.text|striptags }}</td>
+                                <td>{{ message.created|date:'d.m.Y - H:m' }}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="mailbox-controls">
+                    <button type="button" class="btn btn-default btn-sm checkbox-toggle"><i class="fa fa-square-o"></i>
+                    </button>
+                    <button type="button" class="btn btn-default btn-sm delete-many"><i class="fa fa-trash-o"></i>
+                    </button>
+                    <div class="pull-right">
+                        <ul class="pagination pagination-sm no-margin pull-right">
+                            <li class="prev disabled"><span>«</span></li>
+                            <li class="active"><a href="/admin/message/index?page=1&amp;per-page=50" data-page="0">1</a>
+                            </li>
+                            <li><a href="/admin/message/index?page=2&amp;per-page=50" data-page="1">2</a></li>
+                            <li class="next"><a href="/admin/message/index?page=2&amp;per-page=50" data-page="1">»</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <form>{% csrf_token %}</form>
+{% endblock %}
+{% block scripts %}
+    <script>
+        $('#nav_message').attr('class', 'active')
+    </script>
+    <script src="{% static 'admin_panel/plugins/iCheck/icheck.min.js' %}"></script>
+    <script>
+        let checkboxes = $('.mailbox-messages input[type="checkbox"]')
+        let selected_messages = []
+        console.log(selected_messages)
+        checkboxes.iCheck({
+            checkboxClass: 'icheckbox_flat-blue',
+            radioClass: 'iradio_flat-blue'
+        });
+        checkboxes.on('ifChecked', function () {
+            selected_messages.push(this.value)
+        });
+        checkboxes.on('ifUnchecked', function () {
+            let index = selected_messages.indexOf(this.value);
+            if (index > -1) {
+                selected_messages.splice(index, 1);
+            }
+        });
+
+        //Enable check and uncheck all functionality
+        $(".checkbox-toggle").click(function () {
+            let clicks = $(this).data('clicks');
+            console.log(clicks)
+            if (clicks) {
+                //Uncheck all checkboxes
+                $(".mailbox-messages input[type='checkbox']").iCheck("uncheck");
+                $(".checkbox-toggle > .fa").removeClass("fa-check-square-o").addClass('fa-square-o');
+            } else {
+                //Check all checkboxes
+                $(".mailbox-messages input[type='checkbox']").iCheck("check");
+                $(".checkbox-toggle > .fa").removeClass("fa-square-o").addClass('fa-check-square-o');
+            }
+            $(this).data("clicks", !clicks);
+            console.log( $(this).data())
+        });
+    </script>
+    <script>
+        $('#delete_many').click(function () {
+            alertify.confirm('Подтверждение удаления', 'Удалить выбранные сообщения ?',
+                function () {
+                    $.ajax({
+                    type: 'POST',
+                    url: '{% url 'message_delete_many' %}',
+                    data: {'selected_messages':selected_messages},
+                    headers: {
+                        "X-CSRFToken": $("input[name=csrfmiddlewaretoken]").val()
+                    },
+                    success: function (data) {
+                        location.reload();
+                    }
+                })
+                },
+                function () {
+                }).set({labels: {ok: 'Подтвердить', cancel: 'Отмена'}});
+            })
+    </script>
+{% endblock %}

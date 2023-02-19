@@ -1,0 +1,46 @@
+{% extends 'layout/cabinet.html' %}
+{% block title %}Сообщение{% endblock %}
+{% block breadcrumb %}
+    <ul class="breadcrumb">
+        <li><a href="{% url 'statistic' %}"><i class="fa fa-home"></i>Главная</a></li>
+        <li class="active">Сообщение</li>
+    </ul>
+{% endblock %}
+{% block header_text %}
+    Сообщение
+{% endblock %}
+{% block content %}
+    <div class="box">
+        <div class="box-body no-padding">
+            <div class="mailbox-read-info">
+                <h3>{{ message.subject }}</h3>
+                <h5>От: {{ message.sender}}<span class="mailbox-read-time pull-right">{{ message.created|date:'d.m.Y - H:m' }}</span>
+                </h5>
+            </div>
+            <div class="mailbox-read-message">
+                {{message.text|safe}}</div>
+        </div>
+        <div class="box-footer">
+            <button onclick="confirm_delete('{% url 'message_delete' message.pk %}')" type="button"
+                    class="btn btn-default"><i class="fa fa-trash-o"></i> Удалить
+            </button>
+        </div>
+    </div>
+
+{% endblock %}
+{% block scripts %}
+    <script>
+    $('#nav_message').attr('class', 'active')
+    </script>
+    <script>
+    function confirm_delete(link) {
+            alertify.confirm('Подтверждение удаления', 'Удалить сообщение ?',
+                function () {
+                    window.location.href = link
+                },
+                function () {
+                }).set({labels: {ok: 'Подтвердить', cancel: 'Отмена'}});
+            return false;
+        }
+    </script>
+{% endblock %}

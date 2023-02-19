@@ -1,0 +1,28 @@
+{% extends 'layout/cabinet.html' %}
+{% block content %}
+    <div class="box">
+        <div class="box-body">
+            <div class="table-responsive no-padding">
+                <table class="table table-bordered table-hover">
+                    <thead>
+                    <tr>
+                        <th style="min-width:250px">Услуга</th>
+                        <th style="min-width:150px">Ед. изм.</th>
+                        <th style="min-width:150px">Цена за ед., грн</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for tariffservice in tariffservice_list %}
+                        <tr>
+                            <td>{{ tariffservice.tariff.name }}</td>
+                            <td>{{ tariffservice.service.unit.name }}</td>
+                            <td>{{tariffservice.price}}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
