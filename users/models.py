@@ -55,11 +55,14 @@ class User(AbstractUser):
     notes = models.TextField(blank=True)
     profile_image = models.ImageField(upload_to='users')
     role = models.ForeignKey(Role, on_delete=models.SET_NULL, null=True)
-
-    # uid = models.AutoField(unique=True, primary_key=True)
+    uid = models.CharField(max_length=10, null=True, unique=True)
 
     def __str__(self):
         return ' '.join((self.first_name, self.middle_name, self.last_name))
+
+    def get_apartments(self):
+        user = User.objects.get(id=self.pk)
+        return user.apartment_set.select_related('house')
 
     @staticmethod
     def get_owners():
@@ -86,6 +89,3 @@ class User(AbstractUser):
 
     class Meta:
         ordering = ['-date_joined']
-
-
-

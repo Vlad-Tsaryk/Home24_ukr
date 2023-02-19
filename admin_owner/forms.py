@@ -41,6 +41,16 @@ class OwnerCreateForm(UserCreationForm):
 
     role = forms.CharField(widget=forms.HiddenInput(), required=False)
 
+    uid = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}))
+
+    def __init__(self, *args, **kwargs):
+        super(OwnerCreateForm, self).__init__(*args, **kwargs)
+        if not self.initial.get('uid'):
+            try:
+                self.initial['uid'] = str(User.get_owners().order_by('-pk').first().pk + 1).zfill(6)
+            except:
+                self.initial['uid'] = '1'.zfill(6)
+
     def clean_role(self):
         return Role.objects.get(role=Role.RoleName.OWNER)
 
@@ -49,7 +59,7 @@ class OwnerCreateForm(UserCreationForm):
         fields = [
             'first_name', 'last_name', 'phone', 'role', 'status',
             'username', 'password1', 'password2', 'middle_name',
-            'telegram', 'viber', 'birth_date', 'notes', 'profile_image']
+            'telegram', 'viber', 'birth_date', 'notes', 'profile_image', 'uid']
 
 
 class OwnerChangeForm(UserChangeForm, OwnerCreateForm):
@@ -63,7 +73,7 @@ class OwnerChangeForm(UserChangeForm, OwnerCreateForm):
         fields = [
             'first_name', 'last_name', 'phone', 'role', 'status',
             'username', 'password1', 'password2', 'middle_name',
-            'telegram', 'viber', 'birth_date', 'notes', 'profile_image']
+            'telegram', 'viber', 'birth_date', 'notes', 'profile_image', 'uid']
 
 
 class OwnerInviteForm(forms.Form):

@@ -87,7 +87,7 @@ class OwnerList(RolePermissionRequiredMixin, ListView):
             if self.request.GET.get('order_by'):
                 filtered_qs = filtered_qs.order_by(self.request.GET.get('order_by'))
             result_list = list(filtered_qs.values('id', 'name', 'phone',
-                                                  'username', 'status', 'date_joined'))
+                                                  'username', 'status', 'date_joined', 'uid'))
             for owner in result_list:
                 owner['apartment'] = list(filtered_qs.get(
                     pk=owner['id']).apartment_set.all().values('id', 'number', 'house__name', 'house_id'))
