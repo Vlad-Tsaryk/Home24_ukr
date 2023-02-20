@@ -1,5 +1,6 @@
 import pandas as pd
 import pdfkit
+from django.core.paginator import Paginator
 from django.http import JsonResponse, HttpResponse
 from django.views import View
 from django.views.generic import ListView, DetailView
@@ -29,21 +30,36 @@ class ReceiptList(ListView):
 
     def render_to_response(self, context, **response_kwargs):
         if self.request.is_ajax():
-            result = {}
+            print(self.request.GET)
+            # result = {}
             order_by = self.request.GET.get('order_by')
             filter_fields = {
                 'status': self.request.GET.get('status'),
                 'date': self.request.GET.get('date'),
             }
+            start = int(self.request.GET.get('start', 0))
+            length = int(self.request.GET.get('length', 5))
             print(filter_fields)
             filter_fields = {k: v for k, v in filter_fields.items() if v}
-            print(self.get_queryset())
             filtered_qs = self.get_queryset().filter(**filter_fields)
+            # total_records = filtered_qs.count()
+            # result['recordsTotal'] = total_records
+            # result['recordsFiltered'] = total_records
+            filtered_qs = filtered_qs
             if order_by:
                 filtered_qs = filtered_qs.order_by(order_by)
+
             filtered_qs = filtered_qs.values('id', 'date', 'status', 'number', 'total_price')
-            result['receipts'] = list(filtered_qs)
-            print(result)
+            paginator = Paginator(filtered_qs, self.request.GET.get('length', 5))
+            page = (start//length) + 1
+            data = list(paginator.get_page(page))
+            result = {
+                'data': data,
+                'recordsTotal': paginator.count,
+                'recordsFiltered': paginator.count,
+                'draw': self.request.GET.get('draw', 1),
+                'pages': paginator.num_pages,
+            }
             return JsonResponse(result, safe=False, **response_kwargs)
         else:
             return super(ListView, self).render_to_response(context, **response_kwargs)

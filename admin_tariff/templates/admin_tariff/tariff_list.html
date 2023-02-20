@@ -1,10 +1,6 @@
 {% extends 'layout/admin_panel.html' %}
 {% load static %}
 {% block title %}Тарифы{% endblock %}
-{% block head %}
-    <link rel="stylesheet" type="text/css"
-          href="{% static 'admin_panel/bower_components/datatables.net-bs/css/dataTables.jqueryui.min.css' %}"/>
-{% endblock %}
 {% block header_text %}
 Тарифы
 {% endblock %}
@@ -80,7 +76,7 @@
         $('#nav_tariff').attr('class', 'active')
     </script>
         <script type="text/javascript"
-            src="{% static 'admin_panel/bower_components/datatables.net/jquery.dataTables.min.js' %}">
+            src="{% static 'admin_panel/bower_components/datatables.net/datatables.min.js' %}">
     </script>
     <script>
             $('#tariff_table').DataTable({

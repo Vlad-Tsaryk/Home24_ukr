@@ -30,7 +30,7 @@
                             </tr>
                             <tr id="w0-filters" class="filters">
                                 <td>&nbsp;</td>
-                                <td><input type="text" id="date_input" class="form-control"></td>
+                                <td><input type="text" id="date_input" class="form-control" style="width: 100%"> </td>
                                 <td><select id="status" class="form-control select2 filter" style="width: 100%">
                                     <option value=""></option>
                                     {% for status in status_list %}
@@ -45,13 +45,7 @@
                         </table>
                     </div>
                     <div class="box-footer clearfix">
-                        <ul class="pagination pagination-sm no-margin pull-right">
-                            <li class="prev disabled"><span>«</span></li>
-                            <li class="active"><a href="/cabinet/invoice/index?page=1" data-page="0">1</a></li>
-                            <li><a href="/cabinet/invoice/index?page=2" data-page="1">2</a></li>
-                            <li><a href="/cabinet/invoice/index?page=3" data-page="2">3</a></li>
-                            <li><a href="/cabinet/invoice/index?page=4" data-page="3">4</a></li>
-                            <li class="next"><a href="/cabinet/invoice/index?page=2" data-page="1">»</a></li>
+                        <ul class="pagination pagination-sm no-margin pull-right" id="pagination">
                         </ul>
                     </div>
                 </div>
@@ -67,7 +61,7 @@
     <script src="{% static 'admin_panel/bower_components/select2/dist/js/select2.full.min.js' %}"></script>
     <script src="{% static 'admin_panel/bower_components/select2/dist/js/i18n/ru.min.js' %}"></script>
     <script type="text/javascript"
-            src="{% static 'admin_panel/bower_components/datatables.net/jquery.dataTables.min.js' %}">
+            src="{% static 'admin_panel/bower_components/datatables.net/datatables.min.js' %}">
     </script>
     <script src="{% static 'admin_panel/bower_components/moment/moment.js' %}"></script>
     <script src="{% static 'admin_panel/bower_components/moment/locale/ru.js' %}"></script>
@@ -112,8 +106,10 @@
         function send_POST(e) {
             table = $('#receipt_table').DataTable({
                 serverSide: true,
-                processing: false,
+                processing: true,
                 ordering: false,
+                'pageLength': 5,
+                'lengthChange': false,
                 oLanguage: {
                     sZeroRecords: "Ничего не найдено."
                 },
@@ -124,12 +120,12 @@
                     "processing": true,
                     "url": "{% if view.kwargs.apartment_id %}{% url 'cabinet_receipt_list_apartment' view.kwargs.apartment_id %}{% else %}{% url 'cabinet_receipt_list' %}{% endif %}",
                     "data": function (d) {
-                        return sort_data;
+                        return Object.assign(d,sort_data);
                     },
-                    dataSrc: function (data) {
+ {% comment %}                   dataSrc: function (data) {
                         console.log(data)
                         return data['receipts']
-                    }
+                    }{% endcomment %}
                 },
 
                 "columns": [
@@ -153,9 +149,12 @@
                         }
                     },
                 ],
-                paging: false,
+                {#paging: false,#}
                 searching: false,
                 info: false,
+                initComplete: (settings, json)=>{
+        $('.dataTables_paginate').appendTo('#pagination');
+    },
             });
         }
 

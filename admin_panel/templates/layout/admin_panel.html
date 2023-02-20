@@ -20,13 +20,16 @@
     <link href="{% static 'admin_panel/plugins/alertifyjs/css/alertify.min.css' %}" rel="stylesheet">
     <link href="{% static 'admin_panel/plugins/alertifyjs/css/themes/default.min.css' %}" rel="stylesheet">
     <link href="{% static 'admin_panel/dist/css/style.css' %}" rel="stylesheet">
+    <link rel="stylesheet" type="text/css"
+          href="{% static 'admin_panel/bower_components/datatables.net/datatables.min.css' %}"/>
     <style>
         .has-error .select2-container--default .select2-selection--single {
-    border-color: #dd4b39;
-}
+            border-color: #dd4b39;
+        }
+
         .has-success .select2-container--default .select2-selection--single {
-    border-color: #00a65a;
-}
+            border-color: #00a65a;
+        }
     </style>
     <style>
         .ck-editor__editable {
@@ -36,7 +39,7 @@
     </style>
     {% block head %}
     {% endblock %}
-    </head>
+</head>
 <body class="skin-black-light sidebar-mini fixed sidebar-mini-expand-feature" style="height: auto; min-height: 100%;">
 <div class="wrapper" style="height: auto; min-height: 100%;">
 
@@ -65,37 +68,38 @@
             <div class="navbar-custom-menu">
                 <ul class="nav navbar-nav">
                     <!-- Notifications -->
-                {% block notifications %}
-                    <li class="dropdown notifications-menu">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                            <i class="fa fa-child fa-lg"></i>
-                            {% with new_users=user.get_new_users %}
-                                {% with users_count=new_users.count %}
-                                <span class="label label-warning">{{ users_count }}</span>
-                                </a>
-                                <ul class="dropdown-menu">
+                    {% block notifications %}
+                        <li class="dropdown notifications-menu">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                <i class="fa fa-child fa-lg"></i>
+                                {% with new_users=user.get_new_users %}
+                                    {% with users_count=new_users.count %}
+                                        <span class="label label-warning">{{ users_count }}</span>
+                                        </a>
+                                        <ul class="dropdown-menu">
 
-                                <li class="header">Новых пользователей: {{ users_count }}</li>
-                                <li>
+                                        <li class="header">Новых пользователей: {{ users_count }}</li>
+                                        <li>
                                     {% endwith %}
 
-                            <!-- inner menu: contains the actual data -->
-                            <ul class="menu">
-                                {% for new_user in new_users %}
-                                    <li>
-                                        <a href="{% url 'update_user' new_user.pk %}">
-                                            {{ new_user }}
-                                        </a>
-                                    </li>
-                                {% endfor %}
-                            {% endwith %}
-                            </ul>
-                            </li>
-                            <li class="footer"><a href="{% url 'user_list' %}">Перейти в раздел пользователей</a></li>
+                                    <!-- inner menu: contains the actual data -->
+                                    <ul class="menu">
+                                    {% for new_user in new_users %}
+                                        <li>
+                                            <a href="{% url 'update_user' new_user.pk %}">
+                                                {{ new_user }}
+                                            </a>
+                                        </li>
+                                    {% endfor %}
+                                {% endwith %}
+                                </ul>
+                                </li>
+                                <li class="footer"><a href="{% url 'user_list' %}">Перейти в раздел пользователей</a>
+                                </li>
 
-                            </ul>
-                    </li>
-                {% endblock %}
+                                </ul>
+                        </li>
+                    {% endblock %}
                     <!-- User Account -->
                     <li class="dropdown user user-menu">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -122,7 +126,8 @@
                                     <a class="btn btn-default btn-flat"
                                        href="{% url 'update_user' user.pk %}">Профиль</a></div>
                                 <div class="pull-right">
-                                    <a class="btn btn-default btn-flat" href="{% url 'admin-panel-logout' %}" data-method="post">Выход</a>
+                                    <a class="btn btn-default btn-flat" href="{% url 'admin-panel-logout' %}"
+                                       data-method="post">Выход</a>
                                 </div>
                             </li>
                         </ul>
@@ -141,114 +146,117 @@
             <section class="sidebar" style="overflow: hidden; width: auto; height: 228px;">
 
                 <ul class="sidebar-menu tree" data-widget="tree">
-                {% block navigation %}
-                    {% if user.role.statistics %}
-                        <li id="nav_statistic"><a href="/admin/"><i class="fa fa-line-chart"></i>
-                            <span>Статистика</span></a></li>
-                    {% endif %}
-                    {% if user.role.transactions %}
-                        <li id="nav_transaction"><a href="{% url 'transaction_list' %}"><i class="fa fa-dollar"></i>
-                            <span>Касса</span></a>
-                        </li>
-                    {% endif %}
+                    {% block navigation %}
+                        {% if user.role.statistics %}
+                            <li id="nav_statistic"><a href="/admin/"><i class="fa fa-line-chart"></i>
+                                <span>Статистика</span></a></li>
+                        {% endif %}
+                        {% if user.role.transactions %}
+                            <li id="nav_transaction"><a href="{% url 'transaction_list' %}"><i class="fa fa-dollar"></i>
+                                <span>Касса</span></a>
+                            </li>
+                        {% endif %}
 
-                    {% if user.role.receipts %}
-                        <li id="nav_receipt"><a href="{% url 'receipt_list' %}"><i class="fa fa-files-o"></i>
-                            <span>Квитанции на оплату</span></a></li>
-                    {% endif %}
-                    {% if user.role.personal_accounts %}
-                        <li id="nav_account"><a href="{% url 'personal_account_list' %}"><i
-                                class="fa fa-credit-card"></i>
-                            <span>Лицевые счета</span></a></li>
-                    {% endif %}
-                    {% if user.role.apartments %}
-                        <li id="nav_apartment"><a href="{% url 'apartment_list' %}"><i class="fa fa-key"></i>
-                            <span>Квартиры</span></a></li>
-                    {% endif %}
-                    {% if user.role.owners %}
-                        <li id="nav_owners"><a href="{% url 'owner_list' %}"><i class="fa fa-users"></i> <span>Владельцы квартир</span></a>
-                        </li>
-                    {% endif %}
-                    {% if user.role.houses %}
-                        <li id="nav_house"><a href="{% url 'house_list' %}"><i class="fa fa-building"></i>
-                            <span>Дома</span></a>
-                        </li>
-                    {% endif %}
-                    {% if user.role.messages %}
-                        <li id="nav_message"><a href="{% url 'message_list' %}"><i class="fa fa-envelope-o"></i>
-                            <span>Сообщения</span></a>
-                        </li>
-                    {% endif %}
-                    {% if user.role.applications %}
-                        <li id="nav_application"><a href="{% url 'application_list' %}"><i class="fa fa-wrench"></i>
-                            <span>Заявки вызова мастера</span></a></li>
-                    {% endif %}
-                    {% if user.role.meters %}
-                        <li id="nav_meter"><a href="{% url 'meter-list' %}"><i class="fa fa-dashboard"></i>
-                            <span>Показания счетчиков</span></a>
-                        </li>
-                    {% endif %}
-                    {% if user.role.website %}
-                        <li id="website_settings" class="treeview"><a href="#!">
-                            <i class="fa fa-desktop"></i> <span>Управление сайтом</span>
-                            <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span></a>
+                        {% if user.role.receipts %}
+                            <li id="nav_receipt"><a href="{% url 'receipt_list' %}"><i class="fa fa-files-o"></i>
+                                <span>Квитанции на оплату</span></a></li>
+                        {% endif %}
+                        {% if user.role.personal_accounts %}
+                            <li id="nav_account"><a href="{% url 'personal_account_list' %}"><i
+                                    class="fa fa-credit-card"></i>
+                                <span>Лицевые счета</span></a></li>
+                        {% endif %}
+                        {% if user.role.apartments %}
+                            <li id="nav_apartment"><a href="{% url 'apartment_list' %}"><i class="fa fa-key"></i>
+                                <span>Квартиры</span></a></li>
+                        {% endif %}
+                        {% if user.role.owners %}
+                            <li id="nav_owners"><a href="{% url 'owner_list' %}"><i class="fa fa-users"></i> <span>Владельцы квартир</span></a>
+                            </li>
+                        {% endif %}
+                        {% if user.role.houses %}
+                            <li id="nav_house"><a href="{% url 'house_list' %}"><i class="fa fa-building"></i>
+                                <span>Дома</span></a>
+                            </li>
+                        {% endif %}
+                        {% if user.role.messages %}
+                            <li id="nav_message"><a href="{% url 'message_list' %}"><i class="fa fa-envelope-o"></i>
+                                <span>Сообщения</span></a>
+                            </li>
+                        {% endif %}
+                        {% if user.role.applications %}
+                            <li id="nav_application"><a href="{% url 'application_list' %}"><i class="fa fa-wrench"></i>
+                                <span>Заявки вызова мастера</span></a></li>
+                        {% endif %}
+                        {% if user.role.meters %}
+                            <li id="nav_meter"><a href="{% url 'meter-list' %}"><i class="fa fa-dashboard"></i>
+                                <span>Показания счетчиков</span></a>
+                            </li>
+                        {% endif %}
+                        {% if user.role.website %}
+                            <li id="website_settings" class="treeview"><a href="#!">
+                                <i class="fa fa-desktop"></i> <span>Управление сайтом</span>
+                                <span class="pull-right-container"><i
+                                        class="fa fa-angle-left pull-right"></i></span></a>
+                                <ul class="treeview-menu">
+                                    <li id="nav_main_page"><a href="{% url 'website_main_page' %}">
+                                        <i class="fa fa-circle-o"></i>
+                                        <span>Главная страница</span></a></li>
+                                    <li id="nav_about_page"><a href="{% url 'website_about_page' %}">
+                                        <i class="fa fa-circle-o"></i> <span>О нас</span></a>
+                                    </li>
+                                    <li id="nav_services_page"><a href="{% url 'website_services_page' %}">
+                                        <i class="fa fa-circle-o"></i>
+                                        <span>Услуги</span></a>
+                                    </li>
+                                    <li id="nav_tariffs_page"><a href="{% url 'website_tariffs_page' %}">
+                                        <i class="fa fa-circle-o"></i>
+                                        <span>Тарифы</span></a>
+                                    </li>
+                                    <li id="nav_contact_page"><a href="{% url 'website_contact_page' %}">
+                                        <i class="fa fa-circle-o"></i>
+                                        <span>Контакты</span></a></li>
+                                </ul>
+                            </li>
+                        {% endif %}
+                        <li class="treeview" id="system_settings"><a href="#!"><i class="fa fa-cogs"></i>
+                            <span>Настройки системы</span> <span class="pull-right-container">
+        <i class="fa fa-angle-left pull-right"></i></span></a>
                             <ul class="treeview-menu">
-                                <li id="nav_main_page"><a href="{% url 'website_main_page' %}">
-                                    <i class="fa fa-circle-o"></i>
-                                    <span>Главная страница</span></a></li>
-                                <li id="nav_about_page"><a href="{% url 'website_about_page' %}">
-                                    <i class="fa fa-circle-o"></i> <span>О нас</span></a>
-                                </li>
-                                <li id="nav_services_page"><a href="{% url 'website_services_page' %}">
-                                    <i class="fa fa-circle-o"></i>
-                                    <span>Услуги</span></a>
-                                </li>
-                                <li id="nav_tariffs_page"><a href="{% url 'website_tariffs_page' %}">
-                                    <i class="fa fa-circle-o"></i>
-                                    <span>Тарифы</span></a>
-                                </li>
-                                <li id="nav_contact_page"><a href="{% url 'website_contact_page' %}">
-                                    <i class="fa fa-circle-o"></i>
-                                    <span>Контакты</span></a></li>
+
+                                {% if user.role.services %}
+                                    <li id="nav_service"><a href="{% url 'service' %}"><i class="fa fa-briefcase"></i>
+                                        <span>Услуги</span></a>
+                                    </li>
+                                {% endif %}
+                                {% if user.role.tariffs %}
+                                    <li id="nav_tariff"><a href="{% url 'tariff_list' %}"><i class="fa fa-money"></i>
+                                        <span>Тарифы</span></a>
+                                    </li>
+                                {% endif %}
+                                {% if user.role.roles %}
+                                    <li id="nav_roles"><a href="{% url 'roles' %}"><i class="fa fa-user"></i>
+                                        <span>Роли</span></a>
+                                    </li>
+                                {% endif %}
+                                {% if user.role.users %}
+                                    <li id="nav_users"><a href="{% url 'user_list' %}"><i class="fa fa-user-plus"></i>
+                                        <span>Пользователи</span></a>
+                                    </li>
+                                {% endif %}
+                                {% if user.role.payment_details %}
+                                    <li id="nav_payment_details"><a href="{% url 'payment_details_update' %}"><i
+                                            class="fa fa-credit-card"></i> <span>Платежные реквизиты</span></a></li>
+                                {% endif %}
+                                {% if user.role.payment_details %}
+                                    <li id="nav_purpose"><a href="{% url 'purpose_list' %}"><i
+                                            class="fa fa-list-ol"></i>
+                                        <span>Статьи платежей</span></a>
+                                    </li>
+                                {% endif %}
                             </ul>
                         </li>
-                    {% endif %}
-                    <li class="treeview" id="system_settings"><a href="#!"><i class="fa fa-cogs"></i>
-                        <span>Настройки системы</span> <span class="pull-right-container">
-        <i class="fa fa-angle-left pull-right"></i></span></a>
-                        <ul class="treeview-menu">
-
-                            {% if user.role.services %}
-                                <li id="nav_service"><a href="{% url 'service' %}"><i class="fa fa-briefcase"></i>
-                                    <span>Услуги</span></a>
-                                </li>
-                            {% endif %}
-                            {% if user.role.tariffs %}
-                                <li id="nav_tariff"><a href="{% url 'tariff_list' %}"><i class="fa fa-money"></i> <span>Тарифы</span></a>
-                                </li>
-                            {% endif %}
-                            {% if user.role.roles %}
-                                <li id="nav_roles"><a href="{% url 'roles' %}"><i class="fa fa-user"></i>
-                                    <span>Роли</span></a>
-                                </li>
-                            {% endif %}
-                            {% if user.role.users %}
-                                <li id="nav_users"><a href="{% url 'user_list' %}"><i class="fa fa-user-plus"></i>
-                                    <span>Пользователи</span></a>
-                                </li>
-                            {% endif %}
-                            {% if user.role.payment_details %}
-                                <li id="nav_payment_details"><a href="{% url 'payment_details_update' %}"><i
-                                        class="fa fa-credit-card"></i> <span>Платежные реквизиты</span></a></li>
-                            {% endif %}
-                            {% if user.role.payment_details %}
-                                <li id="nav_purpose"><a href="{% url 'purpose_list' %}"><i class="fa fa-list-ol"></i>
-                                    <span>Статьи платежей</span></a>
-                                </li>
-                            {% endif %}
-                        </ul>
-                    </li>
-                {% endblock %}
+                    {% endblock %}
                 </ul>
             </section>
             <div class="slimScrollBar"

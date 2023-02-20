@@ -1,9 +1,5 @@
 {% extends 'layout/admin_panel.html' %}
 {% load static %}
-{% block head %}
-    <link rel="stylesheet" type="text/css"
-          href="{% static 'admin_panel/bower_components/datatables.net-bs/css/dataTables.jqueryui.min.css' %}"/>
-{% endblock %}
 {% block title %}Дома{% endblock %}
 {% block header_text %}
     Дома
@@ -88,7 +84,7 @@
         $('#nav_house').attr('class', 'active')
     </script>
             <script type="text/javascript"
-            src="{% static 'admin_panel/bower_components/datatables.net/jquery.dataTables.min.js' %}">
+            src="{% static 'admin_panel/bower_components/datatables.net/datatables.min.js' %}">
     </script>
     <script>
     let numb=0
