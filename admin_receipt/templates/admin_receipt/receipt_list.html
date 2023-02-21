@@ -21,9 +21,6 @@
 
 
     <div class="row">
-        <!--<div class="col-xs-12 col-sm-6">-->
-        <!--<h2 class="page-header">Квитанции</h2>-->
-        <!--</div>-->
         <div class="col-xs-12 col-lg-9">
             <div class="row">
                 <div class="col-xs-12 col-md-4">
@@ -148,17 +145,7 @@
                         </table>
                     </div>
                     <div class="box-footer clearfix">
-                        <ul class="pagination pagination-sm no-margin pull-right">
-                            <li class="prev disabled"><span>«</span></li>
-                            <li class="active"><a href="/admin/invoice/index?page=1&amp;per-page=50" data-page="0">1</a>
-                            </li>
-                            <li><a href="/admin/invoice/index?page=2&amp;per-page=50" data-page="1">2</a></li>
-                            <li><a href="/admin/invoice/index?page=3&amp;per-page=50" data-page="2">3</a></li>
-                            <li><a href="/admin/invoice/index?page=4&amp;per-page=50" data-page="3">4</a></li>
-                            <li><a href="/admin/invoice/index?page=5&amp;per-page=50" data-page="4">5</a></li>
-                            <li class="next"><a href="/admin/invoice/index?page=2&amp;per-page=50" data-page="1">»</a>
-                            </li>
-                        </ul>
+                        <ul class="pagination pagination-sm no-margin pull-right"></ul>
                     </div>
                 </div>
             </div>
@@ -174,9 +161,9 @@
 
     <script src="{% static 'admin_panel/bower_components/select2/dist/js/select2.full.min.js' %}"></script>
     <script src="{% static 'admin_panel/bower_components/select2/dist/js/i18n/ru.min.js' %}"></script>
-    <script type="text/javascript"
-            src="{% static 'admin_panel/bower_components/datatables.net/datatables.min.js' %}">
-    </script>
+    <script src="{% static 'admin_panel/bower_components/datatables.net/js/jquery.dataTables.min.js' %}"></script>
+    <script src="{% static 'admin_panel/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js' %}"></script>
+
     <script src="{% static 'admin_panel/bower_components/moment/moment.js' %}"></script>
     <script src="{% static 'admin_panel/bower_components/moment/locale/ru.js' %}"></script>
     <script type="text/javascript"
@@ -247,7 +234,7 @@
                     "processing": true,
                     "url": "{% url 'receipt_list' %}",
                     "data": function (d) {
-                        return sort_data;
+                        return Object.assign(d, sort_data);
                     },
                     dataSrc: function (data) {
                         console.log(data)
@@ -340,7 +327,12 @@
                         },
                     },
                 ],
-                paging: false,
+                paging: true,
+                'pageLength': 20,
+                'lengthChange': false,
+                initComplete: (settings, json) => {
+                    $('.dataTables_paginate').appendTo('.pagination-sm');
+                },
                 searching: false,
                 info: false,
             });

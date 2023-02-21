@@ -96,7 +96,9 @@
                             <tbody></tbody>
                         </table>
                     </div>
-                    <div class="box-footer clearfix"></div>
+                    <div class="box-footer clearfix">
+                        <ul class="pagination pagination-sm no-margin pull-right"></ul>
+                    </div>
                 </div>
             </div>
         </div>
@@ -109,9 +111,9 @@
     </script>
     <script src="{% static 'admin_panel/bower_components/select2/dist/js/select2.full.min.js' %}"></script>
     <script src="{% static 'admin_panel/bower_components/select2/dist/js/i18n/ru.min.js' %}"></script>
-    <script type="text/javascript"
-            src="{% static 'admin_panel/bower_components/datatables.net/datatables.min.js' %}">
-    </script>
+    <script src="{% static 'admin_panel/bower_components/datatables.net/js/jquery.dataTables.min.js' %}"></script>
+    <script src="{% static 'admin_panel/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js' %}"></script>
+
     <script src="{% static 'admin_panel/bower_components/moment/moment.js' %}"></script>
     <script src="{% static 'admin_panel/bower_components/moment/locale/ru.js' %}"></script>
     <script type="text/javascript" src="{% static 'admin_panel/bower_components/daterangepicker/daterangepicker.js' %}"></script>
@@ -196,7 +198,7 @@
                     "processing": true,
                     "url": "{% url 'meter-view-list-apart' apartment_id=view.kwargs.apartment_id%}",
                     "data": function (d) {
-                        return sort_data;
+                        return Object.assign(d, sort_data);
                     },
                     dataSrc: function (data) {
                         if(data['sections']) {
@@ -250,7 +252,12 @@
                         },
                                             },
                 ],
-                paging: false,
+                paging: true,
+                'pageLength': 20,
+                'lengthChange': false,
+                initComplete: (settings, json) => {
+                    $('.dataTables_paginate').appendTo('.pagination-sm');
+                },
                 searching: false,
                 info: false,
             });

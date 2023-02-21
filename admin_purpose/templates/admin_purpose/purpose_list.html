@@ -67,9 +67,9 @@
 {% endblock %}
 
 {% block scripts %}
-    <script type="text/javascript"
-            src="{% static 'admin_panel/bower_components/datatables.net/datatables.min.js' %}">
-    </script>
+    <script src="{% static 'admin_panel/bower_components/datatables.net/js/jquery.dataTables.min.js' %}"></script>
+    <script src="{% static 'admin_panel/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js' %}"></script>
+
         <script>
         $('#system_settings').attr('class', 'active treeview menu-open')
         $('#nav_purpose').attr('class', 'active')
@@ -82,7 +82,8 @@
                 {orderable: false, className: 'reorder', targets: 2},
                 {orderable: true, targets: '_all'}
             ],
-            paging: false,
+            paging: true,
+            'lengthChange': false,
             {#"pagingType": "full_numbers",#}
             {#"pagingType": "scrolling",#}
             {#'sPaginationType': 'ellipses',#}

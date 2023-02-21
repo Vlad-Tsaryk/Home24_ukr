@@ -1,3 +1,4 @@
+from django.core.paginator import Paginator
 from django.db.models.functions import Concat
 from django.db.models import Value, CharField, F
 from django.http import JsonResponse
@@ -221,7 +222,15 @@ class ReceiptList(RolePermissionRequiredMixin, ListView):
                                              'apartment__owner__first_name', 'apartment__owner__last_name',
                                              'apartment__owner__middle_name', 'apartment__owner_id',
                                              'is_complete', 'total_price')
-            result['receipts'] = list(filtered_qs)
+            start = int(self.request.GET.get('start', 0))
+            length = int(self.request.GET.get('length', 10))
+            paginator = Paginator(filtered_qs, self.request.GET.get('length', 10))
+            page = (start // length) + 1
+            data = list(paginator.get_page(page))
+            result['receipts'] = data
+            result['recordsTotal'] = paginator.count
+            result['recordsFiltered'] = paginator.count
+            result['pages'] = paginator.num_pages
             print(result)
             return JsonResponse(result, safe=False, **response_kwargs)
 

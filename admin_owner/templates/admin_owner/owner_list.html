@@ -5,155 +5,160 @@
     Владельцы квартир
 {% endblock %}
 {% block breadcrumb %}
-    <ul class="breadcrumb"><li><a href="{% url 'statistic' %}"><i class="fa fa-home"></i> Главная</a></li>
-    <li class="active">Владельцы квартир</li>
-</ul>
+    <ul class="breadcrumb">
+        <li><a href="{% url 'statistic' %}"><i class="fa fa-home"></i> Главная</a></li>
+        <li class="active">Владельцы квартир</li>
+    </ul>
 {% endblock %}
-{%  block content %}
-<div class="row">
-    <div class="col-xs-12">
-        <div class="btn-group pull-right margin-bottom">
-            <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Выберите действие <span class="caret"></span>
-            </button>
-            <ul class="dropdown-menu">
-                <li><a href="{% url 'owner_create' %}">Добавить владельца квартиры</a></li>
-                <li><a href="{% url 'message_create_has_debt' 1 %}">Отправить сообщение должникам</a></li>
-                <li><a href="{% url 'owner_invite' %}">Отправить приглашение</a></li>
-            </ul>
+{% block content %}
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="btn-group pull-right margin-bottom">
+                <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">
+                    Выберите действие <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a href="{% url 'owner_create' %}">Добавить владельца квартиры</a></li>
+                    <li><a href="{% url 'message_create_has_debt' 1 %}">Отправить сообщение должникам</a></li>
+                    <li><a href="{% url 'owner_invite' %}">Отправить приглашение</a></li>
+                </ul>
+            </div>
         </div>
     </div>
-</div>
-<div class="row">
-    <div class="col-xs-12">
-        <div class="box">
-            <div class="box-header with-border">
-                <h3 class="box-title"></h3>
-                <div class="box-tools">
-                    <button onclick="clear_filters()" class="btn btn-default btn-sm">
-                            <span class="hidden-xs">Очистить</span><i class="fa fa-eraser visible-xs" aria-hidden="true"></i>
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <div class="box-header with-border">
+                    <h3 class="box-title"></h3>
+                    <div class="box-tools">
+                        <button onclick="clear_filters()" class="btn btn-default btn-sm">
+                            <span class="hidden-xs">Очистить</span><i class="fa fa-eraser visible-xs"
+                                                                      aria-hidden="true"></i>
                         </button>
+                    </div>
                 </div>
-            </div>
 
-            <div id="w0" class="grid-view">
-                <div class="box-body table-responsive no-padding">
-                    <table id="table_owners" class="table table-bordered table-hover table-striped linkedRow">
-                        <thead>
-                        <tr>
-                            <th style="width: 110px; min-width: 110px">ID</th>
-                            <th><a id="name" class="ordering">ФИО</a></th>
-                            <th style="width: 140px; min-width: 140px">Телефон</th>
-                            <th style="width: 140px; min-width: 140px">Email</th>
-                            <th style="min-width: 250px">Дом</th>
-                            <th style="min-width: 300px">Квартира</th>
-                            <th style="width: 110px; min-width: 110px"><a
-                                    id="date_joined" class="ordering">Добавлен</a>
-                            </th>
-                            <th>Статус</th>
-                            <th style="width: 80px; min-width: 80px">Есть долг</th>
-                            <th style="width: 114px; min-width: 114px">&nbsp;</th>
-                        </tr>
-                        <tr id="w0-filters" class="filters">
-                            <td><input type="text" class="form-control" name="UserSearch[uid]"></td>
-                            <td><input type="text" class="form-control" name="UserSearch[searchFullname]"></td>
-                            <td><input type="text" class="form-control" name="UserSearch[searchPhone]"></td>
-                            <td><input type="text" class="form-control" name="UserSearch[email]"></td>
-                            <td><select id="usersearch-searchhouse" class="form-control select2-hidden-accessible"
-                                        name="UserSearch[searchHouse]" data-s2-options="s2options_7ebc6538"
-                                        data-krajee-select2="select2_0d896465" style="display:none" tabindex="-1"
-                                        aria-hidden="true">
-                                <option value=""></option>
-                                <option value="1">ЖК "Башня Чкалов"</option>
-                                <option value="2">ЖК "Морская Симфония"</option>
-                                <option value="3">ЖК "Дом Каркашадзе"</option>
-                                <option value="4">ЖК "Королевские сады"</option>
-                                <option value="6">ЖК "Балковский"</option>
-                                <option value="11">ЖК "Адмирал" Дом №11</option>
-                                <option value="12">ЖК "Адмирал" Дом №12</option>
-                                <option value="13">ЖК "Адмирал" Дом №13</option>
-                                <option value="14">ЖК "Новые Черемушки"</option>
-                                <option value="18">ЖК "Manhattan"</option>
-                                <option value="19">ЖК "Скай Сити"</option>
-                                <option value="20">ЖК "Альтаир 3"</option>
-                                <option value="23">ОСМД 1002 ЖК "Альтаир 2"</option>
-                                <option value="24">Н-О</option>
-                                <option value="25">ЖК Искринский</option>
-                                <option value="51">sssbdcbdf</option>
-                                <option value="56">Дом 56</option>
-                                <option value="61">dfdsf</option>
-                                <option value="78">alert('xss')</option>
-                                <option value="85">test</option>
-                                <option value="100">альтаир</option>
-                                <option value="101">1234</option>
-                                <option value="105">ЖК "Луч"</option>
-                                <option value="106">Test 123</option>
-                                <option value="107">12313</option>
-                                <option value="132"></option>
-                                <option value="133">Континент</option>
-                                <option value="134">Континент</option>
-                                <option value="139">ЖК Чайка</option>
-                                <option value="142">Тестовый дом1</option>
-                                <option value="145">!@#$%^&amp;*()</option>
-                                <option value="158"></option>
-                                <option value="165">ЖК "Помидор"</option>
-                                <option value="170">верстат</option>
-                                <option value="173"></option>
-                                <option value="174">Аквамарин</option>
-                                <option value="175">Генарёк хаус</option>
-                                <option value="182">ЖК "Огурец"</option>
-                                <option value="183">ДОм исчез</option>
-                                <option value="185">Дом Дом</option>
-                                <option value="186">0000000000</option>
-                                <option value="188">fgb</option>
-                                <option value="189"></option>
-                                <option value="190"></option>
-                                <option value="191"></option>
-                                <option value="192">a</option>
-                            </select><span class="select2 select2-container select2-container--default" dir="ltr"
-                                           style="width: 100%;"><span class="selection"><span
-                                    class="select2-selection select2-selection--single" role="combobox"
-                                    aria-haspopup="true" aria-expanded="false" tabindex="0"
-                                    aria-labelledby="select2-usersearch-searchhouse-container"><span
-                                    class="select2-selection__rendered"
-                                    id="select2-usersearch-searchhouse-container"><span
-                                    class="select2-selection__placeholder"></span></span><span
-                                    class="select2-selection__arrow" role="presentation"><b
-                                    role="presentation"></b></span></span></span><span class="dropdown-wrapper"
-                                                                                       aria-hidden="true"></span></span>
-                            </td>
-                            <td><input type="text" class="form-control" name="UserSearch[searchFlat]"></td>
-                            <td><input type="text" id="usersearch-searchcreateddate"
-                                       class="form-control krajee-datepicker" name="UserSearch[searchCreatedDate]"
-                                       data-datepicker-source="usersearch-searchcreateddate" data-datepicker-type="1"
-                                       data-krajee-kvdatepicker="kvDatepicker_1643d6f1"></td>
-                            <td><select id="usersearch-status" class="form-control select2-hidden-accessible"
-                                        name="UserSearch[status]" data-s2-options="s2options_7ebc6538"
-                                        data-krajee-select2="select2_0d896465" style="display:none" tabindex="-1"
-                                        aria-hidden="true">
-                                <option value=""></option>
-                                <option value="10">Активен</option>
-                                <option value="5">Новый</option>
-                                <option value="0">Отключен</option>
-                            </select><span class="select2 select2-container select2-container--default" dir="ltr"
-                                           style="width: 100%;"><span class="selection"><span
-                                    class="select2-selection select2-selection--single" role="combobox"
-                                    aria-haspopup="true" aria-expanded="false" tabindex="0"
-                                    aria-labelledby="select2-usersearch-status-container"><span
-                                    class="select2-selection__rendered" id="select2-usersearch-status-container"><span
-                                    class="select2-selection__placeholder"></span></span><span
-                                    class="select2-selection__arrow" role="presentation"><b
-                                    role="presentation"></b></span></span></span><span class="dropdown-wrapper"
-                                                                                       aria-hidden="true"></span></span>
-                            </td>
-                            <td><select id="usersearch-searchhasdebt" class="form-control select2-hidden-accessible"
-                                        name="UserSearch[searchHasDebt]" data-s2-options="s2options_7ebc6538"
-                                        data-krajee-select2="select2_0d896465" style="display:none" tabindex="-1"
-                                        aria-hidden="true">
-                                <option value=""></option>
-                                <option value="1">Да</option>
-                            </select><span class="select2 select2-container select2-container--default" dir="ltr"
-                                           style="width: 100%;">
+                <div id="w0" class="grid-view">
+                    <div class="box-body table-responsive no-padding">
+                        <table id="table_owners" class="table table-bordered table-hover table-striped linkedRow">
+                            <thead>
+                            <tr>
+                                <th style="width: 110px; min-width: 110px">ID</th>
+                                <th><a id="name" class="ordering">ФИО</a></th>
+                                <th style="width: 140px; min-width: 140px">Телефон</th>
+                                <th style="width: 140px; min-width: 140px">Email</th>
+                                <th style="min-width: 250px">Дом</th>
+                                <th style="min-width: 300px">Квартира</th>
+                                <th style="width: 110px; min-width: 110px"><a
+                                        id="date_joined" class="ordering">Добавлен</a>
+                                </th>
+                                <th>Статус</th>
+                                <th style="width: 80px; min-width: 80px">Есть долг</th>
+                                <th style="width: 114px; min-width: 114px">&nbsp;</th>
+                            </tr>
+                            <tr id="w0-filters" class="filters">
+                                <td><input type="text" class="form-control" name="UserSearch[uid]"></td>
+                                <td><input type="text" class="form-control" name="UserSearch[searchFullname]"></td>
+                                <td><input type="text" class="form-control" name="UserSearch[searchPhone]"></td>
+                                <td><input type="text" class="form-control" name="UserSearch[email]"></td>
+                                <td><select id="usersearch-searchhouse" class="form-control select2-hidden-accessible"
+                                            name="UserSearch[searchHouse]" data-s2-options="s2options_7ebc6538"
+                                            data-krajee-select2="select2_0d896465" style="display:none" tabindex="-1"
+                                            aria-hidden="true">
+                                    <option value=""></option>
+                                    <option value="1">ЖК "Башня Чкалов"</option>
+                                    <option value="2">ЖК "Морская Симфония"</option>
+                                    <option value="3">ЖК "Дом Каркашадзе"</option>
+                                    <option value="4">ЖК "Королевские сады"</option>
+                                    <option value="6">ЖК "Балковский"</option>
+                                    <option value="11">ЖК "Адмирал" Дом №11</option>
+                                    <option value="12">ЖК "Адмирал" Дом №12</option>
+                                    <option value="13">ЖК "Адмирал" Дом №13</option>
+                                    <option value="14">ЖК "Новые Черемушки"</option>
+                                    <option value="18">ЖК "Manhattan"</option>
+                                    <option value="19">ЖК "Скай Сити"</option>
+                                    <option value="20">ЖК "Альтаир 3"</option>
+                                    <option value="23">ОСМД 1002 ЖК "Альтаир 2"</option>
+                                    <option value="24">Н-О</option>
+                                    <option value="25">ЖК Искринский</option>
+                                    <option value="51">sssbdcbdf</option>
+                                    <option value="56">Дом 56</option>
+                                    <option value="61">dfdsf</option>
+                                    <option value="78">alert('xss')</option>
+                                    <option value="85">test</option>
+                                    <option value="100">альтаир</option>
+                                    <option value="101">1234</option>
+                                    <option value="105">ЖК "Луч"</option>
+                                    <option value="106">Test 123</option>
+                                    <option value="107">12313</option>
+                                    <option value="132"></option>
+                                    <option value="133">Континент</option>
+                                    <option value="134">Континент</option>
+                                    <option value="139">ЖК Чайка</option>
+                                    <option value="142">Тестовый дом1</option>
+                                    <option value="145">!@#$%^&amp;*()</option>
+                                    <option value="158"></option>
+                                    <option value="165">ЖК "Помидор"</option>
+                                    <option value="170">верстат</option>
+                                    <option value="173"></option>
+                                    <option value="174">Аквамарин</option>
+                                    <option value="175">Генарёк хаус</option>
+                                    <option value="182">ЖК "Огурец"</option>
+                                    <option value="183">ДОм исчез</option>
+                                    <option value="185">Дом Дом</option>
+                                    <option value="186">0000000000</option>
+                                    <option value="188">fgb</option>
+                                    <option value="189"></option>
+                                    <option value="190"></option>
+                                    <option value="191"></option>
+                                    <option value="192">a</option>
+                                </select><span class="select2 select2-container select2-container--default" dir="ltr"
+                                               style="width: 100%;"><span class="selection"><span
+                                        class="select2-selection select2-selection--single" role="combobox"
+                                        aria-haspopup="true" aria-expanded="false" tabindex="0"
+                                        aria-labelledby="select2-usersearch-searchhouse-container"><span
+                                        class="select2-selection__rendered"
+                                        id="select2-usersearch-searchhouse-container"><span
+                                        class="select2-selection__placeholder"></span></span><span
+                                        class="select2-selection__arrow" role="presentation"><b
+                                        role="presentation"></b></span></span></span><span class="dropdown-wrapper"
+                                                                                           aria-hidden="true"></span></span>
+                                </td>
+                                <td><input type="text" class="form-control" name="UserSearch[searchFlat]"></td>
+                                <td><input type="text" id="usersearch-searchcreateddate"
+                                           class="form-control krajee-datepicker" name="UserSearch[searchCreatedDate]"
+                                           data-datepicker-source="usersearch-searchcreateddate"
+                                           data-datepicker-type="1"
+                                           data-krajee-kvdatepicker="kvDatepicker_1643d6f1"></td>
+                                <td><select id="usersearch-status" class="form-control select2-hidden-accessible"
+                                            name="UserSearch[status]" data-s2-options="s2options_7ebc6538"
+                                            data-krajee-select2="select2_0d896465" style="display:none" tabindex="-1"
+                                            aria-hidden="true">
+                                    <option value=""></option>
+                                    <option value="10">Активен</option>
+                                    <option value="5">Новый</option>
+                                    <option value="0">Отключен</option>
+                                </select><span class="select2 select2-container select2-container--default" dir="ltr"
+                                               style="width: 100%;"><span class="selection"><span
+                                        class="select2-selection select2-selection--single" role="combobox"
+                                        aria-haspopup="true" aria-expanded="false" tabindex="0"
+                                        aria-labelledby="select2-usersearch-status-container"><span
+                                        class="select2-selection__rendered"
+                                        id="select2-usersearch-status-container"><span
+                                        class="select2-selection__placeholder"></span></span><span
+                                        class="select2-selection__arrow" role="presentation"><b
+                                        role="presentation"></b></span></span></span><span class="dropdown-wrapper"
+                                                                                           aria-hidden="true"></span></span>
+                                </td>
+                                <td><select id="usersearch-searchhasdebt" class="form-control select2-hidden-accessible"
+                                            name="UserSearch[searchHasDebt]" data-s2-options="s2options_7ebc6538"
+                                            data-krajee-select2="select2_0d896465" style="display:none" tabindex="-1"
+                                            aria-hidden="true">
+                                    <option value=""></option>
+                                    <option value="1">Да</option>
+                                </select><span class="select2 select2-container select2-container--default" dir="ltr"
+                                               style="width: 100%;">
     <span class="selection">
         <span class="select2-selection select2-selection--single" role="combobox"
               aria-haspopup="true" aria-expanded="false" tabindex="0"
@@ -161,109 +166,112 @@
             <span class="select2-selection__rendered" id="select2-usersearch-searchhasdebt-container">
                 <span class="select2-selection__placeholder"></span>
             </span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span
-                                    class="dropdown-wrapper" aria-hidden="true"></span></span></td>
-                            <td>&nbsp;</td>
-                        </tr>
-                        </thead>
-                        <tbody></tbody></table></div>
-<div class="box-footer clearfix"><ul class="pagination pagination-sm no-margin pull-right"><li class="prev disabled"><span>«</span></li>
-<li class="active"><a href="/admin/user/index?page=1&amp;per-page=50" data-page="0">1</a></li>
-<li><a href="/admin/user/index?page=2&amp;per-page=50" data-page="1">2</a></li>
-<li><a href="/admin/user/index?page=3&amp;per-page=50" data-page="2">3</a></li>
-<li class="next"><a href="/admin/user/index?page=2&amp;per-page=50" data-page="1">»</a></li></ul></div></div>
-            <div class="box-footer">
-                <div>Количество владельцев: <span class="text-bold" id="owner_count"></span></div>
+                                        class="dropdown-wrapper" aria-hidden="true"></span></span></td>
+                                <td>&nbsp;</td>
+                            </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                    <div class="box-footer clearfix">
+                        <div class="pagination pagination-sm no-margin pull-right"></div>
+                    </div>
+                </div>
+                <div class="box-footer">
+                    <div>Количество владельцев: <span class="text-bold" id="owner_count"></span></div>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
 {% endblock %}
 {% block scripts %}
     <script>
         $('#nav_owners').attr('class', 'active')
     </script>
-    <script type="text/javascript"
-            src="{% static 'admin_panel/bower_components/datatables.net/js/datatables.min.js' %}">
-    </script>
+    <script src="{% static 'admin_panel/bower_components/datatables.net/js/jquery.dataTables.min.js' %}"></script>
+    <script src="{% static 'admin_panel/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js' %}"></script>
+
     <script src="{% static 'admin_panel/bower_components/moment/moment.js' %}"></script>
-{#    <script src="{% static 'admin_panel/bower_components/moment/locale/ru.js' %}"></script>#}
+    {#    <script src="{% static 'admin_panel/bower_components/moment/locale/ru.js' %}"></script>#}
 
     <script>
-    let numb = 0
-    let colors = {
-                'Активен': 'label label-success',
-                'Отключен': 'label label-danger',
-                'Новый': 'label label-warning',
-            }
-        let sort_data ={
-            "name":'',
-            "role":'',
-            "phone":'',
-            "username":'',
-            "status":'',
-            "order_by":''
+        let numb = 0
+        let colors = {
+            'Активен': 'label label-success',
+            'Отключен': 'label label-danger',
+            'Новый': 'label label-warning',
+        }
+        let sort_data = {
+            "name": '',
+            "role": '',
+            "phone": '',
+            "username": '',
+            "status": '',
+            "order_by": ''
         }
         let order_by = ''
         let table
-            function clear_filters() {
-                $('.column_search').val('');
-                sort_data ={
-                "name":'',
-                "role":'',
-                "phone":'',
-                "username":'',
-                "status":'',
-                }
-                numb=0
-                    table.draw()
 
+        function clear_filters() {
+            $('.column_search').val('');
+            sort_data = {
+                "name": '',
+                "role": '',
+                "phone": '',
+                "username": '',
+                "status": '',
             }
+            numb = 0
+            table.draw()
 
-            function send_POST(e) {
-                table = $('#table_owners').DataTable({
-                    serverSide: true,
-                    processing: false,
-                    oLanguage: {
+        }
+
+        function send_POST(e) {
+            table = $('#table_owners').DataTable({
+                serverSide: true,
+                processing: false,
+                oLanguage: {
                     sZeroRecords: "Ничего не найдено."
+                },
+                columnDefs: [
+                    {className: "owner", "targets": [0, 1, 2, 3, 4, 5, 6, 7]},
+                    {targets: '_all', defaultContent: ''},
+                ],
+                "ajax": {
+                    "processing": true,
+                    "url": "{% url 'owner_list' %}",
+                    "data": function (d) {
+                        return Object.assign(d, sort_data);
                     },
-                    columnDefs: [
-                        { className: "owner", "targets": [ 0,1,2,3,4,5,6,7 ] },
-                        { targets: '_all', defaultContent:''},
-                    ],
-                    "ajax": {
-                        "processing": true,
-                        "url": "{% url 'owner_list' %}",
-                        "data": function (d) {
-                            return sort_data;
-                        },
-{% comment %}                        "success":function (data) {
-                          console.log(data)
-                        },{% endcomment %}
-                        "dataSrc": function (data) {
-                            $('#owner_count').text(data.length)
-                            return data
-                        },
+                    "dataSrc": function (data) {
+                        console.log(data)
+                        $('#owner_count').text(data['data'].length)
+                        return data['data']
                     },
-                    "columns": [
-                        {data: "id"},
-                        {"data": "name"},
-                        {"data": "phone"},
-                        {"data": "username"},
-                        {"data": "apartment",
-                        render:function (data) {
+                },
+                "columns": [
+                    {data: "id"},
+                    {"data": "name"},
+                    {"data": "phone"},
+                    {"data": "username"},
+                    {
+                        "data": "apartment",
+                        render: function (data) {
                             let houses = []
                             data.forEach(function (item) {
                                 let link_view = '{% url 'house_view' 12345 %}'.replace(/12345/, item['house_id'])
                                 let house = `<a href="${link_view}">${item['house__name']}</a>`
-                                if (!houses.includes(house)){
+                                if (!houses.includes(house)) {
                                     houses.push(house)
                                 }
                             })
                             return houses.join(',<br>')
-                        }},
-                        {"data": "apartment",
-                        render:function (data) {
+                        }
+                    },
+                    {
+                        "data": "apartment",
+                        render: function (data) {
                             let apartments = []
                             data.forEach(function (item) {
                                 let link_view = '{% url 'apartment_view' 12345 %}'.replace(/12345/, item['id'])
@@ -271,31 +279,38 @@
                                 apartments.push(apartment)
                             })
                             return apartments.join(',<br>')
-                        }},
-                        {"data": 'date_joined',
-                        render:function (data) {
+                        }
+                    },
+                    {
+                        "data": 'date_joined',
+                        render: function (data) {
                             return moment.utc(data).format('DD.MM.YYYY')
-                        }},
-                        {data: "status",
-                            render: function (data, type) {
-                        return `<small class="${colors[data]}">${data}</small>`;
-                    }},
-                        {data: 'has_debt',
-                        render:function (data) {
-                            if (data){
+                        }
+                    },
+                    {
+                        data: "status",
+                        render: function (data, type) {
+                            return `<small class="${colors[data]}">${data}</small>`;
+                        }
+                    },
+                    {
+                        data: 'has_debt',
+                        render: function (data) {
+                            if (data) {
                                 return 'Да'
-                            }
-                            else {
+                            } else {
                                 return 'Нет'
                             }
-                        }},
+                        }
+                    },
 
-                        {data: "id",
-                            render:function (data, type) {
+                    {
+                        data: "id",
+                        render: function (data, type) {
                             let link_update = '{% url 'owner_update' 12345 %}'.replace(/12345/, data)
                             let link_delete = '{% url 'owner_delete' 12345 %}'.replace(/12345/, data)
                             let link_message = '{% url 'message_create_owner' 12345 %}'.replace(/12345/, data)
-                                    return `<div class="btn-group pull-right"><a class="btn btn-default btn-sm"
+                            return `<div class="btn-group pull-right"><a class="btn btn-default btn-sm"
                                     href="${link_message}" title="Отправить сообщение" data-toggle="tooltip">
                                     <i class="fa fa-envelope"></i></a>
                                     <a class="btn btn-default btn-sm" href="${link_update}" title="Редактировать"
@@ -304,58 +319,61 @@
                                     data-pjax="0" id="delete_user"
                                     onmousedown="return confirm_delete('${link_delete}',event);">
                                     <i class="fa fa-trash"></i></a></div>`
-                            },
-                        }
-                            ],
-                    {#scrollCollapse: true,#}
-                    paging: false,
-                    {#scrollX: true,#}
-                    searching: false,
-                    ordering: false,
-                    info: false,
-                    {#pagingType: 'full_numbers',#}
-                });
-            }
-            let table_head = $('#table_owners thead')
-            table_head.on('keyup', ".column_search", function a (e) {
-                sort_data[this.id] = $(this).val()
-                numb=0
-                table.draw()
+                        },
+                    }
+                ],
+                paging: true,
+                'pageLength': 20,
+                'lengthChange': false,
+                initComplete: (settings, json) => {
+                    $('.dataTables_paginate').appendTo('.pagination-sm');
+                },
+                searching: false,
+                ordering: false,
+                info: false,
             });
+        }
 
-            table_head.on('click', '.ordering', function (){
-                if (this.className === 'ordering asc'){
-                    $(this).attr('class', 'ordering desc')
-                    sort_data['order_by'] = '-' + this.id
-                }
-                else {
-                    $(this).attr('class', 'ordering asc')
-                    sort_data['order_by'] = this.id
-                }
-                table_head.find('.ordering').not(this).attr('class','ordering')
-                numb=0
-                table.draw()
-            })
+        let table_head = $('#table_owners thead')
+        table_head.on('keyup', ".column_search", function a(e) {
+            sort_data[this.id] = $(this).val()
+            numb = 0
+            table.draw()
+        });
 
+        table_head.on('click', '.ordering', function () {
+            if (this.className === 'ordering asc') {
+                $(this).attr('class', 'ordering desc')
+                sort_data['order_by'] = '-' + this.id
+            } else {
+                $(this).attr('class', 'ordering asc')
+                sort_data['order_by'] = this.id
+            }
+            table_head.find('.ordering').not(this).attr('class', 'ordering')
+            numb = 0
+            table.draw()
+        })
 
 
         $(document).ready(function () {
             send_POST();
             $('.column_search').val('');
         });
-        function confirm_delete (link,event) {
+
+        function confirm_delete(link, event) {
             alertify.confirm('Подтверждение удаления', 'Удалить пользователя <b>'
-                + $(event.target).closest( "tr " ).children().eq(1).text() + '</b> ?',
+                + $(event.target).closest("tr ").children().eq(1).text() + '</b> ?',
                 function () {
-                window.location.href = link
+                    window.location.href = link
                 },
                 function () {
                 }).set({labels: {ok: 'Подтвердить', cancel: 'Отмена'}});
-                return false;
+            return false;
         }
-        $('#table_owners').on('click', 'tbody tr .owner', function() {
-        window.location.href = '{% url 'owner_view' 12345 %}'.replace(/12345/, table.row(this).data().id)
-})
+
+        $('#table_owners').on('click', 'tbody tr .owner', function () {
+            window.location.href = '{% url 'owner_view' 12345 %}'.replace(/12345/, table.row(this).data().id)
+        })
     </script>
 {% endblock %}
 

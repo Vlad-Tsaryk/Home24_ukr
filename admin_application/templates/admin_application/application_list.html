@@ -41,12 +41,12 @@
 
                 <div id="w0" class="grid-view">
                     <div class="box-body table-responsive no-padding">
-                        <table class="table table-bordered table-hover table-striped linkedRow" id="application_table">
+                        <table class="table table-bordered table-hover table-striped linkedRow nowrap" id="application_table">
                             <thead>
                             <tr>
-                                <th style="width: 100px; min-width: 100px">
+                                <th style="width: auto; min-width: 100px;">
                                     <a id="pk" class="ordering desc" style="cursor: pointer">№ заявки</a></th>
-                                <th style="width: 135px; min-width: 135px">
+                                <th style="width: auto; min-width: 135px">
                                     <a id="apartment__number" class="ordering" style="cursor: pointer">
                                         Удобное время</a></th>
                                 <th style="min-width: 125px">
@@ -56,8 +56,8 @@
                                 <th style="min-width: 200px">Владелец</th>
                                 <th>Телефон</th>
                                 <th style="min-width: 125px">Мастер</th>
-                                <th style="width: 135px; min-width: 135px">Статус</th>
-                                <th style="width: 80px; min-width: 80px">&nbsp;</th>
+                                <th style="width: auto; min-width: 135px">Статус</th>
+                                <th style="width: auto; min-width: 80px">&nbsp;</th>
                             </tr>
                             <tr id="w0-filters" class="filters">
                                 <td><input type="text" class="form-control column_search" id="id"></td>
@@ -88,7 +88,7 @@
                                                 <option value="{{ master.pk }}">{{ master.role.role }} - {{ master }}</option>
                                     {% endfor %}
                                 </select></td>
-                                <td><select id="status"
+                                <td> <select id="status"
                                             class="form-control select2 filter">
                                 <option value=""></option>
                                     {% for status in status_list %}
@@ -104,14 +104,7 @@
                         </table>
                     </div>
                     <div class="box-footer clearfix">
-                        <ul class="pagination pagination-sm no-margin pull-right">
-                            <li class="prev disabled"><span>«</span></li>
-                            <li class="active"><a href="/admin/master-request/index?page=1&amp;per-page=50"
-                                                  data-page="0">1</a></li>
-                            <li><a href="/admin/master-request/index?page=2&amp;per-page=50" data-page="1">2</a></li>
-                            <li class="next"><a href="/admin/master-request/index?page=2&amp;per-page=50" data-page="1">»</a>
-                            </li>
-                        </ul>
+                        <ul class="pagination pagination-sm no-margin pull-right"></ul>
                     </div>
                 </div>
             </div>
@@ -126,12 +119,9 @@
 
     <script src="{% static 'admin_panel/bower_components/select2/dist/js/select2.full.min.js' %}"></script>
     <script src="{% static 'admin_panel/bower_components/select2/dist/js/i18n/ru.min.js' %}"></script>
-    <script type="text/javascript"
-            src="{% static 'admin_panel/bower_components/datatables.net/DataTables-1.13.2/js/jquery.dataTables.min.js' %}">
-    </script>
-    <script type="text/javascript"
-            src="{% static 'admin_panel/bower_components/datatables.net/simple_incremental_bootstrap.js' %}">
-    </script>
+    <script src="{% static 'admin_panel/bower_components/datatables.net/js/jquery.dataTables.min.js' %}"></script>
+    <script src="{% static 'admin_panel/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js' %}"></script>
+
    <script src="{% static 'admin_panel/bower_components/moment/moment.js' %}"></script>
     <script src="{% static 'admin_panel/bower_components/moment/locale/ru.js' %}"></script>
     <script type="text/javascript"
@@ -184,7 +174,6 @@
 
         function send_POST(e) {
             table = $('#application_table').DataTable({
-                "pagingType": "simple_incremental_bootstrap",
                 serverSide: true,
                 processing: false,
                 ordering: false,
@@ -199,7 +188,7 @@
                     "processing": true,
                     "url": "{% url 'application_list' %}",
                     "data": function (d) {
-                        return sort_data;
+                        return Object.assign(d, sort_data);
                     },
                     dataSrc: function (data) {
                         if (data['masters']) {
@@ -265,6 +254,11 @@
                     },
                 ],
                 paging: true,
+                'pageLength': 20,
+                'lengthChange': false,
+                initComplete: (settings, json) => {
+                    $('.dataTables_paginate').appendTo('.pagination-sm');
+                },
                 searching: false,
                 info: false,
             });

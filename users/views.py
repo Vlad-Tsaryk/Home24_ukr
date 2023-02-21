@@ -2,6 +2,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.sessions.backends.db import SessionStore
 from django.contrib.sessions.models import Session
+from django.core.paginator import Paginator
 from django.db.models.functions import Concat
 from django.db.models import Value
 from django.shortcuts import redirect, get_object_or_404
@@ -44,8 +45,19 @@ class Users(RolePermissionRequiredMixin, ListView):
             }
             filter_fields = {k: v for k, v in filter_fields.items() if v}
             filtered_qs = filtered_qs.filter(**filter_fields)
-            result_list = list(filtered_qs.values('id', 'name', 'role__role', 'phone', 'username', 'status'))
-            return JsonResponse(result_list, safe=False, **response_kwargs)
+            filtered_qs = filtered_qs.values('id', 'name', 'role__role', 'phone', 'username', 'status')
+            start = int(self.request.GET.get('start', 0))
+            length = int(self.request.GET.get('length', 10))
+            paginator = Paginator(filtered_qs, self.request.GET.get('length', 10))
+            page = (start // length) + 1
+            data = list(paginator.get_page(page))
+            result = {
+                'data': data,
+                'recordsTotal': paginator.count,
+                'recordsFiltered': paginator.count,
+                'pages': paginator.num_pages,
+            }
+            return JsonResponse(result, safe=False, **response_kwargs)
         else:
             return super(ListView, self).render_to_response(context, **response_kwargs)
 

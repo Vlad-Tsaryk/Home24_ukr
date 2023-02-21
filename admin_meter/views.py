@@ -1,5 +1,6 @@
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.messages import success, error
+from django.core.paginator import Paginator
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy
@@ -125,15 +126,22 @@ class MeterList(RolePermissionRequiredMixin, ListView):
                                                                                                   'apartment__number')
 
             filtered_qs = list(filtered_qs)
+            start = int(self.request.GET.get('start', 0))
+            length = int(self.request.GET.get('length', 10))
+            paginator = Paginator(filtered_qs, self.request.GET.get('length', 10))
+            page = (start // length) + 1
+            data = list(paginator.get_page(page))
             if order_by:
                 if order_by[0] == '-':
-                    filtered_qs = sorted(filtered_qs, key=lambda x: x[order_by[1:]], reverse=True)
+                    data = sorted(data, key=lambda x: x[order_by[1:]], reverse=True)
                 else:
-                    filtered_qs = sorted(filtered_qs, key=lambda x: x[order_by])
+                    data = sorted(data, key=lambda x: x[order_by])
             else:
-                filtered_qs = sorted(filtered_qs, key=lambda x: x['id'], reverse=True)
-            result['meter'] = filtered_qs
-            print(result)
+                data = sorted(data, key=lambda x: x['id'], reverse=True)
+            result['meter'] = data
+            result['recordsTotal'] = paginator.count
+            result['recordsFiltered'] = paginator.count
+            result['pages'] = paginator.num_pages
             return JsonResponse(result, safe=False, **response_kwargs)
 
         else:
@@ -181,8 +189,15 @@ class MeterViewList(RolePermissionRequiredMixin, ListView):
             if order_by:
                 filtered_qs = filtered_qs.order_by(order_by)
             filtered_qs = list(filtered_qs)
-            result['meter'] = filtered_qs
-            print(result)
+            start = int(self.request.GET.get('start', 0))
+            length = int(self.request.GET.get('length', 10))
+            paginator = Paginator(filtered_qs, self.request.GET.get('length', 10))
+            page = (start // length) + 1
+            data = list(paginator.get_page(page))
+            result['meter'] = data
+            result['recordsTotal'] = paginator.count
+            result['recordsFiltered'] = paginator.count
+            result['pages'] = paginator.num_pages
             return JsonResponse(result, safe=False, **response_kwargs)
 
         else:

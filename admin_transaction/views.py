@@ -1,4 +1,5 @@
 from django.contrib import messages
+from django.core.paginator import Paginator
 from django.db.models import Value
 from django.db.models.functions import Concat
 from django.http import JsonResponse, HttpResponse, HttpResponseRedirect
@@ -147,7 +148,15 @@ class TransactionList(RolePermissionRequiredMixin, ListView):
             result['outcome'] = '%.2f' % self.model.count_outcome(filtered_qs)
             filtered_qs = filtered_qs.values('number', 'date', 'type', 'is_complete', 'purpose__name',
                                              'sum', 'id', 'owner__name', 'personal_account__number', )
-            result['transaction'] = list(filtered_qs)
+            start = int(self.request.GET.get('start', 0))
+            length = int(self.request.GET.get('length', 10))
+            paginator = Paginator(filtered_qs, self.request.GET.get('length', 10))
+            page = (start // length) + 1
+            data = list(paginator.get_page(page))
+            result['transaction'] = data
+            result['recordsTotal'] = paginator.count
+            result['recordsFiltered'] = paginator.count
+            result['pages'] = paginator.num_pages
             print(result)
             if self.request.GET.get('to_excel'):
                 return self.to_excel(value_list=result['transaction'])

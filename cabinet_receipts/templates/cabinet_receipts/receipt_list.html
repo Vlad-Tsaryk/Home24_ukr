@@ -20,7 +20,8 @@
 
                 <div id="w0" class="grid-view">
                     <div class="box-body table-responsive no-padding">
-                        <table id="receipt_table" class="table table-bordered table-hover table-striped linkedRow">
+                        <table id="receipt_table"
+                               class="processing table table-bordered table-hover table-striped linkedRow">
                             <thead>
                             <tr>
                                 <th>№</th>
@@ -30,7 +31,7 @@
                             </tr>
                             <tr id="w0-filters" class="filters">
                                 <td>&nbsp;</td>
-                                <td><input type="text" id="date_input" class="form-control" style="width: 100%"> </td>
+                                <td><input type="text" id="date_input" class="form-control" style="width: 100%"></td>
                                 <td><select id="status" class="form-control select2 filter" style="width: 100%">
                                     <option value=""></option>
                                     {% for status in status_list %}
@@ -60,9 +61,8 @@
 
     <script src="{% static 'admin_panel/bower_components/select2/dist/js/select2.full.min.js' %}"></script>
     <script src="{% static 'admin_panel/bower_components/select2/dist/js/i18n/ru.min.js' %}"></script>
-    <script type="text/javascript"
-            src="{% static 'admin_panel/bower_components/datatables.net/datatables.min.js' %}">
-    </script>
+    <script src="{% static 'admin_panel/bower_components/datatables.net/js/jquery.dataTables.min.js' %}"></script>
+    <script src="{% static 'admin_panel/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js' %}"></script>
     <script src="{% static 'admin_panel/bower_components/moment/moment.js' %}"></script>
     <script src="{% static 'admin_panel/bower_components/moment/locale/ru.js' %}"></script>
     <script src="{% static 'admin_panel/plugins/bootstrap-datepicker-1.9.0-dist/js/bootstrap-datepicker.min.js' %}"></script>
@@ -102,13 +102,14 @@
 
         }
 
+        {#$.fn.dataTable.ext.classes.sPageButton = 'btn btn-primary';#}
 
         function send_POST(e) {
             table = $('#receipt_table').DataTable({
                 serverSide: true,
-                processing: true,
+                processing: false,
                 ordering: false,
-                'pageLength': 5,
+                'pageLength': 20,
                 'lengthChange': false,
                 oLanguage: {
                     sZeroRecords: "Ничего не найдено."
@@ -120,12 +121,8 @@
                     "processing": true,
                     "url": "{% if view.kwargs.apartment_id %}{% url 'cabinet_receipt_list_apartment' view.kwargs.apartment_id %}{% else %}{% url 'cabinet_receipt_list' %}{% endif %}",
                     "data": function (d) {
-                        return Object.assign(d,sort_data);
+                        return Object.assign(d, sort_data);
                     },
- {% comment %}                   dataSrc: function (data) {
-                        console.log(data)
-                        return data['receipts']
-                    }{% endcomment %}
                 },
 
                 "columns": [
@@ -149,12 +146,11 @@
                         }
                     },
                 ],
-                {#paging: false,#}
                 searching: false,
                 info: false,
-                initComplete: (settings, json)=>{
-        $('.dataTables_paginate').appendTo('#pagination');
-    },
+                initComplete: (settings, json) => {
+                    $('.dataTables_paginate').appendTo('.pagination-sm');
+                },
             });
         }
 

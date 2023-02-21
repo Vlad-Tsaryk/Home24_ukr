@@ -1,3 +1,4 @@
+from django.core.paginator import Paginator
 from django.db.models import Value
 from django.db.models.functions import Concat
 from django.http import JsonResponse, HttpResponse
@@ -97,7 +98,7 @@ class PersonalAccountList(RolePermissionRequiredMixin, ListView):
         ws.append(title_list)
         for account in value_list:
             ws.append(list(account.values())[1:])
-        for i in range(1, len(title_list)+1):
+        for i in range(1, len(title_list) + 1):
             col_letter = get_column_letter(i)
             ws.column_dimensions[col_letter].width = 20
         response = HttpResponse(save_virtual_workbook(wb),
@@ -126,13 +127,20 @@ class PersonalAccountList(RolePermissionRequiredMixin, ListView):
                 owner__name=Concat('apartment__owner__first_name', Value(' '),
                                    'apartment__owner__middle_name', Value(' '),
                                    'apartment__owner__last_name'))
-            has_debt_list = [personal_account.balance for personal_account in filtered_qs]
-            filtered_qs = list(
-                filtered_qs.values('id', 'number', 'status', 'apartment__house__name', 'apartment__section__name',
-                                   'apartment__number', 'owner__name'))
-            for index, personal_account in enumerate(filtered_qs):
-                personal_account['balance'] = has_debt_list[index]
-            result['account'] = filtered_qs
+            data = filtered_qs.values('id', 'number', 'status', 'apartment__house__name',
+                                      'apartment__section__name', 'apartment__number', 'owner__name')
+            start = int(self.request.GET.get('start', 0))
+            length = int(self.request.GET.get('length', 10))
+            paginator = Paginator(data, self.request.GET.get('length', 10))
+            page = (start // length) + 1
+            data = list(paginator.get_page(page))
+            for personal_account in data:
+                personal_account['balance'] = filtered_qs.get(id=personal_account['id']).balance
+
+            result['account'] = data
+            result['recordsTotal'] = paginator.count
+            result['recordsFiltered'] = paginator.count
+            result['pages'] = paginator.num_pages
             print(result)
             if self.request.GET.get('to_excel'):
                 return self.to_excel(value_list=result['account'])

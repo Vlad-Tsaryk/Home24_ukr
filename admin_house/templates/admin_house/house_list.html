@@ -5,142 +5,153 @@
     Дома
 {% endblock %}
 {% block breadcrumb %}
-            <ul class="breadcrumb">
+    <ul class="breadcrumb">
         <li><a href="{% url 'statistic' %}"><i class="fa fa-home"></i>Главная</a></li>
         <li class="active">Дома</li>
-</ul>
+    </ul>
 {% endblock %}
 {% block content %}
 
-                
-<div class="row">
-    <div class="col-xs-12">
-        <div class="pull-right margin-bottom">
-            <a class="btn btn-success" href="{% url 'house_create' %}">Добавить дом</a>
+
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="pull-right margin-bottom">
+                <a class="btn btn-success" href="{% url 'house_create' %}">Добавить дом</a>
+            </div>
         </div>
     </div>
-</div>
-<div class="row">
-    <div class="col-xs-12">
-        <div class="box">
-            <div class="box-header with-border">
-                <h3 class="box-title"></h3>
-                <div class="box-tools">
-                    <button onclick="clear_filters()" class="btn btn-default btn-sm">
-                        <span class="hidden-xs">Очистить</span><i class="fa fa-eraser visible-xs" aria-hidden="true"></i>
-                    </button>
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <div class="box-header with-border">
+                    <h3 class="box-title"></h3>
+                    <div class="box-tools">
+                        <button onclick="clear_filters()" class="btn btn-default btn-sm">
+                            <span class="hidden-xs">Очистить</span><i class="fa fa-eraser visible-xs"
+                                                                      aria-hidden="true"></i>
+                        </button>
+                    </div>
                 </div>
+
+                <div id="w0" class="grid-view">
+                    <div class="box-body table-responsive no-padding">
+                        <table id="house_table" class="table table-bordered table-hover table-striped linkedRow">
+                            <thead>
+                            <tr>
+                                <th style="width: 40px; min-width: 40px">#</th>
+                                <th><a id="name" class="ordering" style="cursor: pointer">Название</a></th>
+                                <th><a id="address" class="ordering" style="cursor: pointer">Адрес</a></th>
+                                <th style="width: 80px; min-width: 80px">&nbsp;</th>
+                            </tr>
+                            <tr id="w0-filters" class="filters">
+                                <td>&nbsp;</td>
+                                <td><input id="name" type="text" class="form-control column_search"
+                                           name="HouseNameSearch"></td>
+                                <td><input id="address" type="text" class="form-control column_search"
+                                           name="HouseAddressSearch"></td>
+                                <td>&nbsp;</td>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {#{% for house in house_list %}#}
+                            {#<tr data-href="/admin/house/191" data-key="{{ house.pk }}">#}
+                            {#    <td>{{ forloop.counter }}</td>#}
+                            {#    <td>{{ house.name }}</td>#}
+                            {#    <td>{{ house.address }}</td>#}
+                            {#    <td>#}
+                            {#        <div class="btn-group pull-right">#}
+                            {#            <a class="btn btn-default btn-sm" href="/admin/house/update/191"#}
+                            {#               title="Редактировать" data-toggle="tooltip">#}
+                            {#                <i class="fa fa-pencil"></i>#}
+                            {#            </a>#}
+                            {#            <a class="btn btn-default btn-sm" href="/admin/house/delete/191"#}
+                            {#               title="Удалить" data-toggle="tooltip" data-pjax="0" data-method="post"#}
+                            {#               data-confirm="Вы уверены, что хотите удалить этот элемент?">#}
+                            {#                <i class="fa fa-trash"></i>#}
+                            {#            </a>#}
+                            {#        </div>#}
+                            {#    </td>#}
+                            {#</tr>#}
+                            {#{% endfor %}#}
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="box-footer clearfix"></div>
+                </div>
+                <div class="box-footer">
+                    <div>Количество домов: <span class="text-bold">{{ house_list.count }}</span></div>
+                </div>
+
             </div>
-            
-            <div id="w0" class="grid-view">
-                <div class="box-body table-responsive no-padding">
-                    <table id="house_table" class="table table-bordered table-hover table-striped linkedRow">
-                        <thead>
-<tr>
-    <th style="width: 40px; min-width: 40px">#</th>
-    <th><a id="name" class="ordering" style="cursor: pointer">Название</a> </th>
-    <th><a id="address" class="ordering" style="cursor: pointer">Адрес</a></th>
-    <th style="width: 80px; min-width: 80px">&nbsp;</th>
-</tr>
-<tr id="w0-filters" class="filters">
-    <td>&nbsp;</td>
-    <td><input id="name" type="text" class="form-control column_search" name="HouseNameSearch"></td>
-    <td><input id="address" type="text" class="form-control column_search" name="HouseAddressSearch"></td>
-    <td>&nbsp;</td></tr>
-</thead>
-<tbody>
-{#{% for house in house_list %}#}
-{#<tr data-href="/admin/house/191" data-key="{{ house.pk }}">#}
-{#    <td>{{ forloop.counter }}</td>#}
-{#    <td>{{ house.name }}</td>#}
-{#    <td>{{ house.address }}</td>#}
-{#    <td>#}
-{#        <div class="btn-group pull-right">#}
-{#            <a class="btn btn-default btn-sm" href="/admin/house/update/191"#}
-{#               title="Редактировать" data-toggle="tooltip">#}
-{#                <i class="fa fa-pencil"></i>#}
-{#            </a>#}
-{#            <a class="btn btn-default btn-sm" href="/admin/house/delete/191"#}
-{#               title="Удалить" data-toggle="tooltip" data-pjax="0" data-method="post"#}
-{#               data-confirm="Вы уверены, что хотите удалить этот элемент?">#}
-{#                <i class="fa fa-trash"></i>#}
-{#            </a>#}
-{#        </div>#}
-{#    </td>#}
-{#</tr>#}
-{#{% endfor %}#}
-</tbody></table></div>
-<div class="box-footer clearfix"></div></div>            
-            <div class="box-footer">
-                <div>Количество домов: <span class="text-bold">{{ house_list.count }}</span></div>
-            </div>
-            
         </div>
     </div>
-</div>
 {% endblock %}
 {% block scripts %}
     <script>
         $('#nav_house').attr('class', 'active')
     </script>
-            <script type="text/javascript"
-            src="{% static 'admin_panel/bower_components/datatables.net/datatables.min.js' %}">
-    </script>
+    <script src="{% static 'admin_panel/bower_components/datatables.net/js/jquery.dataTables.min.js' %}"></script>
+    <script src="{% static 'admin_panel/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js' %}"></script>
+
     <script>
-    let numb=0
-    let sort_data ={
-            "name":'',
-            "address":'',
-            "order_by":''
+        let numb = 0
+        let sort_data = {
+            "name": '',
+            "address": '',
+            "order_by": ''
         }
-    let order_by = ''
+        let order_by = ''
         let table
-            function clear_filters() {
-                $('.column_search').val('');
-                $('.ordering').attr('class', 'ordering');
-                sort_data ={
-                    "name":'',
-                    "address":'',
-                    "order_by":''
-                }
-                numb=0
-                    table.draw()
 
+        function clear_filters() {
+            $('.column_search').val('');
+            $('.ordering').attr('class', 'ordering');
+            sort_data = {
+                "name": '',
+                "address": '',
+                "order_by": ''
             }
+            numb = 0
+            table.draw()
 
-            function send_POST(e) {
-                table = $('#house_table').DataTable({
-                    serverSide: true,
-                    processing: false,
-                    ordering: false,
-                    oLanguage: {
+        }
+
+        function send_POST(e) {
+            table = $('#house_table').DataTable({
+                serverSide: true,
+                processing: false,
+                ordering: false,
+                oLanguage: {
                     sZeroRecords: "Ничего не найдено."
+                },
+                columnDefs: [
+                    {className: "house", "targets": [0, 1, 2]},
+                    {targets: '_all', defaultContent: ''},
+                ],
+                "ajax": {
+                    "processing": true,
+                    "url": "{% url 'house_list' %}",
+                    "data": function (d) {
+                        numb = d['start']
+                        return Object.assign(d, sort_data);
                     },
-                    columnDefs: [
-                        { className: "house", "targets": [ 0,1,2 ] },
-                        { targets: '_all', defaultContent:''},
-                    ],
-                    "ajax": {
-                        "processing": true,
-                        "url": "{% url 'house_list' %}",
-                        "data": function (d) {
-                            return sort_data;
-                        },
-                        "dataSrc": "",
-                    },
-                    "columns": [
-                        {data: null,
-                        render:function () {
+                },
+                "columns": [
+                    {
+                        data: null,
+                        render: function () {
                             numb++
                             return numb
-                        }},
-                        {data: 'name'},
-                        {data: 'address'},
-                        {data: 'id',
-                            render:function (data, type) {
+                        }
+                    },
+                    {data: 'name'},
+                    {data: 'address'},
+                    {
+                        data: 'id',
+                        render: function (data, type) {
                             let link_update = '{% url 'house_update' 12345 %}'.replace(/12345/, data)
                             let link_delete = '{% url 'house_delete' 12345 %}'.replace(/12345/, data)
-                                    return `<div class="btn-group pull-right">\
+                            return `<div class="btn-group pull-right">\
             <a class="btn btn-default btn-sm" href="${link_update}"\
                title="Редактировать" data-toggle="tooltip">\
                 <i class="fa fa-pencil"></i>\
@@ -151,48 +162,54 @@
                 <i class="fa fa-trash"></i>\
             </a>\
         </div>`
-                            },
                         },
-                            ],
-                    paging: false,
-                    searching: false,
-                    info: false,
-                });
-            }
-            let table_head = $('#house_table thead')
-            table_head.on('keyup', ".column_search", function a (e) {
-                sort_data[this.id] = $(this).val()
-                numb=0
-                table.draw()
+                    },
+                ],
+                paging: true,
+                'pageLength': 20,
+                'lengthChange': false,
+                initComplete: (settings, json) => {
+                    $('.dataTables_paginate').appendTo('.pagination-sm');
+                },
+                searching: false,
+                info: false,
             });
+        }
 
-            table_head.on('click', '.ordering', function (){
-                if (this.className === 'ordering asc'){
-                    $(this).attr('class', 'ordering desc')
-                    sort_data['order_by'] = '-' + this.id
-                }
-                else {
-                    $(this).attr('class', 'ordering asc')
-                    sort_data['order_by'] = this.id
-                }
-                table_head.find('.ordering').not(this).attr('class','ordering')
-                numb=0
-                table.draw()
-            })
-            function confirm_delete (link,event) {
+        let table_head = $('#house_table thead')
+        table_head.on('keyup', ".column_search", function a(e) {
+            sort_data[this.id] = $(this).val()
+            {#numb = 0#}
+            table.draw()
+        });
+
+        table_head.on('click', '.ordering', function () {
+            if (this.className === 'ordering asc') {
+                $(this).attr('class', 'ordering desc')
+                sort_data['order_by'] = '-' + this.id
+            } else {
+                $(this).attr('class', 'ordering asc')
+                sort_data['order_by'] = this.id
+            }
+            table_head.find('.ordering').not(this).attr('class', 'ordering')
+            {#numb = 0#}
+            table.draw()
+        })
+
+        function confirm_delete(link, event) {
             alertify.confirm('Подтверждение удаления', 'Удалить дом <b>'
-                + $(event.target).closest( "tr " ).children().eq(1).text() + '</b> ?',
+                + $(event.target).closest("tr ").children().eq(1).text() + '</b> ?',
                 function () {
-                window.location.href = link
+                    window.location.href = link
                 },
                 function () {
                 }).set({labels: {ok: 'Подтвердить', cancel: 'Отмена'}});
-                return false;
+            return false;
         }
-        $('#house_table').on('click', 'tbody tr .house', function() {
-        window.location.href = '{% url 'house_view' 12345 %}'.replace(/12345/, table.row(this).data().id)
-})
 
+        $('#house_table').on('click', 'tbody tr .house', function () {
+            window.location.href = '{% url 'house_view' 12345 %}'.replace(/12345/, table.row(this).data().id)
+        })
 
 
         $(document).ready(function () {

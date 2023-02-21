@@ -307,9 +307,9 @@
     <script src="{% static 'admin_panel/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js' %}"></script>
     <script src="{% static 'admin_panel/bower_components/select2/dist/js/select2.full.min.js' %}"></script>
     <script src="{% static 'admin_panel/bower_components/select2/dist/js/i18n/ru.min.js' %}"></script>
-    <script type="text/javascript"
-            src="{% static 'admin_panel/bower_components/datatables.net/datatables.min.js' %}">
-    </script>
+    <script src="{% static 'admin_panel/bower_components/datatables.net/js/jquery.dataTables.min.js' %}"></script>
+    <script src="{% static 'admin_panel/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js' %}"></script>
+
     <script>
         function config_datetimepicker(target_id, min_date) {
             let target = $('#' + `${target_id}`)
@@ -536,7 +536,9 @@
                         }
                     },
                 ],
-                paging: false,
+                paging: true,
+
+'lengthChange': false,
                 searching: false,
                 info: false,
             });

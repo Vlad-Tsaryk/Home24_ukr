@@ -105,14 +105,7 @@
                         </table>
                     </div>
                     <div class="box-footer clearfix">
-                        <ul class="pagination pagination-sm no-margin pull-right">
-                            <li class="prev disabled"><span>«</span></li>
-                            <li class="active"><a href="/admin/flat/index?page=1&amp;per-page=50" data-page="0">1</a>
-                            </li>
-                            <li><a href="/admin/flat/index?page=2&amp;per-page=50" data-page="1">2</a></li>
-                            <li><a href="/admin/flat/index?page=3&amp;per-page=50" data-page="2">3</a></li>
-                            <li class="next"><a href="/admin/flat/index?page=2&amp;per-page=50" data-page="1">»</a></li>
-                        </ul>
+                        <ul class="pagination pagination-sm no-margin pull-right"></ul>
                     </div>
                 </div>
                 <div class="box-footer">
@@ -132,9 +125,9 @@
 
 <script src="{% static 'admin_panel/bower_components/select2/dist/js/select2.full.min.js' %}"></script>
 <script src="{% static 'admin_panel/bower_components/select2/dist/js/i18n/ru.min.js' %}"></script>
-    <script type="text/javascript"
-            src="{% static 'admin_panel/bower_components/datatables.net/datatables.min.js' %}">
-    </script>
+    <script src="{% static 'admin_panel/bower_components/datatables.net/js/jquery.dataTables.min.js' %}"></script>
+    <script src="{% static 'admin_panel/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js' %}"></script>
+
     <script>
 
         let numb = 0
@@ -192,7 +185,7 @@
                     "processing": true,
                     "url": "{% url 'apartment_list' %}",
                     "data": function (d) {
-                        return sort_data;
+                        return Object.assign(d, sort_data);
                     },
                     dataSrc: function (data) {
                         if(data['sections']) {
@@ -235,7 +228,12 @@
                         },
                     },
                 ],
-                paging: false,
+                paging: true,
+                'pageLength': 20,
+                'lengthChange': false,
+                initComplete: (settings, json) => {
+                    $('.dataTables_paginate').appendTo('.pagination-sm');
+                },
                 searching: false,
                 info: false,
             });

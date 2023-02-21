@@ -11,9 +11,6 @@
 {% endblock %}
 {% block content %}
     <div class="row">
-        <!--<div class="col-xs-12 col-sm-6">-->
-        <!--<h2 class="page-header">Квартиры</h2>-->
-        <!--</div>-->
         <div class="col-xs-12">
 
             <div class="pull-right margin-bottom">
@@ -71,64 +68,7 @@
                                 <td>&nbsp;</td>
                             </tr>
                             </thead>
-
                             <tbody>
-{#                            <tr data-href="#" data-key="0">#}
-{#                                <td>0</td>#}
-{#                                <td>{{ admin.first_name }} {{ admin.last_name }}</td>#}
-{#                                <td>#}
-{#                                    {{ admin.role.role }}</td>#}
-{#                                <td>#}
-{#                                    {{ admin.phone }}</td>#}
-{#                                <td>{{ admin.username }}</td>#}
-{#                                <td><small class="label label-success">{{ admin.status }}</small></td>#}
-{#                                <td>#}
-{#                                    <div class="btn-group pull-right"><a class="btn btn-default btn-sm"#}
-{#                                                                         href="/admin/user-admin/invite/1"#}
-{#                                                                         title="Отправить приглашение"#}
-{#                                                                         data-toggle="tooltip"><i#}
-{#                                            class="fa fa-repeat"></i></a> <a class="btn btn-default btn-sm"#}
-{#                                                                             href="{% url 'update_user' admin.pk %}"#}
-{#                                                                             title="Редактировать"#}
-{#                                                                             data-toggle="tooltip"><i#}
-{#                                            class="fa fa-pencil"></i></a>#}
-{#                                        <button class="btn btn-default btn-sm disabled"><i class="fa fa-trash"></i>#}
-{#                                        </button>#}
-{#                                    </div>#}
-{#                                </td>#}
-{#                            </tr>#}
-{#                            {% for user in user_list %}#}
-{#                                {% if user.is_superuser %}#}
-{#                                {% else %}#}
-{#                                    <tr data-href="/admin/user-admin/2" data-key="{{ forloop.counter }}">#}
-{#                                        <td>{{ forloop.counter }}</td>#}
-{#                                        <td>{{ user.first_name }} {{ user.last_name }}</td>#}
-{#                                        <td>#}
-{#                                            {{ user.role.role }}</td>#}
-{#                                        <td>#}
-{#                                            {{ user.phone }}</td>#}
-{#                                        <td>{{ user.username }}</td>#}
-{#                                        <td><small class="label label-success">{{ user.status }}</small></td>#}
-{#                                        <td>#}
-{#                                            <div class="btn-group pull-right"><a class="btn btn-default btn-sm"#}
-{#                                                                                 href="/admin/user-admin/invite/2"#}
-{#                                                                                 title="Отправить приглашение"#}
-{#                                                                                 data-toggle="tooltip"><i#}
-{#                                                    class="fa fa-repeat"></i></a> <a class="btn btn-default btn-sm"#}
-{#                                                                                     href="{% url 'update_user' user.pk %}"#}
-{#                                                                                     title="Редактировать"#}
-{#                                                                                     data-toggle="tooltip"><i#}
-{#                                                    class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm"#}
-{#                                                                                     href="/admin/user-admin/delete/2"#}
-{#                                                                                     title="Удалить"#}
-{#                                                                                     data-toggle="tooltip" data-pjax="0"#}
-{#                                                                                     data-method="post"#}
-{#                                                                                     data-confirm="Вы уверены, что хотите удалить этот элемент?"><i#}
-{#                                                    class="fa fa-trash"></i></a></div>#}
-{#                                        </td>#}
-{#                                    </tr>#}
-{#                                {% endif %}#}
-{#                            {% endfor %}#}
                             </tbody>
                             <thead>
                             <tr>
@@ -138,40 +78,19 @@
                         </table>
                     </div>
                     <div class="box-footer clearfix">
-                        <ul class="pagination pagination-sm no-margin pull-right">
-                            <li class="prev disabled"><span>«</span></li>
-                            <li class="active"><a href="/admin/user-admin/index?page=1&amp;per-page=50"
-                                                  data-page="0">1</a></li>
-                            <li><a href="/admin/user-admin/index?page=2&amp;per-page=50" data-page="1">2</a></li>
-                            <li class="next"><a href="/admin/user-admin/index?page=2&amp;per-page=50"
-                                                data-page="1">»</a></li>
-                        </ul>
+                        <ul class="pagination pagination-sm no-margin pull-right"></ul>
                     </div>
                 </div>
             </div>
         </div>
-    <div hidden class="empty-btn"><a class="btn btn-default btn-sm"
-                                                                                 href="/admin/user-admin/invite/2"
-                                                                                 title="Отправить приглашение"
-                                                                                 data-toggle="tooltip"><i
-                                                    class="fa fa-repeat"></i></a> <a class="btn btn-default btn-sm"
-                                                                                     href="{% url 'update_user' user.pk %}"
-                                                                                     title="Редактировать"
-                                                                                     data-toggle="tooltip"><i
-                                                    class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm"
-                                                                                     href="/admin/user-admin/delete/2"
-                                                                                     title="Удалить"
-                                                                                     data-toggle="tooltip" data-pjax="0"
-                                                                                     data-method="post"
-                                                                                     data-confirm="Вы уверены, что хотите удалить этот элемент?"><i
-                                                    class="fa fa-trash"></i></a></div>
     </div>
 
 {% endblock %}
 
 {% block scripts %}
-    <script type="text/javascript"
-            src="{% static 'admin_panel/bower_components/datatables.net/js/datatables.min.js' %}"></script>
+    <script src="{% static 'admin_panel/bower_components/datatables.net/js/jquery.dataTables.min.js' %}"></script>
+    <script src="{% static 'admin_panel/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js' %}"></script>
+
     <script>
         $('#system_settings').attr('class', 'active treeview menu-open')
         $('#nav_users').attr('class', 'active')
@@ -229,9 +148,9 @@
                         "processing": true,
                         "url": "{% url 'user_list' %}",
                         "data": function (d) {
-                            return sort_data;
+                            numb = d['start']
+                            return Object.assign(d, sort_data);
                         },
-                        "dataSrc": "",
                     },
                     "columns": [
                         {data: null,
@@ -263,15 +182,15 @@
                             },
                         }
                             ],
-                    {#scrollCollapse: true,#}
                     paging: true,
-                    pagingType: 'full_numbers',
-                    processing: true,
-                    {#scrollX: true,#}
+                    'lengthChange': false,
+                    'pageLength': 20,
                     searching: false,
                     ordering: false,
                     info: false,
-                    {#pagingType: 'full_numbers',#}
+                    initComplete: (settings, json) => {
+                    $('.dataTables_paginate').appendTo('.pagination-sm');
+                },
                 });
             }
             $('#users_table thead').on('change', ".column_search", function a (e) {

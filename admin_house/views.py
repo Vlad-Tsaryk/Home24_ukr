@@ -1,3 +1,4 @@
+from django.core.paginator import Paginator
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.views.generic import CreateView, ListView, UpdateView, DetailView
@@ -27,9 +28,20 @@ class HouseList(RolePermissionRequiredMixin, ListView):
             if self.request.GET.get('order_by'):
                 filtered_qs = filtered_qs.order_by(self.request.GET.get('order_by'))
 
-            result_list = list(filtered_qs.values('id', 'name', 'address'))
-            print(result_list)
-            return JsonResponse(result_list, safe=False, **response_kwargs)
+            filtered_qs = filtered_qs.values('id', 'name', 'address')
+            start = int(self.request.GET.get('start', 0))
+            length = int(self.request.GET.get('length', 10))
+            paginator = Paginator(filtered_qs, self.request.GET.get('length', 10))
+            page = (start // length) + 1
+            data = list(paginator.get_page(page))
+            result = {
+                'data': data,
+                'recordsTotal': paginator.count,
+                'recordsFiltered': paginator.count,
+                'pages': paginator.num_pages,
+            }
+            print(result)
+            return JsonResponse(result, safe=False, **response_kwargs)
         else:
             return super(ListView, self).render_to_response(context, **response_kwargs)
 

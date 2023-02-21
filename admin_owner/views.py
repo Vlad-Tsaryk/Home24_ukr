@@ -1,5 +1,6 @@
 from django.contrib.messages.views import SuccessMessageMixin
 from django.core.mail import EmailMessage
+from django.core.paginator import Paginator
 from django.http import JsonResponse, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy
@@ -92,8 +93,20 @@ class OwnerList(RolePermissionRequiredMixin, ListView):
                 owner['apartment'] = list(filtered_qs.get(
                     pk=owner['id']).apartment_set.all().values('id', 'number', 'house__name', 'house_id'))
                 owner['has_debt'] = PersonalAccount.owner_has_debt(owner['id'])
-            print(result_list)
-            return JsonResponse(result_list, safe=False, **response_kwargs)
+            start = int(self.request.GET.get('start', 0))
+            length = int(self.request.GET.get('length', 10))
+            paginator = Paginator(result_list, self.request.GET.get('length', 10))
+            page = (start // length) + 1
+            data = list(paginator.get_page(page))
+            print(data)
+            result = {
+                'data': data,
+                'recordsTotal': paginator.count,
+                'recordsFiltered': paginator.count,
+                'pages': paginator.num_pages,
+            }
+            print(result)
+            return JsonResponse(result, safe=False, **response_kwargs)
         else:
             return super(ListView, self).render_to_response(context, **response_kwargs)
 
