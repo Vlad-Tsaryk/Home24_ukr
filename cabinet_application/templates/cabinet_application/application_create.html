@@ -87,4 +87,40 @@
         $('#id_master_type').select2({placeholder: "Выберите...",minimumResultsForSearch: Infinity})
     })
     </script>
+    <script>
+            $( "#application_form" ).validate( {
+				rules: {
+					apartment: "required",
+					description: "required",
+				},
+				messages: {
+					apartment: "Пожалуйста выберите квартиру.",
+					description: "Пожалуйста опишите свою проблему.",
+				},
+				errorElement: "em",
+				errorPlacement: function ( error, element ) {
+					error.addClass( "help-block" );
+					element.parents( ".form-group" ).addClass( "has-feedback" );
+					if ( element.prop( "type" ) === "checkbox" ) {
+						error.insertAfter( element.parent( "label" ) );
+					} else {
+                        if($(element).hasClass('select2-hidden-accessible')){
+                            error.insertAfter( $(element).parent('.form-group').find('.select2') );
+                        }
+                        else error.insertAfter( element );
+					}
+				},
+				success: function ( label, element ) {
+				},
+				highlight: function ( element, errorClass, validClass ) {
+					$( element ).parents( ".form-group" ).addClass( "has-error" ).removeClass( "has-success" );
+				},
+				unhighlight: function ( element, errorClass, validClass ) {
+					$( element ).parents( ".form-group" ).addClass( "has-success" ).removeClass( "has-error" );
+				}
+			} );
+             $("select").on("select2:close", function (e) {
+        $(this).valid();
+    });
+    </script>
 {% endblock %}
