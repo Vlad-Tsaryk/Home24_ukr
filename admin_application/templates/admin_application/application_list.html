@@ -63,9 +63,9 @@
                                 <td><input type="text" class="form-control column_search" id="id"></td>
                                 <td><input type="text" id="date_range" class="form-control date_range"></td>
                                 <td><select id="master_type" class="form-control select2 filter">
-                                    <option value="">Любой специалист</option>
-                                    {% for type in master_types_list %}
-                                        <option value="{{ type.pk }}">{{ type.role }}</option>
+                                    <option value=""></option>
+                                    {% for type in master_type_list %}
+                                        <option value="{{type}}">{{ type}}</option>
                                     {% endfor %}
 
                                 </select></td>
@@ -127,9 +127,12 @@
     <script src="{% static 'admin_panel/bower_components/select2/dist/js/select2.full.min.js' %}"></script>
     <script src="{% static 'admin_panel/bower_components/select2/dist/js/i18n/ru.min.js' %}"></script>
     <script type="text/javascript"
-            src="{% static 'admin_panel/bower_components/datatables.net/datatables.min.js' %}">
+            src="{% static 'admin_panel/bower_components/datatables.net/DataTables-1.13.2/js/jquery.dataTables.min.js' %}">
     </script>
-    <script src="{% static 'admin_panel/bower_components/moment/moment.js' %}"></script>
+    <script type="text/javascript"
+            src="{% static 'admin_panel/bower_components/datatables.net/simple_incremental_bootstrap.js' %}">
+    </script>
+   <script src="{% static 'admin_panel/bower_components/moment/moment.js' %}"></script>
     <script src="{% static 'admin_panel/bower_components/moment/locale/ru.js' %}"></script>
     <script type="text/javascript"
             src="{% static 'admin_panel/bower_components/daterangepicker/daterangepicker.js' %}"></script>
@@ -181,6 +184,7 @@
 
         function send_POST(e) {
             table = $('#application_table').DataTable({
+                "pagingType": "simple_incremental_bootstrap",
                 serverSide: true,
                 processing: false,
                 ordering: false,
@@ -211,7 +215,7 @@
                     render:function (data, type, row) {
                         return moment(`${data} ${row['time']}`).format('DD.MM.YYYY - H:mm')
                     }},
-                    {data: 'master__role__role'},
+                    {data: 'master_type'},
                     {data: 'description'},
                     {data: 'apartment_info',
                     render:function (data, type, row) {
@@ -260,7 +264,7 @@
                         },
                     },
                 ],
-                paging: false,
+                paging: true,
                 searching: false,
                 info: false,
             });
