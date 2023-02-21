@@ -15,44 +15,46 @@
     </li>
 {% endblock %}
 {% block navigation %}
-    {% with user.get_apartments as apartment_set  %}
+    {% with user.get_apartments as apartment_set %}
 
-    <li class="active treeview"><a href="#!"><i class="fa fa-line-chart"></i> <span>Сводка</span> <span
-            class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span></a>
-        <ul class="treeview-menu" style="display: none;">
-            {% for apartment in apartment_set %}
-            <li><a href="#"><i class="fa fa-building-o"></i>
-                <span>{{ apartment.info }}</span></a>
-            </li>
-            {% endfor %}
-        </ul>
+        <li class="active treeview"><a href="#!"><i class="fa fa-line-chart"></i> <span>Сводка</span> <span
+                class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span></a>
+            <ul class="treeview-menu" style="display: none;">
+                {% for apartment in apartment_set %}
+                    <li><a href="#"><i class="fa fa-building-o"></i>
+                        <span>{{ apartment.info }}</span></a>
+                    </li>
+                {% endfor %}
+            </ul>
 
-    </li>
-    <li class="treeview"><a href="#!"><i class="fa fa-files-o"></i> <span>Квитанции</span> <span
-            class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span></a>
+        </li>
+        <li class="treeview"><a href="#!"><i class="fa fa-files-o"></i> <span>Квитанции</span> <span
+                class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span></a>
 
-        <ul class="treeview-menu">
-        <li><a href="{% url 'cabinet_receipt_list' %}"><i class="fa fa-files-o"></i>
-            <span>Все квитанции</span></a></li>
-            {% for apartment in apartment_set %}
-            <li><a href="{% url 'cabinet_receipt_list_apartment' apartment.pk %}" ><i class="fa fa-file-text-o"></i>
-                <span>{{ apartment.info }}</span></a>
-            </li>
-            {% endfor %}
-        </ul>
-    </li>
-    <li class="treeview"><a href="/cabinet/tariff/index"><i class="fa fa-money"></i> <span>Тарифы</span>
-        <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span></a>
-        <ul class="treeview-menu">
-            {% for apartment in apartment_set %}
-            <li><a href="{% url 'cabinet_apartment_tariff_view' apartment.pk %}"><i class="fa fa-file-text-o"></i>
-                <span>{{ apartment.info }}</span></a>
-            </li>
-            {% endfor %}
-        </ul>
-    </li>
+            <ul class="treeview-menu">
+                <li><a href="{% url 'cabinet_receipt_list' %}"><i class="fa fa-files-o"></i>
+                    <span>Все квитанции</span></a></li>
+                {% for apartment in apartment_set %}
+                    <li><a href="{% url 'cabinet_receipt_list_apartment' apartment.pk %}"><i
+                            class="fa fa-file-text-o"></i>
+                        <span>{{ apartment.info }}</span></a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </li>
+        <li class="treeview"><a href="/cabinet/tariff/index"><i class="fa fa-money"></i> <span>Тарифы</span>
+            <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span></a>
+            <ul class="treeview-menu">
+                {% for apartment in apartment_set %}
+                    <li><a href="{% url 'cabinet_apartment_tariff_view' apartment.pk %}"><i
+                            class="fa fa-file-text-o"></i>
+                        <span>{{ apartment.info }}</span></a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </li>
     {% endwith %}
     <li><a href="{% url 'cabinet_message_list' %}"><i class="fa fa-envelope-o"></i> <span>Сообщения</span></a></li>
-    <li><a href="/cabinet/master-request/index"><i class="fa fa-wrench"></i> <span>Вызов мастера</span></a></li>
+    <li><a href="{% url 'cabinet_application_list' %}"><i class="fa fa-wrench"></i> <span>Вызов мастера</span></a></li>
     <li><a href="{% url 'cabinet_profile' %}"><i class="fa fa-user-circle-o"></i> <span>Профиль</span></a></li>
 {% endblock %}

@@ -1,0 +1,90 @@
+{% extends 'layout/cabinet.html' %}
+{% load static %}
+{% block head %}
+<link rel="stylesheet"
+      href="{% static 'admin_panel/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css' %}"/>
+{% endblock %}
+{% block content %}
+    <div class="box">
+        <div class="box-body">
+
+            <div class="box-body">
+
+                <form id="application_form" method="post">
+                    {% csrf_token %}
+                    <div class="modal-body">
+                        <div class="form-group field-masterrequestform-type">
+                            <label class="control-label" for="masterrequestform-type">Тип мастера</label>
+                            {{form.master_type}}
+                            <div class="help-block"></div>
+                        </div>
+                        <div class="form-group field-masterrequestform-flat_id required">
+                            <label class="control-label" for="masterrequestform-flat_id">Квартира</label>
+                            {{ form.apartment }}
+                            <div class="help-block"></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group field-masterrequestform-date_request required">
+                                    <label class="control-label" for="masterrequestform-date_request">Дата работ</label>
+                                    {{ form.date }}
+
+                                    <div class="help-block"></div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group field-masterrequestform-time_request">
+                                    <label class="control-label" for="masterrequestform-time_request">Время
+                                        работ</label>
+                                    {{ form.time }}
+                                    <div class="help-block"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group field-masterrequestform-description required">
+                            <label class="control-label" for="masterrequestform-description">Описание</label>
+                            {{ form.description }}
+                            <div class="help-block"></div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-success">Отправить заявку</button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+    {{form.errors}}
+{% endblock %}
+{% block scripts %}
+    <script src="{% static 'admin_panel/bower_components/moment/moment.js' %}"></script>
+    <script src="{% static 'admin_panel/bower_components/moment/locale/ru.js' %}"></script>
+    <script src="{% static 'admin_panel/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js' %}"></script>
+    <script src="{% static 'admin_panel/bower_components/select2/dist/js/select2.full.min.js' %}"></script>
+    <script src="{% static 'admin_panel/bower_components/select2/dist/js/i18n/ru.min.js' %}"></script>
+    <script>
+                 $(function () {
+             $('#id_date').datetimepicker({
+                     minDate: moment(),
+                    date:moment(),
+                     locale: 'ru',
+                     format: 'L',
+                 }
+             );
+             $('#id_time').datetimepicker({
+                    date:moment(),
+                     locale: 'ru',
+                     format: 'HH:mm',
+                    stepping:'15',
+                 }
+             );
+         });
+    </script>
+    <script>
+    $(document).ready(function () {
+        $('#id_apartment').select2({placeholder: "Выберите...", allowClear:true})
+        $('#id_master_type').select2({placeholder: "Выберите...",minimumResultsForSearch: Infinity})
+    })
+    </script>
+{% endblock %}
