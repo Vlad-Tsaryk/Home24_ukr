@@ -8,5 +8,5 @@ urlpatterns = [
     path('message/', include('cabinet_messages.urls')),
     path('receipt/', include('cabinet_receipts.urls')),
     path('application/', include('cabinet_application.urls')),
-    # path('', StatisticView.as_view(), name='statistic'),
+    path('', include('cabinet_summary.urls')),
 ]

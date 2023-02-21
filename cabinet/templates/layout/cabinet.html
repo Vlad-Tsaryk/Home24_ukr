@@ -9,7 +9,7 @@
         </a>
         <ul class="dropdown-menu">
             <li class="header">Нет новых сообщений</li>
-            <li class="footer"><a href="/cabinet/message/index">Перейти в раздел сообщений</a></li>
+            <li class="footer"><a href="{% url 'cabinet_message_list' %}">Перейти в раздел сообщений</a></li>
 
         </ul>
     </li>
@@ -17,11 +17,11 @@
 {% block navigation %}
     {% with user.get_apartments as apartment_set %}
 
-        <li class="active treeview"><a href="#!"><i class="fa fa-line-chart"></i> <span>Сводка</span> <span
+        <li class="treeview"><a href="#!"><i class="fa fa-line-chart"></i> <span>Сводка</span> <span
                 class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span></a>
             <ul class="treeview-menu" style="display: none;">
                 {% for apartment in apartment_set %}
-                    <li><a href="#"><i class="fa fa-building-o"></i>
+                    <li><a href="{% url 'cabinet_apartment_summary' apartment.pk %}"><i class="fa fa-building-o"></i>
                         <span>{{ apartment.info }}</span></a>
                     </li>
                 {% endfor %}

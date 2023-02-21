@@ -66,6 +66,7 @@ INSTALLED_APPS = [
     'cabinet_messages.apps.CabinetMessagesConfig',
     'cabinet_receipts.apps.CabinetReceiptsConfig',
     'cabinet_application.apps.CabinetApplicationConfig',
+    'cabinet_summary.apps.CabinetSummaryConfig',
     "debug_toolbar",
 
 ]
