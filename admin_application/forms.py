@@ -27,10 +27,9 @@ class ApplicationForm(forms.ModelForm):
     description = forms.CharField(widget=forms.Textarea(attrs={'class': 'form-control', 'rows': 8}), required=False)
     apartment = ApartmentModelChoiceField(widget=forms.Select(attrs={'class': 'form-control'}), empty_label='',
                                           queryset=Apartment.objects.all(), required=False)
-    master_types = forms.ModelChoiceField(widget=forms.Select(attrs={'class': 'form-control'}),
-                                          empty_label='Любой специалист', queryset=Role.objects.filter(
-            role__in=[Role.RoleName.PLUMBER, Role.RoleName.ELECTRICIAN]),
-                                          required=False)
+    master_type = forms.ChoiceField(widget=forms.Select(attrs={'class': 'form-control'}),
+                                    choices=Application.MasterType.choices,
+                                    required=False)
     status = forms.CharField(
         widget=forms.Select(attrs={'class': 'form-control'}, choices=Application.StatusName.choices))
     date = forms.DateField(widget=forms.DateInput(
@@ -42,7 +41,7 @@ class ApplicationForm(forms.ModelForm):
         super(ApplicationForm, self).__init__(*args, **kwargs)
         try:
             if self.instance.master:
-                self.initial['master_types'] = self.instance.master.role
+                self.initial['master_type'] = self.instance.master.role.role
                 print(self.instance.master.role.role)
         except:
             pass
@@ -50,4 +49,4 @@ class ApplicationForm(forms.ModelForm):
     class Meta:
         model = Application
         fields = ['master', 'status', 'comment', 'date', 'time',
-                  'description', 'owner', 'apartment']
+                  'description', 'owner', 'apartment', 'master_type']

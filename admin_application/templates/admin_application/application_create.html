@@ -79,7 +79,7 @@
                         </div>
                         <div class="form-group field-master-type">
                             <label class="control-label" for="master-type">Тип мастера</label>
-                            {{ form.master_types }}
+                            {{ form.master_type }}
 
                             <div class="help-block"></div>
                         </div>
@@ -234,7 +234,7 @@
         select_options['owner_change'] = ''
 
     })
-    $('#id_master_types').change(function () {
+    $('#id_master_type').change(function () {
         select_options['master_type'] = this.value
         select_options['master_type_change'] = 'True'
         get_values();
@@ -247,7 +247,7 @@
             {
                 let select_apartment =$('#id_apartment').select2({placeholder: "Выберите...", allowClear:true})
                 let select_master =$('#id_master').select2({placeholder: "Выберите..."})
-                let select_master_types =$('#id_master_types').select2({minimumResultsForSearch: Infinity})
+                let select_master_type =$('#id_master_type').select2({minimumResultsForSearch: Infinity})
                 let select_owner =$('#id_owner').select2({placeholder: "Выберите...", allowClear:true})
                 $('#id_status').select2({placeholder: "Выберите...",minimumResultsForSearch: Infinity})
                 set_event_listeners()

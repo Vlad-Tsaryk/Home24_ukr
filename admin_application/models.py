@@ -1,5 +1,4 @@
 from django.db import models
-from django.db.models import F
 
 from admin_apartment.models import Apartment
 from users.models import User, Role
@@ -12,9 +11,15 @@ class Application(models.Model):
         IN_PROGRESS = 'В работе', 'В работе'
         DONE = 'Выполнено', 'Выполнено'
 
+    class MasterType(models.TextChoices):
+        ANY = 'Любой специалист', 'Любой специалист'
+        PLUMBER = 'Сантехник', 'Сантехник'
+        ELECTRICIAN = 'Электрик', 'Электрик'
+
     owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name='owner')
     apartment = models.ForeignKey(Apartment, on_delete=models.CASCADE)
     master = models.ForeignKey(User, on_delete=models.PROTECT, related_name='master')
+    master_type = models.CharField(max_length=16, choices=MasterType.choices)
     status = models.CharField(max_length=10, choices=StatusName.choices)
     comment = models.TextField()
     description = models.TextField()

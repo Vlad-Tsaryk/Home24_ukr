@@ -1,3 +1,4 @@
+from django.core.paginator import Paginator
 from django.db.models.functions import Concat
 from django.db.models import Value, CharField
 from django.http import JsonResponse
@@ -27,7 +28,7 @@ class ApplicationCreate(RolePermissionRequiredMixin, SuccessMessageMixin, Create
         if self.request.is_ajax():
             result = {}
             owner_id = self.request.GET.get('owner_id')
-            master_role_id = self.request.GET.get('master_type')
+            master_type = self.request.GET.get('master_type')
             print(self.request.GET)
             if self.request.GET.get('owner_change'):
                 if owner_id:
@@ -37,9 +38,10 @@ class ApplicationCreate(RolePermissionRequiredMixin, SuccessMessageMixin, Create
                     result['apartments'] = list(Apartment.objects.all().values('id', 'number', 'house__name'))
 
             if self.request.GET.get('master_type_change'):
-                if master_role_id:
-                    result['masters'] = list(User.objects.filter(role=master_role_id).values('id', 'role__role',
-                                                                                             'first_name', 'last_name'))
+                if master_type:
+                    result['masters'] = list(User.objects.filter(role__role=master_type).values('id', 'role__role',
+                                                                                                'first_name',
+                                                                                                'last_name'))
                 else:
                     result['masters'] = list(User.objects.filter(
                         role__role__in=[Role.RoleName.PLUMBER, Role.RoleName.ELECTRICIAN]).values('id', 'role__role',
@@ -61,7 +63,7 @@ class ApplicationList(RolePermissionRequiredMixin, ListView):
         context['owner_list'] = User.objects.filter(role__role=Role.RoleName.OWNER)
         context['status_list'] = Application.StatusName.values
         context['master_list'] = User.objects.filter(role__role__in=[Role.RoleName.PLUMBER, Role.RoleName.ELECTRICIAN])
-        context['master_types_list'] = Role.objects.filter(role__in=[Role.RoleName.PLUMBER, Role.RoleName.ELECTRICIAN])
+        context['master_type_list'] = Application.MasterType
         return context
 
     def render_to_response(self, context, **response_kwargs):
@@ -74,7 +76,7 @@ class ApplicationList(RolePermissionRequiredMixin, ListView):
                 'id__contains': self.request.GET.get('id'),
                 'owner_id': self.request.GET.get('owner_id'),
                 'apartment_info__contains': self.request.GET.get('apartment'),
-                'master__role': self.request.GET.get('master_type'),
+                'master_type': self.request.GET.get('master_type'),
                 'description__contains': self.request.GET.get('description'),
                 'owner__phone__contains': self.request.GET.get('owner_phone'),
                 'master_id': self.request.GET.get('master_id'),
@@ -82,16 +84,16 @@ class ApplicationList(RolePermissionRequiredMixin, ListView):
             }
 
             if self.request.GET.get('master_type_change'):
-                if filter_fields['master__role']:
+                if filter_fields['master_type']:
                     result['masters'] = list(
-                        User.objects.filter(role=filter_fields['master__role'])
+                        User.objects.filter(role__role=filter_fields['master_type'])
                         .annotate(
                             name=Concat('role__role', Value(' - '), 'first_name', Value(' '), 'last_name', )).values(
                             'id', 'name'))
                 else:
                     result['masters'] = list(context['master_list'].annotate(
-                            name=Concat('role__role', Value(' - '), 'first_name', Value(' '), 'last_name', )).values(
-                            'id', 'name'))
+                        name=Concat('role__role', Value(' - '), 'first_name', Value(' '), 'last_name', )).values(
+                        'id', 'name'))
             filter_fields = {k: v for k, v in filter_fields.items() if v}
             filtered_qs = self.get_queryset().annotate(
                 apartment_info=Concat(Value('Квартира №'), 'apartment__number', Value(', '),
@@ -101,10 +103,18 @@ class ApplicationList(RolePermissionRequiredMixin, ListView):
             filtered_qs = filtered_qs.values('id', 'date', 'time', 'status', 'description', 'apartment_info',
                                              'owner__phone', 'owner__first_name', 'owner__last_name', 'owner_id',
                                              'master__first_name', 'master__last_name', 'master_id', 'apartment_id',
-                                             'master__role__role')
-
-            print(filtered_qs)
-            result['application'] = list(filtered_qs)
+                                             'master_type')
+            start = int(self.request.GET.get('start', 0))
+            length = int(self.request.GET.get('length', 10))
+            paginator = Paginator(filtered_qs, self.request.GET.get('length', 10))
+            page = (start // length) + 1
+            data = list(paginator.get_page(page))
+            result = {
+                'application': data,
+                'recordsTotal': paginator.count,
+                'recordsFiltered': paginator.count,
+                'pages': paginator.num_pages,
+            }
             print(result)
             return JsonResponse(result, safe=False, **response_kwargs)
 
