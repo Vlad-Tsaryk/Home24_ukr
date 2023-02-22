@@ -132,6 +132,11 @@ class UpdateRoles(AdminPermissionRequiredMixin, TemplateView):
 class LoginView(FormView):
     user_type = ''
 
+    def authenticated_check(self):
+        if self.request.user.is_authenticated:
+            return True
+        return False
+
     def get(self, request, *args, **kwargs):
         if self.request.COOKIES.get(f'{self.user_type}_session_key') != 'None':
             try:
@@ -145,7 +150,7 @@ class LoginView(FormView):
                         self.request.user = User.objects.get(pk=user_id)
             except (Session.DoesNotExist, KeyError, User.DoesNotExist):
                 self.request.session = SessionStore(None)
-        if self.request.user.is_authenticated:
+        if self.authenticated_check():
             return redirect(self.success_url)
         return super().get(self, request, *args, **kwargs)
 
@@ -154,10 +159,6 @@ class LoginView(FormView):
                             password=form.cleaned_data['password'], user_type=self.user_type)
         if user is not None:
             login(self.request, user)
-            # if self.request.session:
-            #     self.request.session = SessionStore(None)
-            # session[self.user_type] = user.id
-            # session.save()
             if not form.cleaned_data['remember_me']:
                 self.request.session.set_expiry(0)
             response = redirect(self.success_url)
@@ -174,12 +175,21 @@ class AdminLoginView(LoginView):
     success_url = reverse_lazy('statistic')
     user_type = 'admin'
 
+    def authenticated_check(self):
+        if self.request.user.is_authenticated and self.request.user.role.role != Role.RoleName.OWNER:
+            return True
+        return False
 
 class CabinetLoginView(LoginView):
     template_name = 'cabinet/login_page.html'
     form_class = CabinetLoginForm
-    success_url = reverse_lazy('cabinet_profile')
+    success_url = reverse_lazy('cabinet')
     user_type = 'owner'
+
+    def authenticated_check(self):
+        if self.request.user.is_authenticated and self.request.user.role.role == Role.RoleName.OWNER:
+            return True
+        return False
     # def get(self, request, *args, **kwargs):
     #     # if self.request.user.is_authenticated:
     #     #     return redirect('ca')
@@ -187,6 +197,22 @@ class CabinetLoginView(LoginView):
 
 
 class LogoutView(View):
-    def get(self, request):
-        logout(request)
-        return HttpResponseRedirect(settings.LOGIN_URL)
+    success_url = ''
+    user_type = ''
+
+    def get(self, request, *args, **kwargs):
+        if self.request.user.is_authenticated:
+            logout(request)
+        response = HttpResponseRedirect(self.success_url)
+        response.set_cookie(f'{self.user_type}_session_key', None)
+        return response
+
+
+class AdminLogoutView(LogoutView):
+    success_url = reverse_lazy('admin-panel-login')
+    user_type = 'admin'
+
+
+class CabinetLogoutView(LogoutView):
+    success_url = reverse_lazy('cabinet_login')
+    user_type = 'owner'
