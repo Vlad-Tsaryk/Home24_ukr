@@ -8,7 +8,7 @@ from django.views.generic import CreateView, ListView, DetailView, UpdateView
 
 from admin_apartment.models import Apartment
 from admin_house.models import Section
-from users.mixins import RolePermissionRequiredMixin
+from users.mixins import AdminPermissionRequiredMixin
 from .forms import MeterForm, MeterUpdateForm
 from .models import Meter
 from admin_house.models import House
@@ -16,13 +16,13 @@ from admin_service.models import Service
 
 
 # Create your views here.
-class MeterView(RolePermissionRequiredMixin, DetailView):
+class MeterView(AdminPermissionRequiredMixin, DetailView):
     permission_required = 'meters'
     model = Meter
     template_name = 'admin_meter/meter_view.html'
 
 
-class MeterCreate(RolePermissionRequiredMixin, SuccessMessageMixin, CreateView):
+class MeterCreate(AdminPermissionRequiredMixin, SuccessMessageMixin, CreateView):
     permission_required = 'meters'
     model = Meter
     form_class = MeterForm
@@ -93,7 +93,7 @@ class MeterNewValue(MeterCreate):
         return kwargs
 
 
-class MeterList(RolePermissionRequiredMixin, ListView):
+class MeterList(AdminPermissionRequiredMixin, ListView):
     permission_required = 'meters'
     model = Meter
     template_name = 'admin_meter/meter_list.html'
@@ -148,7 +148,7 @@ class MeterList(RolePermissionRequiredMixin, ListView):
             return super(ListView, self).render_to_response(context, **response_kwargs)
 
 
-class MeterViewList(RolePermissionRequiredMixin, ListView):
+class MeterViewList(AdminPermissionRequiredMixin, ListView):
     permission_required = 'meters'
     model = Meter
     template_name = 'admin_meter/meter_view_list.html'
@@ -204,7 +204,7 @@ class MeterViewList(RolePermissionRequiredMixin, ListView):
             return super(ListView, self).render_to_response(context, **response_kwargs)
 
 
-class MeterUpdate(RolePermissionRequiredMixin, SuccessMessageMixin, UpdateView):
+class MeterUpdate(AdminPermissionRequiredMixin, SuccessMessageMixin, UpdateView):
     permission_required = 'meters'
     model = Meter
     form_class = MeterUpdateForm

@@ -12,14 +12,14 @@ from admin_house.models import Section
 from admin_meter.models import Meter
 from admin_tariff.models import TariffService
 from admin_transaction.models import Transaction
-from users.mixins import RolePermissionRequiredMixin
+from users.mixins import AdminPermissionRequiredMixin
 from .forms import ReceiptForm, ReceiptServiceFormSet
 from .models import Receipt, ReceiptService
 from users.models import User, Role
 
 
 # Create your views here.
-class ReceiptCreate(RolePermissionRequiredMixin, CreateView):
+class ReceiptCreate(AdminPermissionRequiredMixin, CreateView):
     permission_required = 'receipts'
     model = Receipt
     form_class = ReceiptForm
@@ -164,7 +164,7 @@ class ReceiptUpdate(ReceiptCreate, UpdateView):
         self.object = self.get_object()
 
 
-class ReceiptList(RolePermissionRequiredMixin, ListView):
+class ReceiptList(AdminPermissionRequiredMixin, ListView):
     permission_required = 'receipts'
     model = Receipt
     template_name = 'admin_receipt/receipt_list.html'
@@ -238,7 +238,7 @@ class ReceiptList(RolePermissionRequiredMixin, ListView):
             return super(ListView, self).render_to_response(context, **response_kwargs)
 
 
-class ReceiptView(RolePermissionRequiredMixin, DetailView):
+class ReceiptView(AdminPermissionRequiredMixin, DetailView):
     permission_required = 'receipts'
     model = Receipt
     template_name = 'admin_receipt/receipt_view.html'

@@ -11,7 +11,7 @@ from openpyxl.writer.excel import save_virtual_workbook
 
 from admin_house.models import House
 from admin_transaction.models import Transaction
-from users.mixins import RolePermissionRequiredMixin
+from users.mixins import AdminPermissionRequiredMixin
 from .models import PersonalAccount
 from .forms import PersonalAccountForm
 from admin_apartment.models import Apartment, Section
@@ -20,13 +20,13 @@ from openpyxl import Workbook
 
 # Create your views here.
 
-class PersonalAccountView(RolePermissionRequiredMixin, DetailView):
+class PersonalAccountView(AdminPermissionRequiredMixin, DetailView):
     permission_required = 'personal_accounts'
     model = PersonalAccount
     template_name = 'admin_personal_account/personal_account_view.html'
 
 
-class PersonalAccountCreate(RolePermissionRequiredMixin, CreateView):
+class PersonalAccountCreate(AdminPermissionRequiredMixin, CreateView):
     permission_required = 'personal_accounts'
     model = PersonalAccount
     form_class = PersonalAccountForm
@@ -56,7 +56,7 @@ class PersonalAccountCreate(RolePermissionRequiredMixin, CreateView):
             return super(CreateView, self).render_to_response(context, **response_kwargs)
 
 
-class PersonalAccountUpdate(RolePermissionRequiredMixin, UpdateView):
+class PersonalAccountUpdate(AdminPermissionRequiredMixin, UpdateView):
     permission_required = 'personal_accounts'
     model = PersonalAccount
     template_name = 'admin_personal_account/personal_account_update.html'
@@ -78,7 +78,7 @@ def personal_account_delete(request, pk):
     return redirect('personal_account_list')
 
 
-class PersonalAccountList(RolePermissionRequiredMixin, ListView):
+class PersonalAccountList(AdminPermissionRequiredMixin, ListView):
     permission_required = 'personal_accounts'
     model = PersonalAccount
     template_name = 'admin_personal_account/personal_account_list.html'

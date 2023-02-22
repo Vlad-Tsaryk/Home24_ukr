@@ -7,7 +7,7 @@ from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, UpdateView, ListView, DetailView
 
-from users.mixins import RolePermissionRequiredMixin
+from users.mixins import AdminPermissionRequiredMixin
 from .models import Apartment, Section, Floor, House
 from .forms import ApartmentForm
 from django.contrib import messages
@@ -21,7 +21,7 @@ def apartment_house_details(house_id, **response_kwargs):
     return JsonResponse({'section': section_list, 'floor': floor_list}, safe=False, **response_kwargs)
 
 
-class ApartmentCreate(RolePermissionRequiredMixin, SuccessMessageMixin, CreateView):
+class ApartmentCreate(AdminPermissionRequiredMixin, SuccessMessageMixin, CreateView):
     permission_required = 'apartments'
     model = Apartment
     template_name = 'admin_apartment/apartment_create.html'
@@ -38,7 +38,7 @@ class ApartmentCreate(RolePermissionRequiredMixin, SuccessMessageMixin, CreateVi
             return super(CreateView, self).render_to_response(context, **response_kwargs)
 
 
-class ApartmentUpdate(RolePermissionRequiredMixin, SuccessMessageMixin, UpdateView):
+class ApartmentUpdate(AdminPermissionRequiredMixin, SuccessMessageMixin, UpdateView):
     permission_required = 'apartments'
     model = Apartment
     template_name = 'admin_apartment/apartment_update.html'
@@ -55,7 +55,7 @@ class ApartmentUpdate(RolePermissionRequiredMixin, SuccessMessageMixin, UpdateVi
             return super(UpdateView, self).render_to_response(context, **response_kwargs)
 
 
-class ApartmentView(RolePermissionRequiredMixin, DetailView):
+class ApartmentView(AdminPermissionRequiredMixin, DetailView):
     permission_required = 'apartments'
     model = Apartment
     template_name = 'admin_apartment/apartment_view.html'
@@ -75,7 +75,7 @@ def apartment_delete(request, pk):
     return redirect('apartment_list')
 
 
-class ApartmentList(RolePermissionRequiredMixin, ListView):
+class ApartmentList(AdminPermissionRequiredMixin, ListView):
     permission_required = 'apartments'
     model = Apartment
     template_name = 'admin_apartment/apartment_list.html'

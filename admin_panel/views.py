@@ -10,14 +10,14 @@ from admin_house.models import House
 from admin_personal_account.models import PersonalAccount
 from admin_receipt.models import Receipt
 from admin_transaction.models import Transaction
-from users.mixins import RolePermissionRequiredMixin
+from users.mixins import AdminPermissionRequiredMixin
 from users.models import User, Role
 from django.utils import timezone
 
 
 # Create your views here.
 
-class StatisticView(RolePermissionRequiredMixin, TemplateView):
+class StatisticView(AdminPermissionRequiredMixin, TemplateView):
     permission_required = 'statistics'
     template_name = 'admin_panel/statistic.html'
 
@@ -58,12 +58,11 @@ class StatisticView(RolePermissionRequiredMixin, TemplateView):
             .annotate(month=TruncMonth('date')) \
             .values('month') \
             .annotate(sum=Sum('total_price'))
+        print('receipts_debt_by_month', context['receipts_debt_by_month'])
         context['transactions_income'] = list(context['transactions_income'])
         context['transactions_outcome'] = list(context['transactions_outcome'])
         context['receipts_debt_by_month'] = list(context['receipts_debt_by_month'])
         context['receipts_paid_by_month'] = list(context['receipts_paid_by_month'])
-        print(context['transactions_income'])
-        print(context['transactions_outcome'])
         start_day_of_current_year = current_date.date().replace(month=1, day=1)
         for dt in rrule.rrule(rrule.MONTHLY, dtstart=start_day_of_current_year, count=12):
             if not any(d['month'] == dt.date() for d in context['transactions_income']):

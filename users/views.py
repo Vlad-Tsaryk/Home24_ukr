@@ -12,7 +12,7 @@ from django.views.generic import ListView, CreateView, UpdateView, DetailView, T
 from django.http import JsonResponse, HttpResponseRedirect
 
 import settings
-from .mixins import RolePermissionRequiredMixin
+from .mixins import AdminPermissionRequiredMixin
 from .models import User, Role
 from .forms import CustomUserCreationForm, CustomUserUpdateForm, RoleFormSet, AdminLoginForm, CabinetLoginForm
 from django.contrib import messages
@@ -20,7 +20,7 @@ from django.contrib import messages
 
 # Create your views here.
 
-class Users(RolePermissionRequiredMixin, ListView):
+class Users(AdminPermissionRequiredMixin, ListView):
     permission_required = 'users'
     model = User
     context_object_name = 'user_list'
@@ -62,7 +62,7 @@ class Users(RolePermissionRequiredMixin, ListView):
             return super(ListView, self).render_to_response(context, **response_kwargs)
 
 
-class CreateUser(RolePermissionRequiredMixin, SuccessMessageMixin, CreateView):
+class CreateUser(AdminPermissionRequiredMixin, SuccessMessageMixin, CreateView):
     permission_required = 'users'
     form_class = CustomUserCreationForm
     template_name = 'users/user_create.html'
@@ -70,7 +70,7 @@ class CreateUser(RolePermissionRequiredMixin, SuccessMessageMixin, CreateView):
     success_message = "Пользователь успешно создан"
 
 
-class UpdateUser(RolePermissionRequiredMixin, SuccessMessageMixin, UpdateView):
+class UpdateUser(AdminPermissionRequiredMixin, SuccessMessageMixin, UpdateView):
     permission_required = 'users'
     model = User
     context_object_name = 'obj_user'
@@ -80,7 +80,7 @@ class UpdateUser(RolePermissionRequiredMixin, SuccessMessageMixin, UpdateView):
     success_message = "Пользователь успешно изменен"
 
 
-class ViewUser(RolePermissionRequiredMixin, DetailView):
+class ViewUser(AdminPermissionRequiredMixin, DetailView):
     permission_required = 'users'
     model = User
     context_object_name = 'obj_user'
@@ -97,7 +97,7 @@ def delete_user(request, user_id):
     return redirect('user_list')
 
 
-class UpdateRoles(RolePermissionRequiredMixin, TemplateView):
+class UpdateRoles(AdminPermissionRequiredMixin, TemplateView):
     permission_required = 'roles'
     template_name = 'users/roles_update.html'
     success_url = reverse_lazy('roles')

@@ -3,14 +3,14 @@ from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.views.generic import UpdateView, CreateView, ListView
 
-from users.mixins import RolePermissionRequiredMixin
+from users.mixins import AdminPermissionRequiredMixin
 from .models import PaymentDetails, Purpose
 from .forms import PaymentDetailsForm, PurposeForm
 from django.contrib import messages
 
 
 # Create your views here.
-class PaymentDetailsUpdate(RolePermissionRequiredMixin, SuccessMessageMixin, UpdateView):
+class PaymentDetailsUpdate(AdminPermissionRequiredMixin, SuccessMessageMixin, UpdateView):
     permission_required = 'payment_details'
     model = PaymentDetails
     success_url = reverse_lazy('payment_details_update')
@@ -22,7 +22,7 @@ class PaymentDetailsUpdate(RolePermissionRequiredMixin, SuccessMessageMixin, Upd
         return PaymentDetails.objects.first()
 
 
-class PurposeCreate(RolePermissionRequiredMixin, SuccessMessageMixin, CreateView):
+class PurposeCreate(AdminPermissionRequiredMixin, SuccessMessageMixin, CreateView):
     permission_required = 'payment_details'
     model = Purpose
     success_url = reverse_lazy('purpose_list')
@@ -31,13 +31,13 @@ class PurposeCreate(RolePermissionRequiredMixin, SuccessMessageMixin, CreateView
     template_name = 'admin_purpose/purpose_create.html'
 
 
-class PurposeList(RolePermissionRequiredMixin, ListView):
+class PurposeList(AdminPermissionRequiredMixin, ListView):
     permission_required = 'payment_details'
     model = Purpose
     template_name = 'admin_purpose/purpose_list.html'
 
 
-class PurposeUpdate(RolePermissionRequiredMixin, SuccessMessageMixin, UpdateView):
+class PurposeUpdate(AdminPermissionRequiredMixin, SuccessMessageMixin, UpdateView):
     permission_required = 'payment_details'
     model = Purpose
     form_class = PurposeForm

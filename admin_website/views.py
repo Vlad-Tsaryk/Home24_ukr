@@ -7,11 +7,11 @@ from admin_website.forms import MainPageForm, SeoForm, BlockFormSet, ContactPage
     ServiceBlockFormSet, TariffPageForm, TariffBlockFormSet, AboutPageForm, DocumentFormSet, GalleryForm, \
     AdditionalGalleryForm
 from admin_website.models import MainPage, ContactPage, ServicePage, TariffPage, AboutPage, Gallery, AdditionalGallery
-from users.mixins import RolePermissionRequiredMixin
+from users.mixins import AdminPermissionRequiredMixin
 
 
 # Create your views here.
-class MainPageUpdate(RolePermissionRequiredMixin, TemplateView):
+class MainPageUpdate(AdminPermissionRequiredMixin, TemplateView):
     permission_required = 'website'
     template_name = 'admin_website/main_page.html'
     success_url = reverse_lazy('website_main_page')
@@ -45,7 +45,7 @@ class MainPageUpdate(RolePermissionRequiredMixin, TemplateView):
             return super().render_to_response(context)
 
 
-class ContactPageUpdate(RolePermissionRequiredMixin, TemplateView):
+class ContactPageUpdate(AdminPermissionRequiredMixin, TemplateView):
     permission_required = 'website'
     template_name = 'admin_website/contact_page.html'
     success_url = reverse_lazy('website_contact_page')
@@ -74,7 +74,7 @@ class ContactPageUpdate(RolePermissionRequiredMixin, TemplateView):
             return super().render_to_response(context)
 
 
-class ServicePageUpdate(RolePermissionRequiredMixin, TemplateView):
+class ServicePageUpdate(AdminPermissionRequiredMixin, TemplateView):
     permission_required = 'website'
     template_name = 'admin_website/services_page.html'
     success_url = reverse_lazy('website_services_page')
@@ -113,7 +113,7 @@ class ServicePageUpdate(RolePermissionRequiredMixin, TemplateView):
             return super().render_to_response(context)
 
 
-class TariffPageUpdate(RolePermissionRequiredMixin, TemplateView):
+class TariffPageUpdate(AdminPermissionRequiredMixin, TemplateView):
     permission_required = 'website'
     template_name = 'admin_website/tariffs_page.html'
     success_url = reverse_lazy('website_tariffs_page')
@@ -152,7 +152,7 @@ class TariffPageUpdate(RolePermissionRequiredMixin, TemplateView):
             return super().render_to_response(context)
 
 
-class AboutPageUpdate(RolePermissionRequiredMixin, TemplateView):
+class AboutPageUpdate(AdminPermissionRequiredMixin, TemplateView):
     permission_required = 'website'
     template_name = 'admin_website/about_page.html'
     success_url = reverse_lazy('website_about_page')
@@ -223,7 +223,7 @@ class AboutPageUpdate(RolePermissionRequiredMixin, TemplateView):
             return super().render_to_response(context)
 
 
-class GalleryDelete(RolePermissionRequiredMixin, DeleteView):
+class GalleryDelete(AdminPermissionRequiredMixin, DeleteView):
     permission_required = 'website'
     model = Gallery
     success_url = reverse_lazy('website_about_page')

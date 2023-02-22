@@ -4,13 +4,13 @@ from django.shortcuts import render, redirect
 from django.views.generic import CreateView, ListView, UpdateView, DetailView
 from django.contrib import messages
 
-from users.mixins import RolePermissionRequiredMixin
+from users.mixins import AdminPermissionRequiredMixin
 from .forms import HouseForm, SectionFormSet, FloorFormSet, HouseUserFormSet
 from .models import House, Section, Floor, HouseUser
 
 
 # Create your views here.
-class HouseList(RolePermissionRequiredMixin, ListView):
+class HouseList(AdminPermissionRequiredMixin, ListView):
     permission_required = 'applications'
     model = House
     template_name = 'admin_house/house_list.html'
@@ -46,7 +46,7 @@ class HouseList(RolePermissionRequiredMixin, ListView):
             return super(ListView, self).render_to_response(context, **response_kwargs)
 
 
-class HouseView(RolePermissionRequiredMixin, DetailView):
+class HouseView(AdminPermissionRequiredMixin, DetailView):
     permission_required = 'houses'
     model = House
     template_name = 'admin_house/house_view.html'
@@ -59,7 +59,7 @@ def house_delete(request, pk):
     return redirect('house_list')
 
 
-class HouseCreate(RolePermissionRequiredMixin, CreateView):
+class HouseCreate(AdminPermissionRequiredMixin, CreateView):
     permission_required = 'houses'
     model = House
     template_name = 'admin_house/house_create.html'
@@ -113,7 +113,7 @@ class HouseCreate(RolePermissionRequiredMixin, CreateView):
         return redirect(self.success_url)
 
 
-class HouseUpdate(RolePermissionRequiredMixin, UpdateView):
+class HouseUpdate(AdminPermissionRequiredMixin, UpdateView):
     permission_required = 'houses'
     model = House
     form_class = HouseForm

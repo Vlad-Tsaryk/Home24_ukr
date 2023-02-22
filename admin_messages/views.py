@@ -9,12 +9,12 @@ from admin_house.models import Section, Floor
 from admin_messages.forms import MessageForm
 from admin_personal_account.models import PersonalAccount
 from users.models import User
-from users.mixins import RolePermissionRequiredMixin
+from users.mixins import AdminPermissionRequiredMixin
 from admin_messages.models import Message
 
 
 # Create your views here.
-class MessageCreate(RolePermissionRequiredMixin, CreateView):
+class MessageCreate(AdminPermissionRequiredMixin, CreateView):
     permission_required = 'messages'
     model = Message
     form_class = MessageForm
@@ -94,23 +94,24 @@ class MessageCreateOwner(MessageCreate):
         return HttpResponseRedirect(self.success_url)
 
 
-class MessageList(RolePermissionRequiredMixin, ListView):
+class MessageList(AdminPermissionRequiredMixin, ListView):
     permission_required = 'messages'
     model = Message
     template_name = 'admin_messages/admin_messages_list.html'
     ordering = '-created'
 
     def get_queryset(self):
-        return Message.objects.select_related('house', 'section', 'floor', 'apartment').prefetch_related('receivers')
+        return Message.objects.select_related('house', 'section', 'floor',
+                                              'apartment').prefetch_related('receivers').order_by(self.ordering)
 
 
-class MessageView(RolePermissionRequiredMixin, DetailView):
+class MessageView(AdminPermissionRequiredMixin, DetailView):
     permission_required = 'messages'
     model = Message
     template_name = 'admin_messages/admin_messages_view.html'
 
 
-class MessageDelete(RolePermissionRequiredMixin, DeleteView):
+class MessageDelete(AdminPermissionRequiredMixin, DeleteView):
     permission_required = 'messages'
     model = Message
     success_message = 'Сообщение удалено успешно'
@@ -124,7 +125,7 @@ class MessageDelete(RolePermissionRequiredMixin, DeleteView):
         return self.delete(request, *args, **kwargs)
 
 
-class MessageDeleteMany(RolePermissionRequiredMixin, View):
+class MessageDeleteMany(AdminPermissionRequiredMixin, View):
     permission_required = 'messages'
 
     def delete(self, request, *args, **kwargs):

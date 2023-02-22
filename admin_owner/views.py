@@ -8,7 +8,7 @@ from django.views.generic import CreateView, UpdateView, ListView, DetailView, D
 
 from admin_personal_account.models import PersonalAccount
 from settings import EMAIL_HOST
-from users.mixins import RolePermissionRequiredMixin
+from users.mixins import AdminPermissionRequiredMixin
 from users.models import User, Role
 from .forms import OwnerChangeForm, OwnerCreateForm, OwnerInviteForm
 from django.db.models.functions import Concat
@@ -18,7 +18,7 @@ from django.contrib import messages
 
 # Create your views here.
 
-class OwnerCreate(RolePermissionRequiredMixin, CreateView, SuccessMessageMixin):
+class OwnerCreate(AdminPermissionRequiredMixin, CreateView, SuccessMessageMixin):
     permission_required = 'owners'
     model = User
     template_name = 'admin_owner/owner_create.html'
@@ -27,7 +27,7 @@ class OwnerCreate(RolePermissionRequiredMixin, CreateView, SuccessMessageMixin):
     success_url = reverse_lazy('owner_list')
 
 
-class OwnerUpdate(RolePermissionRequiredMixin, UpdateView, SuccessMessageMixin):
+class OwnerUpdate(AdminPermissionRequiredMixin, UpdateView, SuccessMessageMixin):
     permission_required = 'owners'
     model = User
     template_name = 'admin_owner/owner_update.html'
@@ -37,14 +37,14 @@ class OwnerUpdate(RolePermissionRequiredMixin, UpdateView, SuccessMessageMixin):
     success_url = reverse_lazy('owner_list')
 
 
-class OwnerView(RolePermissionRequiredMixin, DetailView):
+class OwnerView(AdminPermissionRequiredMixin, DetailView):
     permission_required = 'owners'
     model = User
     template_name = 'admin_owner/owner_view.html'
     context_object_name = 'owner'
 
 
-class OwnerDelete(RolePermissionRequiredMixin, DeleteView):
+class OwnerDelete(AdminPermissionRequiredMixin, DeleteView):
     permission_required = 'owners'
     model = User
     success_url = reverse_lazy('owner_list')
@@ -64,7 +64,7 @@ class OwnerDelete(RolePermissionRequiredMixin, DeleteView):
         return self.delete(request, *args, **kwargs)
 
 
-class OwnerList(RolePermissionRequiredMixin, ListView):
+class OwnerList(AdminPermissionRequiredMixin, ListView):
     permission_required = 'owners'
     model = User
     template_name = 'admin_owner/owner_list.html'
@@ -111,7 +111,7 @@ class OwnerList(RolePermissionRequiredMixin, ListView):
             return super(ListView, self).render_to_response(context, **response_kwargs)
 
 
-class OwnerInvite(RolePermissionRequiredMixin, FormView):
+class OwnerInvite(AdminPermissionRequiredMixin, FormView):
     permission_required = 'owners'
     template_name = 'admin_owner/owner_invite.html'
     form_class = OwnerInviteForm

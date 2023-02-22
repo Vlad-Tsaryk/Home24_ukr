@@ -18,12 +18,12 @@ from admin_purpose.models import PaymentDetails
 from admin_receipt.models import Receipt
 from excel_templates.models import ExcelTemplate
 from settings import EMAIL_HOST
-from users.mixins import RolePermissionRequiredMixin
+from users.mixins import AdminPermissionRequiredMixin
 from .forms import ExcelTemplateCreateForm
 
 
 # Create your views here.
-class ExcelTemplateCreate(RolePermissionRequiredMixin, SuccessMessageMixin, CreateView):
+class ExcelTemplateCreate(AdminPermissionRequiredMixin, SuccessMessageMixin, CreateView):
     permission_required = 'receipts'
     model = ExcelTemplate
     form_class = ExcelTemplateCreateForm
@@ -37,7 +37,7 @@ class ExcelTemplateCreate(RolePermissionRequiredMixin, SuccessMessageMixin, Crea
         return context
 
 
-class ExcelTemplateDelete(RolePermissionRequiredMixin, DeleteView):
+class ExcelTemplateDelete(AdminPermissionRequiredMixin, DeleteView):
     permission_required = 'receipts'
     model = ExcelTemplate
 
@@ -56,7 +56,7 @@ class ExcelTemplateDelete(RolePermissionRequiredMixin, DeleteView):
         return self.delete(request, *args, **kwargs)
 
 
-class ExcelTemplateSetDefault(RolePermissionRequiredMixin, SingleObjectMixin, View):
+class ExcelTemplateSetDefault(AdminPermissionRequiredMixin, SingleObjectMixin, View):
     permission_required = 'receipts'
     model = ExcelTemplate
 
@@ -74,7 +74,7 @@ class ExcelTemplateSetDefault(RolePermissionRequiredMixin, SingleObjectMixin, Vi
         return redirect('excel-template-create')
 
 
-class ExcelTemplatePrint(RolePermissionRequiredMixin, SingleObjectMixin, TemplateView):
+class ExcelTemplatePrint(AdminPermissionRequiredMixin, SingleObjectMixin, TemplateView):
     permission_required = 'receipts'
     model = Receipt
     template_name = 'excel_templates/excel_template_print.html'
