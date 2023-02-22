@@ -25,7 +25,6 @@ class OwnerBackend(ModelBackend):
         if kwargs.get('user_type') == 'owner':
             try:
                 owner = User.objects.get(Q(username=username) | Q(uid=username), role__role=Role.RoleName.OWNER)
-                print(owner)
                 if owner.status == owner.StatusName.DISABLED.value:
                     messages.error(request, "Пользователь не активен")
                     return None
