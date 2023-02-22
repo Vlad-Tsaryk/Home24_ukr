@@ -6,6 +6,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, UpdateView, ListView, DetailView, DeleteView, FormView
 
+from admin_house.models import House
 from admin_personal_account.models import PersonalAccount
 from settings import EMAIL_HOST
 from users.mixins import AdminPermissionRequiredMixin
@@ -69,30 +70,51 @@ class OwnerList(AdminPermissionRequiredMixin, ListView):
     model = User
     template_name = 'admin_owner/owner_list.html'
 
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super(OwnerList, self).get_context_data()
+        context['house_list'] = House.objects.all()
+        context['status_list'] = User.StatusName.values
+        return context
+
     def render_to_response(self, context, **response_kwargs):
         if self.request.is_ajax():
             print(self.request.GET)
             owner_role = Role.objects.get(role=Role.RoleName.OWNER)
-            filtered_qs = self.get_queryset().filter(role=owner_role).annotate(name=Concat('first_name',
-                                                                                           Value(' '), 'middle_name',
-                                                                                           Value(' '), 'last_name'))
+            filtered_qs = self.get_queryset() \
+                .filter(role=owner_role) \
+                .annotate(name=Concat('first_name', Value(' '), 'middle_name', Value(' '), 'last_name'))
+
             filter_fields = {
+                'uid__contains': self.request.GET.get('uid'),
                 'name__contains': self.request.GET.get('name'),
-                'role__role': self.request.GET.get('role'),
+                'owner__apartment__number__contains': self.request.GET.get('apartment'),
+                'owner__apartment__house': self.request.GET.get('house'),
                 'phone__contains': self.request.GET.get('phone'),
-                'username__contains': self.request.GET.get('username'),
+                'username__contains': self.request.GET.get('email'),
                 'status': self.request.GET.get('status'),
+                'date_joined__year': self.request.GET.get('date_year'),
+                'date_joined__month': self.request.GET.get('date_month'),
+                'date_joined__day': self.request.GET.get('date_day'),
             }
             filter_fields = {k: v for k, v in filter_fields.items() if v}
-            filtered_qs = filtered_qs.filter(**filter_fields)
+            filtered_qs = filtered_qs.filter(**filter_fields).order_by('-pk').distinct('pk')
             if self.request.GET.get('order_by'):
                 filtered_qs = filtered_qs.order_by(self.request.GET.get('order_by'))
             result_list = list(filtered_qs.values('id', 'name', 'phone',
                                                   'username', 'status', 'date_joined', 'uid'))
+            print(filtered_qs)
+            owner_without_debt = []
             for owner in result_list:
                 owner['apartment'] = list(filtered_qs.get(
                     pk=owner['id']).apartment_set.all().values('id', 'number', 'house__name', 'house_id'))
                 owner['has_debt'] = PersonalAccount.owner_has_debt(owner['id'])
+                if self.request.GET.get('owner_has_debt'):
+                    if owner['has_debt']:
+                        owner_without_debt.append(owner)
+
+            if self.request.GET.get('owner_has_debt'):
+                result_list = owner_without_debt
+
             start = int(self.request.GET.get('start', 0))
             length = int(self.request.GET.get('length', 10))
             paginator = Paginator(result_list, self.request.GET.get('length', 10))
