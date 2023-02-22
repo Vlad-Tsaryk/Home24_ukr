@@ -9,10 +9,11 @@ from django.views.generic.detail import SingleObjectMixin
 from admin_receipt.models import Receipt
 from excel_templates.models import ExcelTemplate
 from excel_templates.views import ReceiptToExcel
+from users.mixins import OwnerPermissionRequiredMixin
 
 
 # Create your views here.
-class ReceiptList(ListView):
+class ReceiptList(OwnerPermissionRequiredMixin, ListView):
     model = Receipt
     template_name = 'cabinet_receipts/receipt_list.html'
 
@@ -58,12 +59,12 @@ class ReceiptList(ListView):
             return super(ListView, self).render_to_response(context, **response_kwargs)
 
 
-class ReceiptView(DetailView):
+class ReceiptView(OwnerPermissionRequiredMixin, DetailView):
     model = Receipt
     template_name = 'cabinet_receipts/receipt_view.html'
 
 
-class ReceiptToPDF(SingleObjectMixin, View):
+class ReceiptToPDF(OwnerPermissionRequiredMixin, SingleObjectMixin, View):
     model = Receipt
 
     def get(self, request, *args, **kwargs):

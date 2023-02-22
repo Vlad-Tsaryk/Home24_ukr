@@ -7,10 +7,11 @@ from django.views.generic import ListView, CreateView, DeleteView
 
 from admin_application.models import Application
 from cabinet_application.forms import CabinetApplicationForm
+from users.mixins import OwnerPermissionRequiredMixin
 
 
 # Create your views here.
-class CabinetApplicationList(ListView):
+class CabinetApplicationList(OwnerPermissionRequiredMixin, ListView):
     model = Application
     template_name = 'cabinet_application/application_list.html'
 
@@ -38,7 +39,7 @@ class CabinetApplicationList(ListView):
             return super(ListView, self).render_to_response(context, **response_kwargs)
 
 
-class CabinetApplicationCreate(CreateView):
+class CabinetApplicationCreate(OwnerPermissionRequiredMixin, CreateView):
     model = Application
     form_class = CabinetApplicationForm
     template_name = 'cabinet_application/application_create.html'
@@ -57,7 +58,7 @@ class CabinetApplicationCreate(CreateView):
         return HttpResponseRedirect(self.get_success_url())
 
 
-class CabinetApplicationDelete(DeleteView):
+class CabinetApplicationDelete(OwnerPermissionRequiredMixin, DeleteView):
     model = Application
     success_url = reverse_lazy('cabinet_application_list')
 
