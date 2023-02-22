@@ -1,5 +1,16 @@
 {% extends 'layout/cabinet.html' %}
 {% load static %}
+{% block title %}Новая заявка{% endblock %}
+{% block breadcrumb %}
+    <ul class="breadcrumb">
+        <li><a href="{% url 'cabinet' %}"><i class="fa fa-home"></i>Главная</a></li>
+        <li><a href="{% url 'cabinet_application_list' %}">Вызов мастера</a></li>
+        <li class="active">Новая заявка</li>
+    </ul>
+{% endblock %}
+{% block header_text %}
+    Новая заявка
+{% endblock %}
 {% block head %}
 <link rel="stylesheet"
       href="{% static 'admin_panel/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css' %}"/>
@@ -58,6 +69,9 @@
     {{form.errors}}
 {% endblock %}
 {% block scripts %}
+    <script>
+        $('#nav_applications').attr('class', 'active')
+    </script>
     <script src="{% static 'admin_panel/bower_components/moment/moment.js' %}"></script>
     <script src="{% static 'admin_panel/bower_components/moment/locale/ru.js' %}"></script>
     <script src="{% static 'admin_panel/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js' %}"></script>

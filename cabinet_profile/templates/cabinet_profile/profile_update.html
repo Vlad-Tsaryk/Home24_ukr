@@ -1,14 +1,15 @@
 {% extends 'layout/cabinet.html' %}
 {% load static %}
-{% block title %}Новый владелец {% endblock %}
-{% block header_text %}
-    Новый владелец
-{% endblock %}
+{% block title %}Профиль{% endblock %}
 {% block breadcrumb %}
-    <ul class="breadcrumb"><li><a href="{% url 'statistic' %}"><i class="fa fa-home"></i> Главная</a></li>
-        <li><a href="{% url 'owner_list' %}">Владельцы квартир</a></li>
-    <li class="active">Новый владелец</li>
-</ul>
+    <ul class="breadcrumb">
+        <li><a href="{% url 'cabinet' %}"><i class="fa fa-home"></i>Главная</a></li>
+        <li><a href="{% url 'cabinet_profile' %}">Профиль</a></li>
+        <li class="active">Редактирование</li>
+    </ul>
+{% endblock %}
+{% block header_text %}
+    Профиль
 {% endblock %}
 {% block head %}
 <link rel="stylesheet"
@@ -177,7 +178,7 @@
 
 {% block scripts %}
     <script>
-        $('#nav_owners').attr('class', 'active')
+        $("#nav_profile").attr('class', 'active')
     </script>
     <script src="{% static 'admin_panel/bower_components/moment/moment.js' %}"></script>
     <script src="{% static 'admin_panel/bower_components/moment/locale/ru.js' %}"></script>

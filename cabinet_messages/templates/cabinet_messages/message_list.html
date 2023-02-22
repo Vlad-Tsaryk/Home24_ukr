@@ -3,10 +3,10 @@
 {% block head %}
     <link href="{% static 'admin_panel/plugins/iCheck/flat/blue.css' %}" rel="stylesheet">
 {% endblock %}
-{% block title %}Сообщения {% endblock %}
+{% block title %}Сообщения{% endblock %}
 {% block breadcrumb %}
     <ul class="breadcrumb">
-        <li><a href="{% url 'statistic' %}"><i class="fa fa-home"></i>Главная</a></li>
+        <li><a href="{% url 'cabinet' %}"><i class="fa fa-home"></i>Главная</a></li>
         <li class="active">Сообщения </li>
     </ul>
 {% endblock %}
@@ -55,7 +55,7 @@
                         <thead>
                         <tr>
                             <th>&nbsp;</th>
-                            <th style="min-width: 200px">Получатели</th>
+                            <th style="min-width: 200px">От кого</th>
                             <th>Текст</th>
                             <th style="width: 135px; min-width: 135px">Дата</th>
                         </tr>
@@ -102,7 +102,7 @@
 {% endblock %}
 {% block scripts %}
     <script>
-        $('#nav_message').attr('class', 'active')
+        $('#nav_messages').attr('class', 'active')
     </script>
     <script src="{% static 'admin_panel/plugins/iCheck/icheck.min.js' %}"></script>
     <script>

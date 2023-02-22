@@ -2,7 +2,7 @@
 {% block title %}Сообщение{% endblock %}
 {% block breadcrumb %}
     <ul class="breadcrumb">
-        <li><a href="{% url 'statistic' %}"><i class="fa fa-home"></i>Главная</a></li>
+        <li><a href="{% url 'cabinet' %}"><i class="fa fa-home"></i>Главная</a></li>
         <li class="active">Сообщение</li>
     </ul>
 {% endblock %}
@@ -30,7 +30,7 @@
 {% endblock %}
 {% block scripts %}
     <script>
-    $('#nav_message').attr('class', 'active')
+        $('#nav_messages').attr('class', 'active')
     </script>
     <script>
     function confirm_delete(link) {

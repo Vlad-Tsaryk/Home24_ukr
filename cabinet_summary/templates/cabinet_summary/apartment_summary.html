@@ -1,4 +1,15 @@
 {% extends 'layout/cabinet.html' %}
+{% load static %}
+{% block title %}Сводка - {{ apartment.info }}{% endblock %}
+{% block breadcrumb %}
+    <ul class="breadcrumb">
+        <li><a href="{% url 'cabinet' %}"><i class="fa fa-home"></i>Главная</a></li>
+        <li class="active">Сводка - {{ apartment.info }}</li>
+    </ul>
+{% endblock %}
+{% block header_text %}
+    Сводка - {{ apartment.info }}
+{% endblock %}
 {% block content %}
 
     <div class="row">

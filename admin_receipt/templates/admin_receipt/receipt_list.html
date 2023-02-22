@@ -169,6 +169,7 @@
     <script type="text/javascript"
             src="{% static 'admin_panel/bower_components/daterangepicker/daterangepicker.js' %}"></script>
     <script src="{% static 'admin_panel/plugins/bootstrap-datepicker-1.9.0-dist/js/bootstrap-datepicker.min.js' %}"></script>
+    <script src="{% static 'admin_panel/plugins/bootstrap-datepicker-1.9.0-dist/locales/bootstrap-datepicker.ru.min.js' %}"></script>
     <script>
         let numb = 0
         let sort_data = {}
@@ -199,23 +200,6 @@
             })
         }
 
-        function clear_filters() {
-            $('.column_search').val('');
-            $('.date_range').val('');
-            $('#select_all_receipts').prop('checked',false);
-            $('#date_month_input').val('');
-            table_head.unbind();
-            $('.filter').val('').change()
-            $('.ordering').attr('class', 'ordering');
-            set_filters_listener()
-            let keys = Object.keys(sort_data)
-            keys.forEach(function (item) {
-                sort_data[item] = ''
-            })
-            numb = 0
-            table.draw()
-
-        }
 
 
         function send_POST(e) {

@@ -1,5 +1,15 @@
 {% extends 'layout/cabinet.html' %}
 {% load static %}
+{% block title %}Вызов мастера{% endblock %}
+{% block breadcrumb %}
+    <ul class="breadcrumb">
+        <li><a href="{% url 'cabinet' %}"><i class="fa fa-home"></i>Главная</a></li>
+        <li class="active">Вызов мастера</li>
+    </ul>
+{% endblock %}
+{% block header_text %}
+    Вызов мастера
+{% endblock %}
 {% block content %}
     <div class="row">
         <div class="col-xs-12">
@@ -40,9 +50,9 @@
 
 {% endblock %}
 {% block scripts %}
-{#    <script>#}
-{#        $('#nav_application').attr('class', 'active')#}
-{#    </script>#}
+    <script>
+        $('#nav_applications').attr('class', 'active')
+    </script>
     <script src="{% static 'admin_panel/bower_components/datatables.net/js/jquery.dataTables.min.js' %}"></script>
     <script src="{% static 'admin_panel/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js' %}"></script>
 

@@ -4,6 +4,16 @@
     <link rel="stylesheet"
           href="{% static 'admin_panel/plugins/bootstrap-datepicker-1.9.0-dist/css/bootstrap-datepicker3.min.css' %}"/>
 {% endblock %}
+{% block title %}Квитанции на оплату{% endblock %}
+{% block breadcrumb %}
+    <ul class="breadcrumb">
+        <li><a href="{% url 'cabinet' %}"><i class="fa fa-home"></i>Главная</a></li>
+        <li class="active">Квитанции на оплату </li>
+    </ul>
+{% endblock %}
+{% block header_text %}
+    Квитанции на оплату
+{% endblock %}
 {% block content %}
     <div class="row">
         <div class="col-xs-12">
@@ -56,7 +66,8 @@
 {% endblock %}
 {% block scripts %}
     <script>
-        {#$('#nav_receipt').attr('class', 'active')#}
+        $("#nav_receipts").attr('class', 'active treeview menu-open')
+        $("#nav_receipt-{{ view.kwargs.apartment_id|default:'all' }}").attr('class', 'active')
     </script>
 
     <script src="{% static 'admin_panel/bower_components/select2/dist/js/select2.full.min.js' %}"></script>

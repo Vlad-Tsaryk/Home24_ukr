@@ -47,7 +47,7 @@
     <header class="main-header">
 
         <!-- Logo -->
-        <a href="/admin/" class="logo">
+        <a href="{% block logo_url %}{% url 'statistic' %}{% endblock %}" class="logo">
         <span class="logo-mini">
             <img src="{% static 'admin_panel/logo-mini.svg' %}" class="img-responsive" alt="">
         </span>
@@ -124,10 +124,12 @@
                             <li class="user-footer">
                                 <div class="pull-left">
                                     <a class="btn btn-default btn-flat"
-                                       href="{% url 'update_user' user.pk %}">Профиль</a></div>
+                                       href="{% block profile_url %}{% url 'update_user' user.pk %}{% endblock %}">
+                                        Профиль</a></div>
                                 <div class="pull-right">
-                                    <a class="btn btn-default btn-flat" href="{% url 'admin-panel-logout' %}"
-                                       data-method="post">Выход</a>
+                                    <a class="btn btn-default btn-flat"
+                                       href="{% block logout_url %}{% url 'admin-panel-logout' %}{% endblock %}">
+                                        Выход</a>
                                 </div>
                             </li>
                         </ul>
@@ -298,7 +300,8 @@
 <script src="{% static 'admin_panel/plugins/iCheck/icheck.min.js' %}"></script>
 <script src="{% static 'admin_panel/bower_components/jquery-sparkline/dist/jquery.sparkline.min.js' %}"></script>
 <script src="{% static 'admin_panel/bower_components/jquery-slimscroll/jquery.slimscroll.min.js' %}"></script>
-<script src="{% static 'admin_panel/bower_components/chart.js/Chart.js' %}"></script>
+{#<script src="{% static 'admin_panel/plugins/chart.js/dist/chart.umd.js' %}"></script>#}
+<script src="{% static 'admin_panel/plugins/chart.js/dist/chart.umd.js' %}"></script>
 <script src="{% static 'admin_panel/dist/js/main.js' %}"></script>
 <script src="{% static 'admin_panel/plugins/toastr/toastr.min.js' %}"></script>
 <script src="{% static 'admin_panel/plugins/alertifyjs/alertify.min.js' %}"></script>
