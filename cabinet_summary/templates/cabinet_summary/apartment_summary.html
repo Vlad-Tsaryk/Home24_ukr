@@ -16,7 +16,7 @@
         <div class="col-xs-12 col-md-6 col-lg-4">
             <div class="small-box bg-green">
                 <div class="inner">
-                    <h3>{{apartment.personalaccount.balance|floatformat:'2'}} грн</h3>
+                    <h3>{{ apartment.personalaccount.balance|floatformat:'2' }} грн</h3>
                     <p>Баланс по квартире</p>
                 </div>
                 <div class="icon">
@@ -44,7 +44,7 @@
         <div class="col-xs-12 col-md-6 col-lg-4">
             <div class="small-box bg-yellow">
                 <div class="inner">
-                    <h3>5 572.00 грн</h3>
+                    <h3>{{ receipts_agv_debt|floatformat:'2' }} грн</h3>
                     <p>Средний расход за месяц</p>
                 </div>
                 <div class="icon">
@@ -64,8 +64,22 @@
                 </div>
                 <div class="box-body">
                     <div class="row">
-                        <div class="col-xs-12">
-                            <p>Недостаточно данных для отображения статистики</p>
+                        <div id="pieChartMonth-container" class="col-md-6 col-xs-12">
+                            <h4 class="text-center">за предыдущий месяц</h4>
+                            <div class="col-xs-12">
+                                <div class="chart">
+                                    <canvas id="pieChartMonth" style="width: 795px; height: 330px;"></canvas>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="pieChartYear-container" class="col-md-6 col-xs-12">
+                            <h4 class="text-center">за текущий год</h4>
+                            <div class="col-xs-12">
+                                <div class="chart">
+                                    <canvas id="pieChartYear" style="width: 795px; height: 330px;"></canvas>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -79,7 +93,10 @@
                 <div class="box-body">
                     <div class="row">
                         <div class="col-xs-12">
-                            <p>Недостаточно данных для отображения статистики</p>
+                            <div class="chart">
+                                <canvas id="barChart" style="width: 795px; height: 330px;"></canvas>
+                                <div id="barChart-legend" class="text-center"></div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -90,168 +107,106 @@
 
 {% endblock %}
 {% block scripts %}
-{#<script>#}
-{#jQuery(function ($) {#}
-{#    var mypieChartYear = null;#}
-{#    $(function () {#}
-{##}
-{#        //-------------#}
-{#        //- PIE CHART -#}
-{#        //-------------#}
-{##}
-{#        // Get context with jQuery - using jQuery's .get() method.#}
-{#        var pieChartMonthCanvas = $('#pieChartMonth').get(0).getContext('2d');#}
-{#        var pieChartMonth       = new Chart(pieChartMonthCanvas);#}
-{#        var PieDataMonth        = [];#}
-{#        var pieOptionsMonth     = {#}
-{#            //Boolean - Whether we should show a stroke on each segment#}
-{#            segmentShowStroke    : true,#}
-{#            //String - The colour of each segment stroke#}
-{#            segmentStrokeColor   : '#fff',#}
-{#            //Number - The width of each segment stroke#}
-{#            segmentStrokeWidth   : 2,#}
-{#            //Number - The percentage of the chart that we cut out of the middle#}
-{#            percentageInnerCutout: 30, // This is 0 for Pie charts#}
-{#            //Number - Amount of animation steps#}
-{#            animationSteps       : 30,#}
-{#            //String - Animation easing effect#}
-{#            animationEasing      : 'linear',#}
-{#            //Boolean - Whether we animate the rotation of the Doughnut#}
-{#            animateRotate        : true,#}
-{#            //Boolean - Whether we animate scaling the Doughnut from the centre#}
-{#            animateScale         : false,#}
-{#            //Boolean - whether to make the chart responsive to window resizing#}
-{#            responsive           : true,#}
-{#            // Boolean - whether to maintain the starting aspect ratio or not when responsive, if set to false, will take up entire container#}
-{#            maintainAspectRatio  : true,#}
-{#            legend: 'top',#}
-{#            //String - A legend template#}
-{#            legendTemplate       : '<ul class="<%=name.toLowerCase()%>-legend"><% for (var i=0; i<segments.length; i++){%><li><span style="background-color:<%=segments[i].fillColor%>"></span><%if(segments[i].label){%><%=segments[i].label%>: <%=segments[i].value%><%}%></li><%}%></ul>'#}
-{#        };#}
-{#        //Create pie or douhnut chart#}
-{#        // You can switch between pie and douhnut using the method below.#}
-{#        var mypieChartMonth = pieChartMonth.Doughnut(PieDataMonth, pieOptionsMonth);#}
-{#        document.getElementById('pieChartMonth-legend').innerHTML = mypieChartMonth.generateLegend();#}
-{##}
-{##}
-{#        // Get context with jQuery - using jQuery's .get() method.#}
-{#        var pieChartYearCanvas = $('#pieChartYear').get(0).getContext('2d');#}
-{#        var pieChartYear       = new Chart(pieChartYearCanvas);#}
-{#        var PieDataYear        = [];#}
-{#        var pieOptionsYear     = {#}
-{#            //Boolean - Whether we should show a stroke on each segment#}
-{#            segmentShowStroke    : true,#}
-{#            //String - The colour of each segment stroke#}
-{#            segmentStrokeColor   : '#fff',#}
-{#            //Number - The width of each segment stroke#}
-{#            segmentStrokeWidth   : 2,#}
-{#            //Number - The percentage of the chart that we cut out of the middle#}
-{#            percentageInnerCutout: 30, // This is 0 for Pie charts#}
-{#            //Number - Amount of animation steps#}
-{#            animationSteps       : 30,#}
-{#            //String - Animation easing effect#}
-{#            animationEasing      : 'linear',#}
-{#            //Boolean - Whether we animate the rotation of the Doughnut#}
-{#            animateRotate        : true,#}
-{#            //Boolean - Whether we animate scaling the Doughnut from the centre#}
-{#            animateScale         : false,#}
-{#            //Boolean - whether to make the chart responsive to window resizing#}
-{#            responsive           : true,#}
-{#            // Boolean - whether to maintain the starting aspect ratio or not when responsive, if set to false, will take up entire container#}
-{#            maintainAspectRatio  : true,#}
-{#            legend: 'top',#}
-{#            //String - A legend template#}
-{#            legendTemplate       : '<ul class="<%=name.toLowerCase()%>-legend"><% for (var i=0; i<segments.length; i++){%><li><span style="background-color:<%=segments[i].fillColor%>"></span><%if(segments[i].label){%><%=segments[i].label%>: <%=segments[i].value%><%}%></li><%}%></ul>'#}
-{#        };#}
-{#        //Create pie or douhnut chart#}
-{#        // You can switch between pie and douhnut using the method below.#}
-{#        mypieChartYear = pieChartYear.Doughnut(PieDataYear, pieOptionsYear);#}
-{#        document.getElementById('pieChartYear-legend').innerHTML = mypieChartYear.generateLegend();#}
-{##}
-{#        // $('#pieChartYear-container').hide();#}
-{##}
-{#        //-----------------#}
-{#        //- END PIE CHART -#}
-{#        //-----------------#}
-{##}
-{#        //-------------#}
-{#        //- BAR CHART -#}
-{#        //-------------#}
-{##}
-{#        var areaChartData = {#}
-{#            labels  : ["\u044f\u043d\u0432., 2023","\u0444\u0435\u0432\u0440., 2023","\u043c\u0430\u0440\u0442, 2023","\u0430\u043f\u0440., 2023","\u043c\u0430\u0439, 2023","\u0438\u044e\u043d\u044c, 2023","\u0438\u044e\u043b\u044c, 2023","\u0430\u0432\u0433., 2023","\u0441\u0435\u043d\u0442., 2023","\u043e\u043a\u0442., 2023","\u043d\u043e\u044f\u0431., 2023","\u0434\u0435\u043a., 2023"],#}
-{#            datasets: [#}
-{#                {#}
-{#                    label               : 'Расход за месяц',#}
-{#//                    fillColor           : 'rgba(243, 156, 17, 1)',#}
-{#//                    strokeColor         : 'rgba(243, 156, 17, 1)',#}
-{#                    fillColor           : 'rgba(0, 115, 183, 1)',#}
-{#                    strokeColor         : 'rgba(0, 115, 183, 1)',#}
-{#                    //pointColor          : '#3b8bba',#}
-{#                    //pointStrokeColor    : 'rgba(60,141,188,1)',#}
-{#                    //pointHighlightFill  : '#fff',#}
-{#                    //pointHighlightStroke: 'rgba(60,141,188,1)',#}
-{#                    data                : [1978,15129,2706,0,0,0,0,0,0,0,0,0]#}
-{#                },#}
-{#            ]#}
-{#        };#}
-{##}
-{#        var barChartCanvas                   = $('#barChart').get(0).getContext('2d');#}
-{#        var barChart                         = new Chart(barChartCanvas);#}
-{#        var barChartData                     = areaChartData;#}
-{#//        barChartData.datasets[1].fillColor   = '#00a65a';#}
-{#//        barChartData.datasets[1].strokeColor = '#00a65a';#}
-{#//        barChartData.datasets[1].pointColor  = '#00a65a';#}
-{#        var barChartOptions                  = {#}
-{#            //Boolean - Whether the scale should start at zero, or an order of magnitude down from the lowest value#}
-{#            scaleBeginAtZero        : true,#}
-{#            //Boolean - Whether grid lines are shown across the chart#}
-{#            scaleShowGridLines      : true,#}
-{#            //String - Colour of the grid lines#}
-{#            scaleGridLineColor      : 'rgba(0,0,0,.05)',#}
-{#            //Number - Width of the grid lines#}
-{#            scaleGridLineWidth      : 1,#}
-{#            //Boolean - Whether to show horizontal lines (except X axis)#}
-{#            scaleShowHorizontalLines: true,#}
-{#            //Boolean - Whether to show vertical lines (except Y axis)#}
-{#            scaleShowVerticalLines  : true,#}
-{#            //Boolean - If there is a stroke on each bar#}
-{#            barShowStroke           : true,#}
-{#            //Number - Pixel width of the bar stroke#}
-{#            barStrokeWidth          : 2,#}
-{#            //Number - Spacing between each of the X value sets#}
-{#            barValueSpacing         : 5,#}
-{#            //Number - Spacing between data sets within X values#}
-{#            barDatasetSpacing       : 1,#}
-{#            //String - A legend template#}
-{#            legendTemplate          : '<ul class="<%=name.toLowerCase()%>-legend"><% for (var i=0; i<datasets.length; i++){%><li><span style="background-color:<%=datasets[i].fillColor%>"></span><%if(datasets[i].label){%><%=datasets[i].label%><%}%></li><%}%></ul>',#}
-{#            //Boolean - whether to make the chart responsive#}
-{#            responsive              : true,#}
-{#            maintainAspectRatio     : true#}
-{#        };#}
-{##}
-{#        barChartOptions.datasetFill = false;#}
-{#        var myBarChart = barChart.Bar(barChartData, barChartOptions);#}
-{#//        document.getElementById('barChart-legend').innerHTML = myBarChart.generateLegend();#}
-{##}
-{#        //-----------------#}
-{#        //- END BAR CHART -#}
-{#        //-----------------#}
-{##}
-{#    });#}
-{##}
-{#    $('select[name="pie-period"]').on('change', function () {#}
-{#        var selectValue = $(this).val();#}
-{#        if (selectValue == 'month') {#}
-{#            $('#pieChartMonth-container').show();#}
-{#            $('#pieChartYear-container').hide();#}
-{#            // $('#pieChartTitle').html('Диаграмма расходов за предыдущий месяц');#}
-{#        } else if (selectValue == 'year') {#}
-{#            $('#pieChartMonth-container').hide();#}
-{#            $('#pieChartYear-container').show();#}
-{#            // $('#pieChartTitle').html('Диаграмма расходов за текущий год');#}
-{#        }#}
-{#    });#}
-{#});#}
-{#</script>#}
+    <script src="{% static 'admin_panel/bower_components/moment/moment.js' %}"></script>
+    <script src="{% static 'admin_panel/bower_components/moment/locale/ru.js' %}"></script>
+    <script>
+        $("#nav_summary").attr('class', 'active treeview menu-open')
+        $("#nav_summary-{{ apartment.pk }}").attr('class', 'active')
+    </script>
+    <script>
+        let date_labels = []
+        let year_services_outcome = []
+        let year_services_outcome_labels = []
+        let previous_month_services_outcome = []
+        let previous_month_services_outcome_labels = []
+        let receipts_debt_by_month = []
+        {% for i in receipts_debt_by_month %}
+            date_labels.push(moment('{{ i.month|date:'Y-m-d' }}').format('MMM, YYYY'))
+            receipts_debt_by_month.push('{{ i.sum|floatformat:'2' }}')
+        {% endfor %}
+        {% for i in previous_month_services_outcome %}
+            previous_month_services_outcome_labels.push('{{ i.receiptservice__service__name }}')
+            previous_month_services_outcome.push('{{ i.sum|floatformat:'2' }}')
+        {% endfor %}
+        {% for i in year_services_outcome %}
+            year_services_outcome_labels.push('{{ i.receiptservice__service__name }}')
+            year_services_outcome.push('{{ i.sum|floatformat:'2' }}')
+        {% endfor %}
+        $(document).ready(function () {
+            const plugin = {
+                id: 'emptyDoughnut',
+                afterDraw(chart, args, options) {
+                    const {datasets} = chart.data;
+                    const {color, width, radiusDecrease} = options;
+                    let hasData = false;
+
+                    for (let i = 0; i < datasets.length; i += 1) {
+                        const dataset = datasets[i];
+                        hasData |= dataset.data.length > 0;
+                    }
+
+                    if (!hasData) {
+                        const {chartArea: {left, top, right, bottom}, ctx} = chart;
+                        const centerX = (left + right) / 2;
+                        const centerY = (top + bottom) / 2;
+                        const r = Math.min(right - left, bottom - top) / 2;
+
+                        ctx.beginPath();
+                        ctx.lineWidth = width || 2;
+                        ctx.strokeStyle = color || 'rgba(255, 128, 0, 0.5)';
+                        ctx.arc(centerX, centerY, (r - radiusDecrease || 0), 0, 2 * Math.PI);
+                        ctx.stroke();
+                    }
+                }
+            };
+            const previous_month_chart = document.getElementById('pieChartMonth').getContext('2d');
+            if (previous_month_services_outcome.length === 0) {
+                previous_month_services_outcome_labels = ['нет данных']
+            }
+
+            new Chart(previous_month_chart, {
+                type: 'pie',
+                data: {
+                    labels: previous_month_services_outcome_labels,
+                    datasets: [{
+                        label: 'за предыдущий месяц',
+                        data: previous_month_services_outcome
+                    }]
+                },
+            })
+            let outcome_diagram_chart = document.getElementById('barChart').getContext('2d');
+
+            new Chart(outcome_diagram_chart, {
+                type: 'bar',
+                data: {
+                    labels: date_labels,
+                    datasets: [{
+                        backgroundColor: 'rgb(54, 162, 235)',
+                        label: 'по месяцам за год',
+                        data: receipts_debt_by_month
+                    }]
+                }
+            })
+
+
+            let current_year_chart = document.getElementById('pieChartYear').getContext('2d');
+            if (year_services_outcome.length === 0) {
+                year_services_outcome_labels = ['нет данных']
+            }
+            new Chart(current_year_chart, {
+                type: 'pie',
+                data: {
+                    labels: year_services_outcome_labels,
+                    datasets: [{
+                        label: 'за текущий год',
+                        data: year_services_outcome
+                    }]
+                }
+            })
+
+
+        })
+
+
+    </script>
 {% endblock %}
