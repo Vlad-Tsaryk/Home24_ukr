@@ -396,9 +396,12 @@
 
 
         $(document).ready(function () {
-
-            send_POST();
             $('.column_search').val('');
+            {% if view.kwargs.apartment %}
+                sort_data['apartment'] = {{ view.kwargs.apartment }}
+                $('#apartment').val({{ view.kwargs.apartment }})
+            {% endif %}
+            send_POST();
             $('.select2').select2().val('');
             set_filters_listener()
 

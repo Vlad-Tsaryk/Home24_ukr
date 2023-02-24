@@ -224,13 +224,23 @@
                     render:function (data) {
                         return `<small class="label ${label_colors[data]}" id="status">${data}</small>`
                     }},
-                    {data: 'apartment__number'},
-                    {data: 'apartment__house__name'},
+                    {data: 'apartment__number',
+                        render: function (data) {
+                         return check_empty(data)
+                     }},
+                    {data: 'apartment__house__name',
+                        render: function (data) {
+                         return check_empty(data)
+                     }},
                     {data: 'apartment__section__name',
                         render: function (data) {
                          return check_empty(data)
                      }},
-                    {data: 'owner__name'},
+                    {data: 'owner__name',
+                        render: function (data) {
+                        if (data.replace(/\s/g, '')) {return data}
+                        else return '(не задано)'
+                     }},
                     {data: 'balance',
                         render: function (data) {
                             let text_color = 'default'

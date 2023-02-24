@@ -389,10 +389,15 @@
 
 
         $(document).ready(function () {
-
-            send_POST();
             $('.column_search').val('');
             $('.select2').select2().val('');
+            {% if view.kwargs.personal_account %}
+                sort_data['personal_account__number'] = '{{ view.kwargs.personal_account }}'
+                sort_data['purpose_type'] = 1
+                $('#personal_account__number').val('{{ view.kwargs.personal_account}}')
+                $('#purpose_type').val(1).change()
+            {% endif %}
+            send_POST();
             set_filters_listener()
             $(function () {
                 let input = $('#date_range')

@@ -198,6 +198,10 @@
                 let select_purpose =$('#id_purpose').select2({placeholder: "Выберите..."})
                 let select_personal_account =$('#id_personal_account').select2({placeholder: "Выберите..."})
                 set_event_listeners()
+                {% if view.kwargs.personal_account_id %}
+                    select_personal_account.val('{{ view.kwargs.personal_account_id }}').change()
+                {% endif %}
+
             }
 
         )

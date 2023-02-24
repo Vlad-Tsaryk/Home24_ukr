@@ -207,7 +207,11 @@
                      render:function (data) {
                          return check_empty(data)
                      }},
-                    {data: 'owner__name'},
+                    {data: 'owner__name',
+                        render: function (data) {
+                        if (data.replace(/\s/g, '')) {return data}
+                        else return '(не задано)'
+                     }},
                     {data: null},
                     {
                         data: 'id',

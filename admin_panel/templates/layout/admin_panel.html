@@ -322,6 +322,15 @@
         {% endif %}
     {% endfor %}
 {% endif %}
+<script>
+    {% for field in form %}
+    {% if field.errors %}
+        {% for error in field.errors %}
+            toastr.error('{{ error }}')
+        {% endfor %}
+    {% endif %}
+    {% endfor %}
+</script>
 {% block scripts %}
 {% endblock %}
 </body>

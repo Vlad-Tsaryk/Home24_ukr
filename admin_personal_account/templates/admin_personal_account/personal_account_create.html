@@ -149,7 +149,7 @@
             $( "#personal_account_form" ).validate( {
 				rules: {
 					number: {required:true,min:0},
-					apartment: "required",
+					{#apartment: "required",#}
 					{#house: "required",#}
 					{#section: "required",#}
 					area: {min:0},
@@ -157,7 +157,7 @@
 				messages: {
 					number: "Пожалуйста введите номер лицевого счета.",
 					{#house: "Пожалуйста выберите дом.",#}
-					apartment: "Пожалуйста выберите квартиру.",
+					{#apartment: "Пожалуйста выберите квартиру.",#}
 					{#section: "Пожалуйста выберите секцию.",#}
 				},
 				errorElement: "em",

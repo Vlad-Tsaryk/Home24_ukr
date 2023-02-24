@@ -21,14 +21,24 @@
         <div class="box-header with-border">
             <h3 class="box-title">Просмотр лицевого счета</h3>
             <div class="box-tools">
-                <button class="btn btn-default btn-sm disabled"
-                        data-confirm="Лицевой счет неактивен или не привязан к квартире"><span class="hidden-xs"><i
-                        class="fa fa-dollar"></i> Принять платеж</span><i class="fa fa-pencil visible-xs"
-                                                                          aria-hidden="true"></i></button>
-                <button class="btn btn-default btn-sm disabled"
-                        data-confirm="Лицевой счет неактивен или не привязан к квартире"><span class="hidden-xs"><i
-                        class="fa fa-files-o"></i> Оформить квитанцию</span><i class="fa fa-pencil visible-xs"
-                                                                               aria-hidden="true"></i></button>
+                <a {% if personalaccount.apartment %}
+                    href="{% url 'transaction_create_personal_account' 'income' personalaccount.pk %}"
+                    class="btn btn-default btn-sm"
+                {% else %}
+                    class="btn btn-default btn-sm disabled"
+                {% endif %}>
+                    <span class="hidden-xs"><i class="fa fa-dollar"></i> Принять платеж</span>
+                    <i class="fa fa-dollar visible-xs" aria-hidden="true"></i>
+                </a>
+                <a {% if personalaccount.apartment %}
+                    href="{% url 'receipt_create_personal_account' personalaccount.number %}"
+                    class="btn btn-default btn-sm"
+                {% else %}
+                    class="btn btn-default btn-sm disabled"
+                {% endif %}>
+                    <span class="hidden-xs"><i class="fa fa-files-o"></i> Оформить квитанцию</span>
+                    <i class="fa fa-files-o visible-xs" aria-hidden="true"></i>
+                </a>
                 <a href="{% url 'personal_account_update' personalaccount.pk %}" class="btn btn-primary btn-sm">
                     <span class="hidden-xs">Редактировать счет</span><i class="fa fa-pencil visible-xs"
                                                                         aria-hidden="true"></i>
@@ -42,32 +52,49 @@
                         <tbody>
                         <tr>
                             <td>Статус</td>
-                            <td><small class="label label-{% if personalaccount.status == 'Aктивен' %}success
+                            <td><small class="label label-{% if personalaccount.status == 'Активен' %}success
                             {% else %}danger
                             {% endif %}">{{ personalaccount.status }}</small></td>
                         </tr>
                         <tr>
                             <td>Дом</td>
                             <td>
-                                <a href="{% url 'house_view' personalaccount.apartment.house_id %}">
-                                    {{ personalaccount.apartment.house.name}}
-                                </a>
+                                {% if personalaccount.apartment.house %}
+                                    <a href="{% url 'house_view' personalaccount.apartment.house_id %}">
+                                        {{ personalaccount.apartment.house.name }}
+                                    </a>
+                                {% else %}
+                                    {{ personalaccount.apartment.house.name }}
+                                {% endif %}
+
                             </td>
                         </tr>
                         <tr>
                             <td>Секция</td>
-                            <td>{{ personalaccount.apartment.section.name}}</td>
+                            <td>{{ personalaccount.apartment.section.name }}</td>
                         </tr>
                         <tr>
                             <td>Квартира</td>
-                            <td><a href="{% url 'apartment_view' personalaccount.apartment_id %}">
-                                {{ personalaccount.apartment.number }}</a></td>
+
+                            <td>
+                                {% if personalaccount.apartment %}
+                                    <a href="{% url 'apartment_view' personalaccount.apartment_id %}">
+                                {{ personalaccount.apartment.number }}</a>
+                                {% else %}
+                                    {{ personalaccount.apartment.number }}
+                                {% endif %}
+                            </td>
                         </tr>
                         <tr>
                             <td>Владелец</td>
                             <td>
-                                <a href="{% url 'owner_view' personalaccount.apartment.owner_id %}">
-                                    {{ personalaccount.apartment.owner}}</a>
+                                {% if personalaccount.apartment.owner %}
+                                    <a href="{% url 'owner_view' personalaccount.apartment.owner_id %}">
+                                    {{ personalaccount.apartment.owner }}</a>
+                                {% else %}
+                                    {{ personalaccount.apartment.owner }}
+                                {% endif %}
+
                             </td>
                         </tr>
                         <tr>
@@ -78,12 +105,24 @@
                         </tbody>
                     </table>
                     <div>
-                        <p><a href="/admin/counter-data/counter-list?CounterDataSearch%5Bflat_id%5D=0">Посмотреть
-                            показания счетчиков</a></p>
+                        <p><a {% if personalaccount.apartment %}
+                                href="{% url 'meter-view-list-apart' personalaccount.apartment_id %}"
+                                {% else %}
+                                style="cursor: not-allowed; color: grey"
+                                {% endif %}
+                        >Посмотреть показания счетчиков</a></p>
                         <p>
-                            <a href="/admin/account-transaction/index?AccountTransactionSearch%5Baccount_id%5D=359&amp;AccountTransactionSearch%5Btype%5D=in">Посмотреть
+                            <a {% if personalaccount.apartment %}
+                                href="{% url 'transaction_list_personal_account' personalaccount.number %}"
+                                {% else %}
+                                style="cursor: not-allowed; color: grey"
+                                {% endif %}>Посмотреть
                                 приходы</a></p>
-                        <p><a href="/admin/invoice/index?InvoiceSearch%5Bflat_id%5D=0">Посмотреть квитанции</a></p>
+                        <p><a {% if personalaccount.apartment %}
+                                href="{% url 'receipt_list_apartment' personalaccount.apartment.number %}"
+                                {% else %}
+                                style="cursor: not-allowed; color: grey"
+                                {% endif %}>Посмотреть квитанции</a></p>
                     </div>
                 </div>
             </div>
@@ -91,7 +130,7 @@
     </div>
 {% endblock %}
 {% block scripts %}
-        <script>
+    <script>
         $('#nav_account').attr('class', 'active')
     </script>
 {% endblock %}

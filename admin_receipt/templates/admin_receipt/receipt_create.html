@@ -276,18 +276,6 @@
                                     <tbody></tbody>
                                 </table>
                             </div>
-                            <div class="box-footer clearfix">
-                                <ul class="pagination pagination-sm no-margin pull-right">
-                                    <li class="prev disabled"><span>«</span></li>
-                                    <li class="active"><a href="/admin/invoice/create?page=1&amp;per-page=50"
-                                                          data-page="0">1</a></li>
-                                    <li><a href="/admin/invoice/create?page=2&amp;per-page=50" data-page="1">2</a></li>
-                                    <li><a href="/admin/invoice/create?page=3&amp;per-page=50" data-page="2">3</a></li>
-                                    <li><a href="/admin/invoice/create?page=4&amp;per-page=50" data-page="3">4</a></li>
-                                    <li class="next"><a href="/admin/invoice/create?page=2&amp;per-page=50"
-                                                        data-page="1">»</a></li>
-                                </ul>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -593,9 +581,12 @@
                     {#clear_options('id_apartment')#}
                 {% endblock %}
                     {% block update %}
-
                         set_meters();
                         set_event_listeners(true, true, true, true);
+                        {% if view.kwargs.personal_account %}
+                            $('#id_personal_account').val('{{ view.kwargs.personal_account }}').change()
+                        {% endif %}
+
                     {% endblock %}
 
 

@@ -1,14 +1,14 @@
 {% extends 'layout/admin_panel.html' %}
 {% block title %}{{ apartment.info }}{% endblock %}
 {% block breadcrumb %}
-        <ul class="breadcrumb">
+    <ul class="breadcrumb">
         <li><a href="{% url 'statistic' %}"><i class="fa fa-home"></i>Главная</a></li>
         <li><a href="{% url 'apartment_list' %}">Квартиры</a></li>
         <li class="active">{{ apartment.info }}</li>
-</ul>
+    </ul>
 {% endblock %}
 {% block header_text %}
-{{ apartment.info }}
+    {{ apartment.info }}
 {% endblock %}
 {% block content %}
 
@@ -17,12 +17,24 @@
         <div class="box-header with-border">
             <h3 class="box-title">Просмотр квартиры</h3>
             <div class="box-tools">
-                <button class="btn btn-default btn-sm disabled" data-confirm="Лицевой счет неактивен"><span
-                        class="hidden-xs"><i class="fa fa-dollar"></i> Принять платеж</span><i
-                        class="fa fa-pencil visible-xs" aria-hidden="true"></i></button>
-                <button class="btn btn-default btn-sm disabled" data-confirm="Лицевой счет неактивен"><span
-                        class="hidden-xs"><i class="fa fa-files-o"></i> Оформить квитанцию</span><i
-                        class="fa fa-pencil visible-xs" aria-hidden="true"></i></button>
+                <a {% if apartment.personalaccount %}
+                    href="{% url 'transaction_create_personal_account' 'income' apartment.personalaccount.pk %}"
+                    class="btn btn-default btn-sm"
+                {% else %}
+                    class="btn btn-default btn-sm disabled"
+                {% endif %}>
+                    <span class="hidden-xs"><i class="fa fa-dollar"></i> Принять платеж</span>
+                    <i class="fa fa-dollar visible-xs" aria-hidden="true"></i>
+                </a>
+                <a {% if apartment.personalaccount %}
+                    href="{% url 'receipt_create_personal_account' apartment.personalaccount.number %}"
+                    class="btn btn-default btn-sm"
+                {% else %}
+                    class="btn btn-default btn-sm disabled"
+                {% endif %}>
+                    <span class="hidden-xs"><i class="fa fa-files-o"></i> Оформить квитанцию</span>
+                    <i class="fa fa-files-o visible-xs" aria-hidden="true"></i>
+                </a>
                 <a href="{% url 'apartment_update' apartment.pk %}" class="btn btn-primary btn-sm">
                     <span class="hidden-xs">Редактировать квартиру</span><i class="fa fa-pencil visible-xs"
                                                                             aria-hidden="true"></i>
@@ -37,7 +49,7 @@
                         <tr>
                             <td>Лицевой счет</td>
                             <td>
-                                не указано
+                                {{ apartment.personalaccount.number|default:'не указано' }}
                             </td>
                         </tr>
                         <tr>
@@ -65,22 +77,22 @@
                                 {% else %}
                                     Не задано
                                 {% endif %}
-                                </td>
+                            </td>
                         </tr>
                         <tr>
                             <td>Этаж</td>
                             <td>{% if apartment.floor %}
-                                    {{ apartment.floor }}
-                                {% else %}
-                                    Не задано
-                                {% endif %}</td>
+                                {{ apartment.floor }}
+                            {% else %}
+                                Не задано
+                            {% endif %}</td>
                         </tr>
                         <tr>
                             <td>Владелец</td>
                             <td>
                                 {% if apartment.owner %}
                                     <a href="{% url 'owner_view' apartment.owner_id %}">
-                                    {{ apartment.owner }} </a>
+                                        {{ apartment.owner }} </a>
                                 {% else %}
                                     Не задано
                                 {% endif %}
@@ -91,7 +103,7 @@
                             <td>
                                 {% if apartment.tariff %}
                                     <a href="{% url 'tariff_view' apartment.tariff_id %}">
-                                    {{ apartment.tariff }} </a>
+                                        {{ apartment.tariff }} </a>
                                 {% else %}
                                     Не задано
                                 {% endif %}
@@ -100,12 +112,17 @@
                         </tbody>
                     </table>
                     <div>
-                        <p><a href="#">Посмотреть
+                        <p><a href="{% url 'meter-view-list-apart' apartment.pk %}">Посмотреть
                             показания счетчиков</a></p>
                         <p>
-                            <a href="#">Посмотреть
+                            <a {% if apartment.personalaccount %}
+                                href="{% url 'transaction_list_personal_account' apartment.personalaccount.number %}"
+                            {% else %}
+                                style="cursor: not-allowed; color: grey"
+                            {% endif %}
+                            >Посмотреть
                                 приходы</a></p>
-                        <p><a href="#">Посмотреть квитанции</a></p>
+                        <p><a href="{% url 'receipt_list_apartment' apartment.number %}">Посмотреть квитанции</a></p>
                     </div>
                 </div>
             </div>
@@ -115,6 +132,6 @@
 {% endblock %}
 {% block scripts %}
     <script>
-    $('#nav_apartment').attr('class', 'active')
+        $('#nav_apartment').attr('class', 'active')
     </script>
 {% endblock %}
