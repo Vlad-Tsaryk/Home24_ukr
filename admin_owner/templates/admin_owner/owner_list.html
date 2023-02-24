@@ -10,6 +10,10 @@
         <li class="active">Владельцы квартир</li>
     </ul>
 {% endblock %}
+{% block head %}
+    <link rel="stylesheet"
+          href="{% static 'admin_panel/plugins/bootstrap-datepicker-1.9.0-dist/css/bootstrap-datepicker3.min.css' %}"/>
+{% endblock %}
 {% block content %}
     <div class="row">
         <div class="col-xs-12">
@@ -44,7 +48,7 @@
                         <table id="table_owners" class="table table-bordered table-hover table-striped linkedRow">
                             <thead>
                             <tr>
-                                <th style="width: 110px; min-width: 110px">ID</th>
+                                <th style="width: 50px; min-width: 10px">ID</th>
                                 <th><a id="name" class="ordering">ФИО</a></th>
                                 <th style="width: 140px; min-width: 140px">Телефон</th>
                                 <th style="width: 140px; min-width: 140px">Email</th>
@@ -58,115 +62,34 @@
                                 <th style="width: 114px; min-width: 114px">&nbsp;</th>
                             </tr>
                             <tr id="w0-filters" class="filters">
-                                <td><input type="text" class="form-control" name="UserSearch[uid]"></td>
-                                <td><input type="text" class="form-control" name="UserSearch[searchFullname]"></td>
-                                <td><input type="text" class="form-control" name="UserSearch[searchPhone]"></td>
-                                <td><input type="text" class="form-control" name="UserSearch[email]"></td>
-                                <td><select id="usersearch-searchhouse" class="form-control select2-hidden-accessible"
-                                            name="UserSearch[searchHouse]" data-s2-options="s2options_7ebc6538"
-                                            data-krajee-select2="select2_0d896465" style="display:none" tabindex="-1"
-                                            aria-hidden="true">
+                                <td><input id="uid" type="text" class="form-control column_search"></td>
+                                <td><input id="name" type="text" class="form-control column_search"></td>
+                                <td><input id="phone" type="text" class="form-control column_search"></td>
+                                <td><input id="email" type="text" class="form-control column_search"></td>
+                                <td><select id="house" class="form-control select2 filter">
                                     <option value=""></option>
-                                    <option value="1">ЖК "Башня Чкалов"</option>
-                                    <option value="2">ЖК "Морская Симфония"</option>
-                                    <option value="3">ЖК "Дом Каркашадзе"</option>
-                                    <option value="4">ЖК "Королевские сады"</option>
-                                    <option value="6">ЖК "Балковский"</option>
-                                    <option value="11">ЖК "Адмирал" Дом №11</option>
-                                    <option value="12">ЖК "Адмирал" Дом №12</option>
-                                    <option value="13">ЖК "Адмирал" Дом №13</option>
-                                    <option value="14">ЖК "Новые Черемушки"</option>
-                                    <option value="18">ЖК "Manhattan"</option>
-                                    <option value="19">ЖК "Скай Сити"</option>
-                                    <option value="20">ЖК "Альтаир 3"</option>
-                                    <option value="23">ОСМД 1002 ЖК "Альтаир 2"</option>
-                                    <option value="24">Н-О</option>
-                                    <option value="25">ЖК Искринский</option>
-                                    <option value="51">sssbdcbdf</option>
-                                    <option value="56">Дом 56</option>
-                                    <option value="61">dfdsf</option>
-                                    <option value="78">alert('xss')</option>
-                                    <option value="85">test</option>
-                                    <option value="100">альтаир</option>
-                                    <option value="101">1234</option>
-                                    <option value="105">ЖК "Луч"</option>
-                                    <option value="106">Test 123</option>
-                                    <option value="107">12313</option>
-                                    <option value="132"></option>
-                                    <option value="133">Континент</option>
-                                    <option value="134">Континент</option>
-                                    <option value="139">ЖК Чайка</option>
-                                    <option value="142">Тестовый дом1</option>
-                                    <option value="145">!@#$%^&amp;*()</option>
-                                    <option value="158"></option>
-                                    <option value="165">ЖК "Помидор"</option>
-                                    <option value="170">верстат</option>
-                                    <option value="173"></option>
-                                    <option value="174">Аквамарин</option>
-                                    <option value="175">Генарёк хаус</option>
-                                    <option value="182">ЖК "Огурец"</option>
-                                    <option value="183">ДОм исчез</option>
-                                    <option value="185">Дом Дом</option>
-                                    <option value="186">0000000000</option>
-                                    <option value="188">fgb</option>
-                                    <option value="189"></option>
-                                    <option value="190"></option>
-                                    <option value="191"></option>
-                                    <option value="192">a</option>
-                                </select><span class="select2 select2-container select2-container--default" dir="ltr"
-                                               style="width: 100%;"><span class="selection"><span
-                                        class="select2-selection select2-selection--single" role="combobox"
-                                        aria-haspopup="true" aria-expanded="false" tabindex="0"
-                                        aria-labelledby="select2-usersearch-searchhouse-container"><span
-                                        class="select2-selection__rendered"
-                                        id="select2-usersearch-searchhouse-container"><span
-                                        class="select2-selection__placeholder"></span></span><span
-                                        class="select2-selection__arrow" role="presentation"><b
-                                        role="presentation"></b></span></span></span><span class="dropdown-wrapper"
-                                                                                           aria-hidden="true"></span></span>
+                                    {% for house in house_list %}
+                                        <option value="{{ house.pk }}">{{ house }}</option>
+                                    {% endfor %}
+
+                                </select>
                                 </td>
-                                <td><input type="text" class="form-control" name="UserSearch[searchFlat]"></td>
-                                <td><input type="text" id="usersearch-searchcreateddate"
-                                           class="form-control krajee-datepicker" name="UserSearch[searchCreatedDate]"
-                                           data-datepicker-source="usersearch-searchcreateddate"
-                                           data-datepicker-type="1"
-                                           data-krajee-kvdatepicker="kvDatepicker_1643d6f1"></td>
-                                <td><select id="usersearch-status" class="form-control select2-hidden-accessible"
-                                            name="UserSearch[status]" data-s2-options="s2options_7ebc6538"
-                                            data-krajee-select2="select2_0d896465" style="display:none" tabindex="-1"
-                                            aria-hidden="true">
+                                <td><input id="apartment" type="text" class="form-control column_search"></td>
+                                <td><input type="text" id="date"
+                                           class="form-control"></td>
+                                <td><select id="status" class="form-control select2 filter">
                                     <option value=""></option>
-                                    <option value="10">Активен</option>
-                                    <option value="5">Новый</option>
-                                    <option value="0">Отключен</option>
-                                </select><span class="select2 select2-container select2-container--default" dir="ltr"
-                                               style="width: 100%;"><span class="selection"><span
-                                        class="select2-selection select2-selection--single" role="combobox"
-                                        aria-haspopup="true" aria-expanded="false" tabindex="0"
-                                        aria-labelledby="select2-usersearch-status-container"><span
-                                        class="select2-selection__rendered"
-                                        id="select2-usersearch-status-container"><span
-                                        class="select2-selection__placeholder"></span></span><span
-                                        class="select2-selection__arrow" role="presentation"><b
-                                        role="presentation"></b></span></span></span><span class="dropdown-wrapper"
-                                                                                           aria-hidden="true"></span></span>
+                                    {% for status in status_list %}
+                                        <option value="{{ status }}">{{ status }}</option>
+                                    {% endfor %}
+
+                                </select>
                                 </td>
-                                <td><select id="usersearch-searchhasdebt" class="form-control select2-hidden-accessible"
-                                            name="UserSearch[searchHasDebt]" data-s2-options="s2options_7ebc6538"
-                                            data-krajee-select2="select2_0d896465" style="display:none" tabindex="-1"
-                                            aria-hidden="true">
+                                <td><select id="owner_has_debt" class="form-control select2 filter">
                                     <option value=""></option>
                                     <option value="1">Да</option>
-                                </select><span class="select2 select2-container select2-container--default" dir="ltr"
-                                               style="width: 100%;">
-    <span class="selection">
-        <span class="select2-selection select2-selection--single" role="combobox"
-              aria-haspopup="true" aria-expanded="false" tabindex="0"
-              aria-labelledby="select2-usersearch-searchhasdebt-container">
-            <span class="select2-selection__rendered" id="select2-usersearch-searchhasdebt-container">
-                <span class="select2-selection__placeholder"></span>
-            </span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span
-                                        class="dropdown-wrapper" aria-hidden="true"></span></span></td>
+                                </select>
+                                </td>
                                 <td>&nbsp;</td>
                             </tr>
                             </thead>
@@ -189,14 +112,16 @@
     <script>
         $('#nav_owners').attr('class', 'active')
     </script>
+    <script src="{% static 'admin_panel/bower_components/select2/dist/js/select2.full.min.js' %}"></script>
+    <script src="{% static 'admin_panel/bower_components/select2/dist/js/i18n/ru.min.js' %}"></script>
     <script src="{% static 'admin_panel/bower_components/datatables.net/js/jquery.dataTables.min.js' %}"></script>
-    <script src="{% static 'admin_panel/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js' %}"></script>
-
+{#    <script src="{% static 'admin_panel/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js' %}"></script>#}
     <script src="{% static 'admin_panel/bower_components/moment/moment.js' %}"></script>
-    {#    <script src="{% static 'admin_panel/bower_components/moment/locale/ru.js' %}"></script>#}
+    <script src="{% static 'admin_panel/bower_components/moment/locale/ru.js' %}"></script>
+    <script src="{% static 'admin_panel/plugins/bootstrap-datepicker-1.9.0-dist/js/bootstrap-datepicker.min.js' %}"></script>
 
     <script>
-        let numb = 0
+        let table_head = $('#table_owners thead')
         let colors = {
             'Активен': 'label label-success',
             'Отключен': 'label label-danger',
@@ -215,17 +140,20 @@
 
         function clear_filters() {
             $('.column_search').val('');
-            sort_data = {
-                "name": '',
-                "role": '',
-                "phone": '',
-                "username": '',
-                "status": '',
-            }
+            $('#date').val('');
+            table_head.unbind();
+            $('.filter').val('').change()
+            $('.ordering').attr('class', 'ordering');
+            set_filters_listener()
+            let keys = Object.keys(sort_data)
+            keys.forEach(function (item) {
+                sort_data[item] = ''
+            })
             numb = 0
             table.draw()
 
         }
+
 
         function send_POST(e) {
             table = $('#table_owners').DataTable({
@@ -234,6 +162,7 @@
                 oLanguage: {
                     sZeroRecords: "Ничего не найдено."
                 },
+
                 columnDefs: [
                     {className: "owner", "targets": [0, 1, 2, 3, 4, 5, 6, 7]},
                     {targets: '_all', defaultContent: ''},
@@ -251,7 +180,7 @@
                     },
                 },
                 "columns": [
-                    {data: "id"},
+                    {data: "uid"},
                     {"data": "name"},
                     {"data": "phone"},
                     {"data": "username"},
@@ -334,30 +263,47 @@
             });
         }
 
-        let table_head = $('#table_owners thead')
-        table_head.on('keyup', ".column_search", function a(e) {
-            sort_data[this.id] = $(this).val()
-            numb = 0
-            table.draw()
-        });
+        function set_filters_listener() {
+            table_head.on('change', ".filter", function a(e) {
+                sort_data[this.id] = $(this).val()
+                table.draw()
+            });
+            table_head.on('keyup', ".column_search", function a(e) {
+                sort_data[this.id] = $(this).val()
+                table.draw()
+            });
+            table_head.on('click', '.ordering', function () {
+                if (this.className === 'ordering asc') {
+                    $(this).attr('class', 'ordering desc')
+                    sort_data['order_by'] = '-' + this.id
+                } else {
+                    $(this).attr('class', 'ordering asc')
+                    sort_data['order_by'] = this.id
+                }
+                table_head.find('.ordering').not(this).attr('class', 'ordering')
+                table.draw()
+            })
 
-        table_head.on('click', '.ordering', function () {
-            if (this.className === 'ordering asc') {
-                $(this).attr('class', 'ordering desc')
-                sort_data['order_by'] = '-' + this.id
-            } else {
-                $(this).attr('class', 'ordering asc')
-                sort_data['order_by'] = this.id
-            }
-            table_head.find('.ordering').not(this).attr('class', 'ordering')
-            numb = 0
-            table.draw()
-        })
+        }
 
 
         $(document).ready(function () {
             send_POST();
             $('.column_search').val('');
+            $('.select2').select2().val('');
+            set_filters_listener()
+            $('#date').datepicker({
+                language: 'ru',
+                format: 'dd.mm.yyyy',
+                orientation: 'bottom'
+                {#autoclose: true#}
+            }).change(function () {
+                sort_data['date_year'] = moment(this.value, 'DD.MM.YYYY').format('YYYY')
+                sort_data['date_month'] = moment(this.value, 'DD.MM.YYYY').format('M')
+                sort_data['date_day'] = moment(this.value, 'DD.MM.YYYY').format('D')
+                table.draw()
+            })
+
         });
 
         function confirm_delete(link, event) {
@@ -374,6 +320,7 @@
         $('#table_owners').on('click', 'tbody tr .owner', function () {
             window.location.href = '{% url 'owner_view' 12345 %}'.replace(/12345/, table.row(this).data().id)
         })
+
     </script>
 {% endblock %}
 

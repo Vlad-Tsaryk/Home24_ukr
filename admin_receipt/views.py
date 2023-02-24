@@ -65,17 +65,17 @@ class ReceiptCreate(AdminPermissionRequiredMixin, CreateView):
             .distinct('service', 'status')
         metest_new = metest.filter(status=Meter.StatusName.NEW)
         metest_clarified = metest
-        test = {}
+        meters_consumption = {}
         for meter in metest_new:
             try:
                 value = meter.value - metest_clarified.get(service=meter.service).value
             except Meter.DoesNotExist:
-                test[meter.service_id] = meter.value
+                meters_consumption[meter.service_id] = meter.value
                 continue
             if value < 0:
                 value = None
-            test[meter.service_id] = value
-        return test
+            meters_consumption[meter.service_id] = value
+        return meters_consumption
 
     def render_to_response(self, context, **response_kwargs):
         if self.request.is_ajax():
@@ -124,7 +124,7 @@ class ReceiptCreate(AdminPermissionRequiredMixin, CreateView):
                                                           'apartment__number', 'apartment__section__name',
                                                           'service__name', 'value', 'service__unit__name'))
                 result['apartment_info'] = apartment_info
-                # print(result)
+                print(result)
             elif house_id:
                 if section_id:
                     result['apartment'] = list(Apartment.objects.filter(
