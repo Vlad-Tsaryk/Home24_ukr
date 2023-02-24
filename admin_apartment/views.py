@@ -7,6 +7,7 @@ from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, UpdateView, ListView, DetailView
 
+from admin_personal_account.models import PersonalAccount
 from users.mixins import AdminPermissionRequiredMixin
 from .models import Apartment, Section, Floor, House
 from .forms import ApartmentForm
@@ -37,6 +38,18 @@ class ApartmentCreate(AdminPermissionRequiredMixin, SuccessMessageMixin, CreateV
         else:
             return super(CreateView, self).render_to_response(context, **response_kwargs)
 
+    def form_valid(self, form):
+        self.object = form.save()
+        if form.cleaned_data['personal_account']:
+            if form.cleaned_data['personal_account_create']:
+                PersonalAccount.objects.create(number=form.cleaned_data['personal_account'],
+                                               apartment=self.object, status=PersonalAccount.StatusName.ACTIVE)
+            else:
+                personal_account = PersonalAccount.objects.get(
+                    number=form.cleaned_data['personal_account']).apartment = form
+                personal_account.save()
+        return super().form_valid(form)
+
 
 class ApartmentUpdate(AdminPermissionRequiredMixin, SuccessMessageMixin, UpdateView):
     permission_required = 'apartments'
@@ -53,6 +66,18 @@ class ApartmentUpdate(AdminPermissionRequiredMixin, SuccessMessageMixin, UpdateV
                 return apartment_house_details(house_id, **response_kwargs)
         else:
             return super(UpdateView, self).render_to_response(context, **response_kwargs)
+
+    def form_valid(self, form):
+        self.object = form.save()
+        if form.cleaned_data['personal_account']:
+            if form.cleaned_data['personal_account_create']:
+                PersonalAccount.objects.create(number=form.cleaned_data['personal_account'],
+                                               apartment=self.object, status=PersonalAccount.StatusName.ACTIVE)
+            else:
+                personal_account = PersonalAccount.objects.get(number=form.cleaned_data['personal_account'])
+                personal_account.apartment = self.object
+                personal_account.save()
+        return super().form_valid(form)
 
 
 class ApartmentView(AdminPermissionRequiredMixin, DetailView):
