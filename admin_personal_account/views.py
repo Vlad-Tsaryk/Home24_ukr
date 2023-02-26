@@ -17,6 +17,8 @@ from .forms import PersonalAccountForm
 from admin_apartment.models import Apartment, Section
 from openpyxl import Workbook
 
+from .utils import PersonalAccountBalance
+
 
 # Create your views here.
 
@@ -86,8 +88,8 @@ class PersonalAccountList(AdminPermissionRequiredMixin, ListView):
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super(PersonalAccountList, self).get_context_data(**kwargs)
         context['house_list'] = House.objects.all()
-        context['account_total_debt'] = PersonalAccount.total_debt()
-        context['account_total_balance'] = PersonalAccount.total_balance()
+        context['account_total_debt'] = PersonalAccountBalance.get_total_debt()
+        context['account_total_balance'] = PersonalAccountBalance.get_total_balance()
         context['transactions_total_balance'] = Transaction.total_balance()
         return context
 
@@ -122,7 +124,8 @@ class PersonalAccountList(AdminPermissionRequiredMixin, ListView):
                 result['sections'] = list(Section.objects.filter(house=filter_fields['apartment__house']).values())
 
             filter_fields = {k: v for k, v in filter_fields.items() if v}
-            filtered_qs = self.get_queryset().filter(**filter_fields)
+            PersonalAccount.objects.select_related('')
+            filtered_qs = self.get_queryset().prefetch_related('receipt_set', 'transaction_set').filter(**filter_fields)
             filtered_qs = filtered_qs.annotate(
                 owner__name=Concat('apartment__owner__first_name', Value(' '),
                                    'apartment__owner__middle_name', Value(' '),

@@ -76,6 +76,13 @@ class OwnerChangeForm(UserChangeForm, OwnerCreateForm):
             'telegram', 'viber', 'birth_date', 'notes', 'profile_image', 'uid']
 
 
+class CabinetOwnerChangeForm(OwnerChangeForm):
+    def __init__(self, *args, **kwargs):
+        super(CabinetOwnerChangeForm, self).__init__(*args, **kwargs)
+        # self.fields['uid'].initial = self.initial['uid']
+        # self.fields['status'].initial = self.initial['status']
+
+
 class OwnerInviteForm(forms.Form):
     phone = PhoneNumberField(widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': '+380731234567'}),
                              required=False)

@@ -10,6 +10,7 @@ from admin_personal_account.models import PersonalAccount
 from admin_apartment.models import Apartment
 from admin_house.models import Section
 from admin_meter.models import Meter
+from admin_personal_account.utils import PersonalAccountBalance
 from admin_tariff.models import TariffService
 from admin_transaction.models import Transaction
 from users.mixins import AdminPermissionRequiredMixin
@@ -173,8 +174,8 @@ class ReceiptList(AdminPermissionRequiredMixin, ListView):
         context = super(ReceiptList, self).get_context_data(**kwargs)
         context['owner_list'] = User.objects.filter(role__role=Role.RoleName.OWNER)
         context['status_list'] = Receipt.StatusName.values
-        context['account_total_debt'] = PersonalAccount.total_debt()
-        context['account_total_balance'] = PersonalAccount.total_balance()
+        context['account_total_debt'] = PersonalAccountBalance.get_total_debt()
+        context['account_total_balance'] = PersonalAccountBalance.get_total_balance()
         context['transactions_total_balance'] = Transaction.total_balance()
         return context
 
@@ -205,7 +206,7 @@ class ReceiptList(AdminPermissionRequiredMixin, ListView):
                 'status': self.request.GET.get('status'),
                 'number__contains': self.request.GET.get('number'),
                 'apartment_info__contains': self.request.GET.get('apartment'),
-                'apartment__owner_id': self.request.GET.get('owner'),
+                'personal_account__apartment__owner_id': self.request.GET.get('owner'),
                 'is_complete': self.request.GET.get('is_complete'),
                 'date__range': self.request.GET.getlist('date_range[]'),
                 'date__month': self.request.GET.get('date_month'),
@@ -213,14 +214,16 @@ class ReceiptList(AdminPermissionRequiredMixin, ListView):
             }
             filter_fields = {k: v for k, v in filter_fields.items() if v}
             filtered_qs = self.get_queryset().annotate(
-                apartment_info=Concat(Value('Квартира №'), 'apartment__number', Value(', '),
-                                      'apartment__house__name', output_field=CharField()),
+                apartment_info=Concat(Value('Квартира №'), 'personal_account__apartment__number', Value(', '),
+                                      'personal_account__apartment__house__name', output_field=CharField()),
             ).filter(**filter_fields)
             if order_by:
                 filtered_qs = filtered_qs.order_by(order_by)
             filtered_qs = filtered_qs.values('id', 'date', 'apartment_info', 'status', 'number',
-                                             'apartment__owner__first_name', 'apartment__owner__last_name',
-                                             'apartment__owner__middle_name', 'apartment__owner_id',
+                                             'personal_account__apartment__owner__first_name',
+                                             'personal_account__apartment__owner__last_name',
+                                             'personal_account__apartment__owner__middle_name',
+                                             'personal_account__apartment__owner_id',
                                              'is_complete', 'total_price')
             start = int(self.request.GET.get('start', 0))
             length = int(self.request.GET.get('length', 10))

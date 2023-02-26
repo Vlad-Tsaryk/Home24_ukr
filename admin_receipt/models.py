@@ -1,7 +1,7 @@
 from django.db import models
 from django.db.models import Sum, F
 
-from admin_apartment.models import Apartment
+from admin_personal_account.models import PersonalAccount
 from admin_tariff.models import Tariff
 from admin_service.models import Service
 
@@ -15,7 +15,7 @@ class Receipt(models.Model):
 
     @property
     def address_for_excel(self):
-        apartment = self.apartment
+        apartment = self.personal_account.apartment
         owner = apartment.owner
         return f'{owner.last_name} {owner.first_name[0]}. {owner.middle_name[0]}. {apartment.house.address} ' \
                f'квартира {apartment.number}'
@@ -25,7 +25,7 @@ class Receipt(models.Model):
         PRE_PAID = 'Частично оплачена', 'Частично оплачена'
         NOT_PAID = 'Не оплачена', 'Не оплачена'
 
-    apartment = models.ForeignKey(Apartment, on_delete=models.CASCADE)
+    personal_account = models.ForeignKey(PersonalAccount, on_delete=models.CASCADE, null=True)
     tariff = models.ForeignKey(Tariff, null=True, on_delete=models.SET_NULL)
     is_complete = models.BooleanField(default=True)
     date = models.DateField()
@@ -48,4 +48,4 @@ class ReceiptService(models.Model):
 
     @property
     def price(self):
-        return self.price_unit*self.consumption
+        return self.price_unit * self.consumption

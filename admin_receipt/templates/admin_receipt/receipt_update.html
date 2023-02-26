@@ -17,7 +17,7 @@
     select_options['meter_set'] = true
     set_meters();
     set_event_listeners(true, true, true, true);
-    $('#id_personal_account').val('{{ receipt.apartment.personalaccount.number }}').change()
+    $('#id_personal_account').val('{{ receipt.personal_account.number }}').change()
     select_options['tariff'] = {{ receipt.tariff_id }}
     {% for i in receipt_service_formset %}
         service_change({{ forloop.counter }})

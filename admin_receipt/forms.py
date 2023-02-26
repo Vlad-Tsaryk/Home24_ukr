@@ -1,6 +1,8 @@
 from django import forms
+from django.core.exceptions import ValidationError
 from django.forms import modelformset_factory
 
+from admin_personal_account.models import PersonalAccount
 from admin_service.models import Unit, Service
 from admin_tariff.models import Tariff
 from .models import Receipt, ReceiptService
@@ -28,7 +30,18 @@ class ReceiptForm(forms.ModelForm):
         attrs={'class': "form-control datetimepicker-input"}))
     period_end = forms.DateField(widget=forms.DateInput(
         attrs={'class': "form-control datetimepicker-input"}))
-    personal_account = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}), required=False)
+    personal_account = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}), required=True)
+
+    def clean_personal_account(self):
+        number = self.cleaned_data['personal_account']
+        if number:
+            try:
+                personal_account = PersonalAccount.objects.get(number=number)
+                return personal_account
+            except:
+                raise ValidationError("Лицевой счет не найден")
+        else:
+            raise ValidationError("Лицевой счет не задан")
 
     def __init__(self, *args, **kwargs):
         super(ReceiptForm, self).__init__(*args, **kwargs)

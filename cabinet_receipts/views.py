@@ -24,10 +24,10 @@ class ReceiptList(OwnerPermissionRequiredMixin, ListView):
 
     def get_queryset(self):
         if self.kwargs.get('apartment_id'):
-            return Receipt.objects.filter(apartment_id=self.kwargs.get('apartment_id'),
-                                          apartment__owner=self.request.user)
+            return Receipt.objects.filter(personal_account__apartment_id=self.kwargs.get('apartment_id'),
+                                          personal_account__apartment__owner=self.request.user)
         else:
-            return Receipt.objects.filter(apartment__owner=self.request.user)
+            return Receipt.objects.filter(personal_account__apartment__owner=self.request.user)
 
     def render_to_response(self, context, **response_kwargs):
         if self.request.is_ajax():

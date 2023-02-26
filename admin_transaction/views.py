@@ -12,6 +12,7 @@ from openpyxl.utils import get_column_letter
 from openpyxl.workbook import Workbook
 from openpyxl.writer.excel import save_virtual_workbook
 
+from admin_personal_account.utils import PersonalAccountBalance
 from admin_transaction.models import Transaction
 from users.mixins import AdminPermissionRequiredMixin
 from .forms import TransactionForm
@@ -86,8 +87,8 @@ class TransactionList(AdminPermissionRequiredMixin, ListView):
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super(TransactionList, self).get_context_data(**kwargs)
         context['owner_list'] = User.objects.filter(role__role=Role.RoleName.OWNER)
-        context['account_total_debt'] = PersonalAccount.total_debt()
-        context['account_total_balance'] = PersonalAccount.total_balance()
+        context['account_total_debt'] = PersonalAccountBalance.get_total_debt()
+        context['account_total_balance'] = PersonalAccountBalance.get_total_balance()
         context['transactions_total_balance'] = Transaction.total_balance()
         context['purpose_list'] = Purpose.objects.all()
         return context

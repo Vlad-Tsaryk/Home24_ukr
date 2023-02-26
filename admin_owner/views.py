@@ -97,7 +97,7 @@ class OwnerList(AdminPermissionRequiredMixin, ListView):
                 'date_joined__day': self.request.GET.get('date_day'),
             }
             filter_fields = {k: v for k, v in filter_fields.items() if v}
-            filtered_qs = filtered_qs.filter(**filter_fields).order_by('-pk').distinct('pk')
+            filtered_qs = filtered_qs.filter(**filter_fields).order_by('-pk')
             if self.request.GET.get('order_by'):
                 filtered_qs = filtered_qs.order_by(self.request.GET.get('order_by'))
             result_list = list(filtered_qs.values('id', 'name', 'phone',

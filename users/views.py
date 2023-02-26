@@ -12,7 +12,7 @@ from django.views.generic import ListView, CreateView, UpdateView, DetailView, T
 from django.http import JsonResponse, HttpResponseRedirect
 
 import settings
-from .mixins import AdminPermissionRequiredMixin
+from .mixins import AdminPermissionRequiredMixin, OwnerPermissionRequiredMixin
 from .models import User, Role
 from .forms import CustomUserCreationForm, CustomUserUpdateForm, RoleFormSet, AdminLoginForm, CabinetLoginForm
 from django.contrib import messages
@@ -138,18 +138,18 @@ class LoginView(FormView):
         return False
 
     def get(self, request, *args, **kwargs):
-        if self.request.COOKIES.get(f'{self.user_type}_session_key') != 'None':
-            try:
-                session_object_model = Session.objects.get(
-                    session_key=self.request.COOKIES.get(f'{self.user_type}_session_key'))
-                if session_object_model.get_decoded():
-                    session_store = SessionStore(session_object_model.session_key)
-                    user_id = session_object_model.get_decoded().get('_auth_user_id')
-                    if user_id:
-                        self.request.session = session_store
-                        self.request.user = User.objects.get(pk=user_id)
-            except (Session.DoesNotExist, KeyError, User.DoesNotExist):
-                self.request.session = SessionStore(None)
+        # if self.request.COOKIES.get(f'{self.user_type}_session_key') != 'None':
+        #     try:
+        #         session_object_model = Session.objects.get(
+        #             session_key=self.request.COOKIES.get(f'{self.user_type}_session_key'))
+        #         if session_object_model.get_decoded():
+        #             session_store = SessionStore(session_object_model.session_key)
+        #             user_id = session_object_model.get_decoded().get('_auth_user_id')
+        #             if user_id:
+        #                 self.request.session = session_store
+        #                 self.request.user = User.objects.get(pk=user_id)
+        #     except (Session.DoesNotExist, KeyError, User.DoesNotExist):
+        #         self.request.session = SessionStore(None)
         if self.authenticated_check():
             return redirect(self.success_url)
         return super().get(self, request, *args, **kwargs)
@@ -179,6 +179,7 @@ class AdminLoginView(LoginView):
         if self.request.user.is_authenticated and self.request.user.role.role != Role.RoleName.OWNER:
             return True
         return False
+
 
 class CabinetLoginView(LoginView):
     template_name = 'cabinet/login_page.html'

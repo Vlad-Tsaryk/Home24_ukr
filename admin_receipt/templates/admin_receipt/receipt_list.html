@@ -266,10 +266,10 @@
                     },
                     {data: 'apartment_info'},
                     {
-                        data: 'apartment__owner__first_name',
+                        data: 'personal_account__apartment__owner__first_name',
                         render: function (data, type, row) {
                             if (data) {
-                                return `${data} ${row['apartment__owner__middle_name']} ${row['apartment__owner__last_name']}`
+                                return `${data} ${row['personal_account__apartment__owner__middle_name']} ${row['personal_account__apartment__owner__last_name']}`
                             } else {
                                 return check_empty(data)
                             }

@@ -29,7 +29,7 @@ class ApartmentSummary(OwnerPermissionRequiredMixin, DetailView):
     def get_context_data(self, **kwargs):
         context = super(ApartmentSummary, self).get_context_data(**kwargs)
         current_date = timezone.now()
-        receipts_for_the_year = Receipt.objects.filter(apartment=self.object,
+        receipts_for_the_year = Receipt.objects.filter(personal_account__apartment=self.object,
                                                        is_complete=True,
                                                        date__year=current_date.year).order_by()
 
@@ -43,7 +43,8 @@ class ApartmentSummary(OwnerPermissionRequiredMixin, DetailView):
             .values('receiptservice__service__name') \
             .annotate(sum=Sum(F('receiptservice__price_unit') * F('receiptservice__consumption')))
 
-        context['previous_month_services_outcome'] = Receipt.objects.filter(apartment=self.get_object()) \
+        context['previous_month_services_outcome'] = Receipt.objects\
+            .filter(personal_account__apartment=self.get_object()) \
             .filter(is_complete=True, date__year=current_date.year, date__month=current_date.month - 1).order_by() \
             .select_related('receiptservice_set') \
             .values('receiptservice__service__name') \

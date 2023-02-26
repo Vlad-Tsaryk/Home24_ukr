@@ -14,7 +14,6 @@ class Command(BaseCommand):
         for _ in range(options['number']):
             user = User.objects.create(
                 first_name=fake.first_name(),
-                # middle_name=fake.first_name(),
                 last_name=fake.last_name(),
                 phone=PhoneNumber.from_string('+38 (073) 242-58-82', region="UA"),
                 viber=PhoneNumber.from_string('+38 (073) 242-58-82', region="UA"),
@@ -22,8 +21,8 @@ class Command(BaseCommand):
                 birth_date=fake.date_of_birth(minimum_age=16, maximum_age=55),
                 username=fake.email(),
                 password='Home12345',
-                status=random.choice(['Активен', 'Отключен', 'Новый']),
-                role=Role.objects.get(role=random.choice(Role.RoleName.choices[1:5])[0]),
+                status=random.choice(User.StatusName.choices),
+                role=Role.objects.get(role=random.choice(Role.RoleName.values[1:5])),
                 notes=fake.text(max_nb_chars=500),
                 profile_image=f'static_kit/users/{random.randrange(1,3)}.png'
             )

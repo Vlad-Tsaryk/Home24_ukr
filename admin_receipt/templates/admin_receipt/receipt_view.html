@@ -80,38 +80,38 @@
                 <tr>
                     <td>Владелец</td>
                     <td>
-                        <a href="{% url 'owner_view' receipt.apartment.owner_id %}">
-                            {{ receipt.apartment.owner }} </a>
+                        <a href="{% url 'owner_view' receipt.personal_account.apartment.owner_id %}">
+                            {{ receipt.personal_account.apartment.owner }} </a>
                     </td>
                 </tr>
                 <tr>
                     <td>Лицевой счет</td>
                     <td>
-                        <a href="{% url 'personal_account_view' receipt.apartment.personalaccount.pk %}">
-                            {{ receipt.apartment.personalaccount }} </a>
+                        <a href="{% url 'personal_account_view' receipt.personal_account.pk %}">
+                            {{ receipt.personal_account }} </a>
                     </td>
                 </tr>
                 <tr>
                     <td>Телефон</td>
-                    <td>{{ receipt.apartment.owner.phone }}</td>
+                    <td>{{ receipt.personal_account.apartment.owner.phone }}</td>
                 </tr>
                 <tr>
                     <td>Дом</td>
                     <td>
-                        <a href="{% url 'house_view' receipt.apartment.house_id %}">
-                            {{ receipt.apartment.house }} </a>
+                        <a href="{% url 'house_view' receipt.personal_account.apartment.house_id %}">
+                            {{ receipt.personal_account.apartment.house }} </a>
                     </td>
                 </tr>
                 <tr>
                     <td>Квартира</td>
                     <td>
-                        <a href="{% url 'apartment_view' receipt.apartment_id %}">
-                            {{ receipt.apartment.number }} </a>
+                        <a href="{% url 'apartment_view' receipt.personal_account.apartment_id %}">
+                            {{ receipt.personal_account.apartment.number }} </a>
                     </td>
                 </tr>
                 <tr>
                     <td>Секция</td>
-                    <td>{{ receipt.apartment.section }}</td>
+                    <td>{{ receipt.personal_account.apartment.section }}</td>
                 </tr>
                 <tr>
                     <td>Тариф</td>

@@ -8,6 +8,7 @@ from admin_apartment.models import Apartment
 from admin_application.models import Application
 from admin_house.models import House
 from admin_personal_account.models import PersonalAccount
+from admin_personal_account.utils import PersonalAccountBalance
 from admin_receipt.models import Receipt
 from admin_transaction.models import Transaction
 from users.mixins import AdminPermissionRequiredMixin
@@ -32,8 +33,8 @@ class StatisticView(AdminPermissionRequiredMixin, TemplateView):
             .filter(status=Application.StatusName.IN_PROGRESS) \
             .count()
         context['application_new'] = Application.objects.filter(status=Application.StatusName.NEW).count()
-        context['accounts_total_debt'] = PersonalAccount.total_debt().__neg__()
-        context['accounts_total_balance'] = PersonalAccount.total_balance()
+        context['accounts_total_debt'] = PersonalAccountBalance.get_total_debt().__neg__()
+        context['account_total_balance'] = PersonalAccountBalance.get_total_balance()
         context['transactions_total_balance'] = Transaction.total_balance()
 
         current_date = timezone.now()
