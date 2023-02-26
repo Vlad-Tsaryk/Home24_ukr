@@ -4,9 +4,6 @@ from phonenumber_field.phonenumber import PhoneNumber
 
 
 class Command(BaseCommand):
-    def add_arguments(self, parser):
-        parser.add_argument('number', type=int, help='how many sessions generate')
-
     def handle(self, *args, **options):
         if not MainPage.objects.exists():
             main_page = MainPage.objects.create(
