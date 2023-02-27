@@ -10,20 +10,16 @@ class Command(BaseCommand):
         parser.add_argument('number', type=int, help='how many sessions generate')
 
     def handle(self, *args, **options):
-        fake = Faker()
+        fake = Faker('ru_RU')
         for _ in range(options['number']):
             user = User.objects.create(
                 first_name=fake.first_name(),
                 last_name=fake.last_name(),
                 phone=PhoneNumber.from_string('+38 (073) 242-58-82', region="UA"),
-                viber=PhoneNumber.from_string('+38 (073) 242-58-82', region="UA"),
-                telegram='@'+fake.simple_profile()['username'],
-                birth_date=fake.date_of_birth(minimum_age=16, maximum_age=55),
                 username=fake.email(),
-                password='Home12345',
+                password='Admin12345',
                 status=random.choice(User.StatusName.choices),
                 role=Role.objects.get(role=random.choice(Role.RoleName.values[1:5])),
-                notes=fake.text(max_nb_chars=500),
-                profile_image=f'static_kit/users/{random.randrange(1,3)}.png'
+                profile_image=f'static_kit/users/{random.randrange(1, 3)}.png'
             )
             print('User **' + user.telegram + '** successfully create')
