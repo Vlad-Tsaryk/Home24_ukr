@@ -17,7 +17,7 @@ from openpyxl.writer.excel import save_virtual_workbook
 from admin_purpose.models import PaymentDetails
 from admin_receipt.models import Receipt
 from excel_templates.models import ExcelTemplate
-from settings import EMAIL_HOST
+from home24.settings import EMAIL_HOST
 from users.mixins import AdminPermissionRequiredMixin
 from .forms import ExcelTemplateCreateForm
 

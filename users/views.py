@@ -11,7 +11,7 @@ from django.views import View
 from django.views.generic import ListView, CreateView, UpdateView, DetailView, TemplateView, DeleteView, FormView
 from django.http import JsonResponse, HttpResponseRedirect
 
-import settings
+from home24 import settings
 from .mixins import AdminPermissionRequiredMixin, OwnerPermissionRequiredMixin
 from .models import User, Role
 from .forms import CustomUserCreationForm, CustomUserUpdateForm, RoleFormSet, AdminLoginForm, CabinetLoginForm

@@ -8,7 +8,7 @@ from django.views.generic import CreateView, UpdateView, ListView, DetailView, D
 
 from admin_house.models import House
 from admin_personal_account.models import PersonalAccount
-from settings import EMAIL_HOST
+from home24.settings import EMAIL_HOST
 from users.mixins import AdminPermissionRequiredMixin
 from users.models import User, Role
 from .forms import OwnerChangeForm, OwnerCreateForm, OwnerInviteForm
