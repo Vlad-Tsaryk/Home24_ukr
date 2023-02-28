@@ -10,8 +10,7 @@ class PersonalAccountForm(forms.ModelForm):
                                        queryset=Apartment.objects.all(), required=False)
     house = forms.ModelChoiceField(widget=forms.Select(attrs={'class': 'form-control'}), empty_label='',
                                    queryset=House.objects.all(), required=False)
-    number = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}),
-                             initial=str(PersonalAccount.objects.last().pk + 1).zfill(11))
+    number = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}))
 
     def __init__(self, *args, **kwargs):
         super(PersonalAccountForm, self).__init__(*args, **kwargs)
