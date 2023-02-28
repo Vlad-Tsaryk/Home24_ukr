@@ -17,7 +17,6 @@ class Command(BaseCommand):
             admin = User.objects.create_superuser(
                 username=email,
                 first_name=username,
-                middle_name=username,
                 last_name=username,
                 phone=PhoneNumber.from_string('+38 (073) 111-11-11', region="UA"),
                 viber=PhoneNumber.from_string('+38 (073) 111-11-11', region="UA"),
