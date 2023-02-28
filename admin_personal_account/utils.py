@@ -44,9 +44,9 @@ class PersonalAccountBalance:
     @staticmethod
     def get_total_balance():
         result = PersonalAccountBalance.get_total_query()
-        return result.filter(balance__gt=0).aggregate(total=Sum('balance'))['total']
+        return result.filter(balance__gt=0).aggregate(total=Sum('balance'))['total'] or 0
 
     @staticmethod
     def get_total_debt():
         result = PersonalAccountBalance.get_total_query()
-        return result.filter(balance__lt=0).aggregate(total=Sum('balance'))['total']
+        return result.filter(balance__lt=0).aggregate(total=Sum('balance'))['total'] or 0

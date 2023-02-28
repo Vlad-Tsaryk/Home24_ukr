@@ -16,8 +16,8 @@ class Command(BaseCommand):
             print('Creating account for %s (%s)' % (username, email))
             admin = User.objects.create_superuser(
                 username=email,
-                first_name=username,
-                last_name=username,
+                first_name='Admin',
+                last_name='Admin',
                 phone=PhoneNumber.from_string('+38 (073) 111-11-11', region="UA"),
                 viber=PhoneNumber.from_string('+38 (073) 111-11-11', region="UA"),
                 telegram='@' + 'admin',
@@ -32,4 +32,4 @@ class Command(BaseCommand):
             admin.is_admin = True
             admin.save()
         else:
-            print('Admin accounts can only be initialized if no Accounts exist')
+            print('Admin already initialize')

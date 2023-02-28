@@ -71,8 +71,14 @@ class ReceiptServiceForm(forms.ModelForm):
                                 queryset=Service.objects.all(), required=False)
     total_price = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control', 'disabled': 'disabled'}),
                                   required=False)
-    consumption = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}))
+    consumption = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}),required=False)
     price_unit = forms.FloatField(widget=forms.NumberInput(attrs={'class': 'form-control'}))
+
+    def clean_consumption(self):
+        consumption = self.cleaned_data['consumption']
+        if not consumption:
+            consumption = 0.0
+        return consumption
 
     def __init__(self, *args, **kwargs):
         super(ReceiptServiceForm, self).__init__(*args, **kwargs)

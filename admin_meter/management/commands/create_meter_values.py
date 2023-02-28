@@ -31,3 +31,4 @@ class Command(BaseCommand):
                 date=datetime.date.today(),
                 status=random.choice(Meter.StatusName.values)
             )
+        print(f'Meter created: {options["number"]}')

@@ -22,7 +22,7 @@ class Command(BaseCommand):
         if not PaymentDetails.objects.exists():
             faker = Faker()
             PaymentDetails.objects.create(
-                name=faker.conpany(),
-                info=faker.conpany()
+                name=faker.company(),
+                info=faker.company()
             )
 

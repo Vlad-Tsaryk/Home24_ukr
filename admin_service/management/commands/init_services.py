@@ -1,5 +1,3 @@
-import random
-
 from django.core.management.base import BaseCommand
 
 from admin_service.models import Unit, Service

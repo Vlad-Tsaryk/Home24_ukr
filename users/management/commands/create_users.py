@@ -18,8 +18,8 @@ class Command(BaseCommand):
                 phone=PhoneNumber.from_string('+38 (073) 242-58-82', region="UA"),
                 username=fake.email(),
                 password='Admin12345',
-                status=random.choice(User.StatusName.choices),
+                status=random.choice(User.StatusName.values),
                 role=Role.objects.get(role=random.choice(Role.RoleName.values[1:5])),
                 profile_image=f'static_kit/users/{random.randrange(1, 3)}.png'
             )
-            print('User **' + user.telegram + '** successfully create')
+            print('User **' + user.username + '** successfully create')

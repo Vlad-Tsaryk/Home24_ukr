@@ -17,7 +17,8 @@ class Command(BaseCommand):
                     description=tariff_name,
                 )
                 services_list = []
-                for service in range(random.randrange(1, services.count())):
+                for _ in range(random.randrange(1, services.count())):
+                    service = random.choice(services)
                     if service not in services_list:
                         services_list.append(service)
                         TariffService.objects.create(

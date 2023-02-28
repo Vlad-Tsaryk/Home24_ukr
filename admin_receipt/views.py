@@ -69,7 +69,7 @@ class ReceiptCreate(AdminPermissionRequiredMixin, CreateView):
         meters_consumption = {}
         for meter in metest_new:
             try:
-                value = meter.value - metest_clarified.get(service=meter.service).value
+                value = meter.value - metest_clarified.filter(service=meter.service).last().value
             except Meter.DoesNotExist:
                 meters_consumption[meter.service_id] = meter.value
                 continue
