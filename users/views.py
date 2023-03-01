@@ -136,7 +136,7 @@ class CustomLoginView(FormView):
         if self.request.COOKIES.get(f'{self.user_type}_session_key'):
             if self.request.COOKIES.get(f'{self.user_type}_session_key') != 'None':
                 return True
-            return False
+        return False
 
     def get(self, request, *args, **kwargs):
         if self.request.session:

@@ -78,7 +78,6 @@ class OwnerList(AdminPermissionRequiredMixin, ListView):
 
     def render_to_response(self, context, **response_kwargs):
         if self.request.is_ajax():
-            print(self.request.GET)
             owner_role = Role.objects.get(role=Role.RoleName.OWNER)
             filtered_qs = self.get_queryset() \
                 .filter(role=owner_role) \
@@ -102,7 +101,6 @@ class OwnerList(AdminPermissionRequiredMixin, ListView):
                 filtered_qs = filtered_qs.order_by(self.request.GET.get('order_by'))
             result_list = list(filtered_qs.values('id', 'name', 'phone',
                                                   'username', 'status', 'date_joined', 'uid'))
-            print(filtered_qs)
             owner_without_debt = []
             for owner in result_list:
                 owner['apartment'] = list(filtered_qs.get(
@@ -120,14 +118,12 @@ class OwnerList(AdminPermissionRequiredMixin, ListView):
             paginator = Paginator(result_list, self.request.GET.get('length', 10))
             page = (start // length) + 1
             data = list(paginator.get_page(page))
-            print(data)
             result = {
                 'data': data,
                 'recordsTotal': paginator.count,
                 'recordsFiltered': paginator.count,
                 'pages': paginator.num_pages,
             }
-            print(result)
             return JsonResponse(result, safe=False, **response_kwargs)
         else:
             return super(ListView, self).render_to_response(context, **response_kwargs)

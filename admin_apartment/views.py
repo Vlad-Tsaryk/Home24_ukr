@@ -137,11 +137,17 @@ class ApartmentList(AdminPermissionRequiredMixin, ListView):
 
             filtered_qs = filtered_qs.values('id', 'number', 'house__name', 'floor__name', 'section__name',
                                              'owner__name')
+
             start = int(self.request.GET.get('start', 0))
             length = int(self.request.GET.get('length', 10))
             paginator = Paginator(filtered_qs, self.request.GET.get('length', 10))
             page = (start // length) + 1
             data = list(paginator.get_page(page))
+            for apartment in data:
+                try:
+                    apartment['balance'] = PersonalAccount.objects.get(apartment_id=apartment['id']).balance
+                except PersonalAccount.DoesNotExist:
+                    apartment['balance'] = '(нет счета)'
             result['apartment'] = data
             result['recordsTotal'] = paginator.count
             result['recordsFiltered'] = paginator.count

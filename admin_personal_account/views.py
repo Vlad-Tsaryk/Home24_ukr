@@ -124,7 +124,6 @@ class PersonalAccountList(AdminPermissionRequiredMixin, ListView):
                 result['sections'] = list(Section.objects.filter(house=filter_fields['apartment__house']).values())
 
             filter_fields = {k: v for k, v in filter_fields.items() if v}
-            PersonalAccount.objects.select_related('')
             filtered_qs = self.get_queryset().prefetch_related('receipt_set', 'transaction_set').filter(**filter_fields)
             filtered_qs = filtered_qs.annotate(
                 owner__name=Concat('apartment__owner__first_name', Value(' '),

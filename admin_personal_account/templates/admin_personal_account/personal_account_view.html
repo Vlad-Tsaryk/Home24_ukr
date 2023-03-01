@@ -79,7 +79,7 @@
                             <td>
                                 {% if personalaccount.apartment %}
                                     <a href="{% url 'apartment_view' personalaccount.apartment_id %}">
-                                {{ personalaccount.apartment.number }}</a>
+                                        {{ personalaccount.apartment.number }}</a>
                                 {% else %}
                                     {{ personalaccount.apartment.number }}
                                 {% endif %}
@@ -90,7 +90,7 @@
                             <td>
                                 {% if personalaccount.apartment.owner %}
                                     <a href="{% url 'owner_view' personalaccount.apartment.owner_id %}">
-                                    {{ personalaccount.apartment.owner }}</a>
+                                        {{ personalaccount.apartment.owner }}</a>
                                 {% else %}
                                     {{ personalaccount.apartment.owner }}
                                 {% endif %}
@@ -99,30 +99,33 @@
                         </tr>
                         <tr>
                             <td>Остаток, грн.</td>
-                            <td>
-                                <span class="text-default">{{ personalaccount.has_debt }}</span></td>
+                            <td>{% with personalaccount.balance as balance  %}
+                                <span class="text-{% if balance > 0 %}green{% elif balance < 0 %}red{% else %}default
+                                {% endif %}">{{ balance }}</span>
+                            {% endwith %}
+                            </td>
                         </tr>
                         </tbody>
                     </table>
                     <div>
                         <p><a {% if personalaccount.apartment %}
-                                href="{% url 'meter-view-list-apart' personalaccount.apartment_id %}"
-                                {% else %}
-                                style="cursor: not-allowed; color: grey"
-                                {% endif %}
+                            href="{% url 'meter-view-list-apart' personalaccount.apartment_id %}"
+                        {% else %}
+                            style="cursor: not-allowed; color: grey"
+                        {% endif %}
                         >Посмотреть показания счетчиков</a></p>
                         <p>
                             <a {% if personalaccount.apartment %}
                                 href="{% url 'transaction_list_personal_account' personalaccount.number %}"
-                                {% else %}
+                            {% else %}
                                 style="cursor: not-allowed; color: grey"
-                                {% endif %}>Посмотреть
+                            {% endif %}>Посмотреть
                                 приходы</a></p>
                         <p><a {% if personalaccount.apartment %}
-                                href="{% url 'receipt_list_apartment' personalaccount.apartment.number %}"
-                                {% else %}
-                                style="cursor: not-allowed; color: grey"
-                                {% endif %}>Посмотреть квитанции</a></p>
+                            href="{% url 'receipt_list_apartment' personalaccount.apartment.number %}"
+                        {% else %}
+                            style="cursor: not-allowed; color: grey"
+                        {% endif %}>Посмотреть квитанции</a></p>
                     </div>
                 </div>
             </div>

@@ -47,7 +47,7 @@ class Command(BaseCommand):
                                   'течение десяти минут до центра города или выехать на автострады Одесской обл!']
             for index, (title, description) in enumerate(zip(block_titles, block_descriptions)):
                 Block.objects.create(title=title, description=description, main_page=main_page,
-                                     image=f'static_kit/website/main_page/blocks/{index + 1}.jpg')
+                                     image=f'static_kit/website/main_page/blocks/{index + 1}.jpeg')
         if not ContactPage.objects.exists():
             ContactPage.objects.create(
                 title='AVADA-MEDIA',
@@ -104,7 +104,7 @@ class Command(BaseCommand):
                               'Обслуживание парковки']
             for index, (service_text, service_title) in enumerate(zip(service_texts,service_titles)):
                 ServiceBlock.objects.create(
-                    image=f'static_kit/website/contact_page/blocks/{index + 1}.jpg',
+                    image=f'static_kit/website/service_page/blocks/{index + 1}.jpg',
                     title=service_title,
                     text=service_text,
                     service_page=service_page,

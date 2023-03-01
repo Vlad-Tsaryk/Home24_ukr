@@ -23,7 +23,7 @@ class Command(BaseCommand):
                 telegram='@' + 'admin',
                 birth_date=fake.date_of_birth(minimum_age=16, maximum_age=55),
                 password=password,
-                status=choice(User.StatusName.choices)[0],
+                status=choice(User.StatusName.values)[0],
                 role=Role.objects.get(role=Role.RoleName.DIRECTOR),
                 notes=fake.text(max_nb_chars=500),
                 profile_image=f'static_kit/users/admin.png'

@@ -42,15 +42,14 @@ class Command(BaseCommand):
                     floor=random.choice(floors),
                     owner=random.choice(owners),
                     tariff=random.choice(tariffs)
-
-
                 )
-                print("Apartment create")
+                print(f"Apartment{apartment.number} create")
+                number = str(personal_account_last_pk+index).zfill(11)
                 PersonalAccount.objects.create(
-                    number=str(personal_account_last_pk+index).zfill(11),
+                    number=number,
                     apartment=apartment,
                     status=PersonalAccount.StatusName.ACTIVE
                 )
-                print("PersonalAccount create")
+                print(f"PersonalAccount {number} create")
             except IntegrityError:
                 continue

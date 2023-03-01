@@ -16,3 +16,4 @@ COPY . /home/app/home24
 RUN apt update
 RUN apt-get -y install wkhtmltopdf
 RUN pip install -r requirements.txt
+RUN ["chmod", "+x", "/home/app/home24/entrypoint.sh"]
