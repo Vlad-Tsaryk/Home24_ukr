@@ -1,7 +1,7 @@
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.sessions.backends.db import SessionStore
-from django.contrib.sessions.models import Session
+from django.core.mail import EmailMessage
 from django.core.paginator import Paginator
 from django.db.models.functions import Concat
 from django.db.models import Value
@@ -10,9 +10,10 @@ from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic import ListView, CreateView, UpdateView, DetailView, TemplateView, DeleteView, FormView
 from django.http import JsonResponse, HttpResponseRedirect
+from django.views.generic.detail import SingleObjectMixin
 
 from home24 import settings
-from .mixins import AdminPermissionRequiredMixin, OwnerPermissionRequiredMixin
+from .mixins import AdminPermissionRequiredMixin
 from .models import User, Role
 from .forms import CustomUserCreationForm, CustomUserUpdateForm, RoleFormSet, AdminLoginForm, CabinetLoginForm
 from django.contrib import messages
@@ -60,6 +61,23 @@ class Users(AdminPermissionRequiredMixin, ListView):
             return JsonResponse(result, safe=False, **response_kwargs)
         else:
             return super(ListView, self).render_to_response(context, **response_kwargs)
+
+
+class InviteUser(View, SingleObjectMixin):
+    model = User
+
+    def get(self, request, *args, **kwargs):
+        user = self.get_object()
+        email = EmailMessage()
+        email.from_email = settings.EMAIL_HOST
+        email.subject = 'Приглашение в Home 24'
+        email.body = f'Вас приглашают подключиться к системе Home 24 с уровнем доступа: {user.role.role}.\nВаш логин:' \
+                     f'{user.username} Чтобы узнать пароль свяжитесь с администрацией.\nСсылка для входа: ' \
+                     f'http://164.92.196.234/admin/site/login'
+        email.to = [user.username]
+        if email.send():
+            messages.success(self.request, f'Приглашение для пользователя <b>{user.username}</b> отправлено')
+        return redirect('user_list')
 
 
 class CreateUser(AdminPermissionRequiredMixin, SuccessMessageMixin, CreateView):

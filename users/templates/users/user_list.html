@@ -172,11 +172,12 @@
                             render:function (data, type) {
                             let link_update = '{% url 'update_user' 12345 %}'.replace(/12345/, data)
                             let link_delete = '{% url 'delete_user' 12345 %}'.replace(/12345/, data)
+                            let link_invite = '{% url 'invite_user' 12345 %}'.replace(/12345/, data)
                                 if (data === {{ admin.pk }}){
-                                    return `<div class="btn-group pull-right"><a class="btn btn-default btn-sm" href="/admin/user-admin/invite/2" title="Отправить приглашение" data-toggle="tooltip"><i class="fa fa-repeat"></i></a> <a class="btn btn-default btn-sm" href="${link_update}" title="Редактировать" data-toggle="tooltip"><i class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm disabled" href="${link_delete}" title="Удалить" data-toggle="tooltip" data-pjax="0" id="delete_user" ><i class="fa fa-trash"></i></a></div>`
+                                    return `<div class="btn-group pull-right"><a class="btn btn-default btn-sm" href="${link_invite}" title="Отправить приглашение" data-toggle="tooltip"><i class="fa fa-repeat"></i></a> <a class="btn btn-default btn-sm" href="${link_update}" title="Редактировать" data-toggle="tooltip"><i class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm disabled" href="${link_delete}" title="Удалить" data-toggle="tooltip" data-pjax="0" id="delete_user" ><i class="fa fa-trash"></i></a></div>`
                                 }
                                 else {
-                                    return `<div class="btn-group pull-right"><a class="btn btn-default btn-sm" href="/admin/user-admin/invite/2" title="Отправить приглашение" data-toggle="tooltip"><i class="fa fa-repeat"></i></a> <a class="btn btn-default btn-sm" href="${link_update}" title="Редактировать" data-toggle="tooltip"><i class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm" title="Удалить" data-toggle="tooltip" data-pjax="0" id="delete_user" onmousedown="return confirm_delete('${link_delete}',event);"> <i class="fa fa-trash"></i></a></div>`
+                                    return `<div class="btn-group pull-right"><a class="btn btn-default btn-sm" href="${link_invite}" title="Отправить приглашение" data-toggle="tooltip"><i class="fa fa-repeat"></i></a> <a class="btn btn-default btn-sm" href="${link_update}" title="Редактировать" data-toggle="tooltip"><i class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm" title="Удалить" data-toggle="tooltip" data-pjax="0" id="delete_user" onmousedown="return confirm_delete('${link_delete}',event);"> <i class="fa fa-trash"></i></a></div>`
                                 }
 
                             },
@@ -198,6 +199,7 @@
                 numb=0
                 table.draw()
             });
+
 
 
 
