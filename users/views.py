@@ -129,29 +129,22 @@ class UpdateRoles(AdminPermissionRequiredMixin, TemplateView):
             print('invalid')
 
 
-class LoginView(FormView):
+class CustomLoginView(FormView):
     user_type = ''
 
     def authenticated_check(self):
-        if self.request.user.is_authenticated:
-            return True
-        return False
+        if self.request.COOKIES.get(f'{self.user_type}_session_key'):
+            if self.request.COOKIES.get(f'{self.user_type}_session_key') != 'None':
+                return True
+            return False
 
     def get(self, request, *args, **kwargs):
-        # if self.request.COOKIES.get(f'{self.user_type}_session_key') != 'None':
-        #     try:
-        #         session_object_model = Session.objects.get(
-        #             session_key=self.request.COOKIES.get(f'{self.user_type}_session_key'))
-        #         if session_object_model.get_decoded():
-        #             session_store = SessionStore(session_object_model.session_key)
-        #             user_id = session_object_model.get_decoded().get('_auth_user_id')
-        #             if user_id:
-        #                 self.request.session = session_store
-        #                 self.request.user = User.objects.get(pk=user_id)
-        #     except (Session.DoesNotExist, KeyError, User.DoesNotExist):
-        #         self.request.session = SessionStore(None)
+        if self.request.session:
+            self.request.session = SessionStore(None)
+
         if self.authenticated_check():
             return redirect(self.success_url)
+
         return super().get(self, request, *args, **kwargs)
 
     def form_valid(self, form):
@@ -161,6 +154,7 @@ class LoginView(FormView):
             login(self.request, user)
             if not form.cleaned_data['remember_me']:
                 self.request.session.set_expiry(0)
+
             response = redirect(self.success_url)
             response.set_cookie(f'{self.user_type}_session_key', self.request.session.session_key,
                                 max_age=self.request.session.get_expiry_age())
@@ -169,28 +163,19 @@ class LoginView(FormView):
             return HttpResponseRedirect(settings.LOGIN_URL)
 
 
-class AdminLoginView(LoginView):
+class AdminLoginView(CustomLoginView):
     template_name = 'admin_panel/login_page.html'
     form_class = AdminLoginForm
     success_url = reverse_lazy('statistic')
     user_type = 'admin'
 
-    def authenticated_check(self):
-        if self.request.user.is_authenticated and self.request.user.role.role != Role.RoleName.OWNER:
-            return True
-        return False
 
-
-class CabinetLoginView(LoginView):
+class CabinetLoginView(CustomLoginView):
     template_name = 'cabinet/login_page.html'
     form_class = CabinetLoginForm
     success_url = reverse_lazy('cabinet')
     user_type = 'owner'
 
-    def authenticated_check(self):
-        if self.request.user.is_authenticated and self.request.user.role.role == Role.RoleName.OWNER:
-            return True
-        return False
     # def get(self, request, *args, **kwargs):
     #     # if self.request.user.is_authenticated:
     #     #     return redirect('ca')
@@ -202,6 +187,7 @@ class LogoutView(View):
     user_type = ''
 
     def get(self, request, *args, **kwargs):
+        print(self.request.user)
         if self.request.user.is_authenticated:
             logout(request)
         response = HttpResponseRedirect(self.success_url)
