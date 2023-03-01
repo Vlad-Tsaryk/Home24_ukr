@@ -168,6 +168,9 @@
             table.draw()
 
         }
+        function numberWithSpaces(nr) {
+            return nr.toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+        }
 
         function send_POST(e) {
             table = $('#apartment_table').DataTable({
@@ -212,7 +215,15 @@
                         if (data.replace(/\s/g, '')) {return data}
                         else return '(не задано)'
                      }},
-                    {data: null},
+                    {data: 'balance',
+                    render: function (data) {
+                            let text_color = 'default'
+                            if (data === '(нет счета)'){
+                                return `<span class="text">${data}</span>`}
+                            else if (data > 0) {text_color = 'green'}
+                            else if (data < 0) {text_color = 'red'}
+                            return `<span class="text text-${text_color}">${numberWithSpaces(data)}</span>`
+                        }},
                     {
                         data: 'id',
                         render: function (data, type) {
@@ -233,7 +244,7 @@
                     },
                 ],
                 paging: true,
-                'pageLength': 20,
+                'pageLength': 10,
                 'lengthChange': false,
                 initComplete: (settings, json) => {
                     $('.dataTables_paginate').appendTo('.pagination-sm');

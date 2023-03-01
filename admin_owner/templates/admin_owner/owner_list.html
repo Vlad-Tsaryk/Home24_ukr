@@ -115,7 +115,7 @@
     <script src="{% static 'admin_panel/bower_components/select2/dist/js/select2.full.min.js' %}"></script>
     <script src="{% static 'admin_panel/bower_components/select2/dist/js/i18n/ru.min.js' %}"></script>
     <script src="{% static 'admin_panel/bower_components/datatables.net/js/jquery.dataTables.min.js' %}"></script>
-{#    <script src="{% static 'admin_panel/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js' %}"></script>#}
+    <script src="{% static 'admin_panel/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js' %}"></script>
     <script src="{% static 'admin_panel/bower_components/moment/moment.js' %}"></script>
     <script src="{% static 'admin_panel/bower_components/moment/locale/ru.js' %}"></script>
     <script src="{% static 'admin_panel/plugins/bootstrap-datepicker-1.9.0-dist/js/bootstrap-datepicker.min.js' %}"></script>
@@ -187,6 +187,9 @@
                     {
                         "data": "apartment",
                         render: function (data) {
+                            if (data.length === 0){
+                                return "(не задано)"
+                            }
                             let houses = []
                             data.forEach(function (item) {
                                 let link_view = '{% url 'house_view' 12345 %}'.replace(/12345/, item['house_id'])
@@ -201,6 +204,9 @@
                     {
                         "data": "apartment",
                         render: function (data) {
+                            if (data.length === 0){
+                                return "(не задано)"
+                            }
                             let apartments = []
                             data.forEach(function (item) {
                                 let link_view = '{% url 'apartment_view' 12345 %}'.replace(/12345/, item['id'])
@@ -252,7 +258,7 @@
                     }
                 ],
                 paging: true,
-                'pageLength': 20,
+                'pageLength': 10,
                 'lengthChange': false,
                 initComplete: (settings, json) => {
                     $('.dataTables_paginate').appendTo('.pagination-sm');
