@@ -21,24 +21,36 @@ class Command(BaseCommand):
         tariffs = Tariff.objects.all()
         personal_account_last_pk = 1
         if PersonalAccount.objects.exists():
-            personal_account_last_pk = PersonalAccount.objects.last().pk
-        for _ in range(options['number']):
-            random_house = random.choice(houses)
+            personal_account_last_pk = PersonalAccount.objects.last().pk + 1
+        for index in range(options['number']):
             try:
+                random_house = random.choice(houses)
+                sections = Section.objects.filter(house=random_house)
+                floors = Floor.objects.filter(house=random_house)
+                if sections:
+                    section = random.choice(sections)
+                else:
+                    random_house = random.choice(houses)
+                    sections = Section.objects.filter(house=random_house)
+                    floors = Floor.objects.filter(house=random_house)
+                    section = random.choice(sections)
                 apartment = Apartment.objects.create(
                     number=random.randrange(1, 1000),
                     area=random.randrange(50, 300, 5),
                     house=random_house,
-                    section=random.choice(Section.objects.filter(house=random_house)),
-                    floor=random.choice(Floor.objects.filter(house=random_house)),
+                    section=section,
+                    floor=random.choice(floors),
                     owner=random.choice(owners),
                     tariff=random.choice(tariffs)
 
+
                 )
+                print("Apartment create")
                 PersonalAccount.objects.create(
-                    number=str(personal_account_last_pk).zfill(11),
+                    number=str(personal_account_last_pk+index).zfill(11),
                     apartment=apartment,
                     status=PersonalAccount.StatusName.ACTIVE
                 )
+                print("PersonalAccount create")
             except IntegrityError:
                 continue
