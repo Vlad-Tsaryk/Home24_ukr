@@ -1,4 +1,6 @@
 from django.contrib import messages
+from django.core.paginator import Paginator
+from django.db.models import Q
 from django.http import JsonResponse, HttpResponseRedirect, HttpResponse
 from django.urls import reverse_lazy
 from django.views import View
@@ -103,6 +105,28 @@ class MessageList(AdminPermissionRequiredMixin, ListView):
     def get_queryset(self):
         return Message.objects.select_related('house', 'section', 'floor',
                                               'apartment').prefetch_related('receivers').order_by(self.ordering)
+
+    def render_to_response(self, context, **response_kwargs):
+        if self.request.is_ajax():
+            search_value = self.request.GET.get('search[value]')
+            filtered_qs = self.get_queryset().filter(Q(text__contains=search_value) | Q(subject__contains=search_value))
+            result_list = list(filtered_qs.values('id', 'text', 'subject', 'created'))
+            for message in result_list:
+                message['receivers'] = filtered_qs.get(id=message['id']).get_receiver_label
+            start = int(self.request.GET.get('start', 0))
+            length = int(self.request.GET.get('length', 10))
+            paginator = Paginator(result_list, self.request.GET.get('length', 10))
+            page = (start // length) + 1
+            data = list(paginator.get_page(page))
+            result = {
+                'data': data,
+                'recordsTotal': paginator.count,
+                'recordsFiltered': paginator.count,
+                'pages': paginator.num_pages,
+            }
+            return JsonResponse(result, safe=False, **response_kwargs)
+        else:
+            return super(ListView, self).render_to_response(context, **response_kwargs)
 
 
 class MessageView(AdminPermissionRequiredMixin, DetailView):

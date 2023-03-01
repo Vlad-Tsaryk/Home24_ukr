@@ -19,7 +19,7 @@ class Message(models.Model):
     @property
     def get_receiver_label(self):
         if not (self.house or self.section or self.apartment or self.floor) and self.receivers.count() == 1:
-            return self.receivers.first()
+            return str(self.receivers.first())
         if self.house:
             return f'{self.house} {self.section or ""} ' \
                    f'{self.floor or ""} {self.apartment or ""}'

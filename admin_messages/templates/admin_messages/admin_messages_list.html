@@ -35,7 +35,7 @@
                 <div class="has-feedback">
                     <form action="" method="get">
 
-                        <input type="text" name="search" value="" class="form-control input-sm" placeholder="Поиск">
+                        <input id="search" type="text" name="search" class="form-control input-sm" placeholder="Поиск">
                         <span class="glyphicon glyphicon-search form-control-feedback"></span>
                     </form>
                 </div>
@@ -52,19 +52,12 @@
                     </button>
 
                     <div class="pull-right">
-                        <ul class="pagination pagination-sm no-margin pull-right">
-                            <li class="prev disabled"><span>«</span></li>
-                            <li class="active"><a href="/admin/message/index?page=1&amp;per-page=50" data-page="0">1</a>
-                            </li>
-                            <li><a href="/admin/message/index?page=2&amp;per-page=50" data-page="1">2</a></li>
-                            <li class="next"><a href="/admin/message/index?page=2&amp;per-page=50" data-page="1">»</a>
-                            </li>
-                        </ul>
+                        <ul class="pagination pagination-sm no-margin pull-right"></ul>
                     </div>
                 </div>
 
-                <div class="table-responsive mailbox-messages">
-                    <table class="table table-hover table-striped linkedRow">
+                <div class="mailbox-messages">
+                    <table id="messages_table" class="table table-bordered table-hover table-striped linkedRow" >
                         <thead>
                         <tr>
                             <th>&nbsp;</th>
@@ -74,19 +67,19 @@
                         </tr>
                         </thead>
                         <tbody>
-                        {% for message in message_list %}
-                            {% url 'message_view' message.pk as message_url%}
-                            <tr data-href="{{message_url}}">
-                                <td>
-                                    <input type="checkbox" name="selection[]" value="{{ message.pk }}"
-                                           style="position: absolute; opacity: 0;">
-                                </td>
-                                <td><a href="{{message_url}}">{{ message.get_receiver_label }}</a>
-                                </td>
-                                <td><strong>{{ message.subject }}</strong> - {{ message.text|striptags }}</td>
-                                <td>{{ message.created|date:'d.m.Y - H:m' }}</td>
-                            </tr>
-                        {% endfor %}
+{#                        {% for message in message_list %}#}
+{#                            {% url 'message_view' message.pk as message_url%}#}
+{#                            <tr data-href="{{message_url}}">#}
+{#                                <td>#}
+{#                                    <input type="checkbox" name="selection[]" value="{{ message.pk }}"#}
+{#                                           style="position: absolute; opacity: 0;">#}
+{#                                </td>#}
+{#                                <td><a href="{{message_url}}">{{ message.get_receiver_label }}</a>#}
+{#                                </td>#}
+{#                                <td><strong>{{ message.subject }}</strong> - {{ message.text|striptags }}</td>#}
+{#                                <td>{{ message.created|date:'d.m.Y - H:m' }}</td>#}
+{#                            </tr>#}
+{#                        {% endfor %}#}
                         </tbody>
                     </table>
                 </div>
@@ -97,14 +90,7 @@
                     <button type="button" class="btn btn-default btn-sm delete-many"><i class="fa fa-trash-o"></i>
                     </button>
                     <div class="pull-right">
-                        <ul class="pagination pagination-sm no-margin pull-right">
-                            <li class="prev disabled"><span>«</span></li>
-                            <li class="active"><a href="/admin/message/index?page=1&amp;per-page=50" data-page="0">1</a>
-                            </li>
-                            <li><a href="/admin/message/index?page=2&amp;per-page=50" data-page="1">2</a></li>
-                            <li class="next"><a href="/admin/message/index?page=2&amp;per-page=50" data-page="1">»</a>
-                            </li>
-                        </ul>
+                        <ul class="pagination pagination-sm no-margin pull-right"></ul>
                     </div>
                 </div>
             </div>
@@ -114,6 +100,9 @@
     <form>{% csrf_token %}</form>
 {% endblock %}
 {% block scripts %}
+        <script src="{% static 'admin_panel/bower_components/datatables.net/js/jquery.dataTables.min.js' %}"></script>
+    <script src="{% static 'admin_panel/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js' %}"></script>
+        <script src="{% static 'admin_panel/bower_components/moment/moment.js' %}"></script>
     <script>
         $('#nav_message').attr('class', 'active')
     </script>
@@ -121,7 +110,6 @@
     <script>
         let checkboxes = $('.mailbox-messages input[type="checkbox"]')
         let selected_messages = []
-        console.log(selected_messages)
         checkboxes.iCheck({
             checkboxClass: 'icheckbox_flat-blue',
             radioClass: 'iradio_flat-blue'
@@ -152,6 +140,58 @@
             $(this).data("clicks", !clicks);
             console.log( $(this).data())
         });
+    </script>
+    <script>
+    function send_POST(e) {
+                let table = $('#messages_table').DataTable({
+
+                    serverSide: true,
+                    autoWidth: false,
+
+                    {#processing: false,#}
+                    oLanguage: {
+                    sZeroRecords: "Ничего не найдено."
+                    },
+                    columnDefs: [
+                        { targets: '_all', defaultContent:'',className: "message"},
+                    ],
+                    "ajax": {
+                        "processing": true,
+                        "url": "{% url 'message_list' %}",
+                        "data": function (d) {
+                            return d;
+                        },
+                    },
+                    "columns": [
+                        {"data": "id"},
+                        {"data": "receivers"},
+                        {"data": "text",
+                            render:function (data,type,row) {
+                                return `<strong>${$(data).text()}</strong> - ${row.subject}`
+                            }},
+                        {"data": "created",
+                            render:function (data) {
+                                return moment.utc(data).format('DD.MM.YYYY')
+                            }}
+                            ],
+                    paging: true,
+                    'lengthChange': false,
+                    'pageLength': 10,
+                    searching: true,
+                    dom: 'lrtp',
+                    ordering: false,
+                    info: false,
+                    initComplete: (settings, json) => {
+                    $('.dataTables_paginate').appendTo('.pagination-sm');
+                },
+                });
+                $('#search').keyup(function(){
+                      table.search($(this).val()).draw() ;
+                })
+            }
+            $(document).ready(function () {
+                send_POST()
+            })
     </script>
     <script>
         $('#delete_many').click(function () {
