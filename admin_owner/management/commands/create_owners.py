@@ -17,7 +17,7 @@ class Command(BaseCommand):
             owner_last_pk = User.get_owners().order_by('pk').last().pk + 1
         for index in range(options['number']):
             print(str(owner_last_pk+index).zfill(6))
-            user = User.objects.create(
+            user = User.objects.create_user(
                 first_name=fake.first_name(),
                 middle_name=fake.middle_name(),
                 last_name=fake.last_name(),

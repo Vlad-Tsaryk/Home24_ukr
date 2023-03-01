@@ -12,7 +12,7 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         fake = Faker('ru_RU')
         for _ in range(options['number']):
-            user = User.objects.create(
+            user = User.objects.create_user(
                 first_name=fake.first_name(),
                 last_name=fake.last_name(),
                 phone=PhoneNumber.from_string('+38 (073) 242-58-82', region="UA"),
