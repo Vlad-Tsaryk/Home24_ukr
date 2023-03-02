@@ -15,6 +15,8 @@ class AdminBackend(ModelBackend):
                     return None
                 elif admin.check_password(password):
                     return admin
+                else:
+                    messages.error(request, "Пароль введен неправильно")
             except User.DoesNotExist:
                 messages.error(request, "Пользователь не существует")
                 return None
@@ -25,11 +27,14 @@ class OwnerBackend(ModelBackend):
         if kwargs.get('user_type') == 'owner':
             try:
                 owner = User.objects.get(Q(username=username) | Q(uid=username), role__role=Role.RoleName.OWNER)
+                print('Password', owner.check_password(password))
                 if owner.status == owner.StatusName.DISABLED.value:
                     messages.error(request, "Пользователь не активен")
                     return None
                 elif owner.check_password(password):
                     return owner
+                else:
+                    messages.error(request, "Пароль введен неправильно")
             except User.DoesNotExist:
                 messages.error(request, "Пользователь не существует")
                 return None

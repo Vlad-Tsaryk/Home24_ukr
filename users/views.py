@@ -159,10 +159,8 @@ class CustomLoginView(FormView):
     def get(self, request, *args, **kwargs):
         if self.request.session:
             self.request.session = SessionStore(None)
-
         if self.authenticated_check():
             return redirect(self.success_url)
-
         return super().get(self, request, *args, **kwargs)
 
     def form_valid(self, form):
@@ -178,7 +176,7 @@ class CustomLoginView(FormView):
                                 max_age=self.request.session.get_expiry_age())
             return response
         else:
-            return HttpResponseRedirect(settings.LOGIN_URL)
+            return super(CustomLoginView, self).get(self.request)
 
 
 class AdminLoginView(CustomLoginView):

@@ -86,7 +86,6 @@
 </script>
 <script>toastr.options = {"positionClass": "toast-bottom-right"}</script>
     {% for message in messages %}
-        {{ message }}
         {% if message.tags == 'error' %}
             <script>toastr.{{ message.tags }}('{{ message }}')</script>
         {% endif %}
