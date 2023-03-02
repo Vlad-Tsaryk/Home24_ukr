@@ -2,6 +2,7 @@ from django.contrib.auth import login
 from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin
 from django.contrib.sessions.models import Session
 from django.contrib.sessions.backends.db import SessionStore
+from django.http import HttpResponseRedirect
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 
@@ -25,7 +26,7 @@ class AdminPermissionRequiredMixin(LoginRequiredMixin, PermissionRequiredMixin):
                     self.request.user = User.objects.get(pk=user_id)
                     return True
                 except (Session.DoesNotExist, KeyError, User.DoesNotExist):
-                    return 'redirect'
+                    return 'session_key-None'
             return 'redirect'
         else:
             return all(getattr(self.request.user.role, f'{perm}') for perm in perms)
@@ -34,6 +35,10 @@ class AdminPermissionRequiredMixin(LoginRequiredMixin, PermissionRequiredMixin):
         has_permission = self.has_permission()
         if has_permission == 'redirect':
             return redirect(self.login_url)
+        elif has_permission == 'session_key-None':
+            response = HttpResponseRedirect(self.login_url)
+            response.set_cookie('admin_session_key', None)
+            return response
         elif has_permission:
             return super().dispatch(request, *args, **kwargs)
         else:
@@ -58,7 +63,7 @@ class OwnerPermissionRequiredMixin(LoginRequiredMixin, PermissionRequiredMixin):
                             self.request.user = User.objects.get(pk=user_id)
                             return True
                 except (Session.DoesNotExist, KeyError, User.DoesNotExist):
-                    return False
+                    return 'session_key-None'
             else:
                 return False
         else:
@@ -66,6 +71,10 @@ class OwnerPermissionRequiredMixin(LoginRequiredMixin, PermissionRequiredMixin):
 
     def dispatch(self, request, *args, **kwargs):
         has_permission = self.has_permission()
-        if has_permission:
+        if has_permission == 'session_key-None':
+            response = HttpResponseRedirect(self.login_url)
+            response.set_cookie('owner_session_key', None)
+            return response
+        elif has_permission:
             return super().dispatch(request, *args, **kwargs)
         return redirect(self.login_url)
