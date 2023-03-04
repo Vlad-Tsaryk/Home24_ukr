@@ -4,7 +4,7 @@ from django.contrib.sessions.backends.db import SessionStore
 from django.core.mail import EmailMessage
 from django.core.paginator import Paginator
 from django.db.models.functions import Concat
-from django.db.models import Value
+from django.db.models import Value, ProtectedError
 from django.shortcuts import redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.views import View
@@ -105,14 +105,32 @@ class ViewUser(AdminPermissionRequiredMixin, DetailView):
     template_name = 'users/user_view.html'
 
 
-def delete_user(request, user_id):
-    obj_user = get_object_or_404(User, pk=user_id)
-    if not obj_user.is_superuser:
-        obj_user.delete()
-        messages.success(request, "Пользователь успешно удалён")
-    else:
-        messages.error(request, "Невозможно удалить администратора")
-    return redirect('user_list')
+class DeleteUser(AdminPermissionRequiredMixin, DeleteView):
+    permission_required = 'users'
+    model = User
+    success_url = reverse_lazy('user_list')
+
+    def delete(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        success_url = self.get_success_url()
+        if self.object.is_superuser:
+            messages.error(request, "Невозможно удалить администратора")
+        else:
+            try:
+                if self.object.delete():
+                    messages.success(request, 'Пользователь успешно удален')
+            except ProtectedError as e:
+                protected_object = list(e.protected_objects)[0]
+
+                model_name = protected_object._meta.model_name
+                if model_name == 'application':
+                    messages.error(request, 'У мастера есть заявки')
+                else:
+                    messages.error(request, 'Пользователь является менеджером в транзакциях')
+        return HttpResponseRedirect(success_url)
+
+    def get(self, request, *args, **kwargs):
+        return self.delete(request, *args, **kwargs)
 
 
 class UpdateRoles(AdminPermissionRequiredMixin, TemplateView):
