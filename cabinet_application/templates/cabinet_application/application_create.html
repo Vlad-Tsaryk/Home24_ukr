@@ -1,15 +1,15 @@
 {% extends 'layout/cabinet.html' %}
 {% load static %}
-{% block title %}Новая заявка{% endblock %}
+{% block title %}Нова заявка{% endblock %}
 {% block breadcrumb %}
     <ul class="breadcrumb">
-        <li><a href="{% url 'cabinet' %}"><i class="fa fa-home"></i>Главная</a></li>
-        <li><a href="{% url 'cabinet_application_list' %}">Вызов мастера</a></li>
-        <li class="active">Новая заявка</li>
+        <li><a href="{% url 'cabinet' %}"><i class="fa fa-home"></i>Головна</a></li>
+        <li><a href="{% url 'cabinet_application_list' %}">Виклик майстра</a></li>
+        <li class="active">Нова заявка</li>
     </ul>
 {% endblock %}
 {% block header_text %}
-    Новая заявка
+    Нова заявка
 {% endblock %}
 {% block head %}
 <link rel="stylesheet"
@@ -25,41 +25,41 @@
                     {% csrf_token %}
                     <div class="modal-body">
                         <div class="form-group field-masterrequestform-type">
-                            <label class="control-label" for="masterrequestform-type">Тип мастера</label>
+                            <label class="control-label" for="masterrequestform-type">Тип майстра</label>
                             {{form.master_type}}
                             <div class="help-block"></div>
                         </div>
                         <div class="form-group field-masterrequestform-flat_id required">
                             <label class="control-label" for="masterrequestform-flat_id">Квартира</label>
-                            {{ form.apartment }}
+                            {{form.apartment}}
                             <div class="help-block"></div>
                         </div>
                         <div class="row">
                             <div class="col-sm-6">
                                 <div class="form-group field-masterrequestform-date_request required">
-                                    <label class="control-label" for="masterrequestform-date_request">Дата работ</label>
-                                    {{ form.date }}
+                                    <label class="control-label" for="masterrequestform-date_request">Дата робіт</label>
+                                    {{form.date}}
 
                                     <div class="help-block"></div>
                                 </div>
                             </div>
                             <div class="col-sm-6">
                                 <div class="form-group field-masterrequestform-time_request">
-                                    <label class="control-label" for="masterrequestform-time_request">Время
-                                        работ</label>
-                                    {{ form.time }}
+                                    <label class="control-label" for="masterrequestform-time_request">Час
+                                        робіт</label>
+                                    {{form.time}}
                                     <div class="help-block"></div>
                                 </div>
                             </div>
                         </div>
                         <div class="form-group field-masterrequestform-description required">
-                            <label class="control-label" for="masterrequestform-description">Описание</label>
-                            {{ form.description }}
+                            <label class="control-label" for="masterrequestform-description">Опис</label>
+                            {{form.description}}
                             <div class="help-block"></div>
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-success">Отправить заявку</button>
+                        <button type="submit" class="btn btn-success">Надіслати заявку</button>
                     </div>
                 </form>
             </div>
@@ -73,22 +73,22 @@
         $('#nav_applications').attr('class', 'active')
     </script>
     <script src="{% static 'admin_panel/bower_components/moment/moment.js' %}"></script>
-    <script src="{% static 'admin_panel/bower_components/moment/locale/ru.js' %}"></script>
+    <script src="{% static 'admin_panel/bower_components/moment/locale/uk.js' %}"></script>
     <script src="{% static 'admin_panel/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js' %}"></script>
     <script src="{% static 'admin_panel/bower_components/select2/dist/js/select2.full.min.js' %}"></script>
-    <script src="{% static 'admin_panel/bower_components/select2/dist/js/i18n/ru.min.js' %}"></script>
+    <script src="{% static 'admin_panel/bower_components/select2/dist/js/i18n/uk.js' %}"></script>
     <script>
                  $(function () {
              $('#id_date').datetimepicker({
                      minDate: moment(),
                     date:moment(),
-                     locale: 'ru',
+                     locale: 'uk',
                      format: 'L',
                  }
              );
              $('#id_time').datetimepicker({
                     date:moment(),
-                     locale: 'ru',
+                     locale: 'uk',
                      format: 'HH:mm',
                     stepping:'15',
                  }
@@ -96,43 +96,43 @@
          });
     </script>
     <script>
-    $(document).ready(function () {
-        $('#id_apartment').select2({placeholder: "Выберите...", allowClear:true})
-        $('#id_master_type').select2({placeholder: "Выберите...",minimumResultsForSearch: Infinity})
+    $(document).ready(function() {
+        $('#id_apartment').select2({placeholder: "Виберіть...", allowClear:true})
+        $('#id_master_type').select2({placeholder: "Виберіть...",minimumResultsForSearch: Infinity})
     })
     </script>
     <script>
             $( "#application_form" ).validate( {
-				rules: {
-					apartment: "required",
-					description: "required",
-				},
-				messages: {
-					apartment: "Пожалуйста выберите квартиру.",
-					description: "Пожалуйста опишите свою проблему.",
-				},
-				errorElement: "em",
-				errorPlacement: function ( error, element ) {
-					error.addClass( "help-block" );
-					element.parents( ".form-group" ).addClass( "has-feedback" );
-					if ( element.prop( "type" ) === "checkbox" ) {
-						error.insertAfter( element.parent( "label" ) );
-					} else {
+rules: {
+apartment: "відповідно",
+description: "відповідно",
+},
+messages: {
+apartment: "Будь ласка, виберіть квартиру.",
+description: "Будь ласка, опишіть свою проблему.",
+},
+errorElement: "em",
+errorPlacement: function ( error, element ) {
+error.addClass( "help-block");
+element.parents( ".form-group" ).addClass( "has-feedback" );
+if ( element.prop( "type" ) === "checkbox" ) {
+error.insertAfter( element.parent( "label" ) );
+} else {
                         if($(element).hasClass('select2-hidden-accessible')){
                             error.insertAfter( $(element).parent('.form-group').find('.select2') );
                         }
                         else error.insertAfter( element );
-					}
-				},
-				success: function ( label, element ) {
-				},
-				highlight: function ( element, errorClass, validClass ) {
-					$( element ).parents( ".form-group" ).addClass( "has-error" ).removeClass( "has-success" );
-				},
-				unhighlight: function ( element, errorClass, validClass ) {
-					$( element ).parents( ".form-group" ).addClass( "has-success" ).removeClass( "has-error" );
-				}
-			} );
+}
+},
+success: function ( label, element ) {
+},
+highlight: function ( element, errorClass, validClass ) {
+$( element ).parents( ".form-group" ).addClass( "has-error" ).removeClass( "has-success" );
+},
+unhighlight: function ( element, errorClass, validClass ) {
+$( element ).parents( ".form-group" ).addClass( "has-success" ).removeClass( "has-error" );
+}
+} );
              $("select").on("select2:close", function (e) {
         $(this).valid();
     });

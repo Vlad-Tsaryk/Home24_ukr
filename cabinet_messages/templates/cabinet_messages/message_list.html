@@ -3,15 +3,15 @@
 {% block head %}
     <link href="{% static 'admin_panel/plugins/iCheck/flat/blue.css' %}" rel="stylesheet">
 {% endblock %}
-{% block title %}Сообщения{% endblock %}
+{% block title %} Повідомлення {% endblock %}
 {% block breadcrumb %}
     <ul class="breadcrumb">
-        <li><a href="{% url 'cabinet' %}"><i class="fa fa-home"></i>Главная</a></li>
-        <li class="active">Сообщения</li>
+        <li><a href="{% url 'cabinet' %}"><i class="fa fa-home"></i>Головна</a></li>
+        <li class="active">Повідомлення</li>
     </ul>
 {% endblock %}
 {% block header_text %}
-    Сообщения
+    Повідомлення
 {% endblock %}
 {% block content %}
     <div class="box">
@@ -22,7 +22,7 @@
                 <div class="has-feedback">
                     <form action="" method="get">
 
-                        <input id="search" type="text" name="search" class="form-control input-sm" placeholder="Поиск">
+                        <input id="search" type="text" name="search" class="form-control input-sm" placeholder="Пошук">
                         <span class="glyphicon glyphicon-search form-control-feedback"></span>
                     </form>
                 </div>
@@ -47,8 +47,8 @@
                     <table id="messages_table" class="table table-hover table-striped linkedRow">
                         <thead>
                         <tr>
-                            <th>&nbsp;</th>
-                            <th style="min-width: 200px">От кого</th>
+                            <th> </th>
+                            <th style="min-width: 200px">Від кого</th>
                             <th>Текст</th>
                             <th style="width: 135px; min-width: 135px">Дата</th>
                         </tr>
@@ -92,7 +92,7 @@
                 processing: true,
 
                 oLanguage: {
-                    sZeroRecords: "Ничего не найдено."
+                    sZeroRecords: "Нічого не знайдено."
                 },
                 columnDefs: [
                     {targets: '_all', defaultContent: '', className: "message"},
@@ -145,10 +145,10 @@
                         checkboxClass: 'icheckbox_flat-blue',
                         radioClass: 'iradio_flat-blue'
                     });
-                    checkboxes.on('ifChecked', function () {
+                    checkboxes.on('ifChecked', function() {
                         selected_messages.push(this.value)
                     });
-                    checkboxes.on('ifUnchecked', function () {
+                    checkboxes.on('ifUnchecked', function() {
                         let index = selected_messages.indexOf(this.value);
                         if (index > -1) {
                             selected_messages.splice(index, 1);
@@ -159,19 +159,19 @@
                     $('.dataTables_paginate').appendTo('.pagination-sm');
                 },
             });
-            $('#search').keyup(function () {
+            $('#search').keyup(function() {
                 table.search($(this).val()).draw();
             })
         }
 
 
-        $(document).ready(function () {
+        $(document).ready(function() {
             send_POST()
-            table.on('click', 'tbody tr .message', function () {
+            table.on('click', 'tbody tr .message', function() {
             window.location.href = '{% url 'cabinet_message_view' 12345 %}'.replace(/12345/, table.row(this).data().id)
             })
             //Enable check and uncheck all functionality
-                    $(".checkbox-toggle").click(function () {
+                    $(".checkbox-toggle").click(function() {
                         let clicks = $(this).data('clicks');
                         if (clicks) {
                             //Uncheck all checkboxes
@@ -187,8 +187,8 @@
         })
     </script>
     <script>
-        $('#delete_many').click(function () {
-            alertify.confirm('Подтверждение удаления', 'Удалить выбранные сообщения ?',
+        $('#delete_many').click(function() {
+            alertify.confirm('Підтвердження видалення', 'Видалити вибрані повідомлення?',
                 function () {
                     $.ajax({
                         type: 'POST',
@@ -203,7 +203,7 @@
                     })
                 },
                 function () {
-                }).set({labels: {ok: 'Подтвердить', cancel: 'Отмена'}});
+                }).set({labels: {ok: 'Підтвердити', cancel: 'Скасувати'}});
         })
     </script>
 {% endblock %}

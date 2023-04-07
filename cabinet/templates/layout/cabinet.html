@@ -1,18 +1,18 @@
 {% extends 'layout/admin_panel.html' %}
 {% block nav_header_title %}
-    Личный кабинет
+    Особистий кабінет
 {% endblock %}
-{% block logo_url %}{% url 'cabinet' %}{% endblock %}
-{% block logout_url %}{% url 'cabinet_logout' %}{% endblock %}
-{% block profile_url %}{% url 'cabinet_profile' %}{% endblock %}
+{% block logo_url %} {% url 'cabinet' %} {% endblock %}
+{% block logout_url %} {% url 'cabinet_logout' %} {% endblock %}
+{% block profile_url %} {% url 'cabinet_profile' %} {% endblock %}
 {% block notifications %}
     <li class="dropdown notifications-menu">
         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
             <i class="fa fa-bell"></i>
         </a>
         <ul class="dropdown-menu">
-            <li class="header">Нет новых сообщений</li>
-            <li class="footer"><a href="{% url 'cabinet_message_list' %}">Перейти в раздел сообщений</a></li>
+            <li class="header">Немає нових повідомлень</li>
+            <li class="footer"><a href="{% url 'cabinet_message_list' %}">Перейти до розділу повідомлень</a></li>
 
         </ul>
     </li>
@@ -20,23 +20,23 @@
 {% block navigation %}
     {% with user.get_apartments as apartment_set %}
 
-        <li id="nav_summary" class="treeview"><a href="#!"><i class="fa fa-line-chart"></i> <span>Сводка</span> <span
+        <li id="nav_summary" class="treeview"><a href="#!"><i class="fa fa-line-chart"></i> <span>Зведення</span> <span
                 class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span></a>
             <ul class="treeview-menu">
                 {% for apartment in apartment_set %}
-                    <li id="nav_summary-{{apartment.pk}}"><a href="{% url 'cabinet_apartment_summary' apartment.pk %}"><i class="fa fa-building-o"></i>
+                    <li id="nav_summary-{{apartment.pk}}"><a href="{% url 'cabinet_apartment_summary' apartment.pk %}"><i class="fa fa-building-o"></i >
                         <span>{{ apartment.info }}</span></a>
                     </li>
                 {% endfor %}
             </ul>
 
         </li>
-        <li id="nav_receipts" class="treeview"><a href="#!"><i class="fa fa-files-o"></i> <span>Квитанции</span> <span
+        <li id="nav_receipts" class="treeview"><a href="#!"><i class="fa fa-files-o"></i> <span>Квитанції</span> <span
                 class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span></a>
 
             <ul class="treeview-menu">
                 <li id="nav_receipt-all"><a href="{% url 'cabinet_receipt_list' %}"><i class="fa fa-files-o"></i>
-                    <span>Все квитанции</span></a></li>
+                    <span>Всі квитанції</span></a></li>
                 {% for apartment in apartment_set %}
                     <li id="nav_receipt-{{apartment.pk}}"><a href="{% url 'cabinet_receipt_list_apartment' apartment.pk %}"><i
                             class="fa fa-file-text-o"></i>
@@ -45,7 +45,7 @@
                 {% endfor %}
             </ul>
         </li>
-        <li id="nav_tariffs" class="treeview"><a href="#!"><i class="fa fa-money"></i> <span>Тарифы</span>
+        <li id="nav_tariffs" class="treeview"><a href="#!"><i class="fa fa-money"></i> <span>Тарифи</span>
             <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span></a>
             <ul class="treeview-menu">
                 {% for apartment in apartment_set %}
@@ -57,7 +57,7 @@
             </ul>
         </li>
     {% endwith %}
-    <li id="nav_messages"><a href="{% url 'cabinet_message_list' %}"><i class="fa fa-envelope-o"></i> <span>Сообщения</span></a></li>
-    <li id="nav_applications"><a href="{% url 'cabinet_application_list' %}"><i class="fa fa-wrench"></i> <span>Вызов мастера</span></a></li>
-    <li id="nav_profile"><a href="{% url 'cabinet_profile' %}"><i class="fa fa-user-circle-o"></i> <span>Профиль</span></a></li>
+    <li id="nav_messages"><a href="{% url 'cabinet_message_list' %}"><i class="fa fa-envelope-o"></i> <span>Повідомлення</span></a></li>
+    <li id="nav_applications"><a href="{% url 'cabinet_application_list' %}"><i class="fa fa-wrench"></i> <span>Виклик майстра</span></a ></li>
+    <li id="nav_profile"><a href="{% url 'cabinet_profile' %}"><i class="fa fa-user-circle-o"></i> <span>Профіль</span> </a></li>
 {% endblock %}

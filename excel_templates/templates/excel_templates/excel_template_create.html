@@ -1,36 +1,36 @@
 {% extends 'layout/admin_panel.html' %}
 {% load static %}
-{% block title %}Настройка шаблонов{% endblock %}
+{% block title %}Налаштування шаблонів{% endblock %}
 {% block breadcrumb %}
     <ul class="breadcrumb">
-        <li><a href="{% url 'statistic' %}"><i class="fa fa-home"></i>Главная</a></li>
-        <li><a href="{% url 'receipt_list' %}">Квитанции</a></li>
-        <li class="active">Настройка шаблонов </li>
+        <li><a href="{% url 'statistic' %}"><i class="fa fa-home"></i>Головна</a></li>
+        <li><a href="{% url 'receipt_list' %}">Квітанції</a></li>
+        <li class="active">Налаштування шаблонів</li>
     </ul>
 {% endblock %}
 {% block header_text %}
-    Настройка шаблонов
+    Налаштування шаблонів
 {% endblock %}
 {% block content %}
 
 
     <div class="box">
         <div class="box-header with-border">
-            <h3 class="box-title">Список шаблонов</h3>
+            <h3 class="box-title">Список шаблонів</h3>
         </div>
         <div class="box-body">
             {% for template in excel_template_list %}
                 <div class="template">
                     <p>{{ template.name }}
-                        {% if template.default %}<span class="text-bold">(по-умолчанию)</span>{% endif %}
+                        {% if template.default %}<span class="text-bold">(за замовчуванням)</span>{% endif %}
                     </p>
                     <a href="{{ template.file.url }}"><i class="fa fa-download" aria-hidden="true"></i>
-                        Скачать шаблон</a>
+                        Завантажити шаблон</a>
                     <a href="{% url 'excel-template-set-default' template.pk %}" class="text-success">
-                        • Назначить шаблоном по умолчанию</a>
+                        • Призначити стандартним шаблоном</a>
                     <a onclick="confirm_delete('{% url 'excel-template-delete' template.pk %}','{{ template.name }}')"
                        class="text-danger" style="cursor: pointer">
-                        <i class="fa fa-trash" aria-hidden="true"></i> Удалить шаблон</a>
+                        <i class="fa fa-trash" aria-hidden="true"></i> Видалити шаблон</a>
                 </div>
             {% endfor %}
 
@@ -39,19 +39,19 @@
                 <div class="row">
                     <div class="col-xs-12 col-sm-6">
                         <div class="form-group field-id_file">
-                            <label class="control-label" for="id_file">Загрузить пользовательский
+                            <label class="control-label" for="id_file">Завантажити користувача
                                 шаблон</label>
-                            {{ form.file }}
+                            {{form.file}}
                         </div>
                         <div class="form-group field-id_name required">
-                            <label class="control-label" for="id_name">Название</label>
-                            {{ form.name }}
+                            <label class="control-label" for="id_name">Назва</label>
+                            {{form.name}}
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-xs-12 text-center">
-                            <a href="{% url 'excel-template-create' %}" class="btn btn-default">Отменить</a>
-                            <button type="submit" class="btn btn-success">Сохранить</button>
+                            <a href="{% url 'excel-template-create' %}" class="btn btn-default">Скасувати</a>
+                            <button type="submit" class="btn btn-success">Зберегти</button>
                         </div>
                     </div>
                 </div>
@@ -67,57 +67,57 @@
     </script>
     <script>
             function confirm_delete(link, name) {
-            alertify.confirm('Подтверждение удаления', 'Удалить шаблон <b>'
+            alertify.confirm('Підтвердження видалення', 'Видалити шаблон <b>'
                 + name + '</b> ?',
                 function () {
                     window.location.href = link
                 },
                 function () {
-                }).set({labels: {ok: 'Подтвердить', cancel: 'Отмена'}});
+                }).set({labels: {ok: 'Підтвердити', cancel: 'Скасувати'}});
             return false;
         }
     </script>
     <script type=text/javascript>
-    {% if  form.file.errors %}
+    {% if form.file.errors %}
         toastr.error('{{ form.file.errors|join:". " }}')
     {% endif %}
     </script>
        <script>
             $( "#template_form" ).validate( {
-				rules: {
-					file: {required: true,
+rules: {
+file: {required: true,
                         extension:"xlsx|xls|xlsm"},
-					name: "required",
-				},
-				messages: {
-					name: "Пожалуйста введите имя шаблона",
+name: "required",
+},
+messages: {
+name: "Будь ласка, введіть ім'я шаблону",
                     file:{
-                        required: 'Пожалуйста выберите файл MicrosoftExcel',
-                        extension: 'Только файлы MicrosoftExcel',
-                        accept: 'Только файлы MicrosoftExcel',
+                        required: 'Будь ласка, виберіть файл MicrosoftExcel',
+                        extension: 'Тільки файли MicrosoftExcel',
+                        accept: 'Тільки файли MicrosoftExcel',
                     }
-				},
-				errorElement: "em",
-				errorPlacement: function ( error, element ) {
-					error.addClass( "help-block" );
-					element.parents( ".form-group" ).addClass( "has-feedback" );
-					if ( element.prop( "type" ) === "checkbox" ) {
-						error.insertAfter( element.parent( "label" ) );
-					} else {
+},
+errorElement: "em",
+errorPlacement: function ( error, element ) {
+error.addClass( "help-block");
+element.parents( ".form-group" ).addClass( "has-feedback" );
+if ( element.prop( "type" ) === "checkbox" ) {
+error.insertAfter( element.parent( "label" ) );
+} else {
                         if($(element).hasClass('select2-hidden-accessible')){
                             error.insertAfter( $(element).parent('.form-group').find('.select2') );
                         }
                         else error.insertAfter( element );
-					}
-				},
-				success: function ( label, element ) {
-				},
-				highlight: function ( element, errorClass, validClass ) {
-					$( element ).parents( ".form-group" ).addClass( "has-error" ).removeClass( "has-success" );
-				},
-				unhighlight: function ( element, errorClass, validClass ) {
-					$( element ).parents( ".form-group" ).addClass( "has-success" ).removeClass( "has-error" );
-				}
-			} );
+}
+},
+success: function ( label, element ) {
+},
+highlight: function ( element, errorClass, validClass ) {
+$( element ).parents( ".form-group" ).addClass( "has-error" ).removeClass( "has-success" );
+},
+unhighlight: function ( element, errorClass, validClass ) {
+$( element ).parents( ".form-group" ).addClass( "has-success" ).removeClass( "has-error" );
+}
+} );
     </script>
 {% endblock %}

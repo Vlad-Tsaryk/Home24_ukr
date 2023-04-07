@@ -1,15 +1,15 @@
 {% extends 'layout/admin_panel.html' %}
 {% load static %}
-{% block title %}Новая квартира{% endblock %}
+{% block title %}Нова квартира{% endblock %}
 {% block breadcrumb %}
         <ul class="breadcrumb">
-        <li><a href="{% url 'statistic' %}"><i class="fa fa-home"></i>Главная</a></li>
-        <li><a href="{% url 'apartment_list' %}">Квартиры</a></li>
+        <li><a href="{% url 'statistic' %}"><i class="fa fa-home"></i>Головна</a></li>
+        <li><a href="{% url 'apartment_list' %}">Квартири</a></li>
         <li class="active">Квартира</li>
 </ul>
 {% endblock %}
 {% block header_text %}
-    Новая квартира
+    Нова квартира
 {% endblock %}
 {% block content %}
 
@@ -22,53 +22,53 @@
                 <div class="row">
                     <div class="col-xs-12 col-sm-6 col-sm-push-6">
                         <div class="form-group field-flatform-account_uid ">
-                            <label class="control-label" for="flatform-account_uid">Лицевой счет</label>
+                            <label class="control-label" for="flatform-account_uid">Обліковий рахунок</label>
                             {{form.personal_account}}
-                            {{ form.personal_account_select }}
+                            {{form.personal_account_select}}
                             <div class="help-block"></div>
                         </div>
                     </div>
                     <div class="col-xs-12 col-sm-6 col-sm-pull-6">
                         <input type="hidden" id="flatform-id" name="FlatForm[id]">
                         <div class="form-group field-flatform-flat required">
-                            <label class="control-label" for="flatform-flat">Номер квартиры</label>
+                            <label class="control-label" for="flatform-flat">Номер квартири</label>
                             {{form.number}}
 
                             <div class="help-block"></div>
                         </div>
                         <div class="form-group field-flatform-square">
-                            <label class="control-label" for="flatform-square">Площадь (кв.м.)</label>
+                            <label class="control-label" for="flatform-square">Площа (кв.м.)</label>
                             {{form.area}}
 
                             <div class="help-block"></div>
                         </div>
                         <div class="form-group field-flatform-house_id required">
-                            <label class="control-label" for="flatform-house_id">Дом</label>
-                            {{ form.house }}
+                            <label class="control-label" for="flatform-house_id">Будинок</label>
+                            {{form.house}}
 
                             <div class="help-block"></div>
                         </div>
                         <div class="form-group field-flatform-section_id">
-                            <label class="control-label" for="flatform-section_id">Секция</label>
-                            {{ form.section }}
+                            <label class="control-label" for="flatform-section_id">Секція</label>
+                            {{form.section}}
 
                             <div class="help-block"></div>
                         </div>
                         <div class="form-group field-flatform-floor_id">
-                            <label class="control-label" for="flatform-floor_id">Этаж</label>
-                            {{ form.floor }}
+                            <label class="control-label" for="flatform-floor_id">Поверх</label>
+                            {{form.floor}}
 
                             <div class="help-block"></div>
                         </div>
                         <div class="form-group field-flatform-user_id">
-                            <label class="control-label" for="flatform-user_id">Владелец</label>
-                            {{ form.owner }}
+                            <label class="control-label" for="flatform-user_id">Власник</label>
+                            {{form.owner}}
 
                             <div class="help-block"></div>
                         </div>
                         <div class="form-group field-flatform-tariff_id">
                             <label class="control-label" for="flatform-tariff_id">Тариф</label>
-                            {{ form.tariff }}
+                            {{form.tariff}}
 
 
                             <div class="help-block"></div>
@@ -78,11 +78,11 @@
                 <div class="row">
                     <div class="col-xs-12 text-right">
                         <div class="form-group">
-                            <a href="{% url 'apartment_list' %}" class="btn btn-default margin-bottom-15">Отменить</a>
+                            <a href="{% url 'apartment_list' %}" class="btn btn-default margin-bottom-15">Скасувати</a>
                             <input type="submit" class="btn btn-success margin-bottom-15" name="action_save"
-                                   value="Сохранить"> <input type="submit"
+                                   value="Зберегти"> <input type="submit"
                                                              class="btn btn-success margin-bottom-15 bg-green-active"
-                                                             name="action_save_add" value="Сохранить и добавить новую">
+                                                             name="action_save_add" value="Зберегти та додати нову">
                         </div>
                     </div>
                 </div>
@@ -95,7 +95,7 @@
     $('#nav_apartment').attr('class', 'active')
     </script>
 <script src="{% static 'admin_panel/bower_components/select2/dist/js/select2.full.min.js' %}"></script>
-<script src="{% static 'admin_panel/bower_components/select2/dist/js/i18n/ru.min.js' %}"></script>
+<script src="{% static 'admin_panel/bower_components/select2/dist/js/i18n/uk.js' %}"></script>
     <script>
 
     $(document).ready(function() {
@@ -103,17 +103,17 @@
         clear_options('id_section')
             clear_options('id_floor')
             {% endblock %}
-            $('#id_owner').select2({placeholder: "Выберите..."})
-            $('#id_house').select2({placeholder: "Выберите..."})
-            $('#id_floor').select2({placeholder: "Выберите дом"})
-            $('#id_section').select2({placeholder: "Выберите дом"})
-            $('#id_tariff').select2({placeholder: "Выберите..."})
-            $('#id_personal_account_select').select2({placeholder: "Выберите..."})
+            $('#id_owner').select2({placeholder: "Виберіть..."})
+            $('#id_house').select2({placeholder: "Виберіть..."})
+            $('#id_floor').select2({placeholder: "Виберіть будинок"})
+            $('#id_section').select2({placeholder: "Виберіть будинок"})
+            $('#id_tariff').select2({placeholder: "Виберіть..."})
+            $('#id_personal_account_select').select2({placeholder: "Виберіть..."})
             .on('select2:select',function (e){
               var val = e.params.data.text;
               $('#id_personal_account').val(val);
               $(this).val(null).trigger('change'); // Clear the selected value
-                {#var data = e.params.data;#}
+                {#var data=e.params.data;#}
                 console.log(val);
             })
           }
@@ -136,8 +136,8 @@
                     house_id: house_id,
                 },
                 success:function (data) {
-                    $('#id_floor').select2({placeholder: "Выберите..."})
-                    $('#id_section').select2({placeholder: "Выберите..."})
+                    $('#id_floor').select2({placeholder: "Виберіть..."})
+                    $('#id_section').select2({placeholder: "Виберіть..."})
                     data['floor'].forEach(
                         function (item) {
                             append_option('floor',item)
@@ -156,7 +156,7 @@
 
             })
         }
-        $('#id_house').change(function () {
+        $('#id_house').change(function() {
             clear_options('id_section')
             clear_options('id_floor')
             get_values($(this).val())
@@ -166,48 +166,48 @@
 
 
             $( "#apartment_form" ).validate( {
-				rules: {
-					number: {required:true,min:0},
-					house: "required",
-					area: {min:0},
-				},
-				messages: {
-					number: "Пожалуйста введите номер квартиры.",
-					house: "Пожалуйста выберите дом.",
-				},
-				errorElement: "em",
-				errorPlacement: function ( error, element ) {
-					error.addClass( "help-block" );
-					element.parents( ".form-group" ).addClass( "has-feedback" );
-					if ( element.prop( "type" ) === "checkbox" ) {
-						error.insertAfter( element.parent( "label" ) );
-					} else {
+rules: {
+number: {required:true,min:0},
+house: "required",
+area: {min:0},
+},
+messages: {
+number: "Будь ласка, введіть номер квартири.",
+house: "Будь ласка, виберіть будинок.",
+},
+errorElement: "em",
+errorPlacement: function ( error, element ) {
+error.addClass( "help-block");
+element.parents( ".form-group" ).addClass( "has-feedback" );
+if ( element.prop( "type" ) === "checkbox" ) {
+error.insertAfter( element.parent( "label" ) );
+} else {
                         if($(element).hasClass('select2-hidden-accessible')){
                             error.insertAfter( $(element).parent('.form-group').find('.select2') );
                         }
                         else error.insertAfter( element );
-					}
+}
 
 
-{% comment %}					if ( !element.next( "span" )[ 0 ] ) {
-						$( "<span class='glyphicon glyphicon-remove form-control-feedback'></span>" ).insertAfter( element );
-					}{% endcomment %}
-				},
-				success: function ( label, element ) {
+{% comment %} if (!element.next("span") [0]) {
+$( "<span class='glyphicon glyphicon-remove form-control-feedback'></span>" ).insertAfter( element );
+}{% endcomment %}
+},
+success: function ( label, element ) {
 {% comment %}
-					if ( !$( element ).next( "span" )[ 0 ] ) {
-						$( "<span class='glyphicon glyphicon-ok form-control-feedback'></span>" ).insertAfter( $( element ) );
-					}{% endcomment %}
-				},
-				highlight: function ( element, errorClass, validClass ) {
-					$( element ).parents( ".form-group" ).addClass( "has-error" ).removeClass( "has-success" );
-					{#$( element ).next( "span" ).addClass( "glyphicon-remove" ).removeClass( "glyphicon-ok" );#}
-				},
-				unhighlight: function ( element, errorClass, validClass ) {
-					$( element ).parents( ".form-group" ).addClass( "has-success" ).removeClass( "has-error" );
-					{#$( element ).next( "span" ).addClass( "glyphicon-ok" ).removeClass( "glyphicon-remove" );#}
-				}
-			} );
+if ( !$( element ).next( "span" )[ 0 ] ) {
+$( "<span class='glyphicon glyphicon-ok form-control-feedback'></span>" ).insertAfter( $( element ) );
+}{% endcomment %}
+},
+highlight: function ( element, errorClass, validClass ) {
+$( element ).parents( ".form-group" ).addClass( "has-error" ).removeClass( "has-success" );
+{#$( element ).next( "span" ).addClass( "glyphicon-remove" ).removeClass( "glyphicon-ok" );#}
+},
+unhighlight: function ( element, errorClass, validClass ) {
+$( element ).parents( ".form-group" ).addClass( "has-success" ).removeClass( "has-error" );
+{#$( element ).next( "span" ).addClass( "glyphicon-ok" ).removeClass( "glyphicon-remove" );#}
+}
+} );
              $("select").on("select2:close", function (e) {
         $(this).valid();
     });

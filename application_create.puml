@@ -1,0 +1,75 @@
+@startuml
+!theme aws-orange
+title Create Application Sequence Diagram
+autonumber
+actor User
+participant Browser
+participant Server
+database Database
+
+User->Browser: Navigate to "Application create" page
+activate Browser
+activate User
+
+Browser->Server: Send GET request for "Application create" page
+deactivate Browser
+activate Server
+Server->Database: Retrieve list of available apartments and owners
+activate Database
+Database-->Server: Return list of available apartments and owners
+deactivate Database
+Server->Server: Retrieve list of available master types
+Server->Server: Render "Create Tariff" page with list of available services
+Server->Browser: Send HTML response with "Application create" page and list of available services
+deactivate Server
+
+activate Browser
+User->Browser: Select convenient date
+User->Browser: Select convenient time
+User->Browser: Select owner
+Browser->Server: Send GET request for owner's apartment list
+deactivate Browser
+activate Server
+Server->Database: Retrieve list of apartments for the selected owner
+activate Database
+Database-->Server: Return list of apartments for the selected owner
+deactivate Database
+Server->Browser: Send JSON response with owner's apartment list
+deactivate Server
+activate Browser
+Browser->Browser: Fill apartment select\n field with the received data
+User->Browser: Select apartment
+User->Browser: Fill description field
+User->Browser: Select master type
+Browser->Server: Send GET request for master list with selected type
+deactivate Browser
+activate Server
+Server->Database: Retrieve list of masters with selected type
+activate Database
+Database-->Server: Return list of masters with selected type
+deactivate Database
+Server->Browser: Send JSON response with master list with selected type
+deactivate Server
+activate Browser
+User->Browser: Select status
+User->Browser: Fill comment field
+Browser->Server: Send POST request with application information
+deactivate Browser
+activate Server
+Server->Server: Validate application information
+
+Server->Server: Create new Application instance with application information
+Server->Database: Save new Application instance
+deactivate Server
+activate Database
+
+
+Database-->Server: Confirm successful creation of new Application
+deactivate Database
+activate Server
+Server->Server: Redirect user to "Application list" page
+Server->Browser: Send HTML response with "Application list" page
+deactivate Server
+activate Browser
+
+@enduml

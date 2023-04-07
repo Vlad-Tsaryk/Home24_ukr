@@ -1,13 +1,13 @@
 {% extends 'layout/admin_panel.html' %}
 {% load static %}
-{% block title %}Тарифы{% endblock %}
+{% block title %}Тарифи{% endblock %}
 {% block header_text %}
-Тарифы
+Тарифи
 {% endblock %}
 {% block breadcrumb %}
     <ul class="breadcrumb">
-        <li><a href="{% url 'statistic' %}"><i class="fa fa-home"></i>Главная</a></li>
-        <li class="active">Тарифы</li>
+        <li><a href="{% url 'statistic' %}"><i class="fa fa-home"></i>Головна</a></li>
+        <li class="active">Тарифи</li>
 </ul>
 {% endblock %}
 {% block content %}
@@ -15,12 +15,12 @@
 
 <div class="row">
     <!--<div class="col-xs-12 col-sm-6">-->
-    <!--<h2 class="page-header">Квартиры</h2>-->
+    <!--<h2 class="page-header">Квартири</h2>-->
     <!--</div>-->
     <div class="col-xs-12">
 
         <div class="pull-right margin-bottom">
-            <a class="btn btn-success" href="{% url 'tariff_create' %}">Добавить тариф</a>
+            <a class="btn btn-success" href="{% url 'tariff_create' %}">Додати тариф</a>
         </div>
     </div>
 </div>
@@ -31,31 +31,31 @@
                 <div class="box-body table-responsive no-padding">
                 <table id="tariff_table" class="table table-bordered table-hover table-striped linkedRow"><thead>
 <tr>
-    <th>Название тарифа</th>
-    <th>Описание тарифа</th>
-    <th>Дата редактирования</th>
-    <th style="width: 114px; min-width: 114px">&nbsp;</th>
+    <th>Назва тарифу</th>
+    <th>Опис тарифу</th>
+    <th>Дата редагування</th>
+    <th style="width: 114px; min-width: 114px"> </th>
 </tr>
 </thead>
 <tbody>
 {% for tariff in tariff_list %}
     <tr data-href="{% url 'tariff_view' tariff.pk %}" data-key="tariff.pk">
-        <td>{{ tariff.name }}</td>
+        <td>{{tariff.name}}</td>
         <td>{{ tariff.description }}</td>
         <td>{{ tariff.date_edit|date:'d.m.o - H:i' }}</td>
         <td>
             <div class="btn-group pull-right">
                 <a class="btn btn-default btn-sm"
                    href="{% url 'tariff_clone' tariff.pk %}"
-                   title="Копировать" data-toggle="tooltip">
+                   title="Копіювати" data-toggle="tooltip">
                     <i class="fa fa-clone"></i></a>
 
                 <a class="btn btn-default btn-sm" href="{% url 'tariff_update' tariff.pk %}"
-                   title="Редактировать" data-toggle="tooltip"><i class="fa fa-pencil"></i></a>
+                   title="Редагувати" data-toggle="tooltip"><i class="fa fa-pencil"></i></a>
 
                 <a class="btn btn-default btn-sm"
                    onmousedown="return confirm_delete('{% url 'tariff_delete' tariff.pk %}',event)"
-                   title="Удалить" data-toggle="tooltip" data-pjax="0" data-method="post">
+                   title="Видалити" data-toggle="tooltip" data-pjax="0" data-method="post">
                     <i class="fa fa-trash"></i></a>
             </div>
         </td>
@@ -86,7 +86,7 @@
                 {orderable: false, className: 'reorder', targets: 3},
                 {orderable: true, targets: '_all'}
             ],
-            {#    ordering: true,#}
+            {# ordering: true,#}
             paging: true,
 
 'lengthChange': false,
@@ -115,14 +115,14 @@
 
             info: false,
         })
-                    function confirm_delete (link,event) {
-            alertify.confirm('Подтверждение удаления', 'Удалить тариф <b>'
-                + $(event.target).closest( "tr " ).children().eq(0).text() + '</b> ?',
+                    function confirm_delete (link, event) {
+            alertify.confirm('Підтвердження видалення', 'Видалити тариф <b>'
+                + $(event.target).closest("tr").children().eq(0).text() + '</b> ?',
                 function () {
                 window.location.href = link
                 },
                 function () {
-                }).set({labels: {ok: 'Подтвердить', cancel: 'Отмена'}});
+                }).set({labels: {ok: 'Підтвердити', cancel: 'Скасувати'}});
                 return false;
         }
     </script>

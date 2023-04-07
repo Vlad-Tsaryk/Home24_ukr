@@ -1,8 +1,8 @@
 {% extends 'layout/website.html' %}
 {% load static %}
-{% block seo_title %}{{ main_page.seo.title }}{% endblock %}
-{% block seo_description %}{{ main_page.seo.description }}{% endblock %}
-{% block seo_keywords %}{{ main_page.seo.keywords }}{% endblock %}
+{% block seo_title %} {{ main_page.seo.title }} {% endblock %}
+{% block seo_description %} {{ main_page.seo.description }} {% endblock %}
+{% block seo_keywords %} {{ main_page.seo.keywords }} {% endblock %}
 {% block content %}
     <div class="slider">
             <div>
@@ -24,13 +24,13 @@
         <div class="row">
             <div class="col-xs-12 col-sm-7 col-md-8">
                 <div class="page-header">
-                    <h1>{{ main_page.title}}</h1>
+                    <h1>{{main_page.title}}</h1>
                 </div>
                 <div class="box">
-                    {{ main_page.text|safe }}
+                    {{main_page.text|safe}}
                     <div class="row">
                         <div class="col-xs-4">
-                            <a href="/about" class="btn btn-primary">Подробнее</a>
+                            <a href="/about" class="btn btn-primary">Докладніше</a>
                         </div>
                         {% if main_page.show_app_urls %}
                         <div class="col-xs-8">
@@ -49,11 +49,11 @@
             </div>
             <div class="col-xs-12 col-sm-5 col-md-4">
                 <div class="page-header">
-                    <h3>Контакты</h3>
+                    <h3>Контакти</h3>
                 </div>
                 <div class="box">
                     <p><i class="fas fa-user-circle"></i> {{contact_info.full_name }}</p>
-                    <p><i class="fas fa-compass"></i> {{contact_info.location}}</p>
+                    <p><i class="fas fa-compass"></i>{{contact_info.location}}</p>
                     <p><i class="fas fa-map-marker"></i> {{contact_info.address}}</p>
                     <p><i class="fas fa-phone"></i> <a href="tel:{{contact_info.phone}}"> {{contact_info.phone}}</a></p>
                     <p><i class="fas fa-envelope"></i> <a
@@ -68,7 +68,7 @@
         <div class="row row-eq-height">
             <div class="col-xs-12">
                 <div class="page-header">
-                    <h3>Рядом с нами</h3>
+                    <h3>Поруч із нами</h3>
                 </div>
             </div>
             {% for block in main_page.block_set.all %}

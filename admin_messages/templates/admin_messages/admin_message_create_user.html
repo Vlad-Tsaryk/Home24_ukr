@@ -1,9 +1,9 @@
 {% extends 'admin_messages/admin_messages_create.html' %}
 {% block user_create %}
     <div class="form-group field-{{ form.receiver.id_for_label }}">
-        <label class="control-label" for="{{ form.receiver.id_for_label }}">Владелец квартир</label>
-        {{ form.receiver}}
+        <label class="control-label" for="{{ form.receiver.id_for_label }}">Власник квартир</label>
+        {{form.receiver}}
         <div class="help-block"></div>
     </div>
 {% endblock %}
-{% block user_create_scripts %}{% endblock %}
+{% block user_create_scripts %} {% endblock %}

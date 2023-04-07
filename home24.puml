@@ -1,0 +1,29 @@
+@startuml
+'!theme carbon-gray
+'!theme lightgray
+'!theme aws-orange
+'actor       User
+'entity Tariff
+'participant Server
+'database DB
+'
+'create Tariff
+'User -> Tariff:<<Create>>
+title TariffCreate Endpoint Sequence Diagram
+
+actor Client
+participant Server
+database Database
+
+Client->Server: Send GET request to retrieve tariff creation form
+Server->Server: Load tariff creation form with initial data
+Server->Server: Render tariff creation form as HTML
+Server->Client: Send HTML response with tariff creation form
+Client->Server: Submit POST request with tariff data
+Server->Server: Validate tariff data
+Server->Database: Create new Tariff instance with tariff data
+Server->Database: Create new TariffService instances with service data
+Database-->Server: Confirm successful creation
+Server->Client: Send response with success message and redirect URL
+
+@enduml

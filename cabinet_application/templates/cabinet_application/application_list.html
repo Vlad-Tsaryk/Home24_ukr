@@ -1,21 +1,21 @@
 {% extends 'layout/cabinet.html' %}
 {% load static %}
-{% block title %}Вызов мастера{% endblock %}
+{% block title %}Виклик майстра{% endblock %}
 {% block breadcrumb %}
     <ul class="breadcrumb">
-        <li><a href="{% url 'cabinet' %}"><i class="fa fa-home"></i>Главная</a></li>
-        <li class="active">Вызов мастера</li>
+        <li><a href="{% url 'cabinet' %}"><i class="fa fa-home"></i>Головна</a></li>
+        <li class="active">Виклик майстра</li>
     </ul>
 {% endblock %}
 {% block header_text %}
-    Вызов мастера
+    Виклик майстра
 {% endblock %}
 {% block content %}
     <div class="row">
         <div class="col-xs-12">
 
             <div class="pull-right margin-bottom">
-                <a class="btn btn-success" href="{% url 'cabinet_application_create' %}">Создать заявку</a>
+                <a class="btn btn-success" href="{% url 'cabinet_application_create' %}">Створити заявку</a>
             </div>
         </div>
     </div>
@@ -29,11 +29,11 @@
                             <thead>
                             <tr>
                                 <th style="width: 80px">№ заявки</th>
-                                <th>Тип мастера</th>
-                                <th>Описание</th>
-                                <th style="width: 125px; min-width: 125px;">Удобное время</th>
+                                <th>Тип майстра</th>
+                                <th>Опис</th>
+                                <th style="width: 125px; min-width: 125px;">Зручний час</th>
                                 <th style="width: 60px; min-width: 60px">Статус</th>
-                                <th style="width: 48px; min-width: 48px">&nbsp;</th>
+                                <th style="width: 48px; min-width: 48px"> </th>
                             </tr>
                             </thead>
                             <tbody>
@@ -57,14 +57,14 @@
     <script src="{% static 'admin_panel/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js' %}"></script>
 
     <script src="{% static 'admin_panel/bower_components/moment/moment.js' %}"></script>
-    <script src="{% static 'admin_panel/bower_components/moment/locale/ru.js' %}"></script>
+    <script src="{% static 'admin_panel/bower_components/moment/locale/uk.js' %}"></script>
     <script>
         let table
         let table_head = $('#application_table thead')
         let label_colors = {
-            'Выполнено': 'label-success',
-            'В работе': 'label-primary',
-            'Новое': 'label-warning',
+            'Виконано': 'label-success',
+            'У роботі': 'label-primary',
+            'Нове': 'label-warning',
         }
 
         function send_POST(e) {
@@ -73,7 +73,7 @@
                 processing: false,
                 ordering: false,
                 oLanguage: {
-                    sZeroRecords: "Ничего не найдено."
+                    sZeroRecords: "Нічого не знайдено."
                 },
                 columnDefs: [
                     {targets: '_all', defaultContent: ''},
@@ -107,10 +107,10 @@
                         data: 'id',
                         render: function (data, type, row) {
                             let action = '<button class="btn btn-default btn-sm disabled"><i class="fa fa-trash"></i></button>'
-                            if(row['status'] === 'Новое'){
+                            if(row['status'] === 'Нове'){
                                 let link_delete = '{% url 'cabinet_application_delete' 12345 %}'.replace(/12345/, data)
                                 action = `<a class="btn btn-default btn-sm"\
-                                   title="Удалить" data-toggle="tooltip" data-pjax="0" data-method="post"\
+                                   title="Видалити" data-toggle="tooltip" data-pjax="0" data-method="post"\
                                     onclick="return confirm_delete('${link_delete}',event);">\
                                     <i class="fa fa-trash"></i>\
                                     </a>`
@@ -131,17 +131,17 @@
         }
 
         function confirm_delete(link, event) {
-            alertify.confirm('Подтверждение удаления', 'Удалить заявку <b>№'
+            alertify.confirm('Підтвердження видалення', 'Видалити заявку <b>№'
                 + $(event.target).closest("tr ").children().eq(0).text() + '</b> ?',
                 function () {
                     window.location.href = link
                 },
                 function () {
-                }).set({labels: {ok: 'Подтвердить', cancel: 'Отмена'}});
+                }).set({labels: {ok: 'Підтвердити', cancel: 'Скасувати'}});
             return false;
         }
 
-        $(document).ready(function () {
+        $(document).ready(function() {
             send_POST();
         });
     </script>

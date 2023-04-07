@@ -14,11 +14,11 @@ from admin_website.models import MainPage, Seo, Block, ContactPage, ServicePage,
 class MainPageForm(forms.ModelForm):
     title = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}), required=False)
     image1 = forms.ImageField(widget=forms.FileInput(), required=False,
-                              error_messages={'invalid_image': 'К загрузке поддерживаются только изображения'})
+                              error_messages={'invalid_image': 'До завантаження підтримуються лише зображення'})
     image2 = forms.ImageField(widget=forms.FileInput(), required=False,
-                              error_messages={'invalid_image': 'К загрузке поддерживаются только изображения'})
+                              error_messages={'invalid_image': 'До завантаження підтримуються лише зображення'})
     image3 = forms.ImageField(widget=forms.FileInput(), required=False,
-                              error_messages={'invalid_image': 'К загрузке поддерживаются только изображения'})
+                              error_messages={'invalid_image': 'До завантаження підтримуються лише зображення'})
     text = forms.CharField(widget=forms.Textarea(attrs={'class': 'form-control compose-textarea', 'rows': '6'}),
                            required=False)
 
@@ -46,7 +46,7 @@ class BlockForm(forms.ModelForm):
     description = forms.CharField(widget=forms.Textarea(attrs={'class': 'form-control compose-textarea', 'rows': '6'}),
                                   required=False)
     image = forms.ImageField(widget=forms.FileInput(attrs={'class': 'form-control'}), required=False,
-                             error_messages={'invalid_image': 'К загрузке поддерживаются только изображения'})
+                             error_messages={'invalid_image': 'До завантаження підтримуються лише зображення'})
 
     class Meta:
         model = Block
@@ -82,7 +82,7 @@ class ServiceBlockForm(forms.ModelForm):
     text = forms.CharField(widget=forms.Textarea(attrs={'class': 'form-control compose-textarea', 'rows': '6'}),
                            required=False)
     image = forms.ImageField(widget=forms.FileInput(attrs={'class': 'form-control'}), required=False,
-                             error_messages={'invalid_image': 'К загрузке поддерживаются только изображения'})
+                             error_messages={'invalid_image': 'До завантаження підтримуються лише зображення'})
 
     class Meta:
         model = ServiceBlock
@@ -107,7 +107,7 @@ class TariffPageForm(forms.ModelForm):
 class TariffBlockForm(forms.ModelForm):
     title = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}), required=False)
     image = forms.ImageField(widget=forms.FileInput(attrs={'class': 'form-control'}), required=False,
-                             error_messages={'invalid_image': 'К загрузке поддерживаются только изображения'})
+                             error_messages={'invalid_image': 'До завантаження підтримуються лише зображення'})
 
     class Meta:
         model = TariffBlock
@@ -123,7 +123,7 @@ class AboutPageForm(forms.ModelForm):
     text = forms.CharField(widget=forms.Textarea(attrs={'class': 'form-control compose-textarea', 'rows': '6'}),
                            required=False)
     photo = forms.ImageField(widget=forms.FileInput(), required=False,
-                             error_messages={'invalid_image': 'К загрузке поддерживаются только изображения'})
+                             error_messages={'invalid_image': 'До завантаження підтримуються лише зображення'})
     additional_title = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}), required=False)
     additional_text = forms.CharField(widget=forms.Textarea(
         attrs={'class': 'form-control compose-textarea', 'rows': '6'}), required=False)
@@ -184,7 +184,7 @@ DocumentFormSet = modelformset_factory(Document, DocumentForm, extra=0, can_dele
 
 class GalleryForm(forms.ModelForm):
     image = forms.ImageField(widget=forms.FileInput(), required=False,
-                             error_messages={'invalid_image': 'К загрузке поддерживаются только изображения'})
+                             error_messages={'invalid_image': 'До завантаження підтримуються лише зображення'})
 
     class Meta:
         model = Gallery
@@ -194,7 +194,7 @@ class GalleryForm(forms.ModelForm):
 
 class AdditionalGalleryForm(forms.ModelForm):
     image = forms.ImageField(widget=forms.FileInput(), required=False,
-                             error_messages={'invalid_image': 'К загрузке поддерживаются только изображения'})
+                             error_messages={'invalid_image': 'До завантаження підтримуються лише зображення'})
 
     class Meta:
         model = AdditionalGallery

@@ -1,15 +1,15 @@
 {% extends 'layout/admin_panel.html' %}
 {% load static %}
-{% block title %}Новая квитанция{% endblock %}
+{% block title %}Нова квитанція{% endblock %}
 {% block breadcrumb %}
     <ul class="breadcrumb">
-        <li><a href="{% url 'statistic' %}"><i class="fa fa-home"></i>Главная</a></li>
-        <li><a href="{% url 'receipt_list' %}">Квитанции</a></li>
-        <li class="active">Новая квитанция</li>
+        <li><a href="{% url 'statistic' %}"><i class="fa fa-home"></i>Головна</a></li>
+        <li><a href="{% url 'receipt_list' %}">Квітанції</a></li>
+        <li class="active">Нова квитанція</li>
     </ul>
 {% endblock %}
 {% block header_text %}
-    Новая квитанция
+    Нова квитанція
 {% endblock %}
 {% block head %}
     <link rel="stylesheet"
@@ -30,14 +30,14 @@
                                 <div class="input-group-addon">
                                     №
                                 </div>
-                                {{ form.number }}
+                                {{form.number}}
                             </div>
                         </div>
-                        <span class="label-mid">от</span>
+                        <span class="label-mid">від</span>
                         <div class="form-group">
-                            <div id="receipt_date" class="input-group  date">
-                                {{ form.date }}
-                                <span class="input-group-addon kv-date-calendar" title="Выбрать дату"><i
+                            <div id="receipt_date" class="input-group date">
+                                {{form.date}}
+                                <span class="input-group-addon kv-date-calendar" title="Вибрати дату"><i
                                         class="glyphicon glyphicon-calendar"></i></span></div>
                         </div>
                     </div>
@@ -46,12 +46,12 @@
                     <div class="btn-group pull-right margin-bottom">
                         <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown"
                                 aria-haspopup="true" aria-expanded="false">
-                            Выберите действие <span class="caret"></span>
+                            Виберіть дію <span class="caret"></span>
                         </button>
                         <ul class="dropdown-menu">
                             <li><a onclick="set_tariff_services()" style="cursor: pointer"
-                             class="set-tariff-services">Выставить все услуги согласно тарифу</a></li>
-                            <li><a href="#!" class="add-counters">Добавить показания счетчиков</a></li>
+                             class="set-tariff-services">Виставити всі послуги згідно з тарифом</a></li>
+                            <li><a href="#!" class="add-counters">Додати свідчення лічильників</a></li>
                         </ul>
                     </div>
                 </div>
@@ -62,54 +62,54 @@
                     <div class="row">
                         <div class="col-xs-12 col-sm-6">
                             <div class="form-group">
-                                <label for="house_id">Дом</label>
-                                {{ form.house }}
+                                <label for="house_id">Будинок</label>
+                                {{form.house}}
                             </div>
                             <div class="form-group">
-                                <label for="section_id">Секция</label>
-                                {{ form.section }}
+                                <label for="section_id">Секція</label>
+                                {{form.section}}
                             </div>
                             <div class="form-group">
                                 <label class="control-label" for="invoice-flat_id">Квартира</label>
-                                {{ form.apartment }}
+                                {{form.apartment}}
                                 <div class="help-block"></div>
                             </div>
                         </div>
                         <div class="col-xs-12 col-sm-6">
                             <div class="form-group field-invoice-is_checked">
 
-                                <label>{{ form.is_complete }}
-                                    Проведена</label>
+                                <label>{{form.is_complete}}
+                                    Проведено</label>
 
                                 <div class="help-block"></div>
                             </div>
                             <div class="form-group field-invoice-status required">
                                 <label class="control-label" for="invoice-status">Статус</label>
-                                {{ form.status }}
+                                {{form.status}}
 
                                 <div class="help-block"></div>
                             </div>
                             <div class="form-group field-invoice-tariff_id required">
                                 <label class="control-label" for="invoice-tariff_id">Тариф</label>
-                                {{ form.tariff }}
+                                {{form.tariff}}
                                 <div class="help-block"></div>
                             </div>
 
                             <div class="row">
                                 <div class="col-xs-6">
                                     <div class="form-group field-invoice-period_start">
-                                        <label class="control-label" for="receipt_period_start">Период с</label>
-                                        <div id="receipt_period_start" class="input-group  date">
-                            <span class="input-group-addon kv-date-calendar" title="Выбрать дату"><i
+                                        <label class="control-label" for="receipt_period_start">Період з</label>
+                                        <div id="receipt_period_start" class="input-group date">
+                            <span class="input-group-addon kv-date-calendar" title="Вибрати дату"><i
                                     class="glyphicon glyphicon-calendar"></i></span>{{ form.period_start }}</div>
                                         <div class="help-block"></div>
                                     </div>
                                 </div>
                                 <div class="col-xs-6">
                                     <div class="form-group field-invoice-period_end">
-                                        <label class="control-label" for="receipt_period_end">Период по</label>
-                                        <div id="receipt_period_end" class="input-group  date"><span
-                                                class="input-group-addon kv-date-calendar" title="Выбрать дату"><i
+                                        <label class="control-label" for="receipt_period_end">Період за</label>
+                                        <div id="receipt_period_end" class="input-group date"><span
+                                                class="input-group-addon kv-date-calendar" title="Вибрати дату"><i
                                                 class="glyphicon glyphicon-calendar"></i></span>{{ form.period_end }}
                                         </div>
 
@@ -123,10 +123,10 @@
                     <div class="row">
                         <div class="col-xs-12 col-sm-6">
                             <div class="form-group">
-                                <label for="account_uid">Лицевой счет</label>
-                                {{ form.personal_account }}</div>
+                                <label for="account_uid">Обліковий рахунок</label>
+                                {{form.personal_account}}</div>
 
-                            <p><b>Владелец:</b> <span id="owner_name"></span></p>
+                            <p><b>Власник:</b> <span id="owner_name"></span></p>
                             <p><b>Телефон:</b> <span id="owner_phone"></span></p>
                         </div>
                         <div class="col-xs-12 col-sm-6">
@@ -138,12 +138,12 @@
                                 <table class="table table-bordered table-hover">
                                     <thead>
                                     <tr>
-                                        <th style="min-width: 200px;">Услуга</th>
-                                        <!--<th style="min-width: 180px;">Показания</th>-->
-                                        <th style="min-width: 180px;">Расход</th>
-                                        <th style="min-width: 120px;">Ед. изм.</th>
-                                        <th style="min-width: 180px;">Цена за ед., грн.</th>
-                                        <th style="min-width: 180px;">Стоимость, грн.</th>
+                                        <th style="min-width: 200px;">Послуга</th>
+                                        <!--<th style="min-width: 180px;">Показання</th>-->
+                                        <th style="min-width: 180px;">Витрата</th>
+                                        <th style="min-width: 120px;">Од. вим.</th>
+                                        <th style="min-width: 180px;">Ціна за од., грн.</th>
+                                        <th style="min-width: 180px;">Вартість, грн.</th>
                                         <th style="width: 40px; min-width: 40px;"></th>
                                     </tr>
                                     </thead>
@@ -152,14 +152,14 @@
                                     {% for receipt_service in receipt_service_formset %}
                                     <tr id="form-{{ receipt_service.prefix }}" class="form-receipt_service">
                                         <td>
-                                            {{ receipt_service.id }}
-                                            {{ receipt_service.service }}
+                                            {{receipt_service.id}}
+                                            {{receipt_service.service}}
                                         </td>
                                         <td>
-                                            {{ receipt_service.consumption }}
+                                            {{receipt_service.consumption}}
                                         </td>
                                         <td>
-                                            {{ receipt_service.unit }}
+                                            {{receipt_service.unit}}
                                         </td>
                                         <td>
                                             {{ receipt_service.price_unit }}</td>
@@ -169,7 +169,7 @@
                                         <td>
                                             <div hidden>{{ receipt_service.DELETE }}</div>
                                             <button type="button" class="btn btn-default btn-sm form-row-remove-btn"
-                                                    title="Удалить услугу"
+                                                    title="Видалити послугу"
                                                     onclick="delete_form('{{ receipt_service.prefix }}')">
                                                 <i class="fa fa-trash"></i></button>
                                         </td>
@@ -185,19 +185,19 @@
                                                     type="button"
                                                     class="btn btn-default btn-hover-change
                                                      form-row-add-receipt_service-btn">
-                                                Добавить услугу
+                                                Додати послугу
                                             </button>
                                             <button type="button" class="btn btn-default set-tariff-services"
                                             onclick="set_tariff_services()">
-                                                Установить все услуги согласно тарифу
+                                                Встановити всі послуги згідно з тарифом
                                             </button>
                                             <button id="set_meter_values" type="button" class="btn btn-default">
-                                                Добавить показания счетчиков
+                                                Додати свідчення лічильників
                                             </button>
                                         </td>
                                         <td style="min-width: 180px;">
                                             <div class="h4">
-                                                Итого: <b><span id="price-total">{{ receipt.total_price }}</span></b> грн
+                                                Разом: <b><span id="price-total">{{ receipt.total_price }}</span></b> грн
                                             </div>
                                         </td>
                                         <td style="width: 40px; min-width: 40px;"></td>
@@ -224,7 +224,7 @@
                                         <td>
                                             <div hidden>{{ receipt_service_formset.empty_form.DELETE }}</div>
                                             <button type="button" class="btn btn-default btn-sm form-row-remove-btn"
-                                                    title="Удалить услугу"
+                                                    title="Видалити послугу"
                                                     onclick="delete_form('{{ receipt_service_formset.empty_form.prefix }}')">
                                                 <i class="fa fa-trash"></i></button>
                                         </td>
@@ -238,8 +238,8 @@
                     <div class="row">
                         <div class="col-xs-12 text-right">
                             <div class="form-group">
-                                <a href="{% url 'receipt_list' %}" class="btn btn-default">Отменить</a>
-                                <button type="submit" class="btn btn-success">Сохранить</button>
+                                <a href="{% url 'receipt_list' %}" class="btn btn-default">Скасувати</a>
+                                <button type="submit" class="btn btn-success">Зберегти</button>
                             </div>
                         </div>
                     </div>
@@ -251,7 +251,7 @@
             <div class="col-xs-12">
                 <div class="box">
                     <div class="box-header with-border">
-                        <h3 class="box-title">Показания счетчиков</h3>
+                        <h3 class="box-title">Покази лічильників</h3>
                     </div>
 
                     <div id="meters" data-pjax-container="" data-pjax-push-state="" data-pjax-timeout="1000">
@@ -264,13 +264,13 @@
                                         <th style="width: 125px; min-width: 125px">№</th>
                                         <th>Статус</th>
                                         <th style="width: 125px; min-width: 125px">Дата</th>
-                                        <th style="width: 125px; min-width: 125px">Месяц</th>
-                                        <th style="min-width: 200px">Дом</th>
-                                        <th style="min-width: 160px">Секция</th>
-                                        <th style="width: 110px; min-width: 110px">№ квартиры</th>
-                                        <th>Счетчик</th>
-                                        <th style="width: 90px; min-width: 90px">Показания</th>
-                                        <th style="width: 90px; min-width: 90px">Ед. изм.</th>
+                                        <th style="width: 125px; min-width: 125px">Місяць</th>
+                                        <th style="min-width: 200px">Будинок</th>
+                                        <th style="min-width: 160px">Секція</th>
+                                        <th style="width: 110px; min-width: 110px">№ квартири</th>
+                                        <th>Лічильник</th>
+                                        <th style="width: 90px; min-width: 90px">Покази</th>
+                                        <th style="width: 90px; min-width: 90px">Од. вим.</th>
                                     </tr>
                                     </thead>
                                     <tbody></tbody>
@@ -291,10 +291,10 @@
         $('#nav_receipt').attr('class', 'active')
     </script>
     <script src="{% static 'admin_panel/bower_components/moment/moment.js' %}"></script>
-    <script src="{% static 'admin_panel/bower_components/moment/locale/ru.js' %}"></script>
+    <script src="{% static 'admin_panel/bower_components/moment/locale/uk.js' %}"></script>
     <script src="{% static 'admin_panel/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js' %}"></script>
     <script src="{% static 'admin_panel/bower_components/select2/dist/js/select2.full.min.js' %}"></script>
-    <script src="{% static 'admin_panel/bower_components/select2/dist/js/i18n/ru.min.js' %}"></script>
+    <script src="{% static 'admin_panel/bower_components/select2/dist/js/i18n/uk.js' %}"></script>
     <script src="{% static 'admin_panel/bower_components/datatables.net/js/jquery.dataTables.min.js' %}"></script>
     <script src="{% static 'admin_panel/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js' %}"></script>
 
@@ -302,7 +302,7 @@
         function config_datetimepicker(target_id, min_date) {
             let target = $('#' + `${target_id}`)
             let date_options = {
-                locale: 'ru',
+                locale: 'uk',
                 format: 'L',
             }
             if (!target.val()) {
@@ -314,16 +314,16 @@
             target.datetimepicker(date_options);
         }
 
-        config_datetimepicker('id_period_start', '{{ receipt.period_start|date:'d.m.Y' }}')
-        config_datetimepicker('id_period_end', '{{ receipt.period_end|date:'d.m.Y' }}')
-        config_datetimepicker('id_date', '{{ receipt.date|date:'d.m.Y' }}')
+        config_datetimepicker('id_period_start', '{{ receipt.period_start|date:'d.m.Y'}}')
+        config_datetimepicker('id_period_end', '{{ receipt.period_end|date:'d.m.Y'}}')
+        config_datetimepicker('id_date', '{{ receipt.date|date:'d.m.Y'}}')
     </script>
     <script>
         let label_colors = {
-            'Учтено': 'label-success',
-            'Учтено и оплачено': 'label-success',
-            'Новое': 'label-warning',
-            'Нулевое': 'label-primary',
+            'Враховано': 'label-success',
+            'Враховано та оплачено': 'label-success',
+            'Нове': 'label-warning',
+            'Нульове': 'label-primary',
         }
         let table
         let select_options = {
@@ -334,14 +334,14 @@
         function check_empty(data) {
             if (data) {
                 return data
-            } else return '(не задано)'
+            } else return '(не вказано)'
         }
 
         function clear_options(target_id) {
             $('#' + `${target_id} option:not([value=''])`).remove()
         }
 
-        {% block ajax_link_set %}{% endblock %}
+        {% block ajax_link_set %} {% endblock %}
 
         function get_values(values) {
             $.ajax({
@@ -354,7 +354,7 @@
                         console.log('meters_consumption',data['meters_consumption'])
                         for (let [service, value] of Object.entries(data['meters_consumption'])){
                             console.log($('.form-receipt_service:visible'))
-                            $('.form-receipt_service:visible').each(function () {
+                            $('.form-receipt_service:visible').each(function() {
                                 if ($(this).find('select').eq(0).val() === service){
                                     $(this).find('input').eq(1).val(value).change()
                                 }
@@ -417,7 +417,7 @@
                             id_section.val(apartment_info['section_id']).change()
                             apartment_id.val(apartment_info['apartment_id']).change()
                             house_id.val(apartment_info['house_id']).change()
-                            $('.select2-field').select2({placeholder: "Выберите..."})
+                            $('.select2-field').select2({placeholder: "Виберіть..."})
                             select_options['section_id'] = apartment_info['section_id']
                             select_options['apartment_id'] = apartment_info['apartment_id']
                             select_options['house_id'] = apartment_info['house_id']
@@ -428,8 +428,8 @@
                         }
 
                     } else if (data['section']) {
-                        $('#owner_name').empty().text('не выбран')
-                        $('#owner_phone').empty().text('не выбран')
+                        $('#owner_name').empty().text('не вибраний')
+                        $('#owner_phone').empty().text('не обрано')
                         clear_options('id_apartment')
                         clear_options('id_section')
                         data['section'].forEach(
@@ -440,8 +440,8 @@
                     }
                     if (data['apartment'] && !select_options['personal_account']) {
                         clear_options('id_apartment')
-                        $('#owner_name').empty().text('не выбран')
-                        $('#owner_phone').empty().text('не выбран')
+                        $('#owner_name').empty().text('не вибраний')
+                        $('#owner_phone').empty().text('не обрано')
                         data['apartment'].forEach(
                             function (item) {
                                 $('#id_apartment').append($('<option>').val(item['id']).text(item['number']));
@@ -450,7 +450,7 @@
 
                     {% comment %}if (values){
                         if (values[1]){
-                            $('#id_section').unbind().val(values[1]).change().select2({placeholder: "Выберите..."})
+                            $('#id_section').unbind().val(values[1]).change().select2({placeholder: "Виберіть..."})
                             select_options['section_id'] = values[1]
                             get_values([values[0]])
                             set_event_listeners()
@@ -471,7 +471,7 @@
                 processing: false,
                 ordering: false,
                 oLanguage: {
-                    sZeroRecords: "Ничего не найдено."
+                    sZeroRecords: "Нічого не знайдено."
                 },
                 columnDefs: [
                     {className: "meter", "targets": [0, 1, 2, 3, 4, 5, 6, 7, 8]},
@@ -484,13 +484,13 @@
                     },
                 ],
 
-                {% comment %}                "ajax": {
+                {% comment %} "ajax": {
                                     "processing": true,
                                     "url": "{% url 'receipt_create' %}",
                                     "data": function (d) {
                                         return select_options;
                                     },
-                                },{% endcomment %}
+                                }, {% endcomment %}
                 "columns": [
                     {data: 'number'},
                     {
@@ -536,7 +536,7 @@
 
         function set_event_listeners(house = false, section = false, apartment = false, personal_account = false) {
             if (house) {
-                $('#id_house').change(function () {
+                $('#id_house').change(function() {
                     select_options['house_id'] = this.value
                     select_options['section_id'] = ''
                     select_options['personal_account'] = ''
@@ -546,7 +546,7 @@
                 })
             }
             if (section) {
-                $('#id_section').change(function () {
+                $('#id_section').change(function() {
                     select_options['section_id'] = this.value
                     select_options['apartment_id'] = ''
                     select_options['personal_account'] = ''
@@ -555,14 +555,14 @@
                 })
             }
             if (apartment) {
-                $('#id_apartment').change(function () {
+                $('#id_apartment').change(function() {
                     select_options['apartment_id'] = this.value
                     select_options['personal_account'] = ''
                     get_values()
                 })
             }
             if (personal_account) {
-                $('#id_personal_account').change(function () {
+                $('#id_personal_account').change(function() {
                     select_options['personal_account'] = this.value
                     get_values()
                 })
@@ -570,10 +570,10 @@
 
         }
 
-        $(document).ready(function () {
-                $('.select2-field').select2({placeholder: "Выберите..."})
-                $('#id_tariff').select2({placeholder: "Выберите...", allowClear:true})
-                $('#id_status').select2({placeholder: "Выберите...", minimumResultsForSearch: Infinity})
+        $(document).ready(function() {
+                $('.select2-field').select2({placeholder: "Виберіть..."})
+                $('#id_tariff').select2({placeholder: "Виберіть...", allowClear:true})
+                $('#id_status').select2({placeholder: "Виберіть...", minimumResultsForSearch: Infinity})
                 {% block clone %}
 
                     clear_options('id_apartment')
@@ -596,18 +596,18 @@
     </script>
     <script src="{% static 'admin_panel/js/add_delete_form.js' %}"></script>
     <script>
-        $('#set_meter_values').click(function () {
+        $('#set_meter_values').click(function() {
             select_options['set_meter_values'] = true
             get_values()
             select_options['set_meter_values'] = ''
         })
-        $('#id_tariff').change(function () {
+        $('#id_tariff').change(function() {
             select_options['tariff'] = this.value
         })
 
         function set_tariff_services() {
             console.log($('#form-receipt_service-rows tr:visible'))
-            $('#form-receipt_service-rows tr:visible').each(function () {
+            $('#form-receipt_service-rows tr:visible').each(function() {
                 $(this).find('button').click()
             })
             select_options['set_tariff_services'] = true
@@ -619,7 +619,7 @@
         }
         function count_total_price() {
             let total_price = 0.0
-            $('#form-receipt_service-rows tr:visible').each(function () {
+            $('#form-receipt_service-rows tr:visible').each(function() {
                 total_price += parseFloat($(this).find('input').eq(3).val())
             })
             if (!total_price){total_price=0.0}
@@ -629,28 +629,28 @@
         const totalReceiptServiceForms = $('#id_receipt_service-TOTAL_FORMS')
 
         function service_change(count) {
-            $('#id_receipt_service-'+`${count - 1}-price_unit`).change(function () {
+            $('#id_receipt_service-'+`${count - 1}-price_unit`).change(function() {
                 $('#id_receipt_service-'+`${count - 1}-consumption`).change()
             })
-            $('#id_receipt_service-'+`${count - 1}-DELETE`).change(function () {
+            $('#id_receipt_service-'+`${count - 1}-DELETE`).change(function() {
                 let price_total = $('#price-total')
                 price_total.text(
                     parseFloat(price_total.text()) - parseFloat($('#id_receipt_service-' + `${count - 1}-total_price`).val()
                     )).change()
             })
 
-            $('#id_receipt_service-'+`${count - 1}-total_price`).change(function () {
+            $('#id_receipt_service-'+`${count - 1}-total_price`).change(function() {
                 $('#price-total').text(count_total_price()).change()
             })
             $('#id_receipt_service-'+`${count - 1}-consumption`).change(
-                function (){
+                function () {
                     let inputs = $(this).closest('tr').find('input')
                     let price = parseFloat($(this).val())*parseFloat(inputs.eq(2).val())
-                    if (!price){price=0}
+                    if (!price) {price=0}
                     inputs.eq(3).val(price).change()
                 }
             )
-            $('#id_receipt_service-' + `${count - 1}-service`).change(function () {
+            $('#id_receipt_service-' + `${count - 1}-service`).change(function() {
                 let value = $(this).val();
                 let unit_select = $(this).closest('tr').find('select').eq(1);
                 if ($(unit_select).find('option[value="' + `${value}"]`).length === 0) {
@@ -660,46 +660,46 @@
             });
         }
 
-        $('#add_receipt_service').on('click', function () {
+        $('#add_receipt_service').on('click', function() {
             add_form('receipt_service', 'empty-receipt_service', 'form-receipt_service-rows', totalReceiptServiceForms)
             service_change(parseInt(totalReceiptServiceForms.val()))
         })
     </script>
     <script>
             $( "#receipt_form" ).validate( {
-				rules: {
-					apartment: "required",
-					master: "required",
-					description: "required",
-				},
-				messages: {
-					apartment: "Пожалуйста выберите квартиру.",
-					master: "Пожалуйста выберите мастера.",
-					description: "Пожалуйста опишите свою проблему.",
-				},
-				errorElement: "em",
-				errorPlacement: function ( error, element ) {
-					error.addClass( "help-block" );
-					element.parents( ".form-group" ).addClass( "has-feedback" );
-					if ( element.prop( "type" ) === "checkbox" ) {
-						error.insertAfter( element.parent( "label" ) );
-					} else {
+rules: {
+apartment: "відповідно",
+master: "required",
+description: "відповідно",
+},
+messages: {
+apartment: "Будь ласка, виберіть квартиру.",
+master: "Будь ласка, виберіть майстра.",
+description: "Будь ласка, опишіть свою проблему.",
+},
+errorElement: "em",
+errorPlacement: function ( error, element ) {
+error.addClass( "help-block");
+element.parents( ".form-group" ).addClass( "has-feedback" );
+if ( element.prop( "type" ) === "checkbox" ) {
+error.insertAfter( element.parent( "label" ) );
+} else {
                         if($(element).hasClass('select2-hidden-accessible')){
 
                             error.insertAfter( $(element).parent('.form-group').find('.select2'));
                         }
                         else error.insertAfter( element );
-					}
-				},
-				success: function ( label, element ) {
-				},
-				highlight: function ( element, errorClass, validClass ) {
-					$( element ).parents( ".form-group" ).addClass( "has-error" ).removeClass( "has-success" );
-				},
-				unhighlight: function ( element, errorClass, validClass ) {
-					$( element ).parents( ".form-group" ).addClass( "has-success" ).removeClass( "has-error" );
-				}
-			} );
+}
+},
+success: function ( label, element ) {
+},
+highlight: function ( element, errorClass, validClass ) {
+$( element ).parents( ".form-group" ).addClass( "has-error" ).removeClass( "has-success" );
+},
+unhighlight: function ( element, errorClass, validClass ) {
+$( element ).parents( ".form-group" ).addClass( "has-success" ).removeClass( "has-error" );
+}
+} );
              $("select").on("select2:close", function (e) {
         $(this).valid();
     });

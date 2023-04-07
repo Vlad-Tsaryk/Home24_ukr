@@ -1,14 +1,14 @@
 {% extends 'layout/admin_panel.html' %}
 {% load static %}
-{% block title %}Квитанции на оплату{% endblock %}
+{% block title %}Квитанції на оплату{% endblock %}
 {% block breadcrumb %}
     <ul class="breadcrumb">
-        <li><a href="{% url 'statistic' %}"><i class="fa fa-home"></i>Главная</a></li>
-        <li class="active">Квитанции на оплату</li>
+        <li><a href="{% url 'statistic' %}"><i class="fa fa-home"></i>Головна</a></li>
+        <li class="active">Квитанції на оплату</li>
     </ul>
 {% endblock %}
 {% block header_text %}
-    Квитанции на оплату
+    Квитанції на оплату
 {% endblock %}
 {% block head %}
 
@@ -27,36 +27,36 @@
                     <div class="small-box bg-green overflow-hidden">
                         <div class="inner">
                             <h3>{{ transactions_total_balance|floatformat:'2' }} грн</h3>
-                            <p>Состояние кассы</p>
+                            <p>Стан каси</p>
                         </div>
                         <div class="icon">
                             <i class="fa fa-dollar"></i>
                         </div>
-                        <!--<span class="small-box-footer">&nbsp;</span>-->
+                        <!--<span class="small-box-footer"> </span>-->
                     </div>
                 </div>
                 <div class="col-xs-12 col-md-4">
                     <div class="small-box bg-blue overflow-hidden">
                         <div class="inner">
                             <h3>{{ account_total_balance|floatformat:'2' }} грн</h3>
-                            <p>Баланс по счетам</p>
+                            <p>Баланс за рахунками</p>
                         </div>
                         <div class="icon">
                             <i class="fa fa-dollar"></i>
                         </div>
-                        <!--<span class="small-box-footer">&nbsp;</span>-->
+                        <!--<span class="small-box-footer"> </span>-->
                     </div>
                 </div>
                 <div class="col-xs-12 col-md-4">
                     <div class="small-box bg-red overflow-hidden">
                         <div class="inner">
                             <h3>{{ account_total_debt|floatformat:'2' }} грн</h3>
-                            <p>Задолженность по счетам</p>
+                            <p>Заборгованість за рахунками</p>
                         </div>
                         <div class="icon">
                             <i class="fa fa-dollar"></i>
                         </div>
-                        <!--<span class="small-box-footer">&nbsp;</span>-->
+                        <!--<span class="small-box-footer"> </span>-->
                     </div>
                 </div>
             </div>
@@ -65,13 +65,13 @@
             <div class="btn-group pull-right margin-bottom">
                 <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown"
                         aria-haspopup="true" aria-expanded="false">
-                    Выберите действие <span class="caret"></span>
+                    Виберіть дію <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu">
-                    <li><a href="{% url 'receipt_create' %}">Создать общую квитанцию</a></li>
-                    <!--                <li><a href="#!">Создать квитанцию на оплату за ЭЭ</a></li>
-                                    <li><a href="#!">Создать квитанцию на оплату за ГАЗ</a></li>-->
-                    <li><a class="delete-many">Удалить</a></li>
+                    <li><a href="{% url 'receipt_create' %}">Створити загальну квитанцію</a></li>
+                    <!-- <li><a href="#!">Створити квитанцію на оплату за ЕЕ</a></li>
+                                    <li><a href="#!">Створити квитанцію на оплату за ГАЗ</a></li>-->
+                    <li><a class="delete-many">Видалити</a></li>
                 </ul>
             </div>
         </div>
@@ -83,7 +83,7 @@
                     <h3 class="box-title"></h3>
                     <div class="box-tools">
                         <button onclick="clear_filters()" class="btn btn-default btn-sm">
-                            <span class="hidden-xs">Очистить</span><i class="fa fa-eraser visible-xs"
+                            <span class="hidden-xs">Очистити</span><i class="fa fa-eraser visible-xs"
                                                                       aria-hidden="true"></i>
                         </button>
                     </div>
@@ -97,21 +97,21 @@
                                 <th style="width: 40px; min-width: 40px">
                                     <input type="checkbox" id="select_all_receipts" name="selection_all">
                                 </th>
-                                <th style="width: 125px; min-width: 125px">№ квитанции</th>
+                                <th style="width: 125px; min-width: 125px">№ квитанції</th>
                                 <th style="width: 100px; min-width: 100px">Статус</th>
                                 <th style="width: 125px; min-width: 125px">
                                     <a id="date" class="ordering" style="cursor: pointer">Дата</a></th>
                                 <th style="width: 135px; min-width: 135px">
-                                    <a id="date__month" class="ordering" style="cursor: pointer">Месяц</a>
+                                    <a id="date__month" class="ordering" style="cursor: pointer">Місяць</a>
                                 </th>
                                 <th>Квартира</th>
-                                <th style="min-width: 200px">Владелец</th>
-                                <th style="width: 120px; min-width: 120px">Проведена</th>
-                                <th style="width: 100px; min-width: 100px">Сумма (грн)</th>
-                                <th style="width: 114px; min-width: 114px">&nbsp;</th>
+                                <th style="min-width: 200px">Власник</th>
+                                <th style="width: 120px; min-width: 120px">Проведено</th>
+                                <th style="width: 100px; min-width: 100px">Сума (грн)</th>
+                                <th style="width: 114px; min-width: 114px"> </th>
                             </tr>
                             <tr id="w0-filters" class="filters">
-                                <td>&nbsp;</td>
+                                <td> </td>
                                 <td><input type="text" class="form-control column_search" id="number"></td>
                                 <td><select id="status" class="form-control select2 filter">
                                     <option value=""></option>
@@ -132,11 +132,11 @@
                                 <td><select id="is_complete"
                                             class="form-control select2 filter">
                                     <option value=""></option>
-                                    <option value="1">Проведена</option>
-                                    <option value="0">Не проведена</option>
+                                    <option value="1">Проведено</option>
+                                    <option value="0">Не проведено</option>
                                 </select></td>
-                                <td>&nbsp;</td>
-                                <td>&nbsp;</td>
+                                <td> </td>
+                                <td> </td>
                             </tr>
                             </thead>
                             <tbody>
@@ -160,16 +160,16 @@
     </script>
 
     <script src="{% static 'admin_panel/bower_components/select2/dist/js/select2.full.min.js' %}"></script>
-    <script src="{% static 'admin_panel/bower_components/select2/dist/js/i18n/ru.min.js' %}"></script>
+    <script src="{% static 'admin_panel/bower_components/select2/dist/js/i18n/uk.js' %}"></script>
     <script src="{% static 'admin_panel/bower_components/datatables.net/js/jquery.dataTables.min.js' %}"></script>
     <script src="{% static 'admin_panel/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js' %}"></script>
 
     <script src="{% static 'admin_panel/bower_components/moment/moment.js' %}"></script>
-    <script src="{% static 'admin_panel/bower_components/moment/locale/ru.js' %}"></script>
+    <script src="{% static 'admin_panel/bower_components/moment/locale/uk.js' %}"></script>
     <script type="text/javascript"
             src="{% static 'admin_panel/bower_components/daterangepicker/daterangepicker.js' %}"></script>
     <script src="{% static 'admin_panel/plugins/bootstrap-datepicker-1.9.0-dist/js/bootstrap-datepicker.min.js' %}"></script>
-    <script src="{% static 'admin_panel/plugins/bootstrap-datepicker-1.9.0-dist/locales/bootstrap-datepicker.ru.min.js' %}"></script>
+    <script src="{% static 'admin_panel/plugins/bootstrap-datepicker-1.9.0-dist/locales/bootstrap-datepicker.uk.min.js' %}"></script>
     <script>
         let numb = 0
         let sort_data = {}
@@ -177,9 +177,9 @@
         let table
         let table_head = $('#receipt_table thead')
         let label_colors = {
-            'Оплачена': 'label-success',
-            'Не оплачена': 'label-danger',
-            'Частично оплачена': 'label-warning',
+            'Оплачено': 'label-success',
+            'Не оплачено': 'label-danger',
+            'Частково оплачено': 'label-warning',
         }
 
         function numberWithSpaces(nr) {
@@ -189,8 +189,9 @@
         function check_empty(data) {
             if (data) {
                 return data
-            } else return '(не задано)'
+            } else return '(не вказано)'
         }
+
 
         function set_options(data, target_id) {
             $('#' + `${target_id} option`).remove()
@@ -208,7 +209,7 @@
                 processing: false,
                 ordering: false,
                 oLanguage: {
-                    sZeroRecords: "Ничего не найдено."
+                    sZeroRecords: "Нічого не знайдено."
                 },
                 columnDefs: [
                     {className: "receipt", "targets": [1, 2, 3, 4, 5, 6, 7,8]},
@@ -280,9 +281,9 @@
                         data: 'is_complete',
                         render: function (data) {
                             if (data) {
-                                return '<small class="label label-success">Проведена</small>'
+                                return '<small class="label label-success">Проведено</small>'
                             } else {
-                                return '<small class="label label-danger">Не проведена</small>'
+                                return '<small class="label label-danger">Не проведено</small>'
                             }
                         }
                     },
@@ -301,11 +302,11 @@
 
                             return `<div class="btn-group pull-right">\
                                     <a class="btn btn-default btn-sm" href="${link_clone}"\
-                                    title="Копировать" data-toggle="tooltip"><i class="fa fa-clone"></i></a>\
+                                    title="Копіювати" data-toggle="tooltip"><i class="fa fa-clone"></i></a>\
                                     <a class="btn btn-default btn-sm" href="${link_update}"\
-                                    title="Редактировать" data-toggle="tooltip"><i class="fa fa-pencil"></i></a>\
+                                    title="Редагувати" data-toggle="tooltip"><i class="fa fa-pencil"></i></a>\
                                     <a class="btn btn-default btn-sm" href="${link_delete}"\
-                                    title="Удалить" data-toggle="tooltip" data-pjax="0" data-method="post">\
+                                    title="Видалити" data-toggle="tooltip" data-pjax="0" data-method="post">\
                                     <i class="fa fa-trash"></i></a>\
                                     </div>`
                         },
@@ -333,7 +334,7 @@
                 numb = 0
                 table.draw()
             });
-            table_head.on('click', '.ordering', function () {
+            table_head.on('click', '.ordering', function() {
                 if (this.className === 'ordering asc') {
                     $(this).attr('class', 'ordering desc')
                     sort_data['order_by'] = '-' + this.id
@@ -347,7 +348,7 @@
             })
 
         }
-        $('.delete-many').click(function () {
+        $('.delete-many').click(function() {
             sort_data['delete_receipts'] = true
             sort_data['selected_receipts'] = selected_receipts
             numb = 0
@@ -356,7 +357,7 @@
             sort_data['delete_receipts'] = false
         })
         let select_all_receipts_bnt = $('#select_all_receipts')
-        select_all_receipts_bnt.change(function () {
+        select_all_receipts_bnt.change(function() {
             $('.receipt_select').prop('checked', $(this).prop('checked')).change()
         })
         function select_receipt(event) {
@@ -379,13 +380,13 @@
         }
 
         function confirm_delete(link, event) {
-            alertify.confirm('Подтверждение удаления', 'Удалить ведомость <b>№' +
+            alertify.confirm('Підтвердження видалення', 'Видалити відомості <b>№' +
                 +$(event.target).closest("tr ").children().eq(0).text() + '</b> ?',
                 function () {
                     window.location.href = link
                 },
                 function () {
-                }).set({labels: {ok: 'Подтвердить', cancel: 'Отмена'}});
+                }).set({labels: {ok: 'Підтвердити', cancel: 'Скасувати'}});
             return false;
         }
 
@@ -395,10 +396,10 @@
                 })
 
 
-        $(document).ready(function () {
+        $(document).ready(function() {
             $('.column_search').val('');
             {% if view.kwargs.apartment %}
-                sort_data['apartment'] = {{ view.kwargs.apartment }}
+                sort_data['apartment'] = {{view.kwargs.apartment}}
                 $('#apartment').val({{ view.kwargs.apartment }})
             {% endif %}
             send_POST();
@@ -411,8 +412,8 @@
                     autoUpdateInput: false,
                     locale: {
 
-                        cancelLabel: 'Отменить',
-                        applyLabel: 'Применить'
+                        cancelLabel: 'Скасувати',
+                        applyLabel: 'Застосувати'
                     },
                     applyButtonClasses: 'btn btn-success',
                     cancelButtonClasses: 'btn btn-default',
@@ -422,7 +423,7 @@
                     startView: 1,
                     minViewMode: 1,
                     maxViewMode: 2,
-                    language: "ru",
+                    language: "uk",
                     autoclose: true
                 }).change(function () {
                     let date = this.value.split('.')
@@ -433,7 +434,7 @@
                     table.draw()
                 })
                 date_range.on('apply.daterangepicker', function (ev, picker) {
-                    $(this).val(picker.startDate.format('DD/MM/YYYY') + ' - ' + picker.endDate.format('DD/MM/YYYY'));
+                    $(this).val(picker.startDate.format('DD/MM/YYYY') + '-' + picker.endDate.format('DD/MM/YYYY'));
                     sort_data['date_range'] = [picker.startDate.format('YYYY-MM-DD'), picker.endDate.format('YYYY-MM-DD')]
                     console.log(sort_data[this.id])
                     numb = 0

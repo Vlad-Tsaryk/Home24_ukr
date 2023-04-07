@@ -1,17 +1,17 @@
 {% extends 'layout/admin_panel.html' %}
-{% block title %}{% if transaction.type %}Приходная
-                        {% else %}Расходная{% endif %} ведомость{% endblock %}
+{% block title %}{% if transaction.type %}Прибуткова
+                        {% else %} Витратна {% endif %} відомість {% endblock %}
 {% block breadcrumb %}
     <ul class="breadcrumb">
-        <li><a href="{% url 'statistic' %}"><i class="fa fa-home"></i>Главная</a></li>
-        <li><a href="{% url 'transaction_list' %}">Платежи</a></li>
-        <li class="active">{% if transaction.type %}Приходная
-                        {% else %}Расходная{% endif %} ведомость №{{ transaction.number }}</li>
+        <li><a href="{% url 'statistic' %}"><i class="fa fa-home"></i>Головна</a></li>
+        <li><a href="{% url 'transaction_list' %}">Платежі</a></li>
+        <li class="active">{% if transaction.type %}Прибуткова
+                        {% else %}Витратна{% endif %} відомість №{{ transaction.number }}</li>
     </ul>
 {% endblock %}
 {% block header_text %}
-    {% if transaction.type %}Приходная
-                        {% else %}Расходная{% endif %} ведомость
+    {% if transaction.type %}Прибуткова
+                        {% else %} Витратна {% endif %} відомість
 {% endblock %}
 {% block content %}
     <div class="row">
@@ -25,7 +25,7 @@
                         <div class="form-control pull-right">{{ transaction.number }}</div>
                     </div>
                 </div>
-                <span class="label-mid">от</span>
+                <span class="label-mid">від</span>
                 <div class="form-group">
                     <div class="input-group date">
                         <div class="input-group-addon">
@@ -39,21 +39,21 @@
     </div>
     <div class="box">
         <div class="box-header with-border">
-            <h3 class="box-title">{% if transaction.type %}Приходная{% else %}Расходная{% endif %} ведомость</h3>
+            <h3 class="box-title">{% if transaction.type %}Прибуткова{% else %}Видаткова{% endif %} відомість</h3>
             <div class="box-tools">
                 <a href="{% url 'transaction_clone' transaction.pk %}" class="btn btn-default btn-sm">
-                    <span class="hidden-xs">Копировать</span><i class="fa fa-print visible-xs" aria-hidden="true"></i>
+                    <span class="hidden-xs">Копіювати</span><i class="fa fa-print visible-xs" aria-hidden="true"></i>
                 </a>
                 <button onclick="confirm_delete('{% url 'transaction_delete' transaction.pk %}')"
                         class="btn btn-default btn-sm">
-                    <span class="hidden-xs">Удалить</span><i class="fa fa-envelope-o visible-xs" aria-hidden="true"></i>
+                    <span class="hidden-xs">Видалити</span><i class="fa fa-envelope-o visible-xs" aria-hidden="true"></i>
                 </button>
                 <a href="{% url 'transaction_update' transaction.pk %}" class="btn btn-primary btn-sm">
-                    <span class="hidden-xs">Редактировать ведомость</span><i class="fa fa-pencil visible-xs"
+                    <span class="hidden-xs">Редагувати відомість</span><i class="fa fa-pencil visible-xs"
                                                                              aria-hidden="true"></i>
                 </a>
                 <a href="{% url 'transaction_to_excel' transaction.pk %}" class="btn btn-default btn-sm">
-                    <span class="hidden-xs">Выгрузить в Excel</span><i class="fa fa-pencil visible-xs"
+                    <span class="hidden-xs">Вивантажити в Excel</span><i class="fa fa-pencil visible-xs"
                                                                        aria-hidden="true"></i>
                 </a>
             </div>
@@ -62,60 +62,60 @@
             <table class="table table-bordered table-striped table-view">
                 <tbody>
                 <tr>
-                    <td>Владелец квартиры</td>
+                    <td>Власник квартири</td>
                     <td>
                         {% if transaction.owner %}
                         <a href="{% url 'owner_view' transaction.owner_id %}">
-                            {{ transaction.owner}} </a>
+                            {{transaction.owner}}</a>
                         {% else %}
-                        Не указано
+                        Не вказано
                         {% endif %}
                     </td>
                 </tr>
                 <tr>
-                    <td>Лицевой счет</td>
+                    <td>Обліковий рахунок</td>
                     <td>
                         {% if transaction.personal_account %}
                         <a href="{% url 'personal_account_view' transaction.personal_account_id %}">
-                            {{ transaction.personal_account}} </a>
+                            {{transaction.personal_account}}</a>
                         {% else %}
-                        Не указано
+                        Не вказано
                         {% endif %}
                     </td>
                 </tr>
                 <tr>
-                    <td>Статья</td>
-                    <td>{{ transaction.purpose|default_if_none:"Не указано" }}</td>
+                    <td>Стаття</td>
+                    <td>{{ transaction.purpose|default_if_none:"Не вказано" }}</td>
                 </tr>
                 <tr>
-                    <td>Квитанция</td>
+                    <td>Квитанція</td>
                     <td>
-                        Не указано
+                        Не вказано
                     </td>
                 </tr>
                 <tr>
-                    <td>Услуга</td>
-                    <td>Не указано</td>
+                    <td>Послуга</td>
+                    <td>Не вказано</td>
                 </tr>
                 <tr>
                     <td>Менеджер</td>
                     <td>
                         <a href="{% url 'view_user' transaction.manager_id %}">
-                            {{ transaction.manager}} </a>
+                            {{transaction.manager}}</a>
                     </td>
                 </tr>
                 <tr>
-                    <td>Сумма</td>
+                    <td>Сума</td>
                     <td>
                         {% if transaction.type %}
-                        <span class="text-green">{{ transaction.sum }}</span>
+                        <span class="text-green">{{transaction.sum}}</span>
                         {% else %}
                         <span class="text-red">-{{ transaction.sum }}</span>
                         {% endif %}
                     </td>
                 </tr>
                 <tr>
-                    <td>Комментарий</td>
+                    <td>Коментар</td>
                     <td>{{ transaction.comment }}</td>
                 </tr>
                 </tbody>
@@ -130,12 +130,12 @@
     </script>
     <script>
             function confirm_delete(link) {
-            alertify.confirm('Подтверждение удаления', 'Удалить ведомость <b>№{{transaction.number}}</b> ?',
+            alertify.confirm('Підтвердження видалення', 'Видалити відомості <b>№{{transaction.number}}</b> ?',
                 function () {
                     window.location.href = link
                 },
                 function () {
-                }).set({labels: {ok: 'Подтвердить', cancel: 'Отмена'}});
+                }).set({labels: {ok: 'Підтвердити', cancel: 'Скасувати'}});
             return false;
         }
     </script>

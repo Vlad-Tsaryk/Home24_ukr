@@ -8,74 +8,74 @@
         }
     </style>
 {% endblock %}
-{% block title %}Редактирование страницы {% endblock %}
+{% block title %}Редагування сторінки {% endblock %}
 {% block breadcrumb %}
     <ul class="breadcrumb">
-        <li><a href="{% url 'statistic' %}"><i class="fa fa-home"></i>Главная</a></li>
-        <li class="active">Редактирование страницы </li>
+        <li><a href="{% url 'statistic' %}"><i class="fa fa-home"></i>Головна</a></li>
+        <li class="active">Редагування сторінки</li>
     </ul>
 {% endblock %}
 {% block header_text %}
-    Редактирование страницы
+    Редагування сторінки
 {% endblock %}
 {% block content %}
     <div class="row">
         <div class="col-xs-12">
             <div class="box">
                 <div class="box-header with-border">
-                    <h3 class="box-title">Редактирование страницы "Контакты"</h3>
+                    <h3 class="box-title">Редагування сторінки "Контакти"</h3>
                 </div>
                 <div class="box-body">
                     <form id="contact_form" method="post">
                         {% csrf_token %}
                         <div class="row">
                             <div class="col-xs-12 col-md-8">
-                                <h3 class="page-header">Контактная информация</h3>
+                                <h3 class="page-header">Контактна інформація</h3>
                                 <div class="form-group field-{{ contact_page_form.title.id_for_label }}">
                                     <label class="control-label" for="{{ contact_page_form.title.id_for_label }}">Заголовок</label>
                                     {{ contact_page_form.title }}
                                     <div class="help-block"></div>
                                 </div>
                                 <div class="form-group field-{{ contact_page_form.text.id_for_label }}">
-                                    <label class="control-label" for="{{ contact_page_form.text.id_for_label }}">Краткий
+                                    <label class="control-label" for="{{ contact_page_form.text.id_for_label }}">Короткий
                                         текст</label>
                                     {{ contact_page_form.text }}
                                     <div class="help-block"></div>
                                 </div>
                                 <div class="form-group field-{{ contact_page_form.site_url.id_for_label }}">
-                                    <label class="control-label" for="{{ contact_page_form.site_url.id_for_label }}">Ссылка
-                                        на коммерческий сайт</label>
+                                    <label class="control-label" for="{{ contact_page_form.site_url.id_for_label }}">Посилання
+                                        на комерційний сайт</label>
                                     {{ contact_page_form.site_url }}
                                     <div class="help-block"></div>
                                 </div>
                             </div>
                             <div class="col-xs-12 col-md-4">
-                                <h3 class="page-header">Контакты</h3>
+                                <h3 class="page-header">Контакти</h3>
                                 <div class="form-group field-{{ contact_page_form.full_name.id_for_label }}">
-                                    <label class="control-label" for="{{ contact_page_form.full_name.id_for_label }}">ФИО</label>
+                                    <label class="control-label" for="{{ contact_page_form.full_name.id_for_label }}">ПІБ</label>
                                     {{ contact_page_form.full_name }}
                                     <div class="help-block"></div>
                                 </div>
                                 <div class="form-group field-{{ contact_page_form.full_name.id_for_label }}">
                                     <label class="control-label"
-                                           for="{{ contact_page_form.full_name.id_for_label }}">Локация</label>
+                                           for="{{ contact_page_form.full_name.id_for_label }}">Локація</label>
                                     {{ contact_page_form.location }}
                                     <div class="help-block"></div>
                                 </div>
                                 <div class="form-group field-{{ contact_page_form.address.id_for_label }}">
-                                    <label class="control-label" for="{{ contact_page_form.address.id_for_label }}">Адрес</label>
+                                    <label class="control-label" for="{{ contact_page_form.address.id_for_label }}">Адреса</label>
                                     {{ contact_page_form.address }}
                                     <div class="help-block"></div>
                                 </div>
                                 <div class="form-group field-{{ contact_page_form.phone.id_for_label }}">
                                     <label class="control-label" for="{{ contact_page_form.phone.id_for_label }}">Телефон</label>
-                                    {{ contact_page_form.phone }}
+                                    {{contact_page_form.phone}}
                                     <div class="help-block"></div>
                                 </div>
                                 <div class="form-group field-{{ contact_page_form.email.id_for_label }}">
                                     <label class="control-label"
                                            for="{{ contact_page_form.email.id_for_label }}">E-mail</label>
-                                    {{ contact_page_form.email }}
+                                    {{contact_page_form.email}}
                                     <div class="help-block"></div>
                                 </div>
                             </div>
@@ -85,7 +85,7 @@
                                 <h3 class="page-header">Карта</h3>
                                 <div class="form-group field-{{ contact_page_form.map_code.id_for_label }}">
                                     <label class="control-label" for="{{ contact_page_form.map_code.id_for_label }}">Код
-                                        карты</label>
+                                        карти</label>
                                     {{ contact_page_form.map_code }}
                                     <div class="help-block"></div>
                                 </div>
@@ -93,7 +93,7 @@
                         </div>
                         <div class="row">
                             <div class="col-md-12">
-                                <h3 class="page-header">Настройки SEO</h3>
+                                <h3 class="page-header">Налаштування SEO</h3>
                                 <div class="form-group field-{{ seo_form.title.id_for_label }}">
                                     <label class="control-label" for="{{ seo_form.title.id_for_label }}">Title</label>
                                     {{ seo_form.title }}
@@ -115,8 +115,8 @@
                         <div class="row">
                             <div class="col-xs-12 text-center">
                                 <div class="form-group">
-                                    <a href="{% url 'website_contact_page' %}" class="btn btn-default">Отменить</a>
-                                    <button type="submit" class="btn btn-success">Сохранить</button>
+                                    <a href="{% url 'website_contact_page' %}" class="btn btn-default">Скасувати</a>
+                                    <button type="submit" class="btn btn-success">Зберегти</button>
                                 </div>
                             </div>
                         </div>
@@ -139,7 +139,7 @@
             src="{% static "admin_panel/plugins/ckeditor5-build-classic/translations/ru.js" %}"></script>
     <script>
         $(document).ready(
-            $('.compose-textarea').each(function () {
+            $('.compose-textarea').each(function() {
                 ClassicEditor.create(this, {
                     language: 'ru',
                     toolbar: {

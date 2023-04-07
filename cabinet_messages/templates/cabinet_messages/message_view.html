@@ -1,20 +1,20 @@
 {% extends 'layout/cabinet.html' %}
-{% block title %}Сообщение{% endblock %}
+{% block title %} Повідомлення {% endblock %}
 {% block breadcrumb %}
     <ul class="breadcrumb">
-        <li><a href="{% url 'cabinet' %}"><i class="fa fa-home"></i>Главная</a></li>
-        <li class="active">Сообщение</li>
+        <li><a href="{% url 'cabinet' %}"><i class="fa fa-home"></i>Головна</a></li>
+        <li class="active">Повідомлення</li>
     </ul>
 {% endblock %}
 {% block header_text %}
-    Сообщение
+    Повідомлення
 {% endblock %}
 {% block content %}
     <div class="box">
         <div class="box-body no-padding">
             <div class="mailbox-read-info">
-                <h3>{{ message.subject }}</h3>
-                <h5>От: {{ message.sender}}<span class="mailbox-read-time pull-right">{{ message.created|date:'d.m.Y - H:m' }}</span>
+                <h3>{{message.subject}}</h3>
+                <h5>Від: {{message.sender}}<span class="mailbox-read-time pull-right">{{ message.created|date:'d.m.Y - H:m' }}</span>
                 </h5>
             </div>
             <div class="mailbox-read-message">
@@ -22,7 +22,7 @@
         </div>
         <div class="box-footer">
             <button onclick="confirm_delete('{% url 'message_delete' message.pk %}')" type="button"
-                    class="btn btn-default"><i class="fa fa-trash-o"></i> Удалить
+                    class="btn btn-default"><i class="fa fa-trash-o"></i> Видалити
             </button>
         </div>
     </div>
@@ -34,12 +34,12 @@
     </script>
     <script>
     function confirm_delete(link) {
-            alertify.confirm('Подтверждение удаления', 'Удалить сообщение ?',
+            alertify.confirm('Підтвердження видалення', 'Видалити повідомлення?',
                 function () {
                     window.location.href = link
                 },
                 function () {
-                }).set({labels: {ok: 'Подтвердить', cancel: 'Отмена'}});
+                }).set({labels: {ok: 'Підтвердити', cancel: 'Скасувати'}});
             return false;
         }
     </script>

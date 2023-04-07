@@ -22,7 +22,7 @@
     <link href="{% static 'admin_panel/plugins/alertifyjs/css/themes/default.min.css' %}" rel="stylesheet">
     <link href="{% static 'admin_panel/dist/css/style.css' %}" rel="stylesheet">
     <style>
-        .has-error .select2-container--default .select2-selection--single {
+        .has-error .select2-container-default .select2-selection-single {
             border-color: #dd4b39;
         }
 
@@ -63,7 +63,7 @@
                 <span class="sr-only">Toggle navigation</span>
             </a>
             <!-- Header title -->
-            <div class="header-title">{% block nav_header_title %}Панель администратора{% endblock %}</div>
+            <div class="header-title">{% block nav_header_title %}Панель адміністратора{% endblock %}</div>
             <!-- Navbar Right Menu -->
             <div class="navbar-custom-menu">
                 <ul class="nav navbar-nav">
@@ -74,11 +74,11 @@
                                 <i class="fa fa-child fa-lg"></i>
                                 {% with new_users=user.get_new_users %}
                                     {% with users_count=new_users.count %}
-                                        <span class="label label-warning">{{ users_count }}</span>
+                                        <span class="label label-warning">{{users_count}}</span>
                                         </a>
                                         <ul class="dropdown-menu">
 
-                                        <li class="header">Новых пользователей: {{ users_count }}</li>
+                                        <li class="header">Нових користувачів: {{users_count}}</li>
                                         <li>
                                     {% endwith %}
 
@@ -94,7 +94,7 @@
                                 {% endwith %}
                                 </ul>
                                 </li>
-                                <li class="footer"><a href="{% url 'user_list' %}">Перейти в раздел пользователей</a>
+                                <li class="footer"><a href="{% url 'user_list' %}">Перейти до розділу користувачів</a>
                                 </li>
 
                                 </ul>
@@ -108,15 +108,15 @@
                             {% else %}
                                 <i class="fa fa-user-circle text-purple"></i>
                             {% endif %}
-                            <span class="hidden-xs">{{ user }}</span>
+                            <span class="hidden-xs">{{user }}</span>
                         </a>
                         <ul class="dropdown-menu">
                             <!-- User image -->
                             <li class="user-header">
                                 {% if user.profile_image %}
-                                    <img src="{{ user.profile_image.url }}" class="img-circle" alt="Ава тар">
+                                    <img src="{{user.profile_image.url}}" class="img-circle" alt="Ава тар">
                                 {% else %}
-                                    <span><i class="fa fa-user-circle text-purple bg-gray-light img-circle"></i></span>
+                                    <span><i class="fa fa-user- circle text-purple bg-gray-light img-circle"></i></span>
                                 {% endif %}
                                 <p>{{ user }} ({{ user.role }})</p>
                             </li>
@@ -125,11 +125,11 @@
                                 <div class="pull-left">
                                     <a class="btn btn-default btn-flat"
                                        href="{% block profile_url %}{% url 'update_user' user.pk %}{% endblock %}">
-                                        Профиль</a></div>
+                                        Профіль</a></div>
                                 <div class="pull-right">
                                     <a class="btn btn-default btn-flat"
                                        href="{% block logout_url %}{% url 'admin-panel-logout' %}{% endblock %}">
-                                        Выход</a>
+                                        Вихід</a>
                                 </div>
                             </li>
                         </ul>
@@ -141,7 +141,7 @@
     </header>
 
 
-    <!-- Left side column. contains the logo and sidebar -->
+    <!-- Left side column. contains the logo і sidebar -->
     <aside class="main-sidebar">
         <!-- sidebar -->
         <div class="slimScrollDiv" style="position: relative; overflow: hidden; width: auto; height: 228px;">
@@ -155,105 +155,105 @@
                         {% endif %}
                         {% if user.role.transactions %}
                             <li id="nav_transaction"><a href="{% url 'transaction_list' %}"><i class="fa fa-dollar"></i>
-                                <span>Касса</span></a>
+                                <span>Каса</span></a>
                             </li>
                         {% endif %}
 
                         {% if user.role.receipts %}
                             <li id="nav_receipt"><a href="{% url 'receipt_list' %}"><i class="fa fa-files-o"></i>
-                                <span>Квитанции на оплату</span></a></li>
+                                <span>Квитанції на оплату</span></a></li>
                         {% endif %}
                         {% if user.role.personal_accounts %}
                             <li id="nav_account"><a href="{% url 'personal_account_list' %}"><i
                                     class="fa fa-credit-card"></i>
-                                <span>Лицевые счета</span></a></li>
+                                <span>Облікові рахунки</span></a></li>
                         {% endif %}
                         {% if user.role.apartments %}
                             <li id="nav_apartment"><a href="{% url 'apartment_list' %}"><i class="fa fa-key"></i>
-                                <span>Квартиры</span></a></li>
+                                <span>Квартири</span></a></li>
                         {% endif %}
                         {% if user.role.owners %}
-                            <li id="nav_owners"><a href="{% url 'owner_list' %}"><i class="fa fa-users"></i> <span>Владельцы квартир</span></a>
+                            <li id="nav_owners"><a href="{% url 'owner_list' %}"><i class="fa fa-users"></i> <span>Власники квартир</span></a >
                             </li>
                         {% endif %}
                         {% if user.role.houses %}
                             <li id="nav_house"><a href="{% url 'house_list' %}"><i class="fa fa-building"></i>
-                                <span>Дома</span></a>
+                                <span>Будинки</span></a>
                             </li>
                         {% endif %}
                         {% if user.role.messages %}
                             <li id="nav_message"><a href="{% url 'message_list' %}"><i class="fa fa-envelope-o"></i>
-                                <span>Сообщения</span></a>
+                                <span>Повідомлення</span></a>
                             </li>
                         {% endif %}
                         {% if user.role.applications %}
                             <li id="nav_application"><a href="{% url 'application_list' %}"><i class="fa fa-wrench"></i>
-                                <span>Заявки вызова мастера</span></a></li>
+                                <span>Заявки виклику майстра</span></a></li>
                         {% endif %}
                         {% if user.role.meters %}
                             <li id="nav_meter"><a href="{% url 'meter-list' %}"><i class="fa fa-dashboard"></i>
-                                <span>Показания счетчиков</span></a>
+                                <span>Покази лічильників</span></a>
                             </li>
                         {% endif %}
                         {% if user.role.website %}
                             <li id="website_settings" class="treeview"><a href="#!">
-                                <i class="fa fa-desktop"></i> <span>Управление сайтом</span>
+                                <i class="fa fa-desktop"></i> <span>Керування сайтом</span>
                                 <span class="pull-right-container"><i
                                         class="fa fa-angle-left pull-right"></i></span></a>
                                 <ul class="treeview-menu">
                                     <li id="nav_main_page"><a href="{% url 'website_main_page' %}">
                                         <i class="fa fa-circle-o"></i>
-                                        <span>Главная страница</span></a></li>
+                                        <span>Головна сторінка</span></a></li>
                                     <li id="nav_about_page"><a href="{% url 'website_about_page' %}">
-                                        <i class="fa fa-circle-o"></i> <span>О нас</span></a>
+                                        <i class="fa fa-circle-o"></i> <span>Про нас</span></a>
                                     </li>
                                     <li id="nav_services_page"><a href="{% url 'website_services_page' %}">
                                         <i class="fa fa-circle-o"></i>
-                                        <span>Услуги</span></a>
+                                        <span>Послуги</span></a>
                                     </li>
                                     <li id="nav_tariffs_page"><a href="{% url 'website_tariffs_page' %}">
                                         <i class="fa fa-circle-o"></i>
-                                        <span>Тарифы</span></a>
+                                        <span>Тарифи</span></a>
                                     </li>
                                     <li id="nav_contact_page"><a href="{% url 'website_contact_page' %}">
                                         <i class="fa fa-circle-o"></i>
-                                        <span>Контакты</span></a></li>
+                                        <span>Контакти</span></a></li>
                                 </ul>
                             </li>
                         {% endif %}
                         <li class="treeview" id="system_settings"><a href="#!"><i class="fa fa-cogs"></i>
-                            <span>Настройки системы</span> <span class="pull-right-container">
+                            <span>Налаштування системи</span> <span class="pull-right-container">
         <i class="fa fa-angle-left pull-right"></i></span></a>
                             <ul class="treeview-menu">
 
                                 {% if user.role.services %}
                                     <li id="nav_service"><a href="{% url 'service' %}"><i class="fa fa-briefcase"></i>
-                                        <span>Услуги</span></a>
+                                        <span>Послуги</span></a>
                                     </li>
                                 {% endif %}
                                 {% if user.role.tariffs %}
                                     <li id="nav_tariff"><a href="{% url 'tariff_list' %}"><i class="fa fa-money"></i>
-                                        <span>Тарифы</span></a>
+                                        <span>Тарифи</span></a>
                                     </li>
                                 {% endif %}
                                 {% if user.role.roles %}
                                     <li id="nav_roles"><a href="{% url 'roles' %}"><i class="fa fa-user"></i>
-                                        <span>Роли</span></a>
+                                        <span>Ролі</span></a>
                                     </li>
                                 {% endif %}
                                 {% if user.role.users %}
                                     <li id="nav_users"><a href="{% url 'user_list' %}"><i class="fa fa-user-plus"></i>
-                                        <span>Пользователи</span></a>
+                                        <span>Користувачі</span></a>
                                     </li>
                                 {% endif %}
                                 {% if user.role.payment_details %}
                                     <li id="nav_payment_details"><a href="{% url 'payment_details_update' %}"><i
-                                            class="fa fa-credit-card"></i> <span>Платежные реквизиты</span></a></li>
+                                            class="fa fa-credit-card"></i> <span>Платіжні реквізити</span></a></li>
                                 {% endif %}
                                 {% if user.role.payment_details %}
                                     <li id="nav_purpose"><a href="{% url 'purpose_list' %}"><i
                                             class="fa fa-list-ol"></i>
-                                        <span>Статьи платежей</span></a>
+                                        <span>Статті платежів</span></a>
                                     </li>
                                 {% endif %}
                             </ul>
@@ -264,7 +264,7 @@
             <div class="slimScrollBar"
                  style="background: rgb(0, 0, 0); width: 7px; position: absolute; top: 0px; opacity: 0.4; display: none; border-radius: 7px; z-index: 99; right: 1px; height: 91.5211px;"></div>
             <div class="slimScrollRail"
-                 style="width: 7px; height: 100%; position: absolute; top: 0px; display: none; border-radius: 7px; background: rgb(51, 51, 51); opacity: 0.2; z-index: 90; right: 1px;"></div>
+                 style="width: 7px; height: 100%; position: absolute; top: 0px; display: none; border-radius: 7px; background: rgb(51, 51, 51); opacity: 0.2; z-index: 90 ; right: 1px;"></div>
         </div>
         <!-- /.sidebar -->
     </aside>
@@ -286,9 +286,9 @@
 
     </div>
     <footer class="main-footer">
-        Разработано <a href="https://avada-media.ua/">AVADA-MEDIA</a>. На базе системы управления <a
-            href="https://avada-media.ua/moydom24/">"МойДом24"</a>.
-        Документация API доступна <a href="/doc">по ссылке</a>.
+        Розроблено <a href="https://avada-media.ua/">AVADA-MEDIA</a>. На базі системи керування <a
+            href="https://avada-media.ua/moydom24/">"Home24"</a>.
+        Документація API доступна <a href="/doc">за посиланням</a>.
     </footer>
 
 </div>
@@ -306,11 +306,11 @@
 <script src="{% static 'admin_panel/plugins/toastr/toastr.min.js' %}"></script>
 <script src="{% static 'admin_panel/plugins/alertifyjs/alertify.min.js' %}"></script>
 <script src="{% static 'admin_panel/plugins/jquery-validation-1.19.5/dist/jquery.validate.min.js' %}"></script>
-<script src="{% static 'admin_panel/plugins/jquery-validation-1.19.5/dist/localization/messages_ru.min.js' %}"></script>
+<script src="{% static 'admin_panel/plugins/jquery-validation-1.19.5/dist/localization/messages_uk.js' %}"></script>
 <script>toastr.options = {"positionClass": "toast-bottom-right", "timeOut": "7000",}</script>
 {% if messages %}
     {% for message in messages %}
-        {{ message }}
+        {{message}}
         {% if message.tags == 'success' %}
             <script type=text/javascript>toastr.{{ message.tags }}('{{ message }}')</script>
         {% elif message.tags == 'info' %}
@@ -326,7 +326,7 @@
     {% for field in form %}
     {% if field.errors %}
         {% for error in field.errors %}
-            toastr.error('{{ error }}')
+            toastr.error('{{error}}')
         {% endfor %}
     {% endif %}
     {% endfor %}

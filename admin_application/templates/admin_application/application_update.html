@@ -2,20 +2,20 @@
 {% block title %}Заявка №{{ application.pk }}{% endblock %}
 {% block breadcrumb %}
     <ul class="breadcrumb">
-        <li><a href="{% url 'statistic' %}"><i class="fa fa-home"></i>Главная</a></li>
-        <li><a href="{% url 'application_list' %}">Заявки вызова мастера</a></li>
+        <li><a href="{% url 'statistic' %}"><i class="fa fa-home"></i>Головна</a></li>
+        <li><a href="{% url 'application_list' %}">Заявки виклику майстра</a></li>
         <li><a href="{% url 'application_view' application.pk %}">Заявка №{{ application.pk }}</a></li>
-        <li class="active">Редактирование</li>
+        <li class="active">Редагування</li>
     </ul>
 {% endblock %}
 {% block header_text %}
-    Заявка №{{ application.pk }}
+    Заявка №{{application.pk}}
 {% endblock %}
 {% block ajax_url %}'{% url 'application_update' application.pk%}'{% endblock %}
 {% block update %}
-    <p><b>Дом:</b> <a href="{% url 'house_view' application.apartment.house_id %}"> {{ application.apartment.house.name}}</a></p>
-    <p><b>Секция:</b>{% if application.apartment.section %} {{ application.apartment.section}}{% else %} Не задано{% endif %}</p>
-    <p><b>Этаж:</b>{% if application.apartment.floor %} {{ application.apartment.floor }}{% else %} Не задано{% endif %}</p>
+    <p><b>Будинок:</b> <a href="{% url 'house_view' application.apartment.house_id %}"> {{ application.apartment.house.name}}</a></p >
+    <p><b>Секція:</b>{% if application.apartment.section %} {{ application.apartment.section}}{% else %} Не задано{% endif %}</p>
+    <p><b>Поверх:</b>{% if application.apartment.floor %} {{ application.apartment.floor }}{% else %} Не задано{% endif %}</p>
 {% endblock %}
 {% block update_script %}
 <script>

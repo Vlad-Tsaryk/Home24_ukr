@@ -21,9 +21,9 @@ class Receipt(models.Model):
                f'квартира {apartment.number}'
 
     class StatusName(models.TextChoices):
-        PAID = 'Оплачена', 'Оплачена'
-        PRE_PAID = 'Частично оплачена', 'Частично оплачена'
-        NOT_PAID = 'Не оплачена', 'Не оплачена'
+        PAID = 'Оплачено', 'Оплачено'
+        PRE_PAID = 'Частково оплачено', 'Частково оплачено'
+        NOT_PAID = 'Не оплачено', 'Не оплачено'
 
     personal_account = models.ForeignKey(PersonalAccount, on_delete=models.CASCADE, null=True)
     tariff = models.ForeignKey(Tariff, null=True, on_delete=models.SET_NULL)

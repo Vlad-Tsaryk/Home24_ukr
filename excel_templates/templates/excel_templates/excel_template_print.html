@@ -1,25 +1,25 @@
 {% extends 'layout/admin_panel.html' %}
-{% block title %}Печатная форма документа {% endblock %}
+{% block title %}Друкована форма документа {% endblock %}
 {% block breadcrumb %}
     <ul class="breadcrumb">
-        <li><a href="{% url 'statistic' %}"><i class="fa fa-home"></i>Главная</a></li>
-        <li><a href="{% url 'receipt_list' %}">Квитанции</a></li>
-        <li><a href="{% url 'receipt_view' receipt.pk %}">Квитанция №{{ receipt.number }}</a></li>
-        <li class="active">Печатная форма документа</li>
+        <li><a href="{% url 'statistic' %}"><i class="fa fa-home"></i>Головна</a></li>
+        <li><a href="{% url 'receipt_list' %}">Квітанції</a></li>
+        <li><a href="{% url 'receipt_view' receipt.pk %}">Квитанція №{{ receipt.number }}</a></li>
+        <li class="active">Друкована форма документа</li>
     </ul>
 {% endblock %}
 {% block header_text %}
-    Печатная форма документа
+    Друкована форма документа
 {% endblock %}
 {% block content %}
 
 
     <div class="box">
         <div class="box-header with-border">
-            <h3 class="box-title">Список шаблонов</h3>
+            <h3 class="box-title">Список шаблонів</h3>
             <div class="box-tools">
                 <a href="{% url 'excel-template-create' %}" class="btn btn-default btn-sm">
-                    <span class="hidden-xs">Настройка шаблонов</span><i class="fa fa-file-text visible-xs"
+                    <span class="hidden-xs">Налаштування шаблонів</span><i class="fa fa-file-text visible-xs"
                                                                         aria-hidden="true"></i>
                 </a>
             </div>
@@ -44,9 +44,9 @@
                 <div class="row">
                     <div class="col-xs-12 text-right">
                         <div class="form-group">
-                            <button name="action_download" type="submit" class="btn btn-success" value="1">Скачать</button>
+                            <button name="action_download" type="submit" class="btn btn-success" value="1">Завантажити</button>
                             <button name="action_send_email" type="submit" class="btn btn-default" value="2">
-                                Отправить на e-mail
+                                Надіслати на e-mail
                             </button>
                         </div>
                     </div>

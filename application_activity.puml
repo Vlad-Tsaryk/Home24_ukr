@@ -1,0 +1,47 @@
+@startuml
+!theme aws-orange
+title Create Application Activity Diagram
+
+|User|
+start
+:Navigate to "Application create" page;
+|Browser|
+:Send GET request for "Application create" page;
+|Server|
+:Retrieve list of available apartments and owners;
+:Retrieve list of available master types;
+:Render "Create Application" page with lists;
+|Browser|
+:Show "Create Application" page with lists;
+:Select convenient date;
+:Select convenient time;
+:Select owner;
+if(Owner selected?) then([Yes])
+    :Send GET request for owner's apartment list;
+    |Server|
+    :Retrieve list of apartments for selected owner;
+    :Send JSON response with owner's apartment list;
+    |Browser|
+    :Fill apartment select field with received data;
+else([No])
+endif
+:Select apartment;
+:Fill description field;
+:Select master type;
+:Send GET request for master list with selected type;
+|Server|
+:Retrieve list of masters with selected type;
+:Send JSON response with master list with selected type;
+|Browser|
+:Fill master select field with received data;
+:Select status;
+:Fill comment field;
+:Send POST request with application information;
+|Server|
+:Validate application information;
+:Create new Application instance with application information;
+:Save new Application instance;
+:Redirect user to "Application list" page;
+:Send HTML response with "Application list" page;
+stop
+@enduml

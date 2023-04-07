@@ -1,21 +1,21 @@
 {% extends 'layout/admin_panel.html' %}
-{% block title %}{{ apartment.info }}{% endblock %}
+{% block title %} {{ apartment.info }} {% endblock %}
 {% block breadcrumb %}
     <ul class="breadcrumb">
-        <li><a href="{% url 'statistic' %}"><i class="fa fa-home"></i>Главная</a></li>
-        <li><a href="{% url 'apartment_list' %}">Квартиры</a></li>
+        <li><a href="{% url 'statistic' %}"><i class="fa fa-home"></i>Головна</a></li>
+        <li><a href="{% url 'apartment_list' %}">Квартири</a></li>
         <li class="active">{{ apartment.info }}</li>
     </ul>
 {% endblock %}
 {% block header_text %}
-    {{ apartment.info }}
+    {{apartment.info}}
 {% endblock %}
 {% block content %}
 
 
     <div class="box">
         <div class="box-header with-border">
-            <h3 class="box-title">Просмотр квартиры</h3>
+            <h3 class="box-title">Перегляд квартири</h3>
             <div class="box-tools">
                 <a {% if apartment.personalaccount %}
                     href="{% url 'transaction_create_personal_account' 'income' apartment.personalaccount.pk %}"
@@ -23,7 +23,7 @@
                 {% else %}
                     class="btn btn-default btn-sm disabled"
                 {% endif %}>
-                    <span class="hidden-xs"><i class="fa fa-dollar"></i> Принять платеж</span>
+                    <span class="hidden-xs"><i class="fa fa-dollar"></i> Прийняти платіж</span>
                     <i class="fa fa-dollar visible-xs" aria-hidden="true"></i>
                 </a>
                 <a {% if apartment.personalaccount %}
@@ -32,11 +32,11 @@
                 {% else %}
                     class="btn btn-default btn-sm disabled"
                 {% endif %}>
-                    <span class="hidden-xs"><i class="fa fa-files-o"></i> Оформить квитанцию</span>
+                    <span class="hidden-xs"><i class="fa fa-files-o"></i> Оформити квитанцію</span>
                     <i class="fa fa-files-o visible-xs" aria-hidden="true"></i>
                 </a>
                 <a href="{% url 'apartment_update' apartment.pk %}" class="btn btn-primary btn-sm">
-                    <span class="hidden-xs">Редактировать квартиру</span><i class="fa fa-pencil visible-xs"
+                    <span class="hidden-xs">Редагувати квартиру</span><i class="fa fa-pencil visible-xs"
                                                                             aria-hidden="true"></i>
                 </a>
             </div>
@@ -47,30 +47,30 @@
                     <table class="table table-bordered table-striped table-view">
                         <tbody>
                         <tr>
-                            <td>Лицевой счет</td>
+                            <td>Обліковий рахунок</td>
                             <td>
-                                {{ apartment.personalaccount.number|default:'не указано' }}
+                                {{ apartment.personalaccount.number|default:'не вказано' }}
                             </td>
                         </tr>
                         <tr>
-                            <td>Номер квартиры</td>
+                            <td>Номер квартири</td>
                             <td>{{ apartment.number }}</td>
                         </tr>
                         <tr>
-                            <td>Площадь</td>
+                            <td>Площа</td>
                             <td>
-                                {{ apartment.area }}м<sup>2</sup>
+                                {{apartment.area}}м<sup>2</sup>
                             </td>
                         </tr>
                         <tr>
-                            <td>Дом</td>
+                            <td>Будинок</td>
                             <td>
                                 <a href="{% url 'house_view' apartment.house_id %}">
-                                    {{ apartment.house }}</a>
+                                    {{apartment.house}}</a>
                             </td>
                         </tr>
                         <tr>
-                            <td>Секция</td>
+                            <td>Секція</td>
                             <td>
                                 {% if apartment.section %}
                                     {{ apartment.section }}
@@ -80,19 +80,19 @@
                             </td>
                         </tr>
                         <tr>
-                            <td>Этаж</td>
+                            <td>Поверх</td>
                             <td>{% if apartment.floor %}
-                                {{ apartment.floor }}
+                                {{apartment.floor}}
                             {% else %}
                                 Не задано
-                            {% endif %}</td>
+                            {% endif%}</td>
                         </tr>
                         <tr>
-                            <td>Владелец</td>
+                            <td>Власник</td>
                             <td>
                                 {% if apartment.owner %}
                                     <a href="{% url 'owner_view' apartment.owner_id %}">
-                                        {{ apartment.owner }} </a>
+                                        {{apartment.owner}}</a>
                                 {% else %}
                                     Не задано
                                 {% endif %}
@@ -103,7 +103,7 @@
                             <td>
                                 {% if apartment.tariff %}
                                     <a href="{% url 'tariff_view' apartment.tariff_id %}">
-                                        {{ apartment.tariff }} </a>
+                                        {{apartment.tariff}}</a>
                                 {% else %}
                                     Не задано
                                 {% endif %}
@@ -112,17 +112,17 @@
                         </tbody>
                     </table>
                     <div>
-                        <p><a href="{% url 'meter-view-list-apart' apartment.pk %}">Посмотреть
-                            показания счетчиков</a></p>
+                        <p><a href="{% url 'meter-view-list-apart' apartment.pk %}">Подивитися
+                            свідчення лічильників</a></p>
                         <p>
                             <a {% if apartment.personalaccount %}
                                 href="{% url 'transaction_list_personal_account' apartment.personalaccount.number %}"
                             {% else %}
                                 style="cursor: not-allowed; color: grey"
                             {% endif %}
-                            >Посмотреть
-                                приходы</a></p>
-                        <p><a href="{% url 'receipt_list_apartment' apartment.number %}">Посмотреть квитанции</a></p>
+                            >Подивитися
+                                парафії</a></p>
+                        <p><a href="{% url 'receipt_list_apartment' apartment.number %}">Подивитися квитанції</a></p>
                     </div>
                 </div>
             </div>

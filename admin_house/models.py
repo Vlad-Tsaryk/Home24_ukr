@@ -5,9 +5,9 @@ from users.models import User
 # Create your models here.
 class House(models.Model):
     name = models.CharField(max_length=50, unique=True, error_messages={
-        'unique': "Дом с таким названием уже существует!"})
+        'unique': "Будинок із такою назвою вже існує!"})
     address = models.CharField(max_length=50, unique=True, error_messages={
-        'unique': "Дом с таким адресом уже существует!"})
+        'unique': "Будинок із такою адресою вже існує!"})
     image1 = models.ImageField(upload_to='houses')
     image2 = models.ImageField(upload_to='houses')
     image3 = models.ImageField(upload_to='houses')

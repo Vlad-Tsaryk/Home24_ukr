@@ -6,35 +6,35 @@
 {% block content %}
     <div class="row">
         <div class="col-xs-12 col-sm-6">
-            <h2 class="page-header">В вашем обслуживании</h2>
+            <h2 class="page-header">У вашому обслуговуванні</h2>
         </div>
     </div>
     <div class="row">
         <div class="col-lg-4 col-sm-6 col-xs-12">
             <div class="small-box bg-primary">
                 <div class="inner">
-                    <h3>{{ houses_count }}</h3>
-                    <p>Домов</p>
+                    <h3>{{houses_count}}</h3>
+                    <p>Домів</p>
                 </div>
                 <div class="icon">
                     <i class="fa fa-building"></i>
                 </div>
                 <a href="{% url 'house_list' %}" class="small-box-footer">
-                    Перейти в дома <i class="fa fa-arrow-circle-right"></i>
+                    Перейти до будинків <i class="fa fa-arrow-circle-right"></i>
                 </a>
             </div>
         </div>
         <div class="col-lg-4 col-sm-6 col-xs-12">
             <div class="small-box bg-green">
                 <div class="inner">
-                    <h3>{{ owners_active_count }}</h3>
-                    <p>Активных владельцев</p>
+                    <h3>{{owners_active_count}}</h3>
+                    <p>Активних власників</p>
                 </div>
                 <div class="icon">
                     <i class="fa fa-users"></i>
                 </div>
                 <a href="{% url 'owner_list' %}" class="small-box-footer">
-                    Перейти к владельцам <i class="fa fa-arrow-circle-right"></i>
+                    Перейти до власників <i class="fa fa-arrow-circle-right"></i>
                 </a>
             </div>
         </div>
@@ -42,13 +42,13 @@
             <div class="small-box bg-yellow">
                 <div class="inner">
                     <h3>{{ application_in_progress }}</h3>
-                    <p>Заявок мастера в работе</p>
+                    <p>Заявок майстра у роботі</p>
                 </div>
                 <div class="icon">
                     <i class="fa fa-wrench"></i>
                 </div>
                 <a href="{% url 'application_list' %}" class="small-box-footer">
-                    Перейти в заявки <i class="fa fa-arrow-circle-right"></i>
+                    Перейти до заявок <i class="fa fa-arrow-circle-right"></i>
                 </a>
             </div>
         </div>
@@ -62,21 +62,21 @@
                     <i class="fa fa-key"></i>
                 </div>
                 <a href="{% url 'apartment_list' %}" class="small-box-footer">
-                    Перейти в квартиры <i class="fa fa-arrow-circle-right"></i>
+                    Перейти до квартир <i class="fa fa-arrow-circle-right"></i>
                 </a>
             </div>
         </div>
         <div class="col-lg-4 col-sm-6 col-xs-12">
             <div class="small-box bg-green">
                 <div class="inner">
-                    <h3>{{ personal_accounts_count }}</h3>
-                    <p>Лицевых счетов</p>
+                    <h3>{{personal_accounts_count }}</h3>
+                    <p>Особистих рахунків</p>
                 </div>
                 <div class="icon">
                     <i class="fa fa-child"></i>
                 </div>
                 <a href="{% url 'personal_account_list' %}" class="small-box-footer">
-                    Перейти к счетам <i class="fa fa-arrow-circle-right"></i>
+                    Перейти до рахунків <i class="fa fa-arrow-circle-right"></i>
                 </a>
             </div>
         </div>
@@ -84,13 +84,13 @@
             <div class="small-box bg-yellow">
                 <div class="inner">
                     <h3>{{ application_new }}</h3>
-                    <p>Новых заявок мастера</p>
+                    <p>Нових заявок майстра</p>
                 </div>
                 <div class="icon">
                     <i class="fa fa-user-plus"></i>
                 </div>
                 <a href="{% url 'application_list' %}" class="small-box-footer">
-                    Перейти в заявки <i class="fa fa-arrow-circle-right"></i>
+                    Перейти до заявок <i class="fa fa-arrow-circle-right"></i>
                 </a>
             </div>
         </div>
@@ -99,15 +99,15 @@
         <div class="col-lg-8 col-md-7 col-xs-12">
             <div class="box box-default">
                 <div class="box-header with-border">
-                    <h3 class="box-title">График погашения квитанций, грн</h3>
+                    <h3 class="box-title">Графік погашення квитанцій, грн</h3>
                 </div>
                 <div class="box-body">
                     <div class="chart">
                         <canvas id="barChart" style="height: 201px; width: 1031px;" width="1031" height="201"></canvas>
                         <div id="barChart-legend" class="text-center">
                             <ul class="bar-legend">
-                                <li><span style="background-color:rgba(221, 75, 57, 1)"></span>Задолженность</li>
-                                <li><span style="background-color:rgba(0, 166, 90, 1)"></span>Погашение задолженности
+                                <li><span style="background-color:rgba(221, 75, 57, 1)"></span>Заборгованість</li>
+                                <li><span style="background-color:rgba(0, 166, 90, 1)"></span>Погашення заборгованості
                                 </li>
                             </ul>
                         </div>
@@ -119,21 +119,21 @@
             <div class="info-box">
                 <span class="info-box-icon bg-red"><i class="fa fa-money"></i></span>
                 <div class="info-box-content">
-                    <span class="info-box-text">Задолженность по счетам, грн</span>
+                    <span class="info-box-text">Заборгованість за рахунками, грн</span>
                     <span class="info-box-number">{{ accounts_total_debt|floatformat:'2' }}</span>
                 </div>
             </div>
             <div class="info-box">
                 <span class="info-box-icon bg-blue"><i class="fa fa-money"></i></span>
                 <div class="info-box-content">
-                    <span class="info-box-text">Баланс по счетам, грн</span>
+                    <span class="info-box-text">Баланс за рахунками, грн</span>
                     <span class="info-box-number">{{ account_total_balance|floatformat:'2' }}</span>
                 </div>
             </div>
             <div class="info-box">
                 <span class="info-box-icon bg-green"><i class="fa fa-money"></i></span>
                 <div class="info-box-content">
-                    <span class="info-box-text">Состояние кассы, грн</span>
+                    <span class="info-box-text">Стан каси, грн</span>
                     <span class="info-box-number">{{ transactions_total_balance|floatformat:'2' }}</span>
                 </div>
             </div>
@@ -143,15 +143,15 @@
         <div class="col-xs-12">
             <div class="box box-default">
                 <div class="box-header with-border">
-                    <h3 class="box-title">График приходов и расходов по кассе, грн</h3>
+                    <h3 class="box-title">Графік приходів та витрат по касі, грн</h3>
                 </div>
                 <div class="box-body">
                     <div class="chart">
                         <canvas id="barChart2" style="height: 230px; width: 1572px;" width="1572" height="230"></canvas>
                         <div id="barChart2-legend" class="text-center">
                             <ul class="bar-legend">
-                                <li><span style="background-color:rgba(0, 166, 90, 1)"></span>Приход</li>
-                                <li><span style="background-color:rgba(221, 75, 57, 1)"></span>Расход</li>
+                                <li><span style="background-color:rgba(0, 166, 90, 1)"></span>Прихід</li>
+                                <li><span style="background-color:rgba(221, 75, 57, 1)"></span>Витрата</li>
                             </ul>
                         </div>
                     </div>
@@ -163,7 +163,7 @@
 {% endblock %}
 {% block scripts %}
     <script src="{% static 'admin_panel/bower_components/moment/moment.js' %}"></script>
-    <script src="{% static 'admin_panel/bower_components/moment/locale/ru.js' %}"></script>
+    <script src="{% static 'admin_panel/bower_components/moment/locale/uk.js' %}"></script>
     <script>
         $('#nav_statistic').attr('class', 'active')
     </script>
@@ -174,7 +174,7 @@
     let receipt_debt = []
     let receipt_paid = []
         {% for i in transactions_income %}
-            date_labels.push(moment('{{ i.month|date:'Y-m-d' }}').format('MMM, YYYY'))
+            date_labels.push(moment('{{ i.month|date:'Y-m-d'}}').format('MMM, YYYY'))
             transactions_income.push('{{ i.sum|floatformat:'2' }}')
         {% endfor %}
         {% for i in transactions_outcome %}
@@ -193,13 +193,13 @@
             labels: date_labels,
             datasets: [
                     {
-                        label: 'Задолженность',
+                        label: 'Заборгованість',
                         backgroundColor:'rgba(221, 75, 57, 1)',
 
                         data: receipt_debt
                     },
                     {
-                        label: 'Погашение задолженности',
+                        label: 'Погашення заборгованості',
                         backgroundColor: 'rgba(0, 166, 90, 1)',
                         pointColor: '#3b8bba',
                         data: receipt_paid
@@ -214,12 +214,12 @@
             labels: date_labels,
             datasets: [
                     {
-                        label: 'Приход',
+                        label: 'Прихід',
                         backgroundColor: 'rgba(0, 166, 90, 1)',
                         data: transactions_income
                     },
                     {
-                        label: 'Расход',
+                        label: 'Витрата',
                         backgroundColor: 'rgba(221, 75, 57, 1)',
                         data: transactions_outcome
                     }

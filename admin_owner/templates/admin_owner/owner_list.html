@@ -1,13 +1,13 @@
 {% extends 'layout/admin_panel.html' %}
 {% load static %}
-{% block title %}Владельцы квартир{% endblock %}
+{% block title %}Власники квартир{% endblock %}
 {% block header_text %}
-    Владельцы квартир
+    Власники квартир
 {% endblock %}
 {% block breadcrumb %}
     <ul class="breadcrumb">
-        <li><a href="{% url 'statistic' %}"><i class="fa fa-home"></i> Главная</a></li>
-        <li class="active">Владельцы квартир</li>
+        <li><a href="{% url 'statistic' %}"><i class="fa fa-home"></i> Головна</a></li>
+        <li class="active">Власники квартир</li>
     </ul>
 {% endblock %}
 {% block head %}
@@ -20,12 +20,12 @@
             <div class="btn-group pull-right margin-bottom">
                 <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown"
                         aria-haspopup="true" aria-expanded="false">
-                    Выберите действие <span class="caret"></span>
+                    Виберіть дію <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu">
-                    <li><a href="{% url 'owner_create' %}">Добавить владельца квартиры</a></li>
-                    <li><a href="{% url 'message_create_has_debt' 1 %}">Отправить сообщение должникам</a></li>
-                    <li><a href="{% url 'owner_invite' %}">Отправить приглашение</a></li>
+                    <li><a href="{% url 'owner_create' %}">Додати власника квартири</a></li>
+                    <li><a href="{% url 'message_create_has_debt' 1 %}">Надіслати повідомлення боржникам</a></li>
+                    <li><a href="{% url 'owner_invite' %}">Надіслати запрошення</a></li>
                 </ul>
             </div>
         </div>
@@ -37,7 +37,7 @@
                     <h3 class="box-title"></h3>
                     <div class="box-tools">
                         <button onclick="clear_filters()" class="btn btn-default btn-sm">
-                            <span class="hidden-xs">Очистить</span><i class="fa fa-eraser visible-xs"
+                            <span class="hidden-xs">Очистити</span><i class="fa fa-eraser visible-xs"
                                                                       aria-hidden="true"></i>
                         </button>
                     </div>
@@ -49,17 +49,17 @@
                             <thead>
                             <tr>
                                 <th style="width: 50px; min-width: 10px">ID</th>
-                                <th><a id="name" class="ordering">ФИО</a></th>
+                                <th><a id="name" class="ordering">ПІБ</a></th>
                                 <th style="width: 140px; min-width: 140px">Телефон</th>
                                 <th style="width: 140px; min-width: 140px">Email</th>
-                                <th style="min-width: 250px">Дом</th>
+                                <th style="min-width: 250px">Будинок</th>
                                 <th style="min-width: 300px">Квартира</th>
                                 <th style="width: 110px; min-width: 110px"><a
-                                        id="date_joined" class="ordering">Добавлен</a>
+                                        id="date_joined" class="ordering">Додано</a>
                                 </th>
                                 <th>Статус</th>
-                                <th style="width: 80px; min-width: 80px">Есть долг</th>
-                                <th style="width: 114px; min-width: 114px">&nbsp;</th>
+                                <th style="width: 80px; min-width: 80px">Є борг</th>
+                                <th style="width: 114px; min-width: 114px"> </th>
                             </tr>
                             <tr id="w0-filters" class="filters">
                                 <td><input id="uid" type="text" class="form-control column_search"></td>
@@ -87,10 +87,10 @@
                                 </td>
                                 <td><select id="owner_has_debt" class="form-control select2 filter">
                                     <option value=""></option>
-                                    <option value="1">Да</option>
+                                    <option value="1">Так</option>
                                 </select>
                                 </td>
-                                <td>&nbsp;</td>
+                                <td> </td>
                             </tr>
                             </thead>
                             <tbody></tbody>
@@ -101,7 +101,7 @@
                     </div>
                 </div>
                 <div class="box-footer">
-                    <div>Количество владельцев: <span class="text-bold" id="owner_count"></span></div>
+                    <div>Кількість власників: <span class="text-bold" id="owner_count"></span></div>
                 </div>
             </div>
         </div>
@@ -113,23 +113,23 @@
         $('#nav_owners').attr('class', 'active')
     </script>
     <script src="{% static 'admin_panel/bower_components/select2/dist/js/select2.full.min.js' %}"></script>
-    <script src="{% static 'admin_panel/bower_components/select2/dist/js/i18n/ru.min.js' %}"></script>
+    <script src="{% static 'admin_panel/bower_components/select2/dist/js/i18n/uk.js' %}"></script>
     <script src="{% static 'admin_panel/bower_components/datatables.net/js/jquery.dataTables.min.js' %}"></script>
     <script src="{% static 'admin_panel/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js' %}"></script>
     <script src="{% static 'admin_panel/bower_components/moment/moment.js' %}"></script>
-    <script src="{% static 'admin_panel/bower_components/moment/locale/ru.js' %}"></script>
+    <script src="{% static 'admin_panel/bower_components/moment/locale/uk.js' %}"></script>
     <script src="{% static 'admin_panel/plugins/bootstrap-datepicker-1.9.0-dist/js/bootstrap-datepicker.min.js' %}"></script>
 
     <script>
         let table_head = $('#table_owners thead')
         let colors = {
-            'Активен': 'label label-success',
-            'Отключен': 'label label-danger',
-            'Новый': 'label label-warning',
+            'Активний': 'label label-success',
+            'Вимкнений': 'label label-danger',
+            'Новий': 'label label-warning',
         }
         let sort_data = {
             "name": '',
-            "role": '',
+            "Role": '',
             "phone": '',
             "username": '',
             "status": '',
@@ -160,7 +160,7 @@
                 serverSide: true,
                 processing: false,
                 oLanguage: {
-                    sZeroRecords: "Ничего не найдено."
+                    sZeroRecords: "Нічого не знайдено."
                 },
 
                 columnDefs: [
@@ -187,8 +187,8 @@
                     {
                         "data": "apartment",
                         render: function (data) {
-                            if (data.length === 0){
-                                return "(не задано)"
+                            if (data.length === 0) {
+                                return "(не встановлено)"
                             }
                             let houses = []
                             data.forEach(function (item) {
@@ -204,8 +204,8 @@
                     {
                         "data": "apartment",
                         render: function (data) {
-                            if (data.length === 0){
-                                return "(не задано)"
+                            if (data.length === 0) {
+                                return "(не встановлено)"
                             }
                             let apartments = []
                             data.forEach(function (item) {
@@ -232,9 +232,9 @@
                         data: 'has_debt',
                         render: function (data) {
                             if (data) {
-                                return 'Да'
+                                return 'Так'
                             } else {
-                                return 'Нет'
+                                return 'Ні'
                             }
                         }
                     },
@@ -246,11 +246,11 @@
                             let link_delete = '{% url 'owner_delete' 12345 %}'.replace(/12345/, data)
                             let link_message = '{% url 'message_create_owner' 12345 %}'.replace(/12345/, data)
                             return `<div class="btn-group pull-right"><a class="btn btn-default btn-sm"
-                                    href="${link_message}" title="Отправить сообщение" data-toggle="tooltip">
+                                    href="${link_message}" title="Надіслати повідомлення" data-toggle="tooltip">
                                     <i class="fa fa-envelope"></i></a>
-                                    <a class="btn btn-default btn-sm" href="${link_update}" title="Редактировать"
+                                    <a class="btn btn-default btn-sm" href="${link_update}" title="Редагувати"
                                     data-toggle="tooltip"><i class="fa fa-pencil"></i></a>
-                                    <a class="btn btn-default btn-sm" title="Удалить" data-toggle="tooltip"
+                                    <a class="btn btn-default btn-sm" title="Видалити" data-toggle="tooltip"
                                     data-pjax="0" id="delete_user"
                                     onmousedown="return confirm_delete('${link_delete}',event);">
                                     <i class="fa fa-trash"></i></a></div>`
@@ -278,7 +278,7 @@
                 sort_data[this.id] = $(this).val()
                 table.draw()
             });
-            table_head.on('click', '.ordering', function () {
+            table_head.on('click', '.ordering', function() {
                 if (this.className === 'ordering asc') {
                     $(this).attr('class', 'ordering desc')
                     sort_data['order_by'] = '-' + this.id
@@ -293,7 +293,7 @@
         }
 
 
-        $(document).ready(function () {
+        $(document).ready(function() {
             send_POST();
             $('.column_search').val('');
             $('.select2').select2().val('');
@@ -313,13 +313,13 @@
         });
 
         function confirm_delete(link, event) {
-            alertify.confirm('Подтверждение удаления', 'Удалить пользователя <b>'
+            alertify.confirm('Підтвердження видалення', 'Видалити користувача <b>'
                 + $(event.target).closest("tr ").children().eq(1).text() + '</b> ?',
                 function () {
                     window.location.href = link
                 },
                 function () {
-                }).set({labels: {ok: 'Подтвердить', cancel: 'Отмена'}});
+                }).set({labels: {ok: 'Підтвердити', cancel: 'Скасувати'}});
             return false;
         }
 
@@ -329,4 +329,3 @@
 
     </script>
 {% endblock %}
-

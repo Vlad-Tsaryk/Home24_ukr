@@ -16,8 +16,8 @@
     <link href="{% static 'website/css/slick.css' %}" rel="stylesheet">
     <link href="{% static 'website/css/style.css' %}" rel="stylesheet">
     <link href="{% static 'website/js/simplelightbox/simplelightbox.min.css' %}" rel="stylesheet">
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!-- HTML5 shim and Respond.js for IE8 підтримка HTML5 елементів і медичних правил -->
+    <!-- WARNING: Respond.js не працює, якщо ви побачите цю сторінку через file:// -->
     <!--[if lt IE 9]>
     <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
@@ -26,7 +26,7 @@
     <script type="text/javascript" async="" src="https://www.google-analytics.com/analytics.js"></script>
     <script async="" src="https://www.googletagmanager.com/gtag/js?id=UA-64276279-2"></script>
     <script>
-        window.dataLayer = window.dataLayer || [];
+        window.dataLayer = window.dataLayer | [];
 
         function gtag() {
             dataLayer.push(arguments);
@@ -57,12 +57,12 @@
 
         <div class="collapse navbar-collapse" id="menuBtn">
             <ul class="nav navbar-nav navbar-right">
-                <li id="nav_home" class=""><a href="{% url 'main_page' %}">Главная</a></li>
-                <li id="nav_about" class=""><a href="{% url 'about_page' %}">О нас</a></li>
-                <li id="nav_services" class=""><a href="{% url 'service_page' %}">Услуги</a></li>
-                <li><a href="https://google.com">Условия приобретения</a></li>
-                <li id="nav_contact" class=""><a href="{% url 'contact_page' %}">Контакты</a></li>
-                <li><a href="{% url 'admin-panel-login' %}"><i class="fas fa-sign-in-alt"></i> Вход</a>
+                <li id="nav_home" class=""><a href="{% url 'main_page' %}">Головна</a></li>
+                <li id="nav_about" class=""><a href="{% url 'about_page' %}">Про нас</a></li>
+                <li id="nav_services" class=""><a href="{% url 'service_page' %}">Послуги</a></li>
+                <li><a href="https://google.com">Умови придбання</a></li>
+                <li id="nav_contact" class=""><a href="{% url 'contact_page' %}">Контакти</a></li>
+                <li><a href="{% url 'admin-panel-login' %}"><i class="fas fa-sign-in-alt"></i> Вхід</a>
                 </li>
             </ul>
         </div>
@@ -74,8 +74,8 @@
     <div class="container">
         <div class="row">
             <div class="col-xs-12 text-center">
-                <p class="text-muted">Разработано <a href="https://avada-media.ua/">AVADA-MEDIA</a>. На базе системы
-                    управления <a href="https://avada-media.ua/moydom24/">"МойДом24"</a></p>
+                <p class="text-muted">Розроблено <a href="https://avada-media.ua/">AVADA-MEDIA</a>. На базі системи
+                    управління <a href="https://avada-media.ua/moydom24/">"Home24"</a></p>
             </div>
         </div>
     </div>

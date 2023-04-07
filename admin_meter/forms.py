@@ -22,6 +22,9 @@ class MeterForm(forms.ModelForm):
     value = forms.FloatField(widget=forms.NumberInput(attrs={'class': 'form-control', 'step': '0.1'}))
     status = forms.CharField(widget=forms.Select(attrs={'class': 'form-control'}, choices=Meter.StatusName.choices))
 
+    def clean_apartment(self):
+        return Apartment.objects.get(pk=self.fields['apartment'])
+
     def __init__(self, *args, **kwargs):
         super(MeterForm, self).__init__(*args, **kwargs)
         self.initial['number'] = str(Meter.objects.last().pk + 1).zfill(11)

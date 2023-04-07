@@ -1,15 +1,15 @@
 {% extends 'layout/admin_panel.html' %}
 {% load static %}
-{% block title %}Показания счетчиков, кв.{{ meter_list.first.apartment }}{% endblock %}
+{% block title %}Покази лічильників, кв.{{ meter_list.first.apartment }}{% endblock %}
 {% block breadcrumb %}
         <ul class="breadcrumb">
-        <li><a href="{% url 'statistic' %}"><i class="fa fa-home"></i>Главная</a></li>
-        <li><a href="{% url 'meter-list' %}">Счетчики</a></li>
-        <li class="active">Показания счетчиков, кв.{{ meter_list.first.apartment }}</li>
+        <li><a href="{% url 'statistic' %}"><i class="fa fa-home"></i>Головна</a></li>
+        <li><a href="{% url 'meter-list' %}">Лічильники</a></li>
+        <li class="active">Покази лічильників, кв. {{meter_list.first.apartment }}</li>
 </ul>
 {% endblock %}
 {% block header_text %}
-    Показания счетчиков, кв.{{ meter_list.first.apartment }}
+    Покази лічильників, кв. {{meter_list.first.apartment}}
 {% endblock %}
 {% block head %}
     <link rel="stylesheet" type="text/css" href="{% static 'admin_panel/bower_components/daterangepicker/daterangepicker.css' %}" />
@@ -19,13 +19,13 @@
 
     <div class="row">
         <!--<div class="col-xs-12 col-sm-6">-->
-        <!--<h2 class="page-header">Квартиры</h2>-->
+        <!--<h2 class="page-header">Квартири</h2>-->
         <!--</div>-->
         <div class="col-xs-12">
 
             <div class="pull-right margin-bottom">
-                <button id="add_meter_reading" class="btn btn-success" onclick="add_meter_reading()">Добавить
-                    показание</button>
+                <button id="add_meter_reading" class="btn btn-success" onclick="add_meter_reading()">Додати
+                    показ</button>
             </div>
         </div>
     </div>
@@ -36,7 +36,7 @@
                     <h3 class="box-title"></h3>
                     <div class="box-tools">
                         <button onclick="clear_filters()" class="btn btn-default btn-sm">
-                            <span class="hidden-xs">Очистить</span><i class="fa fa-eraser visible-xs" aria-hidden="true"></i>
+                            <span class="hidden-xs">Очистити</span><i class="fa fa-eraser visible-xs" aria-hidden="true"></i>
                         </button>
                     </div>
                 </div>
@@ -51,26 +51,26 @@
                                 <th style="width: 125px; min-width: 125px"><a
                                         id="date" class="ordering desc" style="cursor: pointer">Дата</a></th>
                                 <th style="width: 125px; min-width: 125px"><a id="date__month" class="ordering" style="cursor: pointer"
-                                        >Месяц</a></th>
-                                <th style="min-width: 200px">Дом</th>
-                                <th style="min-width: 160px">Секция</th>
-                                <th style="width: 110px; min-width: 110px">№ квартиры</th>
-                                <th>Счетчик</th>
-                                <th style="width: 90px; min-width: 90px">Показания</th>
-                                <th style="width: 90px; min-width: 90px">Ед. изм.</th>
-                                <th style="width: 80px; min-width: 80px">&nbsp;</th>
+                                        >Місяць</a></th>
+                                <th style="min-width: 200px">Будинок</th>
+                                <th style="min-width: 160px">Секція</th>
+                                <th style="width: 110px; min-width: 110px">№ квартири</th>
+                                <th>Лічильник</th>
+                                <th style="width: 90px; min-width: 90px">Покази</th>
+                                <th style="width: 90px; min-width: 90px">Од. вим.</th>
+                                <th style="width: 80px; min-width: 80px"> </th>
                             </tr>
                             <tr id="w0-filters" class="filters">
                                 <td><input id="number" type="text" class="form-control column_search" ></td>
                                 <td><select id="status" class="form-control select2 filter" style="width: 100%;">
                                     <option value=""></option>
-                                    <option value="Новое">Новое</option>
-                                    <option value="Учтено">Учтено</option>
-                                    <option value="Учтено и оплачено">Учтено и оплачено</option>
-                                    <option value="Нулевое">Нулевое</option>
+                                    <option value="Нове">Нове</option>
+                                    <option value="Враховано">Враховано</option>
+                                    <option value="Враховано та оплачено">Враховано та оплачено</option>
+                                    <option value="Нульове">Нульове</option>
                                 </select></td>
                                 <td><input type="text" id="date_range" class="form-control date_range"></td>
-                                <td>&nbsp;</td>
+                                <td> </td>
                                 <td><select id="house" class="form-control select2_house"
                                 style="width: 100%;">
                                     <option value=""></option>
@@ -85,12 +85,12 @@
                                 <td><select id="service" class="form-control select2 filter" style="width: 100px;">
                                     <option></option>
                                     {% for service in service_list %}
-                                        <option value="{{ service.pk }}">{{ service}}</option>
+                                        <option value="{{service.pk }}">{{service}}</option>
                                 {% endfor %}
                                 </select></td>
-                                <td>&nbsp;</td>
-                                <td>&nbsp;</td>
-                                <td>&nbsp;</td>
+                                <td> </td>
+                                <td> </td>
+                                <td> </td>
                             </tr>
                             </thead>
                             <tbody></tbody>
@@ -110,12 +110,12 @@
         $('#nav_meter').attr('class', 'active')
     </script>
     <script src="{% static 'admin_panel/bower_components/select2/dist/js/select2.full.min.js' %}"></script>
-    <script src="{% static 'admin_panel/bower_components/select2/dist/js/i18n/ru.min.js' %}"></script>
+    <script src="{% static 'admin_panel/bower_components/select2/dist/js/i18n/uk.js' %}"></script>
     <script src="{% static 'admin_panel/bower_components/datatables.net/js/jquery.dataTables.min.js' %}"></script>
     <script src="{% static 'admin_panel/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js' %}"></script>
 
     <script src="{% static 'admin_panel/bower_components/moment/moment.js' %}"></script>
-    <script src="{% static 'admin_panel/bower_components/moment/locale/ru.js' %}"></script>
+    <script src="{% static 'admin_panel/bower_components/moment/locale/uk.js' %}"></script>
     <script type="text/javascript" src="{% static 'admin_panel/bower_components/daterangepicker/daterangepicker.js' %}"></script>
 
        <script>
@@ -126,15 +126,15 @@
         let table_head = $('#meter_view_table thead')
         let filters_array
         let label_colors = {
-            'Учтено': 'label-success',
-            'Учтено и оплачено': 'label-success',
-            'Новое': 'label-warning',
-            'Нулевое': 'label-primary',
+            'Враховано': 'label-success',
+            'Враховано та оплачено': 'label-success',
+            'Нове': 'label-warning',
+            'Нульове': 'label-primary',
         }
 
         function check_empty(data) {
             if (data) {return data}
-            else return '(не задано)'
+            else return '(не вказано)'
         }
         function set_options(data, target_id) {
             $('#'+`${target_id} option`).remove()
@@ -167,7 +167,7 @@
         function add_meter_reading(service_id = '{{view.kwargs.service_id}}') {
             let link = ''
 
-            if (!sort_data['service']){
+            if (! sort_data ['service']) {
                 link = '{% url 'meter-new-value' view.kwargs.apartment_id %}'
             }
             else {
@@ -182,7 +182,7 @@
                 processing: false,
                 ordering: false,
                 oLanguage: {
-                    sZeroRecords: "Ничего не найдено."
+                    sZeroRecords: "Нічого не знайдено."
                 },
                 columnDefs: [
                     {className: "meter", "targets": [0, 1, 2,3,4,5,6,7,8,9]},
@@ -193,7 +193,7 @@
                     $(td).css('background-color', '#DFD5')
                 }},
                 ],
-                
+
                 "ajax": {
                     "processing": true,
                     "url": "{% url 'meter-view-list-apart' apartment_id=view.kwargs.apartment_id%}",
@@ -234,17 +234,17 @@
                      }},
                     {
                         data: 'id',
-                        render: function (data, type,row) {
+                        render: function (data, type, row) {
                             const link_update = '{% url 'meter-update' 12345 %}'.replace(/12345/, data)
                             let link_delete = '{% url 'meter-delete' 12345 %}'.replace(/12345/, data)
                             {#let link_view = '{% url 'meter_view_list_serv' 12345 54321%}'.replace(/12345/, row.apartment).replace(/54321/,row.service)#}
                             return `<div class="btn-group pull-right">\
             <a class="btn btn-default btn-sm" href="${link_update}"\
-               title="Редактировать" data-toggle="tooltip">\
+               title="Редагувати" data-toggle="tooltip">\
                 <i class="fa fa-pencil"></i>\
             </a>\
             <a class="btn btn-default btn-sm"\
-               title="Удалить" data-toggle="tooltip" data-pjax="0" data-method="post"\
+               title="Видалити" data-toggle="tooltip" data-pjax="0" data-method="post"\
                 onmousedown="return confirm_delete('${link_delete}',event);">\
                 <i class="fa fa-trash"></i>\
             </a>\
@@ -268,15 +268,15 @@
             numb = 0
             table.draw()
         });
-{% comment %}        table_head.on('change', ".select2_section", function a(e) {
+{% comment %} table_head.on('change', ".select2_section", function a(e) {
             sort_data[this.id] = $(this).val()
             numb = 0
             table.draw()
-        });{% endcomment %}
+        }); {% endcomment %}
         table_head.on('change', ".select2_house", function a(e) {
             sort_data['section'] = ''
             sort_data[this.id] = $(this).val()
-            if (sort_data[this.id]){
+            if (sort_data[this.id]) {
                 sort_data['house_select'] = true
             }
             numb = 0
@@ -288,7 +288,7 @@
             numb = 0
             table.draw()
         });
-                table_head.on('click', '.ordering', function () {
+                table_head.on('click', '.ordering', function() {
             if (this.className === 'ordering asc') {
                 $(this).attr('class', 'ordering desc')
                 sort_data['order_by'] = '-' + this.id
@@ -306,14 +306,14 @@
 
 
         function confirm_delete(link, event) {
-            let target = $(event.target).closest("tr ").children()
-            alertify.confirm('Подтверждение удаления', 'Удалить показание <b>'
-                + `№${target.eq(0).text()}(${target.eq(7).text()}) дом ${target.eq(4).text()}, кв. №${target.eq(6).text()} от ${target.eq(2).text()}` + '</b> ?',
+            let target = $(event.target).closest("tr").children()
+            alertify.confirm('Підтвердження видалення', 'Видалити показання <b>'
+                + `№${target.eq(0).text()}(${target.eq(7).text()}) будинок ${target.eq(4).text()}, кв. №${target.eq(6).text()} від ${target.eq(2).text()}` + '</b> ?',
                 function () {
                     window.location.href = link
                 },
                 function () {
-                }).set({labels: {ok: 'Подтвердить', cancel: 'Отмена'}});
+                }).set({labels: {ok: 'Підтвердити', cancel: 'Скасувати'}});
             return false;
         }
 
@@ -324,13 +324,13 @@
 
 
 
-        $(document).ready(function () {
+        $(document).ready(function() {
             sort_data['service'] = '{{ view.kwargs.service_id }}'
 
             send_POST();
             $('.column_search').val('');
             let $select2 = $('.select2').select2({placeholder: ""}).val('');
-            let $select2_section = $('.select2_section').select2({placeholder: "Выберите дом"}).val('');
+            let $select2_section = $('.select2_section').select2({placeholder: "Виберіть будинок"}).val('');
             let $house = $('#house').select2({placeholder: ""});
             $('#service').val(sort_data['service']).change()
             filters_array = [$select2,$select2_section,$house]
@@ -342,14 +342,14 @@
                     autoUpdateInput: false,
                     locale: {
 
-                        cancelLabel: 'Отменить',
-                        applyLabel: 'Применить'
+                        cancelLabel: 'Скасувати',
+                        applyLabel: 'Застосувати'
                     },
                     applyButtonClasses:'btn btn-success',
                     cancelButtonClasses:'btn btn-default',
                 });
                 input.on('apply.daterangepicker', function (ev, picker) {
-                    $(this).val(picker.startDate.format('DD/MM/YYYY') + ' - ' + picker.endDate.format('DD/MM/YYYY'));
+                    $(this).val(picker.startDate.format('DD/MM/YYYY') + '-' + picker.endDate.format('DD/MM/YYYY'));
                     sort_data['date_range'] = [picker.startDate.format('YYYY-MM-DD'), picker.endDate.format('YYYY-MM-DD')]
                     console.log(sort_data[this.id])
                     numb = 0

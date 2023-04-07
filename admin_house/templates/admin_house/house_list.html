@@ -2,11 +2,11 @@
 {% load static %}
 {% block title %}Дома{% endblock %}
 {% block header_text %}
-    Дома
+    Будинки
 {% endblock %}
 {% block breadcrumb %}
     <ul class="breadcrumb">
-        <li><a href="{% url 'statistic' %}"><i class="fa fa-home"></i>Главная</a></li>
+        <li><a href="{% url 'statistic' %}"><i class="fa fa-home"></i>Головна</a></li>
         <li class="active">Дома</li>
     </ul>
 {% endblock %}
@@ -16,7 +16,7 @@
     <div class="row">
         <div class="col-xs-12">
             <div class="pull-right margin-bottom">
-                <a class="btn btn-success" href="{% url 'house_create' %}">Добавить дом</a>
+                <a class="btn btn-success" href="{% url 'house_create' %}">Додати будинок</a>
             </div>
         </div>
     </div>
@@ -27,7 +27,7 @@
                     <h3 class="box-title"></h3>
                     <div class="box-tools">
                         <button onclick="clear_filters()" class="btn btn-default btn-sm">
-                            <span class="hidden-xs">Очистить</span><i class="fa fa-eraser visible-xs"
+                            <span class="hidden-xs">Очистити</span><i class="fa fa-eraser visible-xs"
                                                                       aria-hidden="true"></i>
                         </button>
                     </div>
@@ -39,38 +39,38 @@
                             <thead>
                             <tr>
                                 <th style="width: 40px; min-width: 40px">#</th>
-                                <th><a id="name" class="ordering" style="cursor: pointer">Название</a></th>
-                                <th><a id="address" class="ordering" style="cursor: pointer">Адрес</a></th>
-                                <th style="width: 80px; min-width: 80px">&nbsp;</th>
+                                <th><a id="name" class="ordering" style="cursor: pointer">Назва</a></th>
+                                <th><a id="address" class="ordering" style="cursor: pointer">Адреса</a></th>
+                                <th style="width: 80px; min-width: 80px"> </th>
                             </tr>
                             <tr id="w0-filters" class="filters">
-                                <td>&nbsp;</td>
+                                <td> </td>
                                 <td><input id="name" type="text" class="form-control column_search"
                                            name="HouseNameSearch"></td>
                                 <td><input id="address" type="text" class="form-control column_search"
                                            name="HouseAddressSearch"></td>
-                                <td>&nbsp;</td>
+                                <td> </td>
                             </tr>
                             </thead>
                             <tbody>
                             {#{% for house in house_list %}#}
                             {#<tr data-href="/admin/house/191" data-key="{{ house.pk }}">#}
-                            {#    <td>{{ forloop.counter }}</td>#}
-                            {#    <td>{{ house.name }}</td>#}
-                            {#    <td>{{ house.address }}</td>#}
-                            {#    <td>#}
-                            {#        <div class="btn-group pull-right">#}
-                            {#            <a class="btn btn-default btn-sm" href="/admin/house/update/191"#}
-                            {#               title="Редактировать" data-toggle="tooltip">#}
-                            {#                <i class="fa fa-pencil"></i>#}
-                            {#            </a>#}
-                            {#            <a class="btn btn-default btn-sm" href="/admin/house/delete/191"#}
-                            {#               title="Удалить" data-toggle="tooltip" data-pjax="0" data-method="post"#}
-                            {#               data-confirm="Вы уверены, что хотите удалить этот элемент?">#}
-                            {#                <i class="fa fa-trash"></i>#}
-                            {#            </a>#}
-                            {#        </div>#}
-                            {#    </td>#}
+                            {# <td>{{ forloop.counter }}</td>#}
+                            {# <td>{{ house.name }}</td>#}
+                            {# <td>{{ house.address }}</td>#}
+                            {# <td>#}
+                            {# <div class="btn-group pull-right">#}
+                            {# <a class="btn btn-default btn-sm" href="/admin/house/update/191"#}
+                            {# title="Редагувати" data-toggle="tooltip">#}
+                            {# <i class="fa fa-pencil"></i>#}
+                            {#</a>#}
+                            {# <a class="btn btn-default btn-sm" href="/admin/house/delete/191"#}
+                            {# title="Видалити" data-toggle="tooltip" data-pjax="0" data-method="post"#}
+                            {# data-confirm="Ви впевнені, що хочете видалити цей елемент?">#}
+                            {# <i class="fa fa-trash"></i>#}
+                            {#</a>#}
+                            {#</div>#}
+                            {#</td>#}
                             {#</tr>#}
                             {#{% endfor %}#}
                             </tbody>
@@ -79,7 +79,7 @@
                     <div class="box-footer clearfix"></div>
                 </div>
                 <div class="box-footer">
-                    <div>Количество домов: <span class="text-bold">{{ house_list.count }}</span></div>
+                    <div>Кількість будинків: <span class="text-bold">{{house_list.count}}</span></div>
                 </div>
 
             </div>
@@ -122,7 +122,7 @@
                 processing: false,
                 ordering: false,
                 oLanguage: {
-                    sZeroRecords: "Ничего не найдено."
+                    sZeroRecords: "Нічого не знайдено."
                 },
                 columnDefs: [
                     {className: "house", "targets": [0, 1, 2]},
@@ -153,11 +153,11 @@
                             let link_delete = '{% url 'house_delete' 12345 %}'.replace(/12345/, data)
                             return `<div class="btn-group pull-right">\
             <a class="btn btn-default btn-sm" href="${link_update}"\
-               title="Редактировать" data-toggle="tooltip">\
+               title="Редагувати" data-toggle="tooltip">\
                 <i class="fa fa-pencil"></i>\
             </a>\
             <a class="btn btn-default btn-sm"\
-               title="Удалить" data-toggle="tooltip" data-pjax="0" data-method="post"\
+               title="Видалити" data-toggle="tooltip" data-pjax="0" data-method="post"\
                 onclick="return confirm_delete('${link_delete}',event);">\
                 <i class="fa fa-trash"></i>\
             </a>\
@@ -183,7 +183,7 @@
             table.draw()
         });
 
-        table_head.on('click', '.ordering', function () {
+        table_head.on('click', '.ordering', function() {
             if (this.className === 'ordering asc') {
                 $(this).attr('class', 'ordering desc')
                 sort_data['order_by'] = '-' + this.id
@@ -197,13 +197,13 @@
         })
 
         function confirm_delete(link, event) {
-            alertify.confirm('Подтверждение удаления', 'Удалить дом <b>'
+            alertify.confirm('Підтвердження видалення', 'Видалити будинок <b>'
                 + $(event.target).closest("tr ").children().eq(1).text() + '</b> ?',
                 function () {
                     window.location.href = link
                 },
                 function () {
-                }).set({labels: {ok: 'Подтвердить', cancel: 'Отмена'}});
+                }).set({labels: {ok: 'Підтвердити', cancel: 'Скасувати'}});
             return false;
         }
 
@@ -212,11 +212,10 @@
         })
 
 
-        $(document).ready(function () {
+        $(document).ready(function() {
             send_POST();
             $('.column_search').val('');
         });
     </script>
 
 {% endblock %}
-    

@@ -1,26 +1,26 @@
 {% extends 'layout/admin_panel.html' %}
 {% load static %}
-{% block title %}Редактирование страницы {% endblock %}
+{% block title %}Редагування сторінки {% endblock %}
 {% block breadcrumb %}
     <ul class="breadcrumb">
-        <li><a href="{% url 'statistic' %}"><i class="fa fa-home"></i>Главная</a></li>
-        <li class="active">Редактирование страницы </li>
+        <li><a href="{% url 'statistic' %}"><i class="fa fa-home"></i>Головна</a></li>
+        <li class="active">Редагування сторінки</li>
     </ul>
 {% endblock %}
 {% block header_text %}
-    Редактирование страницы
+    Редагування сторінки
 {% endblock %}
 {% block content %}
     <div class="row">
         <div class="col-xs-12">
             <div class="box">
                 <div class="box-header with-border">
-                    <h3 class="box-title">Редактирование страницы "О нас"</h3>
+                    <h3 class="box-title">Редагування сторінки "Про нас"</h3>
                 </div>
                 <div class="box-body">
                     <form id="about_page_form" method="post" enctype="multipart/form-data">
                         {% csrf_token %}
-                        <h3 class="page-header">Информация</h3>
+                        <h3 class="page-header">Інформація</h3>
                         <div class="row">
                             <div class="col-md-8">
                                 <div class="form-group field-{{about_page_form.title.id_for_label}}">
@@ -30,7 +30,7 @@
                                     <div class="help-block"></div>
                                 </div>
                                 <div class="form-group field-{{about_page_form.text.id_for_label}}">
-                                    <label class="control-label" for="{{about_page_form.text.id_for_label}}">Краткий
+                                    <label class="control-label" for="{{about_page_form.text.id_for_label}}">Короткий
                                         текст</label>
                                     {{about_page_form.text}}
                                     <div class="help-block"></div>
@@ -45,7 +45,7 @@
                                      alt="">
                                 <div class="form-group field-{{about_page_form.photo.id_for_label}}">
                                     <label class="control-label" for="{{about_page_form.photo.id_for_label}}">
-                                        Рекомендуемый размер:(250x310)</label>
+                                        Рекомендований розмір: (250x310) </label>
                                     {{ about_page_form.photo }}
                                     <div class="help-block"></div>
                                 </div>
@@ -63,21 +63,21 @@
                                     <a onclick="confirm_delete(
                                         '{% url 'website_delete_gallery_image' gallery.pk %}')"
                                        style="cursor: pointer"
-                                       title="Удалить"><i class="fa fa-trash text-red" aria-hidden="true"></i></a>
+                                       title="Видалити"><i class="fa fa-trash text-red" aria-hidden="true"></i></a>
                                 </div>
                             </div>
                             {% endfor %}
                             <div class="col-xs-12">
                                 <div class="form-group field-{{gallery_form.image.id_for_label}}">
-                                    <label class="control-label" for="{{gallery_form.image.id_for_label}}">Рекомендуемый
-                                        размер: (1200x1200)</label>
+                                    <label class="control-label" for="{{gallery_form.image.id_for_label}}">Рекомендований
+                                        розмір: (1200x1200)</label>
                                     {{gallery_form.image}}
 
                                     <div class="help-block"></div>
                                 </div>
                             </div>
                         </div>
-                        <h3 class="page-header">Дополнительная информация</h3>
+                        <h3 class="page-header">Додаткова інформація</h3>
                         <div class="row">
                             <div class="col-xs-12">
                                 <div class="form-group field-{{about_page_form.additional_title.id_for_label}}">
@@ -89,7 +89,7 @@
                                 </div>
                                 <div class="form-group field-{{about_page_form.additional_text.id_for_label}}">
                                     <label class="control-label" for="{{about_page_form.additional_text.id_for_label}}">
-                                        Краткий текст</label>
+                                        Короткий текст</label>
                                     {{about_page_form.additional_text}}
                                     <div class="help-block"></div>
                                 </div>
@@ -97,7 +97,7 @@
                         </div>
                         <div class="row site-about-gallery">
                             <div class="col-xs-12">
-                                <h3 class="page-header">Дополнительная фотогалерея</h3>
+                                <h3 class="page-header">Додаткова фотогалерея</h3>
                             </div>
                             {% for additional_gallery in additional_gallery_list %}
                             <div class="col-xs-6 col-sm-4 col-md-2 text-center">
@@ -107,7 +107,7 @@
                                     <a onclick="confirm_delete(
                                         '{% url 'website_delete_additional_gallery_image' additional_gallery.pk %}')"
                                        style="cursor: pointer"
-                                       title="Удалить"><i class="fa fa-trash text-red" aria-hidden="true"></i></a>
+                                       title="Видалити"><i class="fa fa-trash text-red" aria-hidden="true"></i></a>
                                 </div>
                             </div>
                             {% endfor %}
@@ -115,7 +115,7 @@
                             <div class="col-xs-12">
                                 <div class="form-group field-{{additional_gallery_form.image.id_for_label}}">
                                     <label class="control-label" for="{{additional_gallery_form.image.id_for_label}}">
-                                        Рекомендуемый размер: (1200x1200)</label>
+                                        Рекомендований розмір: (1200x1200)</label>
                                     {{additional_gallery_form.image}}
                                     <div class="help-block"></div>
                                 </div>
@@ -124,7 +124,7 @@
 
                         <div class="row site-about-documents">
                             <div class="col-xs-12">
-                                <h3 class="page-header">Документы</h3>
+                                <h3 class="page-header">Документи</h3>
                             </div>
                             <div class="col-xs-12 col-md-6">
                                 <div id="form-document-rows">
@@ -144,7 +144,7 @@
                                             {% if document.instance.file.name|slice:"-3:" == "pdf" %}
                                                 <i class="fa fa-file-pdf-o fa-3x pull-left"
                                                    style="width: 32px;" aria-hidden="true"></i>
-                                                {% elif  document.instance.file.name|slice:"-3:" == "jpg" %}
+                                                {% elif document.instance.file.name|slice:"-3:" == "jpg" %}
                                                 <img class="fa fa-3x pull-left" width="32" height="42"
                                                  src="{{ document.instance.file.url }}"
                                                  alt="">
@@ -152,12 +152,12 @@
                                                 <i class="fa fa-file-o fa-3x pull-left"
                                                style="width: 32px;" aria-hidden="true"></i>
                                             {% endif %}
-                                        <label for="{{document.file.id_for_label}}">PDF, JPG (макс. размер 20
+                                        <label for="{{document.file.id_for_label}}">PDF, JPG (макс. розмір 20
                                                 Mb)</label>
                                             {{document.file}}
                                         </div>
                                         <div class="form-group">
-                                            <label for="{{document.title.id_for_label}}">Название документа</label>
+                                            <label for="{{document.title.id_for_label}}">Назва документа</label>
                                             {{document.title}}
                                     </div>
                                         <div hidden>{{ document.DELETE }}</div>
@@ -173,12 +173,12 @@
                                             <i class="fa fa-file-o fa-3x pull-left"
                                                style="width: 32px;" aria-hidden="true"></i>
                                         <label for="{{document_formset.empty_form.file.id_for_label}}">
-                                            PDF, JPG (макс. размер 20Mb)</label>
+                                            PDF, JPG (макс. розмір 20Mb)</label>
                                             {{document_formset.empty_form.file}}
                                         </div>
                                         <div class="form-group">
                                             <label for="{{document_formset.empty_form.title.id_for_label}}">
-                                                Название документа</label>
+                                                Назва документа</label>
                                             {{document_formset.empty_form.title}}
                                     </div>
                                     <div hidden>{{ document_formset.empty_form.DELETE }}</div>
@@ -186,7 +186,7 @@
                                 <div class="btn-group">
                                     <button type="button" id="add_document_form"
                                             class="btn btn-success margin-bottom-15 form-row-add-websitedocument-btn">
-                                        Добавить документ
+                                        Додати документ
                                     </button>
                                 </div>
                             </div>
@@ -194,7 +194,7 @@
 
                         <div class="row">
                             <div class="col-md-12">
-                                <h3 class="page-header">Настройки SEO</h3>
+                                <h3 class="page-header">Налаштування SEO</h3>
                                 <div class="form-group field-{{ seo_form.title.id_for_label }}">
                                     <label class="control-label"
                                            for="{{ seo_form.title.id_for_label }}">Title</label>
@@ -218,8 +218,8 @@
                         <div class="row">
                             <div class="col-xs-12 text-center">
                                 <div class="form-group">
-                                    <a href="{% url 'website_about_page' %}" class="btn btn-default">Отменить</a>
-                                    <button type="submit" class="btn btn-success">Сохранить</button>
+                                    <a href="{% url 'website_about_page' %}" class="btn btn-default">Скасувати</a>
+                                    <button type="submit" class="btn btn-success">Зберегти</button>
                                 </div>
                             </div>
                         </div>
@@ -240,35 +240,35 @@
             src="{% static "admin_panel/plugins/ckeditor5-build-classic/translations/ru.js" %}"></script>
 <script src="{% static 'admin_panel/js/add_delete_form.js' %}"></script>
     <script>
-            {% for document in  document_formset.errors %}
-            {% for error in  document.file %}
+            {% for document in document_formset.errors %}
+            {% for error in document.file %}
             toastr.error('Документ {{ forloop.parentloop.counter }} - {{ error|join:"" }}')
             {% endfor %}
             {% endfor %}
-    {% for error in  about_page_form.photo.errors %}
-            toastr.error('Фото директора - {{ error|join:"" }}')
+    {% for error in about_page_form.photo.errors %}
+            toastr.error('Фото директора - {{error|join:"" }}')
             {% endfor %}
-    {% for error in  gallery_form.image.errors%}
+    {% for error in gallery_form.image.errors%}
             toastr.error('Фотогалерея - {{ error|join:"" }}')
             {% endfor %}
-    {% for error in  additional_gallery_form.image.errors %}
-            toastr.error('Дополнительная фотогалерея - {{ error|join:"" }}')
+    {% for error in additional_gallery_form.image.errors %}
+            toastr.error('Додаткова фотогалерея - {{ error|join:"" }}')
             {% endfor %}
     </script>
     <script>
             function confirm_delete(link) {
-            alertify.confirm('Подтверждение удаления', 'Удалить фото?',
+            alertify.confirm('Підтвердження видалення', 'Видалити фото?',
                 function () {
                     window.location.href = link
                 },
                 function () {
-                }).set({labels: {ok: 'Подтвердить', cancel: 'Отмена'}});
+                }).set({labels: {ok: 'Підтвердити', cancel: 'Скасувати'}});
             return false;
         }
     </script>
     <script>
     let totalWebsiteDocumentForms = $('#id_document-TOTAL_FORMS')
-    $(document).ready(function () {
+    $(document).ready(function() {
         init_cke_editor($('.compose-textarea:visible'))
     })
     function init_cke_editor(targets) {
@@ -301,7 +301,7 @@
         })
 
     }
-    $('#add_document_form').on('click', function () {
+    $('#add_document_form').on('click', function() {
             add_form('document', 'empty-document', 'form-document-rows', totalWebsiteDocumentForms)
         })
     </script>

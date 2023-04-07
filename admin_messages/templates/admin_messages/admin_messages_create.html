@@ -2,21 +2,21 @@
 {% load static %}
 {% block head %}
     <style>
-    .ck-editor__editable{
+    .ck-editor__editable {
         min-height: 200px;
     }
     </style>
 {% endblock %}
-{% block title %}Новое сообщение{% endblock %}
+{% block title %}Нове повідомлення{% endblock %}
 {% block breadcrumb %}
     <ul class="breadcrumb">
-        <li><a href="{% url 'statistic' %}"><i class="fa fa-home"></i>Главная</a></li>
-        <li><a href="{% url 'message_list' %}">Сообщения</a></li>
-        <li class="active">Новое сообщение</li>
+        <li><a href="{% url 'statistic' %}"><i class="fa fa-home"></i>Головна</a></li>
+        <li><a href="{% url 'message_list' %}">Повідомлення</a></li>
+        <li class="active">Нове повідомлення</li>
     </ul>
 {% endblock %}
 {% block header_text %}
-    Новое сообщение
+    нове повідомлення
 {% endblock %}
 {% block content %}
     <div class="box">
@@ -29,52 +29,52 @@
             <div class="box-body">
                 <div class="form-group field-{{ form.subject.id_for_label }}">
 
-                    {{ form.subject }}
+                    {{form.subject}}
 
                     <div class="help-block"></div>
                 </div>
                 <div class="form-group field-{{ form.text.id_for_label }}">
-                    {{ form.text }}
+                    {{form.text}}
                 </div>
 
                 <div class="row">
 
                     <div class="col-xs-12 col-md-6">
-                        <h4>Кому отправить:</h4>
+                        <h4>Кому відправити:</h4>
 
                         {% block user_create %}
                         <div class="form-group field-{{ form.owners_has_debt.id_for_label }}">
 
-                            <label>{{form.owners_has_debt}} Владельцам с задолженностями</label>
+                            <label>{{form.owners_has_debt}} Власникам із заборгованостями</label>
 
                             <div class="help-block"></div>
                         </div>
                         <div class="form-group field-{{ form.house.id_for_label }} ">
-                            <label class="control-label" for="{{ form.house.id_for_label }}">ЖК</label>
-                            {{ form.house }}
+                            <label class="control-label" for="{{form.house.id_for_label }}">ЖК</label>
+                            {{form.house}}
 
                             <div class="help-block"></div>
                         </div>
                         <div class="form-group field-{{ form.apartment.id_for_label }} ">
-                            <label class="control-label" for="{{ form.section.id_for_label }}">Секция</label>
-                            {{ form.section }}
+                            <label class="control-label" for="{{ form.section.id_for_label }}">Секція</label>
+                            {{form.section}}
 
                             <div class="help-block"></div>
                         </div>
                         <div class="form-group field-{{ form.apartment.id_for_label }} ">
-                            <label class="control-label" for="{{ form.floor.id_for_label }}">Этаж</label>
-                            {{ form.floor }}
+                            <label class="control-label" for="{{ form.floor.id_for_label }}">Поверх</label>
+                            {{form.floor}}
 
 
                             <div class="help-block"></div>
                         </div>
                         <div class="form-group field-{{ form.apartment.id_for_label }} ">
                             <label class="control-label" for="{{ form.apartment.id_for_label }}">Квартира</label>
-                            {{ form.apartment }}
+                            {{form.apartment}}
 
                             <div class="help-block"></div>
                         </div>
-                        {{ form.apartment.id }}
+                        {{form.apartment.id}}
                          {% endblock %}
                     </div>
                 </div>
@@ -82,10 +82,10 @@
             </div>
             <div class="box-footer">
                 <div class="pull-right">
-                    <button type="submit" class="btn btn-success"><i class="fa fa-envelope-o"></i> Отправить</button>
+                    <button type="submit" class="btn btn-success"><i class="fa fa-envelope-o"></i> Надіслати</button>
                 </div>
             </div>
-            {{ form.errors }}
+            {{form.errors}}
         </form>
     </div>
 
@@ -95,11 +95,11 @@
     $('#nav_message').attr('class', 'active')
     </script>
         <script src="{% static 'admin_panel/bower_components/select2/dist/js/select2.full.min.js' %}"></script>
-    <script src="{% static 'admin_panel/bower_components/select2/dist/js/i18n/ru.min.js' %}"></script>
+    <script src="{% static 'admin_panel/bower_components/select2/dist/js/i18n/uk.js' %}"></script>
         <script type="text/javascript" src="{% static "admin_panel/plugins/ckeditor5-build-classic/ckeditor.js" %}"></script>
     <script type="text/javascript" src="{% static "admin_panel/plugins/ckeditor5-build-classic/translations/ru.js" %}"></script>
     <script>
-    $('.select2-field').select2({placeholder: "Всем...",allowClear:true})
+    $('.select2-field').select2({placeholder: "Всім...",allowClear:true})
     </script>
     <script>
     $(document).ready(
@@ -107,26 +107,26 @@
             language: 'ru',
         toolbar:{
         items: [
-			'heading',
-			'|',
-			'bold',
-			'italic',
-			'underline',
-			'link',
-			'bulletedList',
-			'numberedList',
-			'|',
-			'outdent',
-			'indent',
-			'|',
-			'blockQuote',
-			'undo',
-			'redo'
-		]
+'heading',
+'|',
+'bold',
+'italic',
+'underline',
+'link',
+'bulletedList',
+'numberedList',
+'|',
+'outdent',
+'indent',
+'|',
+'blockQuote',
+'undo',
+'redo'
+]
         }
         } )
-        .catch( error => {
-            console.error( error );
+        .catch (error => {
+            console.error(error);
         } )
     )
 
@@ -178,7 +178,7 @@
 
         function set_event_listeners(house = false, section = false, floor = false, apartment = false) {
             if (house) {
-                $('#id_house').change(function () {
+                $('#id_house').change(function() {
                     select_options['house_id'] = this.value
                     select_options['section_id'] = ''
                     select_options['floor_id'] = ''
@@ -187,14 +187,14 @@
                 })
             }
             if (section) {
-                $('#id_section').change(function () {
+                $('#id_section').change(function() {
                     select_options['section_id'] = this.value
                     select_options['apartment_id'] = ''
                     get_values()
                 })
             }
             if (floor) {
-                $('#id_floor').change(function () {
+                $('#id_floor').change(function() {
                     select_options['floor_id'] = this.value
                     select_options['apartment_id'] = ''
                     get_values()
@@ -202,7 +202,7 @@
             }
         }
 
-        $(document).ready(function () {
+        $(document).ready(function() {
                 clear_options('id_apartment')
                 clear_options('id_section')
                 clear_options('id_floor')
@@ -215,37 +215,37 @@
     {% endblock %}
     <script>
             $( "#message_form" ).validate( {
-				rules: {
-					subject: "required",
-					text: "required",
-				},
-				messages: {
-					subject: "Пожалуйста введите тему сообщения.",
-					text: "Пожалуйста введите текст сообщения.",
-				},
-				errorElement: "em",
-				errorPlacement: function ( error, element ) {
-					error.addClass( "help-block" );
-					element.parents( ".form-group" ).addClass( "has-feedback" );
-					if ( element.prop( "type" ) === "checkbox" ) {
-						error.insertAfter( element.parent( "label" ) );
-					} else {
+rules: {
+subject: "required",
+text: "required",
+},
+messages: {
+subject: "Введіть тему повідомлення.",
+text: "Будь ласка, введіть текст повідомлення.",
+},
+errorElement: "em",
+errorPlacement: function ( error, element ) {
+error.addClass( "help-block");
+element.parents( ".form-group" ).addClass( "has-feedback" );
+if ( element.prop( "type" ) === "checkbox" ) {
+error.insertAfter( element.parent( "label" ) );
+} else {
                         if($(element).hasClass('select2-hidden-accessible')){
 
                             error.insertAfter( $(element).parent('.form-group').find('.select2'));
                         }
                         else error.insertAfter( element );
-					}
-				},
-				success: function ( label, element ) {
-				},
-				highlight: function ( element, errorClass, validClass ) {
-					$( element ).parents( ".form-group" ).addClass( "has-error" ).removeClass( "has-success" );
-				},
-				unhighlight: function ( element, errorClass, validClass ) {
-					$( element ).parents( ".form-group" ).addClass( "has-success" ).removeClass( "has-error" );
-				}
-			} );
+}
+},
+success: function ( label, element ) {
+},
+highlight: function ( element, errorClass, validClass ) {
+$( element ).parents( ".form-group" ).addClass( "has-error" ).removeClass( "has-success" );
+},
+unhighlight: function ( element, errorClass, validClass ) {
+$( element ).parents( ".form-group" ).addClass( "has-success" ).removeClass( "has-error" );
+}
+} );
              $("select").on("select2:close", function (e) {
         $(this).valid();
     });

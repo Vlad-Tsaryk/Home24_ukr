@@ -8,11 +8,11 @@ from PIL import Image
 class Role(models.Model):
     class RoleName(models.TextChoices):
         DIRECTOR = 'Директор', 'Директор'
-        MANAGER = 'Управляющий', 'Управляющий'
+        MANAGER = 'Керуючий', 'Керуючий'
         ACCOUNTANT = 'Бухгалтер', 'Бухгалтер'
-        ELECTRICIAN = 'Электрик', 'Электрик'
-        PLUMBER = 'Сантехник', 'Сантехник'
-        OWNER = 'Владелец квартиры', 'Владелец квартиры'
+        ELECTRICIAN = 'Електрик', 'Електрик'
+        PLUMBER = 'Сантехнік', 'Сантехнік'
+        OWNER = 'Власник квартири', 'Власник квартири'
 
     role = models.CharField(choices=RoleName.choices, max_length=20)
     statistics = models.BooleanField()
@@ -38,15 +38,15 @@ class Role(models.Model):
 
 class User(AbstractUser):
     class StatusName(models.TextChoices):
-        NEW = 'Новый', 'Новый'
-        ACTIVE = 'Активен', 'Активен'
-        DISABLED = 'Отключен', 'Отключен'
+        NEW = 'Новий', 'Новий'
+        ACTIVE = 'Активний', 'Активний'
+        DISABLED = 'Вимкнений', 'Вимкнений'
 
     first_name = models.CharField(max_length=50)
     middle_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
     username = models.EmailField(unique=True, error_messages={
-        'unique': "Пользователь с таким логином уже существует!"})
+        'unique': "Користувач із таким логіном вже існує!"})
     phone = PhoneNumberField()
     birth_date = models.DateField(blank=True, null=True)
     status = models.CharField(choices=StatusName.choices, max_length=10)
@@ -73,9 +73,9 @@ class User(AbstractUser):
 
     def get_status_label_color(self):
         colors = {
-            'Активен': 'label-success',
-            'Отключен': 'label-danger',
-            'Новый': 'label-warning',
+            'Активний': 'label-success',
+            'Вимкнений': 'label-danger',
+            'Новий': 'label-warning',
         }
         return colors[self.status]
 

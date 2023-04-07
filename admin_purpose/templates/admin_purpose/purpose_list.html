@@ -1,13 +1,13 @@
 {% extends 'layout/admin_panel.html' %}
-{% block title %}Статьи приходов/расходов{% endblock %}
+{% block title %}Статті парафій/витрат {% endblock %}
 {% load static %}
 {% block header_text %}
-Статьи приходов/расходов
+Статті приходів/витрат
 {% endblock %}
 {% block breadcrumb %}
     <ul class="breadcrumb">
-        <li><a href="{% url 'statistic' %}"><i class="fa fa-home"></i>Главная</a></li>
-        <li class="active">Статьи приходов/расходов</li>
+        <li><a href="{% url 'statistic' %}"><i class="fa fa-home"></i>Головна</a></li>
+        <li class="active">Статті парафій/витрат</li>
 </ul>
 {% endblock %}
 {% block content %}
@@ -16,7 +16,7 @@
     <div class="row">
         <div class="col-xs-12">
             <div class="pull-right margin-bottom">
-                <a class="btn btn-success" href="{% url 'purpose_create' %}">Добавить статью</a>
+                <a class="btn btn-success" href="{% url 'purpose_create' %}">Додати статтю</a>
             </div>
         </div>
     </div>
@@ -28,9 +28,9 @@
                         <table id="purpose_table" class="table table-bordered table-hover table-striped linkedRow">
                             <thead>
                             <tr>
-                                <th>Название</th>
-                                <th>Приход/расход</th>
-                                <th style="width: 80px; min-width: 80px">&nbsp;</th>
+                                <th>Назва</th>
+                                <th>Прихід/витрата</th>
+                                <th style="width: 80px; min-width: 80px"> </th>
                             </tr>
                             </thead>
                             <tbody>
@@ -38,17 +38,17 @@
 
 
                                 <tr data-href="{% url 'purpose_update' purpose.pk %}">
-                                    <td>{{ purpose.name }}</td>
+                                    <td>{{purpose.name}}</td>
                                     <td><span
                                             class="text text-{% if purpose.transaction_type == purpose.TransactionType.INCOME %}green{% else %}red{% endif %}">
-        {{ purpose.transaction_type }}</span></td>
+        {{purpose.transaction_type}}</span></td>
                                     <td>
                                         <div class="btn-group pull-right"><a class="btn btn-default btn-sm"
                                                                              href="{% url 'purpose_update' purpose.pk %}"
-                                                                             title="Редактировать"
+                                                                             title="Редагувати"
                                                                              data-toggle="tooltip">
                                             <i class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm"
-                                                                                title="Удалить" data-toggle="tooltip"
+                                                                                title="Видалити" data-toggle="tooltip"
                                                                                 data-pjax="0" data-method="post"
                                                                                 onmousedown="return confirm_delete('{% url 'purpose_delete' purpose.pk %}',event);"><i
                                                 class="fa fa-trash"></i></a></div>
@@ -92,14 +92,14 @@
 
             info: false,
         })
-                function confirm_delete (link,event) {
-            alertify.confirm('Подтверждение удаления', 'Удалить статью <b>'
-                + $(event.target).closest( "tr " ).children().eq(0).text() + '</b> ?',
+                function confirm_delete (link, event) {
+            alertify.confirm('Підтвердження видалення', 'Видалити статтю <b>'
+                + $(event.target).closest("tr").children().eq(0).text() + '</b> ?',
                 function () {
                 window.location.href = link
                 },
                 function () {
-                }).set({labels: {ok: 'Подтвердить', cancel: 'Отмена'}});
+                }).set({labels: {ok: 'Підтвердити', cancel: 'Скасувати'}});
                 return false;
         }
     </script>

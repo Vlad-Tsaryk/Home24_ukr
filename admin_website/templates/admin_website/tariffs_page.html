@@ -1,14 +1,14 @@
 {% extends 'layout/admin_panel.html' %}
 {% load static %}
-{% block title %}Редактирование страницы {% endblock %}
+{% block title %}Редагування сторінки {% endblock %}
 {% block breadcrumb %}
     <ul class="breadcrumb">
-        <li><a href="{% url 'statistic' %}"><i class="fa fa-home"></i>Главная</a></li>
-        <li class="active">Редактирование страницы </li>
+        <li><a href="{% url 'statistic' %}"><i class="fa fa-home"></i>Головна</a></li>
+        <li class="active">Редагування сторінки</li>
     </ul>
 {% endblock %}
 {% block header_text %}
-    Редактирование страницы
+    Редагування сторінки
 {% endblock %}
 {% block content %}
 
@@ -17,12 +17,12 @@
         <div class="col-xs-12">
             <div class="box">
                 <div class="box-header with-border">
-                    <h3 class="box-title">Редактирование страницы "Тарифы"</h3>
+                    <h3 class="box-title">Редагування сторінки "Тарифи"</h3>
                 </div>
                 <div class="box-body">
                     <form id="tariffs_page_form" method="post" enctype="multipart/form-data">
                         {% csrf_token %}
-                        <h3 class="page-header">Информация</h3>
+                        <h3 class="page-header">Інформація</h3>
                         <div class="row">
                             <div class="col-md-8">
                                 <div class="form-group field-{{ tariffs_page_form.title.id_for_label }}">
@@ -33,7 +33,7 @@
                                     <div class="help-block"></div>
                                 </div>
                                 <div class="form-group field-{{ tariffs_page_form.text.id_for_label }}">
-                                    <label class="control-label" for="{{ tariffs_page_form.text.id_for_label }}">Краткий
+                                    <label class="control-label" for="{{ tariffs_page_form.text.id_for_label }}">Короткий
                                         текст</label>
                                     {{ tariffs_page_form.text }}
                                     <div class="help-block"></div>
@@ -43,21 +43,21 @@
 
                         <div class="row near-img">
                             <div class="col-xs-12">
-                                <h3 class="page-header">Изображения</h3>
+                                <h3 class="page-header">Зображення</h3>
                             </div>
                             <div id="form-tariff_block-rows">
                                 {{ tariff_block_formset.management_form }}
                                 {% for tariff_block in tariff_block_formset %}
                                     <div id="form-{{ tariff_block.prefix }}" class="col-md-4 form-tariff_block">
                                         <h4>
-                                            <span>Тариф {{ forloop.counter }}</span>
+                                            <span>Тариф {{forloop.counter}}</span>
                                             <a class="pull-right text-red"
                                                onclick="delete_form('{{ tariff_block.prefix }}')"
                                                style="cursor: pointer">
                                                 <i class="fa fa-trash"></i></a>
                                         </h4>
                                         <img src="{% if tariff_block.instance.image %}
-                                    {{ tariff_block.instance.image.url }}
+                                    {{tariff_block.instance.image.url}}
                                        {% else %}{% static 'admin_panel/dist/img/placeholder_522x350.jpeg' %}
                                 {% endif %}"
                                              alt="" class="img-responsive margin-bottom-15">
@@ -70,9 +70,9 @@
                                         <div class="form-group">
                                             <label for="{{ tariff_block.image.id_for_label }}">
                                                 Файл</label>
-                                            {{ tariff_block.image }}
+                                            {{tariff_block.image}}
                                             <div class="form-group">
-                                                <label for="{{ tariff_block.title.id_for_label }}">Подпись</label>
+                                                <label for="{{ tariff_block.title.id_for_label }}">Підпис</label>
                                                 {{ tariff_block.title }}
                                             </div>
                                             <div hidden>{{ tariff_block.DELETE }}</div>
@@ -95,7 +95,7 @@
                                         Файл</label>
                                     {{ tariff_block_formset.empty_form.image }}
                                     <div class="form-group">
-                                        <label for="{{ tariff_block_formset.empty_form.title.id_for_label }}">Подпись</label>
+                                        <label for="{{ tariff_block_formset.empty_form.title.id_for_label }}">Підпис</label>
                                         {{ tariff_block_formset.empty_form.title }}
                                     </div>
                                     <div hidden>{{ tariff_block_formset.empty_form.DELETE }}</div>
@@ -106,7 +106,7 @@
 
                         <div class="row">
                             <div class="col-md-12">
-                                <h3 class="page-header">Настройки SEO</h3>
+                                <h3 class="page-header">Налаштування SEO</h3>
                                 <div class="form-group field-{{ seo_form.title.id_for_label }}">
                                     <label class="control-label"
                                            for="{{ seo_form.title.id_for_label }}">Title</label>
@@ -131,12 +131,12 @@
                         <div class="row">
                             <div class="col-xs-12 text-center">
                                 <div class="form-group">
-                                    <a href="{% url 'website_tariffs_page' %}" class="btn btn-default">Отменить</a>
+                                    <a href="{% url 'website_tariffs_page' %}" class="btn btn-default">Скасувати</a>
                                     <button type="button" role="button" id="add_tariff_block"
                                             class="btn btn-success bg-green-active form-row-add-tariff_block-btn">
-                                        Добавить тариф
+                                        Додати тариф
                                     </button>
-                                    <button type="submit" class="btn btn-success">Сохранить</button>
+                                    <button type="submit" class="btn btn-success">Зберегти</button>
                                 </div>
                             </div>
                         </div>
@@ -157,15 +157,15 @@
             src="{% static "admin_panel/plugins/ckeditor5-build-classic/translations/ru.js" %}"></script>
     <script src="{% static 'admin_panel/js/add_delete_form.js' %}"></script>
     <script>
-        {% for tariff_block in  tariff_block_formset.errors %}
-            {% for error in  tariff_block.image %}
+        {% for tariff_block in tariff_block_formset.errors %}
+            {% for error in tariff_block.image %}
                 toastr.error('Тариф {{ forloop.parentloop.counter }} - {{ error|join:"" }}')
             {% endfor %}
         {% endfor %}
     </script>
     <script>
         let totalWebsiteTariffForms = $('#id_tariff_block-TOTAL_FORMS')
-        $(document).ready(function () {
+        $(document).ready(function() {
             init_cke_editor($('.compose-textarea:visible'))
         })
 

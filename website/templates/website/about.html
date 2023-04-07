@@ -1,15 +1,15 @@
 {% extends 'layout/website.html' %}
-{% block seo_title %}{{ about_page.seo.title }}{% endblock %}
-{% block seo_description %}{{ about_page.seo.description }}{% endblock %}
-{% block seo_keywords %}{{ about_page.seo.keywords }}{% endblock %}
+{% block seo_title %} {{ about_page.seo.title }} {% endblock %}
+{% block seo_description %} {{ about_page.seo.description }} {% endblock %}
+{% block seo_keywords %} {{ about_page.seo.keywords }} {% endblock %}
 {% block content %}
     <div class="breadcrumbs">
         <div class="container">
             <div class="row">
                 <div class="col-xs-12">
                     <ol class="breadcrumb">
-                        <li><a href="{% url 'main_page' %}">Главная</a></li>
-                        <li class="active">О нас</li>
+                        <li><a href="{% url 'main_page' %}">Головна</a></li>
+                        <li class="active">Про нас</li>
                     </ol>
                 </div>
             </div>
@@ -86,7 +86,7 @@
                     <div class="col-xs-12">
                         <div class="box">
                             <div class="page-header">
-                                <h3>Документы</h3>
+                                <h3>Документи</h3>
                             </div>
                             {% for document in about_page.document_set.all %}
                                 <div class="media">
@@ -94,7 +94,7 @@
                                         <div class="media-object">
                                             {% if document.file.name|slice:"-3:" == "pdf" %}
                                                 <i class="far fa-file-pdf fa-3x"></i>
-                                            {% elif  document.file.name|slice:"-3:" == "jpg" %}
+                                            {% elif document.file.name|slice:"-3:" == "jpg" %}
                                                 <img class="fa fa-3x pull-left" width="32" height="42"
                                                      src="{{ document.file.url }}"
                                                      alt="">
@@ -106,7 +106,7 @@
                                     <div class="media-body">
                                         <h4 class="media-heading">{{ document.name }}</h4>
                                         <a href="{{ document.file.url }}" download>
-                                            <i class="fa fa-download" aria-hidden="true"></i> Скачать</a>
+                                            <i class="fa fa-download" aria-hidden="true"></i> Завантажити</a>
                                     </div>
                                 </div>
                             {% endfor %}

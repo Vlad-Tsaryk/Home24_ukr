@@ -1,12 +1,12 @@
 {% extends 'layout/cabinet.html' %}
-{% block title %}Тарифы-{{ apartment_name }}{% endblock %}
+{% block title %}Тарифи-{{ apartment_name }}{% endblock %}
 {% block header_text %}
-    Тарифы-{{ apartment_name }}
+    Тарифи - {{ apartment_name }}
 {% endblock %}
 {% block breadcrumb %}
     <ul class="breadcrumb">
-        <li><a href="{% url 'cabinet' %}"><i class="fa fa-home"></i>Главная</a></li>
-        <li class="active">Тарифы-{{ apartment_name }}</li>
+        <li><a href="{% url 'cabinet' %}"><i class="fa fa-home"></i>Головна</a></li>
+        <li class="active">Тарифи-{{ apartment_name }}</li>
     </ul>
 {% endblock %}
 {% block content %}
@@ -16,9 +16,9 @@
                 <table class="table table-bordered table-hover">
                     <thead>
                     <tr>
-                        <th style="min-width:250px">Услуга</th>
-                        <th style="min-width:150px">Ед. изм.</th>
-                        <th style="min-width:150px">Цена за ед., грн</th>
+                        <th style="min-width:250px">Послуга</th>
+                        <th style="min-width:150px">Од. вим.</th>
+                        <th style="min-width:150px">Ціна за од., грн</th>
                     </tr>
                     </thead>
                     <tbody>

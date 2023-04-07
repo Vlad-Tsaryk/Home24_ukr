@@ -8,7 +8,7 @@ from admin_purpose.models import Purpose, PaymentDetails
 class Command(BaseCommand):
     def handle(self, *args, **options):
         if not Purpose.objects.exists():
-            purpose_names = ['Вывоз мусора', 'Погашение квитанции', 'Прочий приход', 'Перевод']
+            purpose_names = ['Вивіз сміття', 'Погашення квитанції', 'Інша парафія', 'Переклад']
             for purpose_name in purpose_names[:2]:
                 Purpose.objects.create(
                         name=purpose_name,

@@ -1,11 +1,11 @@
 {% extends 'layout/admin_panel.html' %}
-{% block title %}Роли{% endblock %}
+{% block title %}Ролі{% endblock %}
 {% block header_text %}
-    Роли
+    Ролі
 {% endblock %}
 {% block breadcrumb %}
-    <ul class="breadcrumb"><li><a href="{% url 'statistic' %}"><i class="fa fa-home"></i> Главная</a></li>
-<li class="active">Роли</li>
+    <ul class="breadcrumb"><li><a href="{% url 'statistic' %}"><i class="fa fa-home"></i> Головна</a></li>
+<li class="active">Ролі</li>
 </ul>
 {% endblock %}
 {% block content %}
@@ -18,29 +18,29 @@
                     <tr>
                         <th>Роль</th>
                         <th class="text-center">Статистика</th>
-                        <th class="text-center">Касса</th>
-                        <th class="text-center">Квитанции на оплату</th>
-                        <th class="text-center">Лицевые счета</th>
-                        <th class="text-center">Квартиры</th>
-                        <th class="text-center">Владельцы квартир</th>
-                        <th class="text-center">Дома</th>
-                        <th class="text-center">Сообщения</th>
-                        <th class="text-center">Заявки вызова мастера</th>
-                        <th class="text-center">Счетчики</th>
-                        <th class="text-center">Управление сайтом</th>
-                                                <th class="text-center">Услуги</th>
-                        <th class="text-center">Тарифы</th>
-                        <th class="text-center">Роли</th>
-                        <th class="text-center">Пользователи</th>
-                        <th class="text-center">Платежные реквизиты</th>
+                        <th class="text-center">Каса</th>
+                        <th class="text-center">Квитанції на оплату</th>
+                        <th class="text-center">Облікові рахунки</th>
+                        <th class="text-center">Квартири</th>
+                        <th class="text-center">Власники квартир</th>
+                        <th class="text-center">Будинки</th>
+                        <th class="text-center">Повідомлення</th>
+                        <th class="text-center">Заявки виклику майстра</th>
+                        <th class="text-center">Лічильники</th>
+                        <th class="text-center">Керування сайтом</th>
+                                                <th class="text-center">Послуги</th>
+                        <th class="text-center">Тарифи</th>
+                        <th class="text-center">Ролі</th>
+                        <th class="text-center">Користувачі</th>
+                        <th class="text-center">Платіжні реквізити</th>
                     </tr>
                 </thead>
                 <tbody>
                 {{ role_formset.management_form }}
-{#                {% for role_form in role_formset|slice:':1' %}#}
-{#                    {% for hidden in role_form.hidden_fields %}#}
-{#                            {{ hidden }}#}
-{#                        {% endfor %}#}
+{# {% for role_form in role_formset|slice:':1' %}#}
+{# {% for hidden in role_form.hidden_fields %}#}
+{# {{ hidden }}#}
+{# {% endfor %}#}
                 <tr id="director_row">
                             <td>Директор</td>
                     <td class="text-center"> <input type="checkbox" checked="" disabled></td>
@@ -59,24 +59,24 @@
                     <td class="text-center"> <input type="checkbox" checked="" disabled></td>
                     <td class="text-center"> <input type="checkbox" checked="" disabled></td>
                     <td class="text-center"> <input type="checkbox" checked="" disabled></td>
-{#                            <td class="text-center">{{role_form.statistics}}</td>#}
-{#                            <td class="text-center">{{role_form.transaction}}</td>#}
-{#                            <td class="text-center">{{role_form.receipt}}</td>#}
-{#                            <td class="text-center">{{role_form.personal_account}}</td>#}
-{#                            <td class="text-center">{{role_form.apartment}}</td>#}
-{#                            <td class="text-center">{{role_form.owners}}</td>#}
-{#                            <td class="text-center">{{role_form.house}}</td>#}
-{#                            <td class="text-center">{{role_form.message}}</td>#}
-{#                            <td class="text-center">{{role_form.application}}</td>#}
-{#                            <td class="text-center">{{role_form.counter}}</td>#}
-{#                            <td class="text-center">{{role_form.website}}</td>#}
-{#                                                <td class="text-center">{{role_form.services}}</td>#}
-{#                            <td class="text-center">{{role_form.tariff}}</td>#}
-{#                            <td class="text-center">{{role_form.roles}}</td>#}
-{#                            <td class="text-center">{{role_form.users}}</td>#}
-{#                            <td class="text-center">{{role_form.payment_details}}</td>#}
+{# <td class="text-center">{{role_form.statistics}}</td>#}
+{# <td class="text-center">{{role_form.transaction}}</td>#}
+{# <td class="text-center">{{role_form.receipt}}</td>#}
+{# <td class="text-center">{{role_form.personal_account}}</td>#}
+{# <td class="text-center">{{role_form.apartment}}</td>#}
+{# <td class="text-center">{{role_form.owners}}</td>#}
+{# <td class="text-center">{{role_form.house}}</td>#}
+{# <td class="text-center">{{role_form.message}}</td>#}
+{# <td class="text-center">{{role_form.application}}</td>#}
+{# <td class="text-center">{{role_form.counter}}</td>#}
+{# <td class="text-center">{{role_form.website}}</td>#}
+{# <td class="text-center">{{role_form.services}}</td>#}
+{# <td class="text-center">{{role_form.tariff}}</td>#}
+{# <td class="text-center">{{role_form.roles}}</td>#}
+{# <td class="text-center">{{role_form.users}}</td>#}
+{# <td class="text-center">{{role_form.payment_details}}</td>#}
                         </tr>
-{#                {% endfor %}#}
+{# {% endfor %}#}
                 {% for role_form in role_formset %}
                         {% for hidden in role_form.hidden_fields %}
                             {{ hidden }}
@@ -109,8 +109,8 @@
         <div class="row">
             <div class="col-xs-12 text-right">
                 <div class="form-group margin-top-15 margin-right-15">
-                    <a href="{% url 'roles' %}" class="btn btn-default">Отменить</a>
-                    <button type="submit" class="btn btn-success">Сохранить</button>
+                    <a href="{% url 'roles' %}" class="btn btn-default">Скасувати</a>
+                    <button type="submit" class="btn btn-success">Зберегти</button>
                 </div>
             </div>
         </div>
@@ -118,10 +118,10 @@
 {% endblock %}
 {% block scripts %}
     <script>
-     $(document).ready(function () {
-{% comment %}    $('#director_row td').each(function () {
+     $(document).ready(function() {
+{% comment %} $('#director_row td').each(function() {
         $(this).attr('disabled','')
-    }){% endcomment %}
+    }) {% endcomment %}
          $('#system_settings').attr('class', 'active treeview menu-open')
         $('#nav_roles').attr('class', 'active')
          })

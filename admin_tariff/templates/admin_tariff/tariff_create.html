@@ -1,14 +1,14 @@
 {% extends 'layout/admin_panel.html' %}
 {% load static %}
-{% block title %}Новый тариф{% endblock %}
+{% block title %}Новий тариф{% endblock %}
 {% block header_text %}
 Тариф
 {% endblock %}
 {% block breadcrumb %}
     <ul class="breadcrumb">
-        <li><a href="{% url 'statistic' %}"><i class="fa fa-home"></i>Главная</a></li>
-        <li><a href="{% url 'tariff_list' %}">Тарифы</a></li>
-        <li class="active">Новый тариф</li>
+        <li><a href="{% url 'statistic' %}"><i class="fa fa-home"></i>Головна</a></li>
+        <li><a href="{% url 'tariff_list' %}">Тарифи</a></li>
+        <li class="active">Новий тариф</li>
 </ul>
 {% endblock %}
 {% block content %}
@@ -20,16 +20,16 @@
             <div class="row">
                 <div class="col-xs-12 col-lg-7">
                     <div class="form-group field-tariff-name {% if form.name.errors %} has-error{% endif %}">
-                        <label class="control-label" for="tariff-name">Название тарифа</label>
-                        {{ form.name }}
+                        <label class="control-label" for="tariff-name">Назва тарифу</label>
+                        {{form.name}}
                             {% if form.name.errors %}
-<em id="id_name-error" class="error help-block">{{ form.name.errors|join:". " }}</em>
+<em id="id_name-error" class="error help-block">{{form.name.errors|join:". " }}</em>
     {% endif %}
                         <div class="help-block"></div>
                     </div>
                     <div class="form-group field-tariff-description">
-                        <label class="control-label" for="tariff-description">Описание тарифа</label>
-                        {{ form.description }}
+                        <label class="control-label" for="tariff-description">Опис тарифу</label>
+                        {{form.description}}
 
                         <div class="help-block"></div>
                     </div>
@@ -40,16 +40,16 @@
                         {{ tariff_service_formset.management_form }}
                         {% for tariff_service in tariff_service_formset %}
                         <div id="form-{{ tariff_service.prefix }}" class="row form-tariff_service">
-                            {{ tariff_service.id }}
+                            {{tariff_service.id}}
                             <div class="col-xs-6 col-md-4">
                                 <div class="form-group" id="service">
-                                    <label for="{{ tariff_service.prefix }}-service_id">Услуга</label>
+                                    <label for="{{ tariff_service.prefix }}-service_id">Послуга</label>
                                     {{ tariff_service.service }}
                                 </div>
                             </div>
                             <div class="col-xs-6 col-md-3">
                                 <div class="form-group">
-                                    <label for="{{ tariff_service.prefix }}-price_unit">Цена</label>
+                                    <label for="{{ tariff_service.prefix }}-price_unit">Ціна</label>
                                     {{ tariff_service.price }}
                                 </div>
                             </div>
@@ -61,16 +61,16 @@
                             </div>
                             <div class="col-xs-6 col-md-3">
                                 <div class="form-group">
-                                    <label for="{{ tariff_service.prefix }}-unit-name">Ед.
-                                        изм.</label>
+                                    <label for="{{ tariff_service.prefix }}-unit-name">Од.
+                                        вим.</label>
                                     <div class="input-group">
                                         <select id="{{ tariff_service.prefix }}-unit-name"
                                                 class="form-control {{ tariff_service.prefix }}-unit-name"
                                                 disabled="">
-                                            <option value="0">Выберите...</option>
+                                            <option value="0">Виберіть...</option>
                                             {% for service in service_list %}
                                                 {% if service.unit %}
-                                                    <option value="{{ service.pk }}">{{ service.unit }}</option>
+                                                    <option value="{{service.pk }}">{{service.unit }}</option>
                                                 {% endif %}
                                             {% endfor %}
                                         </select>
@@ -91,7 +91,7 @@
                     <button type="button"
                             class="btn btn-default btn-hover-change pull-left margin-bottom-15 form-row-add-tariff-service-btn"
                     id="add_tariff_service">
-                        Добавить услугу
+                        Додати послугу
                     </button>
                 </div>
         </div>
@@ -99,13 +99,13 @@
                             {{ tariff_service_formset.empty_form.id }}
                             <div class="col-xs-6 col-md-4">
                                 <div class="form-group" id="service">
-                                    <label for="{{ tariff_service_formset.empty_form.prefix }}-service_id">Услуга</label>
+                                    <label for="{{ tariff_service_formset.empty_form.prefix }}-service_id">Послуга</label>
                                     {{ tariff_service_formset.empty_form.service }}
                                 </div>
                             </div>
                             <div class="col-xs-6 col-md-3">
                                 <div class="form-group">
-                                    <label for="{{ tariff_service_formset.empty_form.prefix }}-price_unit">Цена</label>
+                                    <label for="{{ tariff_service_formset.empty_form.prefix }}-price_unit">Ціна</label>
                                     {{ tariff_service_formset.empty_form.price }}
                                 </div>
                             </div>
@@ -117,16 +117,16 @@
                             </div>
                             <div class="col-xs-6 col-md-3">
                                 <div class="form-group">
-                                    <label for="{{ tariff_service_formset.empty_form.prefix }}-unit-name">Ед.
-                                        изм.</label>
+                                    <label for="{{ tariff_service_formset.empty_form.prefix }}-unit-name">Од.
+                                        вим.</label>
                                     <div class="input-group">
                                         <select id="{{ tariff_service_formset.empty_form.prefix }}-unit-name"
                                                 class="form-control {{ tariff_service_formset.empty_form.prefix }}-unit-name"
                                                 disabled="">
-                                            <option value="0">Выберите...</option>
+                                            <option value="0">Виберіть...</option>
                                             {% for service in service_list %}
                                                 {% if service.unit %}
-                                                    <option value="{{ service.pk }}">{{ service.unit }}</option>
+                                                    <option value="{{service.pk }}">{{service.unit }}</option>
                                                 {% endif %}
                                             {% endfor %}
                                         </select>
@@ -143,8 +143,8 @@
         <div class="row">
             <div class="col-xs-12 col-lg-7 text-right">
                 <div class="form-group">
-                    <a href="{% url 'tariff_list' %}" class="btn btn-default">Отменить</a>
-                    <button type="submit" class="btn btn-success">Сохранить</button>
+                    <a href="{% url 'tariff_list' %}" class="btn btn-default">Скасувати</a>
+                    <button type="submit" class="btn btn-success">Зберегти</button>
                 </div>
             </div>
         </div>
@@ -160,11 +160,11 @@
     </script>
     <script>
     $.validator.addMethod("sRequired", $.validator.methods.required,
-"Пожалуйста выберите услугу");
+"Будь ласка, виберіть послугу");
     $.validator.addMethod("pRequired", $.validator.methods.required,
-"Пожалуйста введите цену");
+"Будь ласка, введіть ціну");
     $.validator.addMethod("pMin", $.validator.methods.min,
-"Цена должна быть больше 0");
+"Ціна має бути більше 0");
 
 $.validator.addClassRules('service', {
         sRequired: true
@@ -177,68 +177,68 @@ jQuery.validator.addClassRules('price', {
     }
     });
             $( "#tariff_form" ).validate( {
-				rules: {
-					name: "required",
-					description: "required",
-				},
-				messages: {
-					name: "Пожалуйста введите название тарифа.",
-					description: "Пожалуйста введите описание тарифа.",
-					username: "Пожалуйста введите правильный email адрес.",
+rules: {
+name: "required",
+description: "відповідно",
+},
+messages: {
+name: "Будь ласка, введіть назву тарифу.",
+description: "Будь ласка, введіть опис тарифу.",
+username: "Будь ласка, введіть правильну адресу електронної пошти.",
                     password1: {
-						minlength: "Ваша пароль должен быть больше 8 символов."
-					},
-					password2: {
-						minlength: "Ваша пароль должен быть больше 8 символов.",
-						equalTo: "Пароли не совпадают."
-					},
+minlength: "Ваш пароль повинен бути більше 8 символів."
+},
+password2: {
+minlength: "Ваш пароль повинен бути більше 8 символів.",
+equalTo: "Паролі не збігаються."
+},
                     phone: {
-						required: "Пожалуйста введите ваш номер телефона.",
-					},
-				},
-				errorElement: "em",
-				errorPlacement: function ( error, element ) {
-					error.addClass( "help-block" );
-					element.parents( ".form-group" ).addClass( "has-feedback" );
-					if ( element.prop( "type" ) === "checkbox" ) {
-						error.insertAfter( element.parent( "label" ) );
-					} else {
-						error.insertAfter( element );
-					}
+required: "Будь ласка, введіть номер телефону.",
+},
+},
+errorElement: "em",
+errorPlacement: function ( error, element ) {
+error.addClass( "help-block");
+element.parents( ".form-group" ).addClass( "has-feedback" );
+if ( element.prop( "type" ) === "checkbox" ) {
+error.insertAfter( element.parent( "label" ) );
+} else {
+error.insertAfter( element );
+}
 
 
-					if ( !element.next( "span" )[ 0 ] ) {
-						$( "<span class='glyphicon glyphicon-remove form-control-feedback'></span>" ).insertAfter( element );
-					}
-				},
-				success: function ( label, element ) {
+if (! element.next ("span") [0]) {
+$( "<span class='glyphicon glyphicon-remove form-control-feedback'></span>" ).insertAfter( element );
+}
+},
+success: function ( label, element ) {
 
-					if ( !$( element ).next( "span" )[ 0 ] ) {
-						$( "<span class='glyphicon glyphicon-ok form-control-feedback'></span>" ).insertAfter( $( element ) );
-					}
-				},
-				highlight: function ( element, errorClass, validClass ) {
-					$( element ).parents( ".form-group" ).addClass( "has-error" ).removeClass( "has-success" );
-					$( element ).next( "span" ).addClass( "glyphicon-remove" ).removeClass( "glyphicon-ok" );
-				},
-				unhighlight: function ( element, errorClass, validClass ) {
-					$( element ).parents( ".form-group" ).addClass( "has-success" ).removeClass( "has-error" );
-					$( element ).next( "span" ).addClass( "glyphicon-ok" ).removeClass( "glyphicon-remove" );
-				}
-			} );
+if ( !$( element ).next( "span" )[ 0 ] ) {
+$( "<span class='glyphicon glyphicon-ok form-control-feedback'></span>" ).insertAfter( $( element ) );
+}
+},
+highlight: function ( element, errorClass, validClass ) {
+$( element ).parents( ".form-group" ).addClass( "has-error" ).removeClass( "has-success" );
+$( element ).next( "span" ).addClass( "glyphicon-remove" ).removeClass( "glyphicon-ok" );
+},
+unhighlight: function ( element, errorClass, validClass ) {
+$( element ).parents( ".form-group" ).addClass( "has-success" ).removeClass( "has-error" );
+$( element ).next( "span" ).addClass( "glyphicon-ok" ).removeClass( "glyphicon-remove" );
+}
+} );
 
-{% comment %}            $(".price").rules("add", {
+{% comment %} $(".price").rules("add", {
   required:true
-});{% endcomment %}
+}); {% endcomment %}
         </script>
 
     <script src="{% static 'admin_panel/js/add_delete_form.js' %}"></script>
 <script>
     const totalTariffServiceForms = $('#id_tariff_service-TOTAL_FORMS')
     $('#add_tariff_service').on('click', function (){add_form('tariff_service','empty-tariff_service',
-        'form-tariff_service-rows',totalTariffServiceForms);service_change(parseInt(totalTariffServiceForms.val()))})
+        'form-tariff_service-rows', totalTariffServiceForms);service_change(parseInt(totalTariffServiceForms.val()))})
     function service_change(count) {
-            $(`#id_tariff_service-${count-1}-service`).change(function () {
+            $(`#id_tariff_service-${count-1}-service`).change(function() {
          let value = $(this).val()
         let unit_select = $(this).closest('.row').find('select').eq(1)
         if ($(unit_select).find(`option[value="${value}"]`).length === 0){

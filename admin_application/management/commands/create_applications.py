@@ -16,7 +16,7 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         def round_dt(dt, minutes):
             return datetime.datetime.min + round((dt - datetime.datetime.min) / minutes) * minutes
-        fake = Faker('ru_RU')
+        fake = Faker('uk_UA')
         masters = User.objects.filter(role__role__in=[Role.RoleName.PLUMBER, Role.RoleName.ELECTRICIAN])
         apartments = Apartment.objects.filter(owner__isnull=False).select_related('owner')
         minutes = datetime.timedelta(minutes=15)
@@ -31,7 +31,7 @@ class Command(BaseCommand):
                 master_type=master.role.role,
                 status=random.choice(Application.StatusName.values),
                 comment=fake.paragraph(nb_sentences=3),
-                description='У меня поломка. Помогите!!!',
+                description='У мене катастрофа. Допоможіть!',
                 date=date.date(),
                 time=round_dt(date, minutes).time(),
             )

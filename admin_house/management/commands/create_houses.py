@@ -37,10 +37,11 @@ class Command(BaseCommand):
 
             for index in range(random.randrange(1, 6)):
                 Section.objects.create(
-                    name=f'Секция {index + 1}',
+                    name=f'Секція {index + 1}',
                     house=house
                 )
                 Floor.objects.create(
-                    name=f'Этаж {index + 1}',
+                    name=f'Поверх {index + 1}',
                     house=house
                 )
+            print(f'House ** {house.name} ** created')

@@ -1,13 +1,13 @@
 {% extends 'layout/admin_panel.html' %}
 {% load static %}
-{% block title %}Профиль владельца{% endblock %}
+{% block title %}Профіль власника{% endblock %}
 {% block header_text %}
-    Профиль владельца
+    Профіль власника
 {% endblock %}
 {% block breadcrumb %}
-    <ul class="breadcrumb"><li><a href="{% url 'statistic' %}"><i class="fa fa-home"></i> Главная</a></li>
-        <li><a href="{% url 'owner_list' %}">Владельцы квартир</a></li>
-    <li class="active">Профиль владельца</li>
+    <ul class="breadcrumb"><li><a href="{% url 'statistic' %}"><i class="fa fa-home"></i> Головна</a></li>
+        <li><a href="{% url 'owner_list' %}">Власники квартир</a></li>
+    <li class="active">Профіль власника</li>
 </ul>
 {% endblock %}
 {% block content %}
@@ -17,9 +17,9 @@
     <div class="box-header with-border">
         <h3 class="box-title"></h3>
         <div class="box-tools">
-            <a href="#" target="_blank" class="btn btn-default btn-sm"><i class="fa fa-external-link"></i> Перейти в кабинет</a>
+            <a href="#" target="_blank" class="btn btn-default btn-sm"><i class="fa fa-external-link"></i> Перейти до кабінету</a>
             <a href="{% url 'owner_update' owner.pk %}" class="btn btn-primary btn-sm">
-                <span class="hidden-xs">Редактировать профиль</span><i class="fa fa-pencil visible-xs" aria-hidden="true"></i>
+                <span class="hidden-xs">Редагувати профіль</span><i class="fa fa-pencil visible-xs" aria-hidden="true"></i>
             </a>
         </div>
     </div>
@@ -29,7 +29,7 @@
                 <div class="userAvatar">
                     <img class="img-circle img-responsive"
                          {% if owner.profile_image %}
-                         src="{{ owner.profile_image.url }}"
+                         src="{{owner.profile_image.url}}"
                          {% else %}
                             src="{% static 'admin_panel/dist/img/placeholder_160x160.jpeg' %}"
                             {% endif %}
@@ -40,53 +40,53 @@
                         <tbody>
                             <tr>
                                 <td>Статус</td>
-                                <td><small id="status" class="label {{ owner.get_status_label_color }}">
-                                    {{ owner.status }}</small></td>
+                                <td><small id="status" class="label {{owner.get_status_label_color }}">
+                                    {{owner.status}}</small></td>
                             </tr>
                             <tr>
                                 <td>ID</td>
-                                <td>{{ owner.uid }}</td>
+                                <td>{{owner.uid}}</td>
                             </tr>
                             <tr>
-                                <td>Фамилия</td>
-                                <td>{{ owner.last_name }}</td>
+                                <td>Прізвище</td>
+                                <td>{{owner.last_name}}</td>
                             </tr>
                             <tr>
-                                <td>Имя</td>
-                                <td>{{ owner.first_name }}</td>
+                                <td>Ім'я</td>
+                                <td>{{owner.first_name}}</td>
                             </tr>
                             <tr>
-                                <td>Отчество</td>
-                                <td>{{ owner.middle_name }}</td>
+                                <td>По батькові</td>
+                                <td>{{owner.middle_name}}</td>
                             </tr>
                             <tr>
-                                <td>Дата рождения</td>
-                                <td>{{ owner.birth_date|date:'d.m.Y' }}</td>
+                                <td>Дата народження</td>
+                                <td>{{owner.birth_date|date:'d.m.Y'}}</td>
                             </tr>
                             <tr>
-                                <td>О владельце (заметки)</td>
-                                <td>{{ owner.notes }}</td>
+                                <td>Про власника (нотатки)</td>
+                                <td>{{owner.notes}}</td>
                             </tr>
                             <tr>
                                 <td>Телефон</td>
                                 <td>
-                                    {{ owner.phone }}
+                                    {{owner.phone}}
                                     <!--<a href="tel:">-->
                                                                             <!--</a>-->
                                 </td>
                             </tr>
                             <tr>
                                 <td>Viber</td>
-                                <td>{{ owner.viber }}</td>
+                                <td>{{owner.viber}}</td>
                             </tr>
                             <tr>
                                 <td>Telegram</td>
-                                <td>{{ owner.telegram }}</td>
+                                <td>{{owner.telegram}}</td>
                             </tr>
                             <tr>
                                 <td>Email</td>
                                 <td>
-                                    {{ owner.username }}
+                                    {{owner.username}}
                                 </td>
                             </tr>
                         </tbody>
@@ -98,7 +98,7 @@
 </div>
 
 {% endblock %}
-{% block  scripts%}
+{% block scripts%}
     <script>
         $('#nav_owners').attr('class', 'active')
     </script>

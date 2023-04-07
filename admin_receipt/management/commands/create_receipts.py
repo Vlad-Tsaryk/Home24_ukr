@@ -15,7 +15,7 @@ class Command(BaseCommand):
         parser.add_argument('month', type=int, help='month of receipt creation')
 
     def handle(self, *args, **options):
-        fake = Faker('ru_RU')
+        fake = Faker('uk_UA')
         personal_accounts = PersonalAccount.objects.filter(apartment__isnull=False).select_related('apartment__tariff')
         receipt_last_pk = 1
         if Receipt.objects.exists():

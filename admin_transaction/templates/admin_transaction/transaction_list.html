@@ -4,22 +4,22 @@
     <link rel="stylesheet" type="text/css"
           href="{% static 'admin_panel/bower_components/daterangepicker/daterangepicker.css' %}"/>
 {% endblock %}
-{% block title %}Касса{% endblock %}
+{% block title %} Каса {% endblock %}
 {% block breadcrumb %}
     <ul class="breadcrumb">
-        <li><a href="{% url 'statistic' %}"><i class="fa fa-home"></i>Главная</a></li>
-        <li class="active">Касса</li>
+        <li><a href="{% url 'statistic' %}"><i class="fa fa-home"></i>Головна</a></li>
+        <li class="active">Каса</li>
     </ul>
 {% endblock %}
 {% block header_text %}
-    Касса
+    Каса
 {% endblock %}
 {% block content %}
 
 
     <div class="row">
         <!--<div class="col-xs-12 col-sm-6">-->
-        <!--<h2 class="page-header">Квартиры</h2>-->
+        <!--<h2 class="page-header">Квартири</h2>-->
         <!--</div>-->
         <div class="col-xs-12 col-lg-9">
 
@@ -28,36 +28,36 @@
                     <div class="small-box bg-green overflow-hidden">
                         <div class="inner">
                             <h3>{{ transactions_total_balance|floatformat:'2' }} грн</h3>
-                            <p>Состояние кассы</p>
+                            <p>Стан каси</p>
                         </div>
                         <div class="icon">
                             <i class="fa fa-dollar"></i>
                         </div>
-                        <!--<span class="small-box-footer">&nbsp;</span>-->
+                        <!--<span class="small-box-footer"> </span>-->
                     </div>
                 </div>
                 <div class="col-xs-12 col-md-4">
                     <div class="small-box bg-blue overflow-hidden">
                         <div class="inner">
                             <h3>{{ account_total_balance|floatformat:'2' }} грн</h3>
-                            <p>Баланс по счетам</p>
+                            <p>Баланс за рахунками</p>
                         </div>
                         <div class="icon">
                             <i class="fa fa-dollar"></i>
                         </div>
-                        <!--<span class="small-box-footer">&nbsp;</span>-->
+                        <!--<span class="small-box-footer"> </span>-->
                     </div>
                 </div>
                 <div class="col-xs-12 col-md-4">
                     <div class="small-box bg-red overflow-hidden">
                         <div class="inner">
                             <h3>{{ account_total_debt|floatformat:'2' }} грн</h3>
-                            <p>Задолженность по счетам</p>
+                            <p>Заборгованість за рахунками</p>
                         </div>
                         <div class="icon">
                             <i class="fa fa-dollar"></i>
                         </div>
-                        <!--<span class="small-box-footer">&nbsp;</span>-->
+                        <!--<span class="small-box-footer"> </span>-->
                     </div>
                 </div>
             </div>
@@ -66,12 +66,12 @@
             <div class="btn-group pull-right margin-bottom">
                 <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown"
                         aria-haspopup="true" aria-expanded="false">
-                    Выберите действие <span class="caret"></span>
+                    Виберіть дію <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu">
-                    <li><a href="{% url 'transaction_create' transaction_type='income' %}">Создать приход</a></li>
-                    <li><a href="{% url 'transaction_create' transaction_type='outcome' %}">Создать расход</a></li>
-                    <li><a onclick="to_excel()" style="cursor: pointer">Выгрузить в Excel</a></li>
+                    <li><a href="{% url 'transaction_create' transaction_type='income' %}">Створити парафію</a></li>
+                    <li><a href="{% url 'transaction_create' transaction_type='outcome' %}">Створити витрати</a></li>
+                    <li><a onclick="to_excel()" style="cursor: pointer">Вивантажити в Excel</a></li>
                 </ul>
             </div>
         </div>
@@ -83,7 +83,7 @@
                     <h3 class="box-title"></h3>
                     <div class="box-tools">
                         <button onclick="clear_filters()" class="btn btn-default btn-sm">
-                            <span class="hidden-xs">Очистить</span><i class="fa fa-eraser visible-xs"
+                            <span class="hidden-xs">Очистити</span><i class="fa fa-eraser visible-xs"
                                                                       aria-hidden="true"></i>
                         </button>
                     </div>
@@ -98,12 +98,12 @@
                                 <th style="width: 125px; min-width: 125px">
                                     <a id="date" class="ordering" style="cursor: pointer">Дата</a></th>
                                 <th style="width: 120px; min-width: 120px">Статус</th>
-                                <th>Тип платежа</th>
-                                <th style="min-width: 200px">Владелец</th>
-                                <th style="min-width: 160px">Лицевой счет</th>
-                                <th>Приход/расход</th>
-                                <th style="width: 110px; min-width: 110px">Сумма (грн)</th>
-                                <th style="width: 80px; min-width: 80px">&nbsp;</th>
+                                <th>Тип платежу</th>
+                                <th style="min-width: 200px">Власник</th>
+                                <th style="min-width: 160px">Обліковий рахунок</th>
+                                <th>Прихід/витрата</th>
+                                <th style="width: 110px; min-width: 110px">Сума (грн)</th>
+                                <th style="width: 80px; min-width: 80px"> </th>
                             </tr>
                             <tr id="w0-filters" class="filters">
                                 <td><input type="text" class="form-control column_search" id="number"></td>
@@ -112,8 +112,8 @@
                                 <td><select id="is_complete"
                                             class="form-control select2 filter">
                                     <option value=""></option>
-                                    <option value="1">Проведен</option>
-                                    <option value="0">Не проведен</option>
+                                    <option value="1">Проведено</option>
+                                    <option value="0">Не проведено</option>
                                 </select></td>
                                 <td><select id="purpose"
                                             class="form-control select2 filter">
@@ -134,11 +134,11 @@
                                 <td><select id="purpose_type"
                                             class="form-control select2 filter">
                                     <option value=""></option>
-                                    <option value="1">Приход</option>
-                                    <option value="0">Расход</option>
+                                    <option value="1">Прихід</option>
+                                    <option value="0">Витрата</option>
                                 </select></td>
-                                <td>&nbsp;</td>
-                                <td>&nbsp;</td>
+                                <td> </td>
+                                <td> </td>
                             </tr>
                             </thead>
                             <tbody>
@@ -152,8 +152,8 @@
                     </div>
                 </div>
                 <div class="box-footer">
-                    <div>Проведен приход: <span class="text-bold" id="income"></span></div>
-                    <div>Проведен расход: <span class="text-bold" id="outcome"></span></div>
+                    <div>Проведено прихід: <span class="text-bold" id="income"></span></div>
+                    <div>Проведено витрати: <span class="text-bold" id="outcome"></span></div>
                 </div>
 
             </div>
@@ -167,12 +167,12 @@
     </script>
 
     <script src="{% static 'admin_panel/bower_components/select2/dist/js/select2.full.min.js' %}"></script>
-    <script src="{% static 'admin_panel/bower_components/select2/dist/js/i18n/ru.min.js' %}"></script>
+    <script src="{% static 'admin_panel/bower_components/select2/dist/js/i18n/uk.js' %}"></script>
     <script src="{% static 'admin_panel/bower_components/datatables.net/js/jquery.dataTables.min.js' %}"></script>
     <script src="{% static 'admin_panel/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js' %}"></script>
 
     <script src="{% static 'admin_panel/bower_components/moment/moment.js' %}"></script>
-    <script src="{% static 'admin_panel/bower_components/moment/locale/ru.js' %}"></script>
+    <script src="{% static 'admin_panel/bower_components/moment/locale/uk.js' %}"></script>
     <script type="text/javascript"
             src="{% static 'admin_panel/bower_components/daterangepicker/daterangepicker.js' %}"></script>
     <script>
@@ -181,8 +181,8 @@
         let table
         let table_head = $('#transaction_table thead')
         let label_colors = {
-            'Проведен': 'label-success',
-            'Не проведен': 'label-danger',
+            'Проведено': 'label-success',
+            'Не проведено': 'label-danger',
         }
 
         function numberWithSpaces(nr) {
@@ -190,8 +190,8 @@
         }
 
         function check_empty(data) {
-            if (data){
-                if (data.length > 3){
+            if (data) {
+                if (data.length > 3) {
                     return data
                 }
                 }
@@ -230,7 +230,7 @@
                 processing: false,
                 ordering: false,
                 oLanguage: {
-                    sZeroRecords: "Ничего не найдено."
+                    sZeroRecords: "Нічого не знайдено."
                 },
                 columnDefs: [
                     {className: "application", "targets": [0, 1, 2, 3, 4, 5, 6, 7]},
@@ -246,8 +246,8 @@
                         if (data['purposes']) {
                             set_options(data['purposes'], 'purpose')
                         }
-                        $('#outcome').text(check_empty(data['outcome']) + ' грн')
-                        $('#income').text(check_empty(data['income']) + ' грн')
+                        $('#outcome').text(check_empty(data['outcome']) + 'грн')
+                        $('#income').text(check_empty(data['income']) + 'грн')
                         console.log(data)
                         return data['transaction']
                     },
@@ -264,9 +264,9 @@
                         data: 'is_complete',
                         render: function (data) {
                             if (data) {
-                                return '<small class="label label-success">Проведен</small>'
+                                return '<small class="label label-success">Проведено</small>'
                             } else {
-                                return '<small class="label label-danger">Не проведен</small>'
+                                return '<small class="label label-danger">Не проведено</small>'
                             }
                         }
                     },
@@ -288,9 +288,9 @@
                         data: 'type',
                         render: function (data) {
                             if (data) {
-                                return '<span class="text text-green">Приход</span>'
+                                return '<span class="text text-green">Прихід</span>'
                             } else {
-                                return '<span class="text text-red">Расход</span>'
+                                return '<span class="text text-red">Витрата</span>'
                             }
 
                         }
@@ -315,11 +315,11 @@
                             let link_update = '{% url 'transaction_update' 12345 %}'.replace(/12345/, data)
                             return `<div class="btn-group pull-right">\
             <a class="btn btn-default btn-sm" href="${link_update}"\
-               title="Редактировать" data-toggle="tooltip">\
+               title="Редагувати" data-toggle="tooltip">\
                 <i class="fa fa-pencil"></i>\
             </a>\
             <a class="btn btn-default btn-sm"\
-               title="Удалить" data-toggle="tooltip" data-pjax="0" data-method="post"\
+               title="Видалити" data-toggle="tooltip" data-pjax="0" data-method="post"\
                 onclick="return confirm_delete('${link_delete}',event);">\
                 <i class="fa fa-trash"></i>\
             </a>\
@@ -342,7 +342,7 @@
             table_head.on('change', ".filter", function a(e) {
                 sort_data[this.id] = $(this).val()
                 numb = 0
-                {% comment %}                if (this.id==="purpose_type"){
+                {% comment %} if (this.id==="purpose_type"){
                                     sort_data['purpose_type_change'] = 'True'
                                     table.draw()
                                     sort_data['purpose_type_change'] = ''
@@ -357,7 +357,7 @@
                 numb = 0
                 table.draw()
             });
-            table_head.on('click', '.ordering', function () {
+            table_head.on('click', '.ordering', function() {
                 if (this.className === 'ordering asc') {
                     $(this).attr('class', 'ordering desc')
                     sort_data['order_by'] = '-' + this.id
@@ -372,13 +372,13 @@
 
         }
         function confirm_delete(link,event) {
-            alertify.confirm('Подтверждение удаления', 'Удалить ведомость <b>№'+
+            alertify.confirm('Підтвердження видалення', 'Видалити відомості <b>№'+
             + $(event.target).closest("tr ").children().eq(0).text() + '</b> ?',
                 function () {
                     window.location.href = link
                 },
                 function () {
-                }).set({labels: {ok: 'Подтвердить', cancel: 'Отмена'}});
+                }).set({labels: {ok: 'Підтвердити', cancel: 'Скасувати'}});
             return false;
         }
 
@@ -388,7 +388,7 @@
         })
 
 
-        $(document).ready(function () {
+        $(document).ready(function() {
             $('.column_search').val('');
             $('.select2').select2().val('');
             {% if view.kwargs.personal_account %}
@@ -405,14 +405,14 @@
                     autoUpdateInput: false,
                     locale: {
 
-                        cancelLabel: 'Отменить',
-                        applyLabel: 'Применить'
+                        cancelLabel: 'Скасувати',
+                        applyLabel: 'Застосувати'
                     },
                     applyButtonClasses: 'btn btn-success',
                     cancelButtonClasses: 'btn btn-default',
                 });
                 input.on('apply.daterangepicker', function (ev, picker) {
-                    $(this).val(picker.startDate.format('DD/MM/YYYY') + ' - ' + picker.endDate.format('DD/MM/YYYY'));
+                    $(this).val(picker.startDate.format('DD/MM/YYYY') + '-' + picker.endDate.format('DD/MM/YYYY'));
                     sort_data['date_range'] = [picker.startDate.format('YYYY-MM-DD'), picker.endDate.format('YYYY-MM-DD')]
                     console.log(sort_data[this.id])
                     numb = 0

@@ -1,14 +1,14 @@
 {% extends 'layout/admin_panel.html' %}
-{% block title %}Квитанция{% endblock %}
+{% block title %}Квитанція{% endblock %}
 {% block breadcrumb %}
     <ul class="breadcrumb">
-        <li><a href="{% url 'statistic' %}"><i class="fa fa-home"></i>Главная</a></li>
-        <li><a href="{% url 'receipt_list' %}">Квитанции</a></li>
-        <li class="active">Квитанция №{{ receipt.number }}</li>
+        <li><a href="{% url 'statistic' %}"><i class="fa fa-home"></i>Головна</a></li>
+        <li><a href="{% url 'receipt_list' %}">Квитанції</a></li>
+        <li class="active">Квитанція №{{ receipt.number }}</li>
     </ul>
 {% endblock %}
 {% block header_text %}
-    Квитанция
+    Квитанція
 {% endblock %}
 {% block content %}
 
@@ -24,13 +24,13 @@
                         <div class="form-control pull-right">{{ receipt.number }}</div>
                     </div>
                 </div>
-                <span class="label-mid">от</span>
+                <span class="label-mid">від</span>
                 <div class="form-group">
                     <div class="input-group date">
                         <div class="input-group-addon">
                             <i class="glyphicon glyphicon-calendar"></i>
                         </div>
-                        <div class="form-control pull-right">{{ receipt.date|date:'d.m.Y' }}</div>
+                        <div class="form-control pull-right">{{receipt.date|date:'d.m.Y'}}</div>
                     </div>
                 </div>
             </div>
@@ -38,17 +38,17 @@
     </div>
     <div class="box">
         <div class="box-header with-border">
-            <h3 class="box-title">Просмотр квитанции</h3>
+            <h3 class="box-title">Перегляд квитанції</h3>
             <div class="box-tools">
                 <a href="{% url 'excel-template-print' receipt.pk %}" class="btn btn-default btn-sm">
-                    <span class="hidden-xs">Печать</span><i class="fa fa-print visible-xs" aria-hidden="true"></i>
+                    <span class="hidden-xs">Друк</span><i class="fa fa-print visible-xs" aria-hidden="true"></i>
                 </a>
                 <a href="{% url 'excel-template-print' receipt.pk %}" class="btn btn-default btn-sm">
-                    <span class="hidden-xs">Отправить на e-mail</span><i class="fa fa-envelope-o visible-xs"
+                    <span class="hidden-xs">Надіслати на e-mail</span><i class="fa fa-envelope-o visible-xs"
                                                                          aria-hidden="true"></i>
                 </a>
                 <a href="{% url 'receipt_update' receipt.pk %}" class="btn btn-primary btn-sm">
-                    <span class="hidden-xs">Редактировать квитанцию</span><i class="fa fa-pencil visible-xs"
+                    <span class="hidden-xs">Редагувати квитанцію</span><i class="fa fa-pencil visible-xs"
                                                                              aria-hidden="true"></i>
                 </a>
             </div>
@@ -57,10 +57,10 @@
             <table class="table table-bordered table-striped table-view">
                 <tbody>
                 <tr>
-                    <td>{% if receipt.is_complete %}Проведена{% else %}Не проведена{% endif %}</td>
+                    <td>{% if receipt.is_complete %}Проведено{% else %}Не проведено{% endif %}</td>
                     <td>
                         <small class="label label-{% if receipt.is_complete %}success{% else %}danger{% endif %}">
-                            {% if receipt.is_complete %}Проведена{% else %}Не проведена{% endif %}</small>
+                            {% if receipt.is_complete %}Проведено{% else %}Не проведено{% endif %}</small>
                     </td>
                 </tr>
                 <tr>
@@ -72,20 +72,20 @@
                     </td>
                 </tr>
                 <tr>
-                    <td>Период</td>
+                    <td>Період</td>
                     <td>
-                        {{ receipt.period_start|date:'d.m.Y' }} - {{ receipt.period_end|date:'d.m.Y' }}
+                        {{receipt.period_start|date:'d.m.Y'}} - {{ receipt.period_end|date:'d.m.Y'}}
                     </td>
                 </tr>
                 <tr>
-                    <td>Владелец</td>
+                    <td>Власник</td>
                     <td>
                         <a href="{% url 'owner_view' receipt.personal_account.apartment.owner_id %}">
                             {{ receipt.personal_account.apartment.owner }} </a>
                     </td>
                 </tr>
                 <tr>
-                    <td>Лицевой счет</td>
+                    <td>Обліковий рахунок</td>
                     <td>
                         <a href="{% url 'personal_account_view' receipt.personal_account.pk %}">
                             {{ receipt.personal_account }} </a>
@@ -96,10 +96,10 @@
                     <td>{{ receipt.personal_account.apartment.owner.phone }}</td>
                 </tr>
                 <tr>
-                    <td>Дом</td>
+                    <td>Будинок</td>
                     <td>
                         <a href="{% url 'house_view' receipt.personal_account.apartment.house_id %}">
-                            {{ receipt.personal_account.apartment.house }} </a>
+                            {{receipt.personal_account.apartment.house}}</a>
                     </td>
                 </tr>
                 <tr>
@@ -110,13 +110,13 @@
                     </td>
                 </tr>
                 <tr>
-                    <td>Секция</td>
+                    <td>Секція</td>
                     <td>{{ receipt.personal_account.apartment.section }}</td>
                 </tr>
                 <tr>
                     <td>Тариф</td>
                     <td>
-                        {{ receipt.tariff }}
+                        {{receipt.tariff}}
                     </td>
                 </tr>
                 </tbody>
@@ -126,28 +126,28 @@
                     <thead>
                     <tr>
                         <th style="width: 40px; min-width: 40px;">#</th>
-                        <th>Услуга</th>
-                        <th>Количество потребления (расход)</th>
-                        <th style="width: 80px; min-width: 80px;">Ед. изм.</th>
-                        <th>Цена за ед., грн</th>
-                        <th>Стоимость, грн</th>
+                        <th>Послуга</th>
+                        <th>Кількість споживання (витрата)</th>
+                        <th style="width: 80px; min-width: 80px;">Од. вим.</th>
+                        <th>Ціна за од., грн</th>
+                        <th>Вартість, грн</th>
                     </tr>
                     </thead>
                     <tfoot>
                     <tr>
                         <td colspan="5"></td>
-                        <td colspan="2"><b>Итого: {{ receipt.total_price|floatformat:'2'}}</b></td>
+                        <td colspan="2"><b>Разом: {{ receipt.total_price|floatformat:'2'}}</b></td>
                     </tr>
                     </tfoot>
                     <tbody>
                     {% for receipt_service in receipt.receiptservice_set.all %}
                     <tr role="row">
-                        <td>{{ forloop.counter }}</td>
+                        <td>{{forloop.counter}}</td>
                         <td>{{ receipt_service.service }}</td>
                         <td>{{ receipt_service.consumption }}</td>
                         <td>{{ receipt_service.service.unit }}</td>
                         <td>{{ receipt_service.price_unit }}</td>
-                        <td>{{ receipt_service.price}}</td>
+                        <td>{{receipt_service.price}}</td>
                     </tr>
                     {% endfor %}
                     </tbody>

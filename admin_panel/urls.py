@@ -25,7 +25,6 @@ urlpatterns = [
     path('message/', include('admin_messages.urls')),
     path('website/', include('admin_website.urls')),
     path('payment_details/', PaymentDetailsUpdate.as_view(), name='payment_details_update'),
-
 ]
 
 handler404 = 'admin_panel.views.error_404'

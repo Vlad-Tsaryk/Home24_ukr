@@ -1,14 +1,14 @@
 {% extends 'layout/admin_panel.html' %}
 {% load static %}
-{% block title %}Заявки вызова мастера{% endblock %}
+{% block title %}Заявки виклику майстра{% endblock %}
 {% block breadcrumb %}
     <ul class="breadcrumb">
-        <li><a href="{% url 'statistic' %}"><i class="fa fa-home"></i>Главная</a></li>
-        <li class="active">Заявки вызова мастера</li>
+        <li><a href="{% url 'statistic' %}"><i class="fa fa-home"></i>Головна</a></li>
+        <li class="active">Заявки виклику майстра</li>
     </ul>
 {% endblock %}
 {% block header_text %}
-    Заявки вызова мастера
+    Заявки виклику майстра
 {% endblock %}
 {% block head %}
     <link rel="stylesheet" type="text/css" href="{% static 'admin_panel/bower_components/daterangepicker/daterangepicker.css' %}" />
@@ -18,12 +18,12 @@
 
     <div class="row">
         <!--<div class="col-xs-12 col-sm-6">-->
-        <!--<h2 class="page-header">Вызов мастера</h2>-->
+        <!--<h2 class="page-header">Виклик майстра</h2>-->
         <!--</div>-->
         <div class="col-xs-12">
 
             <div class="pull-right margin-bottom">
-                <a class="btn btn-success" href="{% url 'application_create' %}">Добавить заявку</a>
+                <a class="btn btn-success" href="{% url 'application_create' %}">Додати заявку</a>
             </div>
         </div>
     </div>
@@ -34,7 +34,7 @@
                     <h3 class="box-title"></h3>
                     <div class="box-tools">
                         <button onclick="clear_filters()" class="btn btn-default btn-sm">
-                            <span class="hidden-xs">Очистить</span><i class="fa fa-eraser visible-xs" aria-hidden="true"></i>
+                            <span class="hidden-xs">Очистити</span><i class="fa fa-eraser visible-xs" aria-hidden="true"></i>
                         </button>
                     </div>
                 </div>
@@ -48,16 +48,16 @@
                                     <a id="pk" class="ordering desc" style="cursor: pointer">№ заявки</a></th>
                                 <th style="width: auto; min-width: 135px">
                                     <a id="apartment__number" class="ordering" style="cursor: pointer">
-                                        Удобное время</a></th>
+                                        Зручний час</a></th>
                                 <th style="min-width: 125px">
-                                    <a id="id" class="ordering" style="cursor: pointer">Тип мастера</a></th>
-                                <th style="min-width: 100px">Описание</th>
+                                    <a id="id" class="ordering" style="cursor: pointer">Тип майстра</a></th>
+                                <th style="min-width: 100px">Опис</th>
                                 <th>Квартира</th>
-                                <th style="min-width: 200px">Владелец</th>
+                                <th style="min-width: 200px">Власник</th>
                                 <th>Телефон</th>
-                                <th style="min-width: 125px">Мастер</th>
+                                <th style="min-width: 125px">Майстер</th>
                                 <th style="width: auto; min-width: 135px">Статус</th>
-                                <th style="width: auto; min-width: 80px">&nbsp;</th>
+                                <th style="width: auto; min-width: 80px"> </th>
                             </tr>
                             <tr id="w0-filters" class="filters">
                                 <td><input type="text" class="form-control column_search" id="id"></td>
@@ -85,7 +85,7 @@
                                             class="form-control select2 filter">
                                     <option value=""></option>
                                     {% for master in master_list %}
-                                                <option value="{{ master.pk }}">{{ master.role.role }} - {{ master }}</option>
+                                                <option value="{{master.pk}}">{{master.role.role}} - {{master}}</option>
                                     {% endfor %}
                                 </select></td>
                                 <td> <select id="status"
@@ -95,7 +95,7 @@
                                             <option value="{{ status }}">{{ status }}</option>
                                     {% endfor %}
                                 </select></td>
-                                <td>&nbsp;</td>
+                                <td> </td>
                             </tr>
                             </thead>
                             <tbody>
@@ -118,12 +118,12 @@
     </script>
 
     <script src="{% static 'admin_panel/bower_components/select2/dist/js/select2.full.min.js' %}"></script>
-    <script src="{% static 'admin_panel/bower_components/select2/dist/js/i18n/ru.min.js' %}"></script>
+    <script src="{% static 'admin_panel/bower_components/select2/dist/js/i18n/uk.js' %}"></script>
     <script src="{% static 'admin_panel/bower_components/datatables.net/js/jquery.dataTables.min.js' %}"></script>
     <script src="{% static 'admin_panel/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js' %}"></script>
 
    <script src="{% static 'admin_panel/bower_components/moment/moment.js' %}"></script>
-    <script src="{% static 'admin_panel/bower_components/moment/locale/ru.js' %}"></script>
+    <script src="{% static 'admin_panel/bower_components/moment/locale/uk.js' %}"></script>
     <script type="text/javascript"
             src="{% static 'admin_panel/bower_components/daterangepicker/daterangepicker.js' %}"></script>
     <script>
@@ -132,15 +132,15 @@
         let table
         let table_head = $('#application_table thead')
         let label_colors = {
-            'Выполнено': 'label-success',
-            'В работе': 'label-primary',
-            'Новое': 'label-warning',
+            'Виконано': 'label-success',
+            'У роботі': 'label-primary',
+            'Нове': 'label-warning',
         }
 
         function check_empty(data) {
             if (data) {
                 return data
-            } else return '(не задано)'
+            } else return '(не вказано)'
         }
 
         function set_options(data, target_id) {
@@ -156,9 +156,9 @@
             $('.date_range').val('');
             table_head.unbind();
             $('.filter').val('').change()
-{% comment %}            filters_array.forEach(function (item) {
+{% comment %} filters_array.forEach(function (item) {
                 item.val('').change()
-            }){% endcomment %}
+            }) {% endcomment %}
             $('.ordering').attr('class', 'ordering');
             set_filters_listener()
             let keys = Object.keys(sort_data)
@@ -178,7 +178,7 @@
                 processing: false,
                 ordering: false,
                 oLanguage: {
-                    sZeroRecords: "Ничего не найдено."
+                    sZeroRecords: "Нічого не знайдено."
                 },
                 columnDefs: [
                     {className: "application", "targets": [0, 1, 2, 3, 4, 5,6,7,8]},
@@ -241,11 +241,11 @@
                             let link_update = '{% url 'application_update' 12345 %}'.replace(/12345/, data)
                             return `<div class="btn-group pull-right">\
             <a class="btn btn-default btn-sm" href="${link_update}"\
-               title="Редактировать" data-toggle="tooltip">\
+               title="Редагувати" data-toggle="tooltip">\
                 <i class="fa fa-pencil"></i>\
             </a>\
             <a class="btn btn-default btn-sm"\
-               title="Удалить" data-toggle="tooltip" data-pjax="0" data-method="post"\
+               title="Видалити" data-toggle="tooltip" data-pjax="0" data-method="post"\
                 onclick="return confirm_delete('${link_delete}',event);">\
                 <i class="fa fa-trash"></i>\
             </a>\
@@ -282,7 +282,7 @@
                 numb = 0
                 table.draw()
             });
-            table_head.on('click', '.ordering', function () {
+            table_head.on('click', '.ordering', function() {
                 if (this.className === 'ordering asc') {
                     $(this).attr('class', 'ordering desc')
                     sort_data['order_by'] = '-' + this.id
@@ -299,13 +299,13 @@
 
 
         function confirm_delete(link, event) {
-            alertify.confirm('Подтверждение удаления', 'Удалить заявку <b>№'
+            alertify.confirm('Підтвердження видалення', 'Видалити заявку <b>№'
                 + $(event.target).closest("tr ").children().eq(0).text() + '</b> ?',
                 function () {
                     window.location.href = link
                 },
                 function () {
-                }).set({labels: {ok: 'Подтвердить', cancel: 'Отмена'}});
+                }).set({labels: {ok: 'Підтвердити', cancel: 'Скасувати'}});
             return false;
         }
 
@@ -315,7 +315,7 @@
                 })
 
 
-        $(document).ready(function () {
+        $(document).ready(function() {
 
             send_POST();
             $('.column_search').val('');
@@ -327,14 +327,14 @@
                     autoUpdateInput: false,
                     locale: {
 
-                        cancelLabel: 'Отменить',
-                        applyLabel: 'Применить'
+                        cancelLabel: 'Скасувати',
+                        applyLabel: 'Застосувати'
                     },
                     applyButtonClasses:'btn btn-success',
                     cancelButtonClasses:'btn btn-default',
                 });
                 input.on('apply.daterangepicker', function (ev, picker) {
-                    $(this).val(picker.startDate.format('DD/MM/YYYY') + ' - ' + picker.endDate.format('DD/MM/YYYY'));
+                    $(this).val(picker.startDate.format('DD/MM/YYYY') + '-' + picker.endDate.format('DD/MM/YYYY'));
                     sort_data['date_range'] = [picker.startDate.format('YYYY-MM-DD'), picker.endDate.format('YYYY-MM-DD')]
                     console.log(sort_data[this.id])
                     numb = 0

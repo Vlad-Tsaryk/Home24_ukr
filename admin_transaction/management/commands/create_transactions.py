@@ -16,7 +16,7 @@ class Command(BaseCommand):
         parser.add_argument('month', type=int, help='month of receipt creation')
 
     def handle(self, *args, **options):
-        fake = Faker('ru_RU')
+        fake = Faker('uk_UA')
         date = datetime.date.today()
         set_date = datetime.date(day=date.day, month=options['month'], year=date.year)
         managers = User.objects.filter(role__role__in=[Role.RoleName.DIRECTOR, Role.RoleName.MANAGER,
@@ -43,7 +43,7 @@ class Command(BaseCommand):
                 is_complete=fake.boolean(chance_of_getting_true=75),
                 date=set_date,
                 number=str(transaction_last_pk + index).zfill(11),
-                comment='Созданная транзакция',
+                comment='Створена транзакція',
                 type=purpose_type,
             )
         print(f'Transaction created: {options["number"]}')

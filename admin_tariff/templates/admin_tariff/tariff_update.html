@@ -1,10 +1,10 @@
 {% extends 'admin_tariff/tariff_create.html' %}
-{% block title %}Редактирование тарифа{% endblock %}
+{% block title %}Редагування тарифу{% endblock %}
 {% block breadcrumb %}
         <ul class="breadcrumb">
-        <li><a href="{% url 'statistic' %}"><i class="fa fa-home"></i>Главная</a></li>
-        <li><a href="{% url 'tariff_list' %}">Тарифы</a></li>
+        <li><a href="{% url 'statistic' %}"><i class="fa fa-home"></i>Головна</a></li>
+        <li><a href="{% url 'tariff_list' %}">Тарифи</a></li>
         <li><a href="{% url 'tariff_view' tariff.pk %}">Тариф</a></li>
-        <li class="active">Редактирование</li>
+        <li class="active">Редагування</li>
 </ul>
 {% endblock %}

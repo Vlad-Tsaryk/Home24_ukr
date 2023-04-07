@@ -1,16 +1,16 @@
 {% extends 'admin_meter/meter_create.html' %}
-{% block title %}Показание счетчикa{% endblock %}
+{% block title %} Показ лічильника {% endblock %}
 {% block breadcrumb %}
         <ul class="breadcrumb">
-        <li><a href="{% url 'statistic' %}"><i class="fa fa-home"></i>Главная</a></li>
-        <li><a href="{% url 'meter-list' %}">Счетчики</a></li>
-        <li><a href="{% url 'meter-view-list-serv' meter.apartment_id meter.service_id %}">Показания счетчиков, кв.{{ meter.apartment.number}}</a></li>
-        <li><a href="{% url 'meter-view' meter.pk %}">Показание счетчикa №{{ meter.number }}</a></li>
-        <li class="active">Редактирование</li>
+        <li><a href="{% url 'statistic' %}"><i class="fa fa-home"></i>Головна</a></li>
+        <li><a href="{% url 'meter-list' %}">Лічильники</a></li>
+        <li><a href="{% url 'meter-view-list-serv' meter.apartment_id meter.service_id %}">Покази лічильників, кв.{{ meter.apartment.number}}</a></li>
+        <li><a href="{% url 'meter-view' meter.pk %}">Показ лічильника №{{ meter.number }}</a></li>
+        <li class="active">Редагування</li>
 </ul>
 {% endblock %}
 {% block header_text %}
-    Показание счетчикa
+    Показ лічильника
 {% endblock %}
 {% block clone %}
     let apartment_id = {{meter.apartment_id}}

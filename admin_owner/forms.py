@@ -20,7 +20,7 @@ class OwnerCreateForm(UserCreationForm):
                                 , required=True)
     phone = PhoneNumberField(widget=forms.TextInput(attrs={'class': 'form-control'})
                              , required=False)
-    phone.error_messages['invalid'] = "Введите корректный номер телефона."
+    phone.error_messages['invalid'] = "Введіть коректний номер телефону."
     # role = forms.ChoiceField(widget=forms.Select(attrs={'class': 'form-control'}), choices=Role.RoleName.choices[:5]
     #                          , required=True)
     status = forms.ChoiceField(widget=forms.Select(attrs={'class': 'form-control'}), choices=User.StatusName.choices
@@ -31,7 +31,7 @@ class OwnerCreateForm(UserCreationForm):
         input_formats=DATE_INPUT_FORMATS, required=False)
     viber = PhoneNumberField(widget=forms.TextInput(attrs={'class': 'form-control'})
                              , required=False)
-    viber.error_messages['invalid'] = "Введите корректный номер телефона."
+    viber.error_messages['invalid'] = "Введіть коректний номер телефону."
     telegram = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'})
                                , required=False)
     notes = forms.CharField(
@@ -86,6 +86,6 @@ class CabinetOwnerChangeForm(OwnerChangeForm):
 class OwnerInviteForm(forms.Form):
     phone = PhoneNumberField(widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': '+380731234567'}),
                              required=False)
-    phone.error_messages['invalid'] = "Введите корректный номер телефона."
+    phone.error_messages['invalid'] = "Введіть коректний номер телефону."
     email = forms.CharField(widget=forms.EmailInput(attrs={'class': 'form-control',
                                                            'placeholder': 'your_email@gmail.com'}))

@@ -1,15 +1,15 @@
 {% extends 'layout/website.html' %}
-{% block seo_title %}{{ contact_page.seo.title }}{% endblock %}
-{% block seo_description %}{{ contact_page.seo.description }}{% endblock %}
-{% block seo_keywords %}{{ contact_page.seo.keywords }}{% endblock %}
+{% block seo_title %} {{ contact_page.seo.title }} {% endblock %}
+{% block seo_description %} {{ contact_page.seo.description }} {% endblock %}
+{% block seo_keywords %} {{ contact_page.seo.keywords }} {% endblock %}
 {% block content %}
     <div class="breadcrumbs">
         <div class="container">
             <div class="row">
                 <div class="col-xs-12">
                     <ol class="breadcrumb">
-                        <li><a href="{% url 'main_page' %}">Главная</a></li>
-                        <li class="active">Контакты</li>
+                        <li><a href="{% url 'main_page' %}">Головна</a></li>
+                        <li class="active">Контакти</li>
                     </ol>
                 </div>
             </div>
@@ -26,22 +26,22 @@
                         <h1>{{ contact_page.title }}</h1>
                     </div>
                     <div class="box">
-                        {{ contact_page.text|safe }}
+                        {{contact_page.text|safe}}
                     </div>
                 </div>
                 <div class="col-xs-12 col-sm-5 col-md-4">
                     <div class="page-header">
-                        <h3>Контакты</h3>
+                        <h3>Контакти</h3>
                     </div>
                     <div class="box">
                         {% if contact_page.full_name %}
                             <p><i class="fas fa-user-circle"></i> {{ contact_page.full_name }}</p>
                         {% endif %}
                         {% if contact_page.location %}
-                            <p><i class="fas fa-compass"></i> {{ contact_page.location }}</p>
+                            <p><i class="fas fa-compass"></i> {{contact_page.location}}</p>
                         {% endif %}
                         {% if contact_page.address %}
-                            <p><i class="fas fa-map-marker"></i> {{ contact_page.address }}</p>
+                            <p><i class="fas fa-map-marker"></i> {{contact_page.address}}</p>
                         {% endif %}
                         {% if contact_page.phone %}
                             <p><i class="fas fa-phone"></i>

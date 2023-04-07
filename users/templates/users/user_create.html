@@ -1,31 +1,31 @@
 {% extends 'layout/admin_panel.html' %}
-{% block title %}Новый пользователь{% endblock %}
+{% block title %}Новий користувач{% endblock %}
 {% load static %}
 {% block header_text %}
-    Новый пользователь
+    Новий користувач
 {% endblock %}
 {% block breadcrumb %}
-        <ul class="breadcrumb"><li><a href="{% url 'statistic' %}"><i class="fa fa-home"></i> Главная</a></li>
-<li><a href="{% url 'user_list' %}">Пользователи</a></li>
-<li class="active">Новый пользователь</li>
+        <ul class="breadcrumb"><li><a href="{% url 'statistic' %}"><i class="fa fa-home"></i> Головна</a></li>
+<li><a href="{% url 'user_list' %}">Користувачі</a></li>
+<li class="active">Новий користувач</li>
 </ul>
 {% endblock %}
 {% block content %}
 <div class="box">
     <div class="box-body">
-        
+
 <form id="user_creation_form" method="post">
     {% csrf_token %}
 <div class="row">
     <div class="col-xs-12 col-md-6">
         <div class="form-group field-useradminform-firstname">
-<label class="control-label" for="useradminform-firstname">Имя</label>
-{{ form.first_name }}
+<label class="control-label" for="useradminform-firstname">Ім'я</label>
+{{form.first_name}}
 
 <div class="help-block"></div>
-</div>        <div class="form-group field-useradminform-lastname">
-<label class="control-label" for="useradminform-lastname">Фамилия</label>
-{{ form.last_name }}
+</div> <div class="form-group field-useradminform-lastname">
+<label class="control-label" for="useradminform-lastname">Прізвище</label>
+{{form.last_name}}
 
 <div class="help-block"></div>
 </div>
@@ -36,46 +36,46 @@
     {% endif %}
 
 <label class="control-label" for="useradminform-phone">Телефон</label>
-{{ form.phone }}
+{{form.phone}}
         {% if form.phone.errors %}
-<em id="id_phone-error" class="error help-block">{{ form.phone.errors|join:". " }}</em>
+<em id="id_phone-error" class="error help-block">{{form.phone.errors|join:". " }}</em>
 {% endif %}
 
 <div class="help-block"></div>
-</div>                    <div class="form-group field-useradminform-role">
+</div> <div class="form-group field-useradminform-role">
 <label class="control-label" for="useradminform-role">Роль</label>
-{{ form.role }}
-        {{ form.role.option }}
+{{form.role}}
+        {{form.role.option}}
 
 <div class="help-block"></div>
-</div>            <div class="form-group field-useradminform-status">
+</div> <div class="form-group field-useradminform-status">
 <label class="control-label" for="useradminform-status">Статус</label>
-{{ form.status }}
+{{form.status}}
 
 <div class="help-block"></div>
-</div>            </div>
+</div> </div>
 
     <div class="col-xs-12 col-md-6">
         {% if form.username.errors %}
-        <div class="form-group field-useradminform-username required has-error">
+        <div class="form-group field-useradminform-username необхідний has-error">
             {% else %}
             <div class="form-group field-useradminform-username required">
             {% endif %}
-<label class="control-label" for="useradminform-username">Email (логин)</label>
-{{ form.username }}
+<label class="control-label" for="useradminform-username">Email (логін)</label>
+{{form.username}}
     {% if form.username.errors %}
-<em id="id_username-error" class="error help-block">{{ form.username.errors|join:". " }}</em>
+<em id="id_username-error" class="error help-block">{{form.username.errors|join:". " }}</em>
     {% endif %}
 <div class="help-block"></div>
-</div>        
+</div>
         <div class="form-group field-useradminform-password">
 <label class="control-label" for="useradminform-password">Пароль</label>
 
-                <div class="input-group">{{ form.password1 }}
+                <div class="input-group">{{form.password1}}
 
                     <span class="input-group-btn">
                         <button class="btn btn-default" type="button" onclick="generatePassword('.pass-value')">
-                            Сгенерировать
+                            Згенерувати
                         </button>
                         <button type="button" class="btn btn-primary" id="showPass">
                             <i class="fa fa-eye" aria-hidden="true"></i>
@@ -84,17 +84,17 @@
                 </div>
 
 <div class="help-block"></div>
-</div>        <div class="form-group field-useradminform-password2">
-<label class="control-label" for="useradminform-password2">Повторить пароль</label>
-{{ form.password2 }}
+</div> <div class="form-group field-useradminform-password2">
+<label class="control-label" for="useradminform-password2">Повторити пароль</label>
+{{form.password2}}
 
 <div class="help-block"></div>
-</div>    </div>
+</div> </div>
 </div>
 <div class="row">
     <div class="col-xs-12 text-right">
-        <a href="{% url 'user_list' %}" class="btn btn-default">Отменить</a>
-        <button type="submit" class="btn btn-success">Сохранить</button>
+        <a href="{% url 'user_list' %}" class="btn btn-default">Скасувати</a>
+        <button type="submit" class="btn btn-success">Зберегти</button>
     </div>
 </div>
 </form>
@@ -117,76 +117,76 @@
         $('#nav_users').attr('class', 'active')
     </script>
     <script>
-        {% if form.phone.errors  %}
+        {% if form.phone.errors %}
     toastr.error('{{ form.phone.errors }}')
         {% endif %}
-        {% if  form.username.errors%}
+        {% if form.username.errors%}
             toastr.error('{{ form.username.errors }}')
         {% endif %}
     $.validator.addMethod("validateEmail", function(value, element) {
-        let regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
-    return regex.test(value);
+        let regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9] {2,4}) + $ /;
+    return regex.test (value);
     });
     $('#id_phone').mask('+38 (999) 999-99-99')
             $( "#user_creation_form" ).validate( {
-				rules: {
-					first_name: "required",
-					last_name: "required",
-					username: {
+rules: {
+first_name: "required",
+last_name: "required",
+username: {
                         validateEmail:true,
                         required: true,
                     },
                     password1: {
-						required: true,
-						minlength: 8
-					},
-					password2: {
+required: true,
+minlength: 8
+},
+password2: {
                         required: true,
                         minlength: 8,
                         equalTo: "#id_password1"
                     },
                     phone: {required: true,}
-					{% comment %}lastname1: "required",
-					username1: {
-						required: true,
-						minlength: 2
-					},
-					},
-					email1: {
-						required: true,
-						email: true
-					},
-					agree1: "required"{% endcomment %}
-				},
-				messages: {
-					first_name: "Пожалуйста введите ваше имя.",
-					last_name: "Пожалуйста введите вашу фамилию.",
-					username: "Пожалуйста введите правильный email адрес.",
+{% comment %}lastname1: "required",
+username1: {
+required: true,
+minlength: 2
+},
+},
+email1: {
+required: true,
+email: true
+},
+agree1: "required"{% endcomment %}
+},
+messages: {
+first_name: "Будь ласка, введіть ваше ім'я.",
+last_name: "Будь ласка, введіть ваше прізвище.",
+username: "Будь ласка, введіть правильну адресу електронної пошти.",
                     password1: {
-						required: "Пожалуйста введите пароль.",
-						minlength: "Ваш пароль должен быть больше 8 символов."
-					},
-					password2: {
-						required: "Пожалуйста введите пароль.",
-						minlength: "Ваш пароль должен быть больше 8 символов.",
-						equalTo: "Пароли не совпадают."
-					},
+required: "Будь ласка, введіть пароль.",
+minlength: "Ваш пароль має бути більше 8 символів."
+},
+password2: {
+required: "Будь ласка, введіть пароль.",
+minlength: "Ваш пароль має бути більше 8 символів.",
+equalTo: "Паролі не збігаються."
+},
                     phone: {
-						required: "Пожалуйста введите ваш номер телефона.",
-					},
-				},
-				errorElement: "em",
-				errorPlacement: function ( error, element ) {
-					// Add the `help-block` class to the error element
-					error.addClass( "help-block" );
+required: "Будь ласка, введіть номер телефону.",
+},
+},
+errorElement: "em",
+errorPlacement: function ( error, element ) {
+// Add the `help-block` class to the error element
+error.addClass( "help-block");
 
-					// Add `has-feedback` class to the parent div.form-group
-					// in order to add icons to inputs
-					element.parents( ".form-group" ).addClass( "has-feedback" );
+// Add `has-feedback` class to the parent div.form-group
+// in order to add icons to inputs
+element.parents( ".form-group" ).addClass( "has-feedback" );
 
-					if ( element.prop( "type" ) === "checkbox" ) {
-						error.insertAfter( element.parent( "label" ) );
-					} else {
+if ( element.prop( "type" ) === "checkbox" ) {
+error.insertAfter( element.parent( "label" ) );
+} else {
                         if(element.parent( ".input-group" ).length){
                             error.insertAfter( element.parent( ".input-group" ) );
                         }
@@ -194,28 +194,27 @@
                             error.insertAfter( element );
                         }
 
-					}
+}
 
-					// Add the span element, if doesn't exists, and apply the icon classes to it.
-					if ( !element.next( "span" )[ 0 ] ) {
-						$( "<span class='glyphicon glyphicon-remove form-control-feedback'></span>" ).insertAfter( element );
-					}
-				},
-				success: function ( label, element ) {
-					// Add the span element, if doesn't exists, and apply the icon classes to it.
-					if ( !$( element ).next( "span" )[ 0 ] ) {
-						$( "<span class='glyphicon glyphicon-ok form-control-feedback'></span>" ).insertAfter( $( element ) );
-					}
-				},
-				highlight: function ( element, errorClass, validClass ) {
-					$( element ).parents( ".form-group" ).addClass( "has-error" ).removeClass( "has-success" );
-					$( element ).next( "span" ).addClass( "glyphicon-remove" ).removeClass( "glyphicon-ok" );
-				},
-				unhighlight: function ( element, errorClass, validClass ) {
-					$( element ).parents( ".form-group" ).addClass( "has-success" ).removeClass( "has-error" );
-					$( element ).next( "span" ).addClass( "glyphicon-ok" ).removeClass( "glyphicon-remove" );
-				}
-			} );
+// Додати елемент електронної пошти, якщо немає exists, і apply the icon classes to it.
+if (! element.next ("span") [0]) {
+$( "<span class='glyphicon glyphicon-remove form-control-feedback'></span>" ).insertAfter( element );
+}
+},
+success: function ( label, element ) {
+// Додати елемент електронної пошти, якщо немає exists, і apply the icon classes to it.
+if ( !$( element ).next( "span" )[ 0 ] ) {
+$( "<span class='glyphicon glyphicon-ok form-control-feedback'></span>" ).insertAfter( $( element ) );
+}
+},
+highlight: function ( element, errorClass, validClass ) {
+$( element ).parents( ".form-group" ).addClass( "has-error" ).removeClass( "has-success" );
+$( element ).next( "span" ).addClass( "glyphicon-remove" ).removeClass( "glyphicon-ok" );
+},
+unhighlight: function ( element, errorClass, validClass ) {
+$( element ).parents( ".form-group" ).addClass( "has-success" ).removeClass( "has-error" );
+$( element ).next( "span" ).addClass( "glyphicon-ok" ).removeClass( "glyphicon-remove" );
+}
+} );
         </script>
 {% endblock %}
-    

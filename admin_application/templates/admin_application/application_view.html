@@ -3,13 +3,13 @@
 {% block title %}Заявка №{{ application.pk }}{% endblock %}
 {% block breadcrumb %}
     <ul class="breadcrumb">
-        <li><a href="{% url 'statistic' %}"><i class="fa fa-home"></i>Главная</a></li>
-        <li><a href="{% url 'application_list' %}">Заявки вызова мастера</a></li>
+        <li><a href="{% url 'statistic' %}"><i class="fa fa-home"></i>Головна</a></li>
+        <li><a href="{% url 'application_list' %}">Заявки виклику майстра</a></li>
         <li class="active">Заявка №{{ application.pk }}</li>
     </ul>
 {% endblock %}
 {% block header_text %}
-    Заявка №{{ application.pk }}
+    Заявка №{{application.pk}}
 {% endblock %}
 {% block content %}
     <div class="row">
@@ -23,7 +23,7 @@
                         <div class="form-control pull-right">{{ application.date|date:"d.m.Y" }}</div>
                     </div>
                 </div>
-                <span class="label-mid">от</span>
+                <span class="label-mid">від</span>
                 <div class="form-group">
                     <div class="input-group date">
                         <div class="input-group-addon">
@@ -42,7 +42,7 @@
                     <h3 class="box-title"></h3>
                     <div class="box-tools">
                         <a href="{% url 'application_update' application.pk %}" class="btn btn-primary btn-sm">
-                            <span class="hidden-xs">Редактировать заявку</span><i class="fa fa-pencil visible-xs"
+                            <span class="hidden-xs">Редагувати заявку</span><i class="fa fa-pencil visible-xs"
                                                                                   aria-hidden="true"></i>
                         </a>
                     </div>
@@ -58,7 +58,7 @@
                             {% endif %}">{{ application.status }}</small></td>
                         </tr>
                         <tr>
-                            <td>Владелец</td>
+                            <td>Власник</td>
                             <td>
                                 <a href="{% url 'owner_view' application.owner_id %}">
                                     {{ application.owner }} </a>
@@ -76,24 +76,24 @@
                             </td>
                         </tr>
                         <tr>
-                            <td>Тип мастера</td>
+                            <td>Тип майстра</td>
                             <td>{{ application.master.role.role }}</td>
                         </tr>
                         <tr>
-                            <td>Мастер</td>
+                            <td>Майстер</td>
                             <td>
                                 <a href="{% url 'view_user' application.master_id %}">
                                     {{ application.master }} ({{ application.master.role.role }}) </a>
                             </td>
                         </tr>
                         <tr>
-                            <td>Описание</td>
+                            <td>Опис</td>
                             <td>
                                 {{ application.description }}
                             </td>
                         </tr>
                         <tr>
-                            <td>Добавлено</td>
+                            <td>Додано</td>
                             <td id="date_add"></td>
                         </tr>
                         </tbody>

@@ -1,0 +1,28 @@
+@startuml
+!theme aws-orange
+hide empty description
+|User|
+start
+: Navigate to "Create Tariff" page;
+: Enter Tariff name;
+: Enter Tariff description;
+repeat
+    : Add Service;
+    : Select service;
+    : Fill the price field;
+repeat while (Add more services?) is (     [yes]) not ([no]);
+
+: Submit tariff information;
+|Server|
+: Validate tariff information;
+if (Valid?) then([Valid])
+  : Create new Tariff and TariffService instances;
+  : Save new Tariff and TariffService instances;
+  : Redirect user to "Tariff List" page;
+else ([Invalid])
+  : Display error message to user;
+endif
+|User|
+: View "Tariff List" page;
+stop
+@enduml

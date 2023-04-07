@@ -1,13 +1,13 @@
 {% extends 'layout/admin_panel.html' %}
-{% block title %}Редактирование статьи{% endblock %}
+{% block title %}Редагування статті{% endblock %}
 {% block header_text %}
-    Редактирование
+    Редагування
 {% endblock %}
 {% block breadcrumb %}
     <ul class="breadcrumb">
-        <li><a href="{% url 'statistic' %}"><i class="fa fa-home"></i>Главная</a></li>
-        <li><a href="{% url 'purpose_list' %}">Статьи приходов/расходов</a></li>
-        <li class="active">Редактирование</li>
+        <li><a href="{% url 'statistic' %}"><i class="fa fa-home"></i>Головна</a></li>
+        <li><a href="{% url 'purpose_list' %}">Статті парафій/витрат</a></li>
+        <li class="active">Редагування</li>
 </ul>
 {% endblock %}
 {% block content %}
@@ -19,30 +19,30 @@
 <div class="row">
     <div class="col-xs-12 col-lg-7">
 
-            <div class="form-group field-transactionpurpose-name required
-            {% if form.name.errors %}has-error{% endif %}">
+            <div class="form-group field-transactionpurpose-name необхідний
+            {% if form.name.errors %} has-error {% endif %}">
 
-<label class="control-label" for="transactionpurpose-name">Название</label>
-            {{ form.name }}
+<label class="control-label" for="transactionpurpose-name">Назва</label>
+            {{form.name}}
             {% if form.name.errors %}
-<em id="id_name-error" class="error help-block">{{ form.name.errors|join:". " }}</em>
+<em id="id_name-error" class="error help-block">{{form.name.errors|join:". " }}</em>
     {% endif %}
 
-</div>        <div class="form-group field-transactionpurpose-type">
-<label class="control-label" for="transactionpurpose-type">Приход/расход</label>
-{{ form.transaction_type }}
+</div> <div class="form-group field-transactionpurpose-type">
+<label class="control-label" for="transactionpurpose-type">Прихід/витрата</label>
+{{form.transaction_type}}
 <div class="help-block"></div>
-</div>    </div>
+</div> </div>
 </div>
 <div class="row">
     <div class="col-xs-12 text-right">
         <div class="form-group">
-            <a href="{% url 'purpose_list' %}" class="btn btn-default">Отменить</a>
-            <button type="submit" class="btn btn-success">Сохранить</button>
+            <a href="{% url 'purpose_list' %}" class="btn btn-default">Скасувати</a>
+            <button type="submit" class="btn btn-success">Зберегти</button>
         </div>
     </div>
 </div>
-</form>    </div>
+</form> </div>
 </div>
 {% endblock %}
 {% block scripts %}
@@ -52,52 +52,52 @@
     </script>
     <script>
     $( "#purpose_create" ).validate( {
-				rules: {
-					name: {
+rules: {
+name: {
                         required: true,
                         maxlength: 50,
                     },
-				},
-				messages: {
+},
+messages: {
                     name: {
-                        required: "Пожалуйста введите название статьи.",
-                        maxlength: "Название должно быть менше 50 символов."
-					},
-				},
-				errorElement: "em",
-				errorPlacement: function ( error, element ) {
-					// Add the `help-block` class to the error element
-					error.addClass( "help-block" );
+                        required: "Будь ласка, введіть назву статті.",
+                        maxlength: "Назва повинна бути не менше 50 символів."
+},
+},
+errorElement: "em",
+errorPlacement: function ( error, element ) {
+// Add the `help-block` class to the error element
+error.addClass( "help-block");
 
-					// Add `has-feedback` class to the parent div.form-group
-					// in order to add icons to inputs
-					element.parents( ".form-group" ).addClass( "has-feedback" );
+// Add `has-feedback` class to the parent div.form-group
+// in order to add icons to inputs
+element.parents( ".form-group" ).addClass( "has-feedback" );
 
-					if ( element.prop( "type" ) === "checkbox" ) {
-						error.insertAfter( element.parent( "label" ) );
-					} else {
-						error.insertAfter( element );
-					}
+if ( element.prop( "type" ) === "checkbox" ) {
+error.insertAfter( element.parent( "label" ) );
+} else {
+error.insertAfter( element );
+}
 
-					// Add the span element, if doesn't exists, and apply the icon classes to it.
-					if ( !element.next( "span" )[ 0 ] ) {
-						$( "<span class='glyphicon glyphicon-remove form-control-feedback'></span>" ).insertAfter( element );
-					}
-				},
-				success: function ( label, element ) {
-					// Add the span element, if doesn't exists, and apply the icon classes to it.
-					if ( !$( element ).next( "span" )[ 0 ] ) {
-						$( "<span class='glyphicon glyphicon-ok form-control-feedback'></span>" ).insertAfter( $( element ) );
-					}
-				},
-				highlight: function ( element, errorClass, validClass ) {
-					$( element ).parents( ".form-group" ).addClass( "has-error" ).removeClass( "has-success" );
-					$( element ).next( "span" ).addClass( "glyphicon-remove" ).removeClass( "glyphicon-ok" );
-				},
-				unhighlight: function ( element, errorClass, validClass ) {
-					$( element ).parents( ".form-group" ).addClass( "has-success" ).removeClass( "has-error" );
-					$( element ).next( "span" ).addClass( "glyphicon-ok" ).removeClass( "glyphicon-remove" );
-				}
-			} );
+// Додати елемент електронної пошти, якщо немає exists, і apply the icon classes to it.
+if (! element.next ("span") [0]) {
+$( "<span class='glyphicon glyphicon-remove form-control-feedback'></span>" ).insertAfter( element );
+}
+},
+success: function ( label, element ) {
+// Додати елемент електронної пошти, якщо немає exists, і apply the icon classes to it.
+if ( !$( element ).next( "span" )[ 0 ] ) {
+$( "<span class='glyphicon glyphicon-ok form-control-feedback'></span>" ).insertAfter( $( element ) );
+}
+},
+highlight: function ( element, errorClass, validClass ) {
+$( element ).parents( ".form-group" ).addClass( "has-error" ).removeClass( "has-success" );
+$( element ).next( "span" ).addClass( "glyphicon-remove" ).removeClass( "glyphicon-ok" );
+},
+unhighlight: function ( element, errorClass, validClass ) {
+$( element ).parents( ".form-group" ).addClass( "has-success" ).removeClass( "has-error" );
+$( element ).next( "span" ).addClass( "glyphicon-ok" ).removeClass( "glyphicon-remove" );
+}
+} );
     </script>
 {% endblock %}

@@ -1,15 +1,15 @@
 {% extends 'layout/admin_panel.html' %}
-{% block title %}Показание счетчикa{% endblock %}
+{% block title %} Показ лічильника {% endblock %}
 {% block breadcrumb %}
         <ul class="breadcrumb">
-        <li><a href="{% url 'statistic' %}"><i class="fa fa-home"></i>Главная</a></li>
-        <li><a href="{% url 'meter-list' %}">Счетчики</a></li>
-        <li><a href="{% url 'meter-view-list-serv' meter.apartment_id meter.service_id %}">Показания счетчиков, кв.{{ meter.apartment.number}}</a></li>
-        <li class="active">Показание счетчикa №{{ meter.number }}</li>
+        <li><a href="{% url 'statistic' %}"><i class="fa fa-home"></i>Головна</a></li>
+        <li><a href="{% url 'meter-list' %}">Лічильники</a></li>
+        <li><a href="{% url 'meter-view-list-serv' meter.apartment_id meter.service_id %}">Покази лічильників, кв.{{ meter.apartment.number}}</a></li>
+        <li class="active">Показ лічильника №{{ meter.number }}</li>
 </ul>
 {% endblock %}
 {% block header_text %}
-    Показание счетчикa
+    Показ лічильника
 {% endblock %}
 {% block content %}
 
@@ -22,10 +22,10 @@
                         <div class="input-group-addon">
                             №
                         </div>
-                        <div class="form-control pull-right">{{ meter.number }}</div>
+                        <div class="form-control pull-right">{{meter.number}}</div>
                     </div>
                 </div>
-                <span class="label-mid">от</span>
+                <span class="label-mid">від</span>
                 <div class="form-group">
                     <div class="input-group date">
                         <div class="input-group-addon">
@@ -42,7 +42,7 @@
             <h3 class="box-title"></h3>
             <div class="box-tools">
                 <a href="{% url 'meter-update' meter.pk %}" class="btn btn-primary btn-sm">
-                    <span class="hidden-xs">Редактировать показание</span><i class="fa fa-pencil visible-xs"
+                    <span class="hidden-xs">Редагувати показання</span><i class="fa fa-pencil visible-xs"
                                                                              aria-hidden="true"></i>
                 </a>
             </div>
@@ -53,46 +53,46 @@
                     <table class="table table-bordered table-striped table-view">
                         <tbody>
                         <tr>
-                            <td>Счетчик</td>
-                            <td>{{ meter.service.name }}</td>
+                            <td>Лічильник</td>
+                            <td>{{meter.service.name}}</td>
                         </tr>
                         <tr>
-                            <td>Дом</td>
+                            <td>Будинок</td>
                             <td>
                                 <a href="{% url 'house_view' meter.apartment.house_id %}">
-                                    {{ meter.apartment.house}} </a>
+                                    {{meter.apartment.house}}</a>
                             </td>
                         </tr>
                         <tr>
-                            <td>Секция</td>
-                            <td>{{ meter.apartment.section}}</td>
+                            <td>Секція</td>
+                            <td>{{meter.apartment.section}}</td>
                         </tr>
                         <tr>
                             <td>Квартира</td>
                             <td>
                                 <a href="{% url 'apartment_view' meter.apartment_id %}">
-                                    {{ meter.apartment}} </a>
+                                    {{meter.apartment}}</a>
                             </td>
                         </tr>
                         <tr>
-                            <td>Пользователь</td>
+                            <td>Користувач</td>
                             <td>
                                 <a href="{% url 'owner_view' meter.apartment.owner_id %}">
-                                    {{ meter.apartment.owner}} </a>
+                                    {{meter.apartment.owner}}</a>
                             </td>
                         </tr>
                         <tr>
-                            <td>Текущие показания</td>
-                            <td>{{ meter.value }}</td>
+                            <td>Поточні показання</td>
+                            <td>{{meter.value}}</td>
                         </tr>
                         <tr>
-                            <td>Ед. изм.</td>
-                            <td>{{ meter.service.unit}}</td>
+                            <td>Од. вим.</td>
+                            <td>{{meter.service.unit}}</td>
                         </tr>
                         <tr>
                             <td>Статус</td>
-                            <td><small class="label label-{% if meter.status == 'Нулевое'%}primary
-                            {% elif meter.status == 'Новое' %}warning{% else %}success{% endif %}">{{ meter.status}}</small></td>
+                            <td><small class="label label-{% if meter.status == 'Нульове'%}primary
+                            {% elif meter.status == 'Нове' %}warning{% else %}success{% endif %}">{{ meter.status}}</small></td>
                         </tr>
                         </tbody>
                     </table>

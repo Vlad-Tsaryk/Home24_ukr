@@ -20,8 +20,8 @@ class PersonalAccount(models.Model):
             return True
 
     class StatusName(models.TextChoices):
-        ACTIVE = 'Активен', 'Активен'
-        DISABLED = 'Неактивен', 'Неактивен'
+        ACTIVE = 'Активний', 'Активний'
+        DISABLED = 'Вимкнено', 'Вимкнено'
 
     status = models.CharField(choices=StatusName.choices, max_length=9)
     apartment = models.OneToOneField(Apartment, on_delete=models.SET_NULL, null=True)

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <link rel="icon" type="image/png" href="{% static 'admin_panel/logo-mini.svg' %}">
-    <title>Вход</title>
+    <title>Вхід</title>
     <link href="{% static 'admin_panel/bower_components/bootstrap/dist/css/bootstrap.min.css' %}" rel="stylesheet">
     <link href="{% static 'admin_panel/bower_components/font-awesome/css/font-awesome.min.css' %}" rel="stylesheet">
     <link href="{% static 'admin_panel/bower_components/Ionicons/css/ionicons.min.css' %}" rel="stylesheet">
@@ -25,34 +25,34 @@
     </div>
     <div class="nav-tabs-custom">
         <ul class="nav nav-tabs">
-            <li class="active"><a href="#tab_1" data-toggle="tab" aria-expanded="true">Для жильца</a></li>
-            <li ><a href="{% url 'admin-panel-login' %}">Для администрации</a></li>
+            <li class="active"><a href="#tab_1" data-toggle="tab" aria-expanded="true">Для мешканця</a></li>
+            <li ><a href="{% url 'admin-panel-login' %}">Для адміністрації</a></li>
         </ul>
         <div class="tab-content">
 
 
             <div class="tab-pane active" id="tab_2">
                 <div class="login-box-body">
-                    <p class="login-box-msg">Вход в панель управления</p>
+                    <p class="login-box-msg">Вхід до панелі керування</p>
                     <form id="login-form" method="post">
                         {% csrf_token %}
                         <div class="form-group has-feedback field-loginform-username required">
-                            {{form.username}}<span
+                            {{form.username}} <span
                                 class="fa fa-envelope form-control-feedback"></span>
                         </div>
                         <div class="form-group has-feedback field-loginform-password required">
-                            {{form.password}}<span
+                            {{form.password}} <span
                                 class="fa fa-lock form-control-feedback"></span>
                         </div>
                         <div class="row">
                             <div class="col-xs-12">
 
                                 <div class="icheckbox checked">
-                                <label>{{form.remember_me}}Запомнить меня</label>
+                                <label>{{form.remember_me}}Запам'ятати мене</label>
                                 </div>
                             </div>
                             <div class="col-xs-12">
-                                <button type="submit" class="btn btn-primary btn-block" name="login-button">Вход
+                                <button type="submit" class="btn btn-primary btn-block" name="login-button">Вхід
                                 </button>
                             </div>
                         </div>

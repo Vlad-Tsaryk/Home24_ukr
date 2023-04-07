@@ -31,7 +31,7 @@ class CustomUserCreationForm(UserCreationForm):
                                 , required=True)
     phone = PhoneNumberField(widget=forms.TextInput(attrs={'class': 'form-control'})
                              , required=True)
-    phone.error_messages['invalid'] = "Введите корректный номер телефона."
+    phone.error_messages['invalid'] = "Введіть коректний номер телефону."
     role = forms.ChoiceField(widget=forms.Select(attrs={'class': 'form-control'}), choices=Role.RoleName.choices[:5]
                              , required=True)
     status = forms.ChoiceField(widget=forms.Select(attrs={'class': 'form-control'}), choices=User.StatusName.choices
@@ -60,7 +60,7 @@ class CustomUserUpdateForm(UserChangeForm):
                                 , required=False)
     phone = PhoneNumberField(widget=forms.TextInput(attrs={'class': 'form-control'})
                              , required=True)
-    phone.error_messages['invalid'] = "Введите корректный номер телефона."
+    phone.error_messages['invalid'] = "Введіть коректний номер телефону."
 
     class Meta:
         model = User

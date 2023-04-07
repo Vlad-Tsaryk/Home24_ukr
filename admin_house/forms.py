@@ -27,16 +27,6 @@ class HouseForm(forms.ModelForm):
         self.fields['image5'].required = False
         self.fields['image5'].widget = forms.FileInput(attrs={'accept': 'image/*'})
 
-    # def resize_image(self, size, image):
-    #     img = Image.open(image.file)
-    #     # print(image.filename)
-    #     return img.resize(size, Image.ANTIALIAS).save(image)
-
-    # def clean_image1(self):
-    #     image = self.files.get('image1')
-    #     print(self.resize_image(size=(522, 350), image=image))
-    #     return
-
     class Meta:
         model = House
         fields = '__all__'

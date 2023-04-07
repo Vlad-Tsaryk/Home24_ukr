@@ -1,12 +1,12 @@
 {% extends 'admin_meter/meter_create.html' %}
 {% block breadcrumb %}
         <ul class="breadcrumb">
-        <li><a href="{% url 'statistic' %}"><i class="fa fa-home"></i>Главная</a></li>
-        <li><a href="{% url 'meter-list' %}">Счетчики</a></li>
+        <li><a href="{% url 'statistic' %}"><i class="fa fa-home"></i>Головна</a></li>
+        <li><a href="{% url 'meter-list' %}">Лічильники</a></li>
         <li>
             <a id="list_href" href="">
-                Показания счетчиков, кв.<span id="apartment_numb"></span></a></li>
-        <li class="active">Новое показание</li>
+                Показання лічильників, кв. <span id="apartment_numb"></span></a></li>
+        <li class="active">Нове свідчення</li>
 </ul>
 {% endblock %}
 {% block ajax_link_set %}
@@ -16,11 +16,11 @@
     }
     let ajax_link = ''
     let list_link = ''
-    if (!service_id){
+    if (!service_id) {
         ajax_link = '{% url 'meter-new-value' view.kwargs.apartment_id%}'
         list_link = '{% url 'meter-view-list-apart' view.kwargs.apartment_id%}'
     }
-    else{
+    else {
         ajax_link = '{% url 'meter-new-value-serv' view.kwargs.apartment_id 12345 %}'.replace(/12345/,service_id)
         list_link = '{% url 'meter-view-list-serv' view.kwargs.apartment_id 12345 %}'.replace(/12345/,service_id)
     }

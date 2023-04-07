@@ -1,14 +1,14 @@
 {% extends 'layout/admin_panel.html' %}
 {% load static %}
-{% block title %}Квартиры{% endblock %}
+{% block title %}Квартири{% endblock %}
 {% block breadcrumb %}
         <ul class="breadcrumb">
-        <li><a href="{% url 'statistic' %}"><i class="fa fa-home"></i>Главная</a></li>
-        <li class="active">Квартиры</li>
+        <li><a href="{% url 'statistic' %}"><i class="fa fa-home"></i>Головна</a></li>
+        <li class="active">Квартири</li>
 </ul>
 {% endblock %}
 {% block header_text %}
-Квартиры
+Квартири
 {% endblock %}
 
 {% block content %}
@@ -16,12 +16,12 @@
 
     <div class="row">
         <!--<div class="col-xs-12 col-sm-6">-->
-        <!--<h2 class="page-header">Квартиры</h2>-->
+        <!--<h2 class="page-header">Квартири</h2>-->
         <!--</div>-->
         <div class="col-xs-12">
 
             <div class="pull-right margin-bottom">
-                <a class="btn btn-success" href="{% url 'apartment_create' %}">Добавить квартиру</a>
+                <a class="btn btn-success" href="{% url 'apartment_create' %}">Додати квартиру</a>
             </div>
         </div>
     </div>
@@ -32,7 +32,7 @@
                     <h3 class="box-title"></h3>
                     <div class="box-tools">
                         <button onclick="clear_filters()" class="btn btn-default btn-sm">
-                            <span class="hidden-xs">Очистить</span><i class="fa fa-eraser visible-xs"
+                            <span class="hidden-xs">Очистити</span><i class="fa fa-eraser visible-xs"
                                                                       aria-hidden="true"></i>
                         </button>
                     </div>
@@ -43,13 +43,13 @@
                         <table id="apartment_table" class="table table-bordered table-hover table-striped linkedRow">
                             <thead>
                             <tr>
-                                <th><a id="number" class="ordering" style="cursor: pointer">№ квартиры</a> </th>
-                                <th><a id="house__name" class="ordering" style="cursor: pointer">Дом</a> </th>
-                                <th><a id="section__name" class="ordering" style="cursor: pointer">Секция</a> </th>
-                                <th><a id="floor__name" class="ordering" style="cursor: pointer">Этаж</a> </th>
-                                <th><a id="owner__name" class="ordering" style="cursor: pointer">Владелец</a> </th>
-                                <th style="width: 120px; min-width: 120px">Остаток (грн)</th>
-                                <th style="width: 80px; min-width: 80px">&nbsp;</th>
+                                <th><a id="number" class="ordering" style="cursor: pointer">№ квартири</a> </th>
+                                <th><a id="house__name" class="ordering" style="cursor: pointer">Будинок</a> </th>
+                                <th><a id="section__name" class="ordering" style="cursor: pointer">Секція</a> </th>
+                                <th><a id="floor__name" class="ordering" style="cursor: pointer">Поверх</a> </th>
+                                <th><a id="owner__name" class="ordering" style="cursor: pointer">Власник</a> </th>
+                                <th style="width: 120px; min-width: 120px">Залишок (грн)</th>
+                                <th style="width: 80px; min-width: 80px"> </th>
                             </tr>
                             <tr id="w0-filters" class="filters">
                                 <td><input id="number" type="text"
@@ -77,7 +77,7 @@
                                         {% for owner in user.get_owners %}
                                             <option value="{{ owner.pk }}">{{ owner }}</option>
                                         {% endfor %}
-                                        
+
                                 </select>
                                     </td>
                                 <td><select id="flatsearch-searchhasdebt" class="form-control select2-hidden-accessible"
@@ -85,8 +85,8 @@
                                             data-krajee-select2="select2_0d896465" style="display:none" tabindex="-1"
                                             aria-hidden="true">
                                     <option></option>
-                                    <option value="1">Есть долг</option>
-                                    <option value="0">Нет долга</option>
+                                    <option value="1">Є борг</option>
+                                    <option value="0">Немає боргу</option>
                                 </select><span class="select2 select2-container select2-container--default" dir="ltr"
                                                style="width: 100%;"><span class="selection"><span
                                         class="select2-selection select2-selection--single" role="combobox"
@@ -97,7 +97,7 @@
                                         class="select2-selection__placeholder"></span></span><span
                                         class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span
                                         class="dropdown-wrapper" aria-hidden="true"></span></span></td>
-                                <td>&nbsp;</td>
+                                <td> </td>
                             </tr>
                             </thead>
                             <tbody>
@@ -109,7 +109,7 @@
                     </div>
                 </div>
                 <div class="box-footer">
-                    <div>Количество квартир: <span class="text-bold">{{ apartment_list.count }}</span></div>
+                    <div>Кількість квартир: <span class="text-bold">{{ apartment_list.count }}</span></div>
                 </div>
 
             </div>
@@ -124,7 +124,7 @@
     </script>
 
 <script src="{% static 'admin_panel/bower_components/select2/dist/js/select2.full.min.js' %}"></script>
-<script src="{% static 'admin_panel/bower_components/select2/dist/js/i18n/ru.min.js' %}"></script>
+<script src="{% static 'admin_panel/bower_components/select2/dist/js/i18n/uk.js' %}"></script>
     <script src="{% static 'admin_panel/bower_components/datatables.net/js/jquery.dataTables.min.js' %}"></script>
     <script src="{% static 'admin_panel/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js' %}"></script>
 
@@ -140,7 +140,7 @@
 
         function check_empty(data) {
             if (data) {return data}
-            else return '(не задано)'
+            else return '(не вказано)'
         }
         function set_options(data, target_id) {
             $(`#${target_id} option`).remove()
@@ -178,7 +178,7 @@
                 processing: false,
                 ordering: false,
                 oLanguage: {
-                    sZeroRecords: "Ничего не найдено."
+                    sZeroRecords: "Нічого не знайдено."
                 },
                 columnDefs: [
                     {className: "apartment", "targets": [0, 1, 2,3,4,5]},
@@ -213,12 +213,12 @@
                     {data: 'owner__name',
                         render: function (data) {
                         if (data.replace(/\s/g, '')) {return data}
-                        else return '(не задано)'
+                        else return '(не вказано)'
                      }},
                     {data: 'balance',
                     render: function (data) {
                             let text_color = 'default'
-                            if (data === '(нет счета)'){
+                            if (data === '(немає рахунки)'){
                                 return `<span class="text">${data}</span>`}
                             else if (data > 0) {text_color = 'green'}
                             else if (data < 0) {text_color = 'red'}
@@ -231,11 +231,11 @@
                             let link_delete = '{% url 'apartment_delete' 12345 %}'.replace(/12345/, data)
                             return `<div class="btn-group pull-right">\
             <a class="btn btn-default btn-sm" href="${link_update}"\
-               title="Редактировать" data-toggle="tooltip">\
+               title="Редагувати" data-toggle="tooltip">\
                 <i class="fa fa-pencil"></i>\
             </a>\
             <a class="btn btn-default btn-sm"\
-               title="Удалить" data-toggle="tooltip" data-pjax="0" data-method="post"\
+               title="Видалити" data-toggle="tooltip" data-pjax="0" data-method="post"\
                 onclick="return confirm_delete('${link_delete}',event);">\
                 <i class="fa fa-trash"></i>\
             </a>\
@@ -268,7 +268,7 @@
             sort_data['section'] = ''
             sort_data['floor'] = ''
             sort_data[this.id] = $(this).val()
-            if (sort_data[this.id]){
+            if (sort_data[this.id]) {
                 sort_data['house_select'] = true
             }
             numb = 0
@@ -280,7 +280,7 @@
             numb = 0
             table.draw()
         });
-                table_head.on('click', '.ordering', function () {
+                table_head.on('click', '.ordering', function() {
             if (this.className === 'ordering asc') {
                 $(this).attr('class', 'ordering desc')
                 sort_data['order_by'] = '-' + this.id
@@ -298,13 +298,13 @@
 
 
         function confirm_delete(link, event) {
-            alertify.confirm('Подтверждение удаления', 'Удалить дом <b>'
+            alertify.confirm('Підтвердження видалення', 'Видалити будинок <b>'
                 + $(event.target).closest("tr ").children().eq(1).text() + '</b> ?',
                 function () {
                     window.location.href = link
                 },
                 function () {
-                }).set({labels: {ok: 'Подтвердить', cancel: 'Отмена'}});
+                }).set({labels: {ok: 'Підтвердити', cancel: 'Скасувати'}});
             return false;
         }
 
@@ -313,12 +313,12 @@
         })
 
 
-        $(document).ready(function () {
+        $(document).ready(function() {
 
             send_POST();
             $('.column_search').val('');
             let $select2 = $('.select2').select2({placeholder: ""}).val('');
-            let $select2_house = $('.select2_house').select2({placeholder: "Выберите дом"}).val('');
+            let $select2_house = $('.select2_house').select2({placeholder: "Виберіть будинок"}).val('');
             let $house = $('#house').select2({placeholder: ""});
             filters_array = [$select2,$select2_house,$house]
             set_filters_listener()

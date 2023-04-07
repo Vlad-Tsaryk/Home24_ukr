@@ -1,14 +1,14 @@
 {% extends 'layout/admin_panel.html' %}
 {% load static %}
-{% block title %}Редактирование страницы {% endblock %}
+{% block title %}Редагування сторінки {% endblock %}
 {% block breadcrumb %}
     <ul class="breadcrumb">
-        <li><a href="{% url 'statistic' %}"><i class="fa fa-home"></i>Главная</a></li>
-        <li class="active">Редактирование страницы </li>
+        <li><a href="{% url 'statistic' %}"><i class="fa fa-home"></i>Головна</a></li>
+        <li class="active">Редагування сторінки</li>
     </ul>
 {% endblock %}
 {% block header_text %}
-    Редактирование страницы
+    Редагування сторінки
 {% endblock %}
 {% block content %}
 
@@ -17,10 +17,10 @@
         <div class="col-xs-12">
             <div class="box">
                 <div class="box-header with-border">
-                    <h3 class="box-title">Редактирование страницы "Главная"</h3>
+                    <h3 class="box-title">Редагування сторінки "Головна"</h3>
                     <div class="box-tools">
                         <a href="/admin/website/update-seo-files" class="btn btn-default btn-sm updateSeoFiles">
-                            <span class="hidden-xs">Обновить robots и sitemap</span><i class="fa fa-refresh visible-xs"
+                            <span class="hidden-xs">Обновити robots та sitemap</span><i class="fa fa-refresh visible-xs"
                                                                                        aria-hidden="true"></i>
                         </a>
                     </div>
@@ -33,67 +33,67 @@
                             <div class="col-md-4">
                                 <h4>Слайд 1</h4>
                                 <img src="{% if main_page_form.instance.image1 %}
-                                    {{ main_page_form.instance.image1.url }}
+                                    {{main_page_form.instance.image1.url}}
                                     {% else %}{% static 'admin_panel/dist/img/placeholder_522x350.jpeg' %}
                                 {% endif %}"
                                      alt="" class="img-responsive margin-bottom-15">
                                 <div class="form-group margin-bottom-30 field-{{ main_page_form.image1.id_for_label }}">
-                                    <label class="control-label" for="{{ main_page_form.image1.id_for_label }}">Рекомендуемый
-                                        размер: (1920x800)</label>
-                                    {{ main_page_form.image1 }}
+                                    <label class="control-label" for="{{ main_page_form.image1.id_for_label }}">Рекомендований
+                                        розмір: (1920x800)</label>
+                                    {{main_page_form.image1}}
                                     <div class="help-block"></div>
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <h4>Слайд 2</h4>
                                 <img src="{% if main_page_form.instance.image2 %}
-                                    {{ main_page_form.instance.image2.url }}
+                                    {{main_page_form.instance.image2.url}}
                                        {% else %}{% static 'admin_panel/dist/img/placeholder_522x350.jpeg' %}
                                 {% endif %}"
                                      alt="" class="img-responsive margin-bottom-15">
                                 <div class="form-group margin-bottom-30 field-{{ main_page_form.image2.id_for_label }}">
-                                    <label class="control-label" for="{{ main_page_form.image2.id_for_label }}">Рекомендуемый
-                                        размер: (1920x800)</label>
-                                    {{ main_page_form.image2 }}
+                                    <label class="control-label" for="{{ main_page_form.image2.id_for_label }}">Рекомендований
+                                        розмір: (1920x800)</label>
+                                    {{main_page_form.image2}}
                                     <div class="help-block"></div>
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <h4>Слайд 3</h4>
                                 <img src="{% if main_page_form.instance.image3 %}
-                                    {{ main_page_form.instance.image3.url }}
+                                    {{main_page_form.instance.image3.url}}
                                         {% else %}{% static 'admin_panel/dist/img/placeholder_522x350.jpeg' %}
                                 {% endif %}"
                                      alt="" class="img-responsive margin-bottom-15">
                                 <div class="form-group margin-bottom-30 field-{{ main_page_form.image3.id_for_label }}">
-                                    <label class="control-label" for="{{ main_page_form.image3.id_for_label }}">Рекомендуемый
-                                        размер: (1920x800)</label>
-                                    {{ main_page_form.image3 }}
+                                    <label class="control-label" for="{{ main_page_form.image3.id_for_label }}">Рекомендований
+                                        розмір: (1920x800)</label>
+                                    {{main_page_form.image3}}
                                     <div class="help-block"></div>
                                 </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-12">
-                                <h3 class="page-header">Краткая информация</h3>
+                                <h3 class="page-header">Коротка інформація</h3>
                                 <div class="form-group field-{{ main_page_form.title.id_for_label }}">
                                     <label class="control-label"
                                            for="{{ main_page_form.title.id_for_label }}">Заголовок</label>
-                                    {{ main_page_form.title }}
+                                    {{main_page_form.title}}
 
                                     <div class="help-block"></div>
                                 </div>
                                 <div class="form-group field-{{ main_page_form.text.id_for_label }}">
-                                    <label class="control-label" for="{{ main_page_form.text.id_for_label }}">Краткий
+                                    <label class="control-label" for="{{ main_page_form.text.id_for_label }}">Короткий
                                         текст</label>
-                                    {{ main_page_form.text }}
+                                    {{main_page_form.text}}
 
                                     <div class="help-block"></div>
                                 </div>
                                 <div class="form-group field-{{ main_page_form.show_app_urls.id_for_label }}">
 
-                                    <label>{{ main_page_form.show_app_urls }} Показать ссылки на
-                                        приложения</label>
+                                    <label>{{ main_page_form.show_app_urls }} Показати посилання на
+                                        програми</label>
 
                                     <div class="help-block"></div>
                                 </div>
@@ -101,12 +101,12 @@
                         </div>
                         <div class="row near-img">
                             <div class="col-xs-12">
-                                <h3 class="page-header">Рядом с нами</h3>
+                                <h3 class="page-header">Поруч із нами</h3>
                             </div>
                             {{ block_formset.management_form }}
                             {% for block in block_formset %}
                                 <div class="col-md-4">
-                                    <h4>Блок {{ forloop.counter }}</h4>
+                                    <h4>Блок {{forloop.counter}}</h4>
                                     <img src="{% if block.instance.image %}
                                         {{ block.instance.image.url }}
                                         {% else %}{% static 'admin_panel/dist/img/placeholder_522x350.jpeg' %}
@@ -119,22 +119,22 @@
                                         </div>
                                     {% endfor %}
                                     <div class="form-group field-{{ block.image.id_for_label }}">
-                                        <label class="control-label" for="{{ block.image.id_for_label }}">Рекомендуемый
-                                            размер: (1000x600)</label>
+                                        <label class="control-label" for="{{ block.image.id_for_label }}">Рекомендований
+                                            розмір: (1000x600)</label>
                                         {{ block.image }}
 
                                         <div class="help-block"></div>
                                     </div>
                                     <div class="form-group field-{{ block.title.id_for_label }}-title">
                                         <label class="control-label" for="{{ block.title.id_for_label }}">Заголовок
-                                            блока</label>
+                                            блоку</label>
                                         {{ block.title }}
 
                                         <div class="help-block"></div>
                                     </div>
                                     <div class="form-group margin-bottom-30 field-{{ block.description.id_for_label }}">
                                         <label class="control-label"
-                                               for="{{ block.description.id_for_label }}">Описание</label>
+                                               for="{{ block.description.id_for_label }}">Опис</label>
                                         {{ block.description }}
 
                                         <div class="help-block"></div>
@@ -144,7 +144,7 @@
                         </div>
                         <div class="row">
                             <div class="col-md-12">
-                                <h3 class="page-header">Настройки SEO</h3>
+                                <h3 class="page-header">Налаштування SEO</h3>
                                 <div class="form-group field-{{ seo_form.title.id_for_label }}">
                                     <label class="control-label" for="{{ seo_form.title.id_for_label }}">Title</label>
                                     {{ seo_form.title }}
@@ -169,8 +169,8 @@
                         <div class="row">
                             <div class="col-xs-12 text-center">
                                 <div class="form-group">
-                                    <a href="{% url 'website_main_page' %}" class="btn btn-default">Отменить</a>
-                                    <button type="submit" class="btn btn-success">Сохранить</button>
+                                    <a href="{% url 'website_main_page' %}" class="btn btn-default">Скасувати</a>
+                                    <button type="submit" class="btn btn-success">Зберегти</button>
                                 </div>
                             </div>
                         </div>
@@ -186,20 +186,20 @@
         $('#nav_main_page').attr('class', 'active')
     </script>
     <script>
-        {% for error in  main_page_form.image1.errors %}
-            toastr.error('Слайд 1 - {{ error }}')
+        {% for error in main_page_form.image1.errors %}
+            toastr.error('Слайд 1 - {{error}}')
         {% endfor %}
-        {% for error in  main_page_form.image2.errors %}
-            toastr.error('Слайд 2 - {{ error}}')
+        {% for error in main_page_form.image2.errors %}
+            toastr.error('Слайд 2 - {{error}}')
         {% endfor %}
-        {% for error in  main_page_form.image3.errors %}
-            toastr.error('Слайд 3 - {{ error }}')
+        {% for error in main_page_form.image3.errors %}
+            toastr.error('Слайд 3 - {{error}}')
         {% endfor %}
-        {% for error in  seo_form.errors %}
-            toastr.error('{{ error|join:"" }}')
+        {% for error in seo_form.errors %}
+            toastr.error('{{error|join:"" }}')
         {% endfor %}
-        {% for block_error in  block_formset.errors %}
-            {% for error in  block_error.image %}
+        {% for block_error in block_formset.errors %}
+            {% for error in block_error.image %}
             toastr.error('Блок {{ forloop.parentloop.counter }} - {{ error|join:"" }}')
             {% endfor %}
         {% endfor %}
@@ -209,7 +209,7 @@
     <script type="text/javascript"
             src="{% static "admin_panel/plugins/ckeditor5-build-classic/translations/ru.js" %}"></script>
     <script>
-            $('.compose-textarea').each(function () {
+            $('.compose-textarea').each(function() {
                 ClassicEditor.create(this, {
                     language: 'ru',
                     toolbar: {

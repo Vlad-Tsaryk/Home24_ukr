@@ -1,0 +1,50 @@
+@startuml
+'!theme materia-outline
+!theme superhero
+left to right direction
+package "Home24" {
+    [Users]
+    [Website]
+    package "Admin Panel" {
+        [Admin Statistic]
+        [Admin Website]
+        [Admin Personal Account]
+        [Admin Services]
+        [Admin Applications]
+        [Admin House]
+        [Admin Owner]
+        [Admin Tariff]
+        [Admin Apartment]
+
+    }
+
+    package "Cabinet" as Cabinet {
+        [Cabinet Applications]
+        [Cabinet Profile]
+        [Cabinet Tariff]
+    }
+    [Admin Statistic] ..> [Admin Personal Account]
+    [Admin Statistic] ..> [Admin Applications]
+    [Admin Statistic] ..> [Admin House]
+    [Admin Statistic] ..> [Admin Owner]
+    [Admin Statistic] ..> [Admin Apartment]
+    [Admin Personal Account] <.left. [Admin Apartment]
+    [Admin Owner] ..> [Users]
+    [Admin Applications] ..> [Users]
+    [Admin House] ..> [Users]
+    [Admin Tariff] .right.> [Admin Services]
+    [Admin Apartment] ..> [Users]
+    [Website] ..>[Admin Website]
+    [Cabinet Tariff] ..> [Admin Tariff]
+
+
+    [Cabinet Profile] ..> [Admin Owner]
+    
+'    [Cabinet Application] ..> [Users]
+'    [Cabinet Summary] ..> [Users]
+'    [Cabinet Receipts] ..> [Users]
+
+
+}
+
+@enduml

@@ -4,19 +4,19 @@
 <link rel="stylesheet"
       href="{% static 'admin_panel/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css' %}"/>
 {% endblock %}
-{% block title %}Новая {% if view.kwargs.transaction_type == 'income' or transaction.type %}приходная
-                        {% else %}расходная{% endif %} ведомость{% endblock %}
+{% block title %}Нова {% if view.kwargs.transaction_type == 'income' or transaction.type %}прибуткова
+                        {% else %} витратна {% endif %} відомість {% endblock %}
 {% block breadcrumb %}
     <ul class="breadcrumb">
-        <li><a href="{% url 'statistic' %}"><i class="fa fa-home"></i>Главная</a></li>
-        <li><a href="{% url 'transaction_list' %}">Платежи</a></li>
-        <li class="active">Новая {% if view.kwargs.transaction_type == 'income' or transaction.type %}приходная
-                        {% else %}расходная{% endif %} ведомость</li>
+        <li><a href="{% url 'statistic' %}"><i class="fa fa-home"></i>Головна</a></li>
+        <li><a href="{% url 'transaction_list' %}">Платежі</a></li>
+        <li class="active">Нова {% if view.kwargs.transaction_type == 'income' or transaction.type %}прибуткова
+                        {% else %} витратна {%endif%} відомість </li>
     </ul>
 {% endblock %}
 {% block header_text %}
-    Новая {% if view.kwargs.transaction_type == 'income' or transaction.type %}приходная
-                        {% else %}расходная{% endif %} ведомость
+    Нова {% if view.kwargs.transaction_type == 'income' or transaction.type %}прибуткова
+                        {% else %} витратна {% endif %} відомість
 {% endblock %}
 {% block content %}
 
@@ -35,11 +35,11 @@
                             {{form.number}}
                         </div>
                     </div>
-                    <span class="label-mid">от</span>
+                    <span class="label-mid">від</span>
                     <div class="form-group">
-                        <div id="transaction_date" class="input-group  date">
-                            {{ form.date }}
-                            <span class="input-group-addon kv-date-calendar" title="Выбрать дату"><i
+                        <div id="transaction_date" class="input-group date">
+                            {{form.date}}
+                            <span class="input-group-addon kv-date-calendar" title="Вибрати дату"><i
                                 class="glyphicon glyphicon-calendar"></i></span></div>
                     </div>
                 </div>
@@ -51,7 +51,7 @@
             <div class="box-body">
                 <div class="row">
                     <div class="col-xs-12 col-sm-6 col-sm-offset-6">
-                        {{form.is_complete}} <label for="{{form.is_complete.id_for_label}}">Проведен</label>
+                        {{form.is_complete}} <label for="{{form.is_complete.id_for_label}}">Проведено</label>
                     </div>
                 </div>
 
@@ -59,24 +59,24 @@
                     <div class="col-xs-12 col-sm-6">
                         {% if view.kwargs.transaction_type == 'income' or transaction.type%}
                         <div class="form-group">
-                            <label for="{{form.owner.id_for_label}}">Владелец квартиры</label>
+                            <label for="{{form.owner.id_for_label}}">Власник квартири</label>
 
-                            {{ form.owner }}</div>
+                            {{form.owner}}</div>
                         <div class="form-group">
-                            <label class="control-label" for="{{form.personal_account.id_for_label}}">Лицевой счет</label>
-                            {{ form.personal_account }}
+                            <label class="control-label" for="{{form.personal_account.id_for_label}}">Обліковий рахунок</label>
+                            {{form.personal_account}}
 
                             <div class="help-block"></div>
                         </div>
                         {% endif %}
                         <div class="form-group">
-                            <label class="control-label" for="{{form.purpose.id_for_label}}">Статья</label>
-                            {{ form.purpose }}
+                            <label class="control-label" for="{{form.purpose.id_for_label}}">Стаття</label>
+                            {{form.purpose}}
 
                             <div class="help-block"></div>
                         </div>
                         <div class="form-group">
-                            <label class="control-label" for="{{form.sum.id_for_label}}">Сумма</label>
+                            <label class="control-label" for="{{form.sum.id_for_label}}">Сума</label>
                             {{form.sum}}
 
                             <div class="help-block"></div>
@@ -96,15 +96,15 @@
                     <div class="col-xs-12 text-right">
                         <div class="form-group">
                             <a href="{% url 'transaction_list' %}"
-                               class="btn btn-default margin-bottom-15">Отменить</a>
+                               class="btn btn-default margin-bottom-15">Скасувати</a>
                             <input type="submit" class="btn btn-success margin-bottom-15" name="action_save"
-                                   value="Сохранить"></div>
+                                   value="Зберегти"></div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-xs-12">
                         <div class="form-group">
-                            <label class="control-label" for="{{form.comment.id_for_label}}">Комментарий</label>
+                            <label class="control-label" for="{{form.comment.id_for_label}}">Коментар</label>
                             {{form.comment}}
 
                             <div class="help-block"></div>
@@ -121,15 +121,15 @@
         $('#nav_transaction').attr('class', 'active')
     </script>
     <script src="{% static 'admin_panel/bower_components/moment/moment.js' %}"></script>
-    <script src="{% static 'admin_panel/bower_components/moment/locale/ru.js' %}"></script>
+    <script src="{% static 'admin_panel/bower_components/moment/locale/uk.js' %}"></script>
     <script src="{% static 'admin_panel/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js' %}"></script>
     <script src="{% static 'admin_panel/bower_components/select2/dist/js/select2.full.min.js' %}"></script>
-    <script src="{% static 'admin_panel/bower_components/select2/dist/js/i18n/ru.min.js' %}"></script>
+    <script src="{% static 'admin_panel/bower_components/select2/dist/js/i18n/uk.js' %}"></script>
     <script>
              $(function () {
              $('#transaction_date').datetimepicker({
-                     minDate: moment('{{ transaction.date|date:'d.m.Y' }}','L'),
-                     locale: 'ru',
+                     minDate: moment('{{ transaction.date|date:'d.m.Y'}}','L'),
+                     locale: 'uk',
                      format: 'L',
                  }
              );
@@ -137,7 +137,7 @@
     </script>
     <script>
         if(!$('#id_date').val()) {
-        $('#transaction_date').datetimepicker({locale: 'ru',format: 'L',minDate: moment(),date:moment()})
+        $('#transaction_date').datetimepicker({locale: 'uk',format: 'L',minDate: moment(),date:moment()})
     }
     let select_options = {
         'owner_id':'',
@@ -145,7 +145,7 @@
         function clear_options(target_id) {
             $('#' + `${target_id} option:not([value=''])`).remove()
         }
-    {% block ajax_link_set %}{% endblock %}
+    {% block ajax_link_set %} {% endblock %}
     function get_values(values) {
         $.ajax({
             type: 'GET',
@@ -165,7 +165,7 @@
                 if(data['owner_id']){
                     console.log(data['owner_id'])
                     $('#id_owner').unbind().val(data['owner_id'])
-                        .change().select2({placeholder: "Выберите...", allowClear:true})
+                        .change().select2({placeholder: "Виберіть...", allowClear:true})
                     set_event_listeners()
 
                 }
@@ -173,7 +173,7 @@
         })
     }
     function set_event_listeners(){
-        $('#id_owner').change(function () {
+        $('#id_owner').change(function() {
         select_options['owner_id'] = this.value;
         select_options['owner_change'] = 'True';
         get_values();
@@ -181,7 +181,7 @@
 
     });
     }
-        $('#id_personal_account').change(function () {
+        $('#id_personal_account').change(function() {
         if(select_options['owner_id']===''){
             select_options['personal_account'] = this.value
             select_options['personal_account_change'] = 'True'
@@ -193,10 +193,10 @@
 
         $(document).ready(function ()
             {
-                let select_owner =$('#id_owner').select2({placeholder: "Выберите...", allowClear:true})
-                let select_manager =$('#id_manager').select2({placeholder: "Выберите..."})
-                let select_purpose =$('#id_purpose').select2({placeholder: "Выберите..."})
-                let select_personal_account =$('#id_personal_account').select2({placeholder: "Выберите..."})
+                let select_owner =$('#id_owner').select2({placeholder: "Виберіть...", allowClear:true})
+                let select_manager =$('#id_manager').select2({placeholder: "Виберіть..."})
+                let select_purpose =$('#id_purpose').select2({placeholder: "Виберіть..."})
+                let select_personal_account =$('#id_personal_account').select2({placeholder: "Виберіть..."})
                 set_event_listeners()
                 {% if view.kwargs.personal_account_id %}
                     select_personal_account.val('{{ view.kwargs.personal_account_id }}').change()
@@ -209,38 +209,38 @@
     </script>
     <script>
             $( "#transaction_form" ).validate( {
-				rules: {
-					sum: {required: true, min:0},
-					manager: "required",
-					personal_account: "required",
-				},
-				messages: {
-                    sum: {required:"Пожалуйста введите сумму."},
-					manager: "Пожалуйста выберите менеджера.",
-					personal_account: "Пожалуйста выберите лицевой счет.",
-				},
-				errorElement: "em",
-				errorPlacement: function ( error, element ) {
-					error.addClass( "help-block" );
-					element.parents( ".form-group" ).addClass( "has-feedback" );
-					if ( element.prop( "type" ) === "checkbox" ) {
-						error.insertAfter( element.parent( "label" ) );
-					} else {
+rules: {
+sum: {required: true, min:0},
+manager: "required",
+personal_account: "required",
+},
+messages: {
+                    sum: {required:"Будь ласка, введіть суму."},
+manager: "Будь ласка, виберіть менеджера.",
+personal_account: "Будь ласка, виберіть особовий рахунок.",
+},
+errorElement: "em",
+errorPlacement: function ( error, element ) {
+error.addClass( "help-block");
+element.parents( ".form-group" ).addClass( "has-feedback" );
+if ( element.prop( "type" ) === "checkbox" ) {
+error.insertAfter( element.parent( "label" ) );
+} else {
                         if($(element).hasClass('select2-hidden-accessible')){
                             error.insertAfter( $(element).parent('.form-group').find('.select2') );
                         }
                         else error.insertAfter( element );
-					}
-				},
-				success: function ( label, element ) {
-				},
-				highlight: function ( element, errorClass, validClass ) {
-					$( element ).parents( ".form-group" ).addClass( "has-error" ).removeClass( "has-success" );
-				},
-				unhighlight: function ( element, errorClass, validClass ) {
-					$( element ).parents( ".form-group" ).addClass( "has-success" ).removeClass( "has-error" );
-				}
-			} );
+}
+},
+success: function ( label, element ) {
+},
+highlight: function ( element, errorClass, validClass ) {
+$( element ).parents( ".form-group" ).addClass( "has-error" ).removeClass( "has-success" );
+},
+unhighlight: function ( element, errorClass, validClass ) {
+$( element ).parents( ".form-group" ).addClass( "has-success" ).removeClass( "has-error" );
+}
+} );
              $("select").on("select2:close", function (e) {
         $(this).valid();
     });

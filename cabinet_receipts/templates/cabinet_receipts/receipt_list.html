@@ -4,15 +4,15 @@
     <link rel="stylesheet"
           href="{% static 'admin_panel/plugins/bootstrap-datepicker-1.9.0-dist/css/bootstrap-datepicker3.min.css' %}"/>
 {% endblock %}
-{% block title %}Квитанции на оплату{% endblock %}
+{% block title %}Квитанції на оплату{% endblock %}
 {% block breadcrumb %}
     <ul class="breadcrumb">
-        <li><a href="{% url 'cabinet' %}"><i class="fa fa-home"></i>Главная</a></li>
-        <li class="active">Квитанции на оплату </li>
+        <li><a href="{% url 'cabinet' %}"><i class="fa fa-home"></i>Головна</a></li>
+        <li class="active">Квитанції на оплату</li>
     </ul>
 {% endblock %}
 {% block header_text %}
-    Квитанции на оплату
+    Квитанції на оплату
 {% endblock %}
 {% block content %}
     <div class="row">
@@ -22,7 +22,7 @@
                     <h3 class="box-title"></h3>
                     <div class="box-tools">
                         <button onclick="clear_filters()" class="btn btn-default btn-sm">
-                            <span class="hidden-xs">Очистить</span><i class="fa fa-eraser visible-xs"
+                            <span class="hidden-xs">Очистити</span><i class="fa fa-eraser visible-xs"
                                                                       aria-hidden="true"></i>
                         </button>
                     </div>
@@ -37,10 +37,10 @@
                                 <th>№</th>
                                 <th><a id="date" class="ordering" style="cursor: pointer">Дата</a></th>
                                 <th>Статус</th>
-                                <th>Сумма</th>
+                                <th>Сума</th>
                             </tr>
                             <tr id="w0-filters" class="filters">
-                                <td>&nbsp;</td>
+                                <td> </td>
                                 <td><input type="text" id="date_input" class="form-control" style="width: 100%"></td>
                                 <td><select id="status" class="form-control select2 filter" style="width: 100%">
                                     <option value=""></option>
@@ -48,7 +48,7 @@
                                         <option value="{{ status }}">{{ status }}</option>
                                     {% endfor %}
                                 </select></td>
-                                <td>&nbsp;</td>
+                                <td> </td>
                             </tr>
                             </thead>
                             <tbody>
@@ -71,11 +71,11 @@
     </script>
 
     <script src="{% static 'admin_panel/bower_components/select2/dist/js/select2.full.min.js' %}"></script>
-    <script src="{% static 'admin_panel/bower_components/select2/dist/js/i18n/ru.min.js' %}"></script>
+    <script src="{% static 'admin_panel/bower_components/select2/dist/js/i18n/uk.js' %}"></script>
     <script src="{% static 'admin_panel/bower_components/datatables.net/js/jquery.dataTables.min.js' %}"></script>
     <script src="{% static 'admin_panel/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js' %}"></script>
     <script src="{% static 'admin_panel/bower_components/moment/moment.js' %}"></script>
-    <script src="{% static 'admin_panel/bower_components/moment/locale/ru.js' %}"></script>
+    <script src="{% static 'admin_panel/bower_components/moment/locale/uk.js' %}"></script>
     <script src="{% static 'admin_panel/plugins/bootstrap-datepicker-1.9.0-dist/js/bootstrap-datepicker.min.js' %}"></script>
     <script>
         let numb = 0
@@ -83,9 +83,9 @@
         let table
         let table_head = $('#receipt_table thead')
         let label_colors = {
-            'Оплачена': 'label-success',
-            'Не оплачена': 'label-danger',
-            'Частично оплачена': 'label-warning',
+            'Оплачено': 'label-success',
+            'Не оплачено': 'label-danger',
+            'Частково оплачена': 'label-warning',
         }
 
         function numberWithSpaces(nr) {
@@ -95,7 +95,7 @@
         function check_empty(data) {
             if (data) {
                 return data
-            } else return '(не задано)'
+            } else return '(не вказано)'
         }
 
         function clear_filters() {
@@ -123,7 +123,7 @@
                 'pageLength': 10,
                 'lengthChange': false,
                 oLanguage: {
-                    sZeroRecords: "Ничего не найдено."
+                    sZeroRecords: "Нічого не знайдено."
                 },
                 columnDefs: [
                     {targets: '_all', className: "receipt", defaultContent: ''},
@@ -171,7 +171,7 @@
                 numb = 0
                 table.draw()
             });
-            table_head.on('click', '.ordering', function () {
+            table_head.on('click', '.ordering', function() {
                 if (this.className === 'ordering asc') {
                     $(this).attr('class', 'ordering desc')
                     sort_data['order_by'] = '-' + this.id
@@ -192,7 +192,7 @@
         })
 
 
-        $(document).ready(function () {
+        $(document).ready(function() {
 
             send_POST();
             $('.column_search').val('');
@@ -202,7 +202,7 @@
             $(function () {
                 $('#date_input').datepicker({
                     format: "dd.mm.yyyy",
-                    language: "ru",
+                    language: "uk",
                 }).change(function (date) {
                     sort_data['date'] = moment(`${this.value}`, 'L').format('YYYY-MM-DD')
                     numb = 0

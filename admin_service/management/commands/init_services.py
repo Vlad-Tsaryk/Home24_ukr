@@ -7,7 +7,7 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         if not Unit.objects.exists() and not Service.objects.exists():
             unit_names = ['г/кал', 'kW⋅h', 'm3']
-            service_names = ['Тепло', 'Электроэнергия', 'Газ', 'Хол.вода', 'Гор.вода']
+            service_names = ['Тепло', 'Електроенергія', 'Газ', 'Хол.вода', 'Гор.вода']
             unit = None
             for unit_name, service_name in zip(unit_names, service_names):
                 unit = Unit.objects.create(

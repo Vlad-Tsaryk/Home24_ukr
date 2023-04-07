@@ -9,7 +9,7 @@ from admin_tariff.models import Tariff, TariffService
 class Command(BaseCommand):
     def handle(self, *args, **options):
         if not Tariff.objects.exists():
-            tariff_names = ['Економ', 'Vip', 'Комфорт', 'Коммерческий']
+            tariff_names = ['Економ', 'Vip', 'Комфорт', 'Комерційний']
             services = Service.objects.all()
             for tariff_name in tariff_names:
                 tariff = Tariff.objects.create(

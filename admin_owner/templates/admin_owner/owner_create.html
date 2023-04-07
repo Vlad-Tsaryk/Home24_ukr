@@ -1,13 +1,13 @@
 {% extends 'layout/admin_panel.html' %}
 {% load static %}
-{% block title %}Новый владелец {% endblock %}
+{% block title %}Новий власник {% endblock %}
 {% block header_text %}
-    Новый владелец
+    Новий власник
 {% endblock %}
 {% block breadcrumb %}
-    <ul class="breadcrumb"><li><a href="{% url 'statistic' %}"><i class="fa fa-home"></i> Главная</a></li>
-        <li><a href="{% url 'owner_list' %}">Владельцы квартир</a></li>
-    <li class="active">Новый владелец</li>
+    <ul class="breadcrumb"><li><a href="{% url 'statistic' %}"><i class="fa fa-home"></i> Головна</a></li>
+        <li><a href="{% url 'owner_list' %}">Власники квартир</a></li>
+    <li class="active">Новий власник</li>
 </ul>
 {% endblock %}
 {% block head %}
@@ -26,18 +26,18 @@
                     <div class="col-xs-12 col-sm-6">
                         <div class="userAvatar">
 
-                            <img class="img-circle pull-left img-responsive"
+                            <img class="img- circle pull-left img-responsive"
                                     {% if form.instance.profile_image %}
                                  src="{{ form.instance.profile_image.url }}"
                                     {% else %}
                                  src="{% static 'admin_panel/dist/img/placeholder_160x160.jpeg' %}"
                                     {% endif %}
-                                 alt="Фото профиля"
+                                 alt="Фото профілю"
                             >
                             <div class="form-group field-owner-image">
 
-                                <label class="control-label" for="owner-image">Сменить изображение</label>
-                                {{ form.profile_image }}
+                                <label class="control-label" for="owner-image">Змінити зображення</label>
+                                {{form.profile_image}}
                                 <div class="help-block"></div>
                             </div>
                         </div>
@@ -45,12 +45,12 @@
                     <div class="col-xs-12 col-sm-6">
                         <div class="form-group field-owner-status">
                             <label class="control-label" for="owner-status">Статус</label>
-                            {{ form.status }}
+                            {{form.status}}
                             <div class="help-block"></div>
                         </div>
                         <div class="form-group field-owner-uid">
                             <label class="control-label" for="owner-uid">ID</label>
-                            {{ form.uid }}
+                            {{form.uid}}
 
                             <div class="help-block"></div>
                         </div>
@@ -59,26 +59,26 @@
                 <div class="row">
                     <div class="col-xs-12 col-sm-6">
                         <div class="form-group field-owner-lastname">
-                            <label class="control-label" for="owner-lastname">Фамилия</label>
-                            {{ form.last_name }}
+                            <label class="control-label" for="owner-lastname">Прізвище</label>
+                            {{form.last_name}}
                             <div class="help-block"></div>
                         </div>
                         <div class="form-group field-owner-firstname">
-                            <label class="control-label" for="owner-firstname">Имя</label>
-                            {{ form.first_name }}
+                            <label class="control-label" for="owner-firstname">Ім'я</label>
+                            {{form.first_name}}
 
                             <div class="help-block"></div>
                         </div>
                         <div class="form-group field-owner-middlename">
-                            <label class="control-label" for="owner-middlename">Отчество</label>
-                            {{ form.middle_name }}
+                            <label class="control-label" for="owner-middlename">По батькові</label>
+                            {{form.middle_name}}
 
                             <div class="help-block"></div>
                         </div>
                         <div class="form-group field-owner-birthdate">
-                            <label class="control-label" for="owner-birthdate">Дата рождения</label>
+                            <label class="control-label" for="owner-birthdate">Дата народження</label>
                             <div class='input-group date' id='birthdate_picker'>
-                                {{ form.birth_date }}
+                                {{form.birth_date}}
                                 <span class="input-group-addon">
                <span class="glyphicon glyphicon-calendar"></span>
                </span>
@@ -88,8 +88,8 @@
                     </div>
                     <div class="col-xs-12 col-sm-6">
                         <div class="form-group field-owner-note">
-                            <label class="control-label" for="owner-note">О владельце (заметки)</label>
-                            {{ form.notes }}
+                            <label class="control-label" for="owner-note">Про власника (нотатки)</label>
+                            {{form.notes}}
 
                             <div class="help-block"></div>
                         </div>
@@ -97,21 +97,21 @@
                 </div>
                 <div class="row">
                     <div class="col-xs-12 col-md-6">
-                        <h2 class="page-header">Контактные данные</h2>
+                        <h2 class="page-header">Контактні дані</h2>
                         <div class="form-group field-owner-phone {% if form.phone.errors %}has-error{% endif %}">
                             <label class="control-label" for="owner-phone">Телефон</label>
-                            {{ form.phone }}
+                            {{form.phone}}
                             {% if form.phone.errors %}
-                                <em id="id_phone-error" class="error help-block">{{ form.phone.errors|join:". " }}</em>
+                                <em id="id_phone-error" class="error help-block">{{form.phone.errors|join:". " }}</em>
                             {% endif %}
 
                             <div class="help-block"></div>
                         </div>
                         <div class="form-group field-owner-viber {% if form.viber.errors %}has-error{% endif %}">
                             <label class="control-label" for="owner-viber">Viber</label>
-                            {{ form.viber }}
+                            {{form.viber}}
                                 {% if form.viber.errors %}
-                                <em id="id_viber-error" class="error help-block">{{ form.viber.errors|join:". " }}</em>
+                                <em id="id_viber-error" class="error help-block">{{form.viber.errors|join:". " }}</em>
                             {% endif %}
                             <div class="help-block"></div>
                         </div>
@@ -119,14 +119,14 @@
                             <label class="control-label" for="owner-telegram">Telegram</label>
                             <div class="input-group">
                                 <span class="input-group-addon" id="basic-addon1">@</span>
-                                {{ form.telegram }}
+                                {{form.telegram}}
                             </div>
                             <div class="help-block"></div>
                         </div>
                         <div class="form-group field-owner-email required
-                                    {% if form.username.errors %}has-error{% endif %}">
-                            <label class="control-label" for="owner-email">Email (логин)</label>
-                            {{ form.username }}
+                                    {% if form.username.errors %} has-error {% endif %}">
+                            <label class="control-label" for="owner-email">Email (логін)</label>
+                            {{form.username}}
                             {% if form.username.errors %}
                                 <em id="id_username-error"
                                     class="error help-block">{{ form.username.errors|join:". " }}</em>
@@ -135,15 +135,15 @@
                         </div>
                     </div>
                     <div class="col-xs-12 col-md-6">
-                        <h2 class="page-header">Изменить пароль</h2>
+                        <h2 class="page-header">Змінити пароль</h2>
                         <div class="form-group field-owner-password">
                             <label class="control-label" for="owner-password">Пароль</label>
 
                             <div class="input-group">
-                                {{ form.password1 }}
+                                {{form.password1}}
                                 <span class="input-group-btn">
                         <button class="btn btn-default" type="button" onclick="generatePassword('.pass-value')">
-                            Сгенерировать
+                            Згенерувати
                         </button>
                         <button type="button" class="btn btn-primary" id="showPass">
                             <i class="fa fa-eye" aria-hidden="true"></i>
@@ -154,23 +154,23 @@
                             <div class="help-block"></div>
                         </div>
                         <div class="form-group field-owner-password2">
-                            <label class="control-label" for="owner-password2">Повторить пароль</label>
-                            {{ form.password2 }}
+                            <label class="control-label" for="owner-password2">Повторити пароль</label>
+                            {{form.password2}}
 
                             <div class="help-block"></div>
                         </div>
                     </div>
                 </div>
-                {{ form.role }}
+                {{form.role}}
                 <div class="row">
                     <div class="col-xs-12 text-right">
-                        <a href="{% url 'owner_list' %}" class="btn btn-default">Отменить</a>
-                        <button type="submit" class="btn btn-success">Сохранить</button>
+                        <a href="{% url 'owner_list' %}" class="btn btn-default">Скасувати</a>
+                        <button type="submit" class="btn btn-success">Зберегти</button>
                     </div>
                 </div>
 
             </form>
-        {{ form.errors }}
+        {{form.errors}}
             <script>
                 function generatePassword(targetSelector) {
                     var pass = Math.random().toString(36).substring(4);
@@ -188,7 +188,7 @@
         $('#nav_owners').attr('class', 'active')
     </script>
     <script src="{% static 'admin_panel/bower_components/moment/moment.js' %}"></script>
-    <script src="{% static 'admin_panel/bower_components/moment/locale/ru.js' %}"></script>
+    <script src="{% static 'admin_panel/bower_components/moment/locale/uk.js' %}"></script>
     <script src="{% static 'admin_panel/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js' %}"></script>
         <script src="{% static 'admin_panel/plugins/jquery-validation-1.19.5/demo/marketo/jquery.maskedinput.js' %}"></script>
       <script type="text/javascript">
@@ -200,7 +200,7 @@
              $('#birthdate_picker').datetimepicker({
                      minDate: min_date,
                      maxDate: max_date,
-                     locale: 'ru',
+                     locale: 'uk',
                      format: 'L'
                  }
              );
@@ -211,14 +211,14 @@
  <script src="{% static 'admin_panel/plugins/jquery-validation-1.19.5/dist/additional-methods.min.js' %}"></script>
     <script>
         $.validator.addMethod("validateEmail", function(value, element) {
-        let regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
-    return regex.test(value);
+        let regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9] {2,4}) + $ /;
+    return regex.test (value);
     });
     $( "#owner_form" ).validate( {
-				rules: {
-					first_name: {maxlength: 50},
-					last_name: {maxlength: 50},
-					username: {
+rules: {
+first_name: {maxlength: 50},
+last_name: {maxlength: 50},
+username: {
                         required: true,
                         validateEmail:true,
                         email:false
@@ -226,10 +226,10 @@
                     },
         {% block passwords %}
                     password1: {
-						required: true,
-						minlength: 8
-					},
-					password2: {
+required: true,
+minlength: 8
+},
+password2: {
                         required: true,
                         equalTo: "#id_password1"
                     },
@@ -237,37 +237,37 @@
                     telegram: {maxlength: 32,},
                     middle_name: {maxlength: 50,},
                     profile_image: {extension: "jpg|jpeg|png|JPG|JPEG|PNG"},
-				},
-				messages: {
-					first_name: "Пожалуйста введите ваше имя.",
-					last_name: "Пожалуйста введите вашу фамилию.",
-					username: {
-                        required:'Пожалуйста введите email адрес',
-                        validateEmail:"Пожалуйста введите правильный email адрес."
+},
+messages: {
+first_name: "Будь ласка, введіть ваше ім'я.",
+last_name: "Будь ласка, введіть ваше прізвище.",
+username: {
+                        required:'Будь ласка, введіть email адресу',
+                        validateEmail:"Будь ласка, введіть правильну адресу електронної пошти."
                     },
                     password1: {
-						required: "Пожалуйста введите пароль.",
-						minlength: "Ваша пароль должен быть больше 8 символов."
-					},
-					password2: {
-						required: "Пожалуйста введите пароль.",
-						{#minlength: "Ваша пароль должен быть больше 8 символов.",#}
-						equalTo: "Пароли не совпадают."
-					},
-                    profile_image: "Только файлы с разрешением jpg, jpeg, png, JPG, JPEG, PNG",
-				},
-				errorElement: "em",
-				errorPlacement: function ( error, element ) {
-					// Add the `help-block` class to the error element
-					error.addClass( "help-block" );
+required: "Будь ласка, введіть пароль.",
+minlength: "Ваш пароль повинен бути більше 8 символів."
+},
+password2: {
+required: "Будь ласка, введіть пароль.",
+{#minlength: "Ваш пароль повинен бути більше 8 символів.",#}
+equalTo: "Паролі не збігаються."
+},
+                    profile_image: "Тільки файли з роздільною здатністю jpg, jpeg, png, JPG, JPEG, PNG",
+},
+errorElement: "em",
+errorPlacement: function ( error, element ) {
+// Add the `help-block` class to the error element
+error.addClass( "help-block");
 
-					// Add `has-feedback` class to the parent div.form-group
-					// in order to add icons to inputs
-					element.parents( ".form-group" ).addClass( "has-feedback" );
+// Add `has-feedback` class to the parent div.form-group
+// in order to add icons to inputs
+element.parents( ".form-group" ).addClass( "has-feedback" );
 
-					if ( element.prop( "type" ) === "checkbox" ) {
-						error.insertAfter( element.parent( "label" ) );
-					} else {
+if ( element.prop( "type" ) === "checkbox" ) {
+error.insertAfter( element.parent( "label" ) );
+} else {
                         if(element.parent( ".input-group" ).length){
                             error.insertAfter( element.parent( ".input-group" ) );
                         }
@@ -275,27 +275,27 @@
                             error.insertAfter( element );
                         }
 
-					}
+}
 
-					// Add the span element, if doesn't exists, and apply the icon classes to it.
-					if ( !element.next( "span" )[ 0 ] ) {
-						$( "<span class='glyphicon glyphicon-remove form-control-feedback'></span>" ).insertAfter( element );
-					}
-				},
-				success: function ( label, element ) {
-					// Add the span element, if doesn't exists, and apply the icon classes to it.
-					if ( !$( element ).next( "span" )[ 0 ] ) {
-						$( "<span class='glyphicon glyphicon-ok form-control-feedback'></span>" ).insertAfter( $( element ) );
-					}
-				},
-				highlight: function ( element, errorClass, validClass ) {
-					$( element ).parents( ".form-group" ).addClass( "has-error" ).removeClass( "has-success" );
-					$( element ).next( "span" ).addClass( "glyphicon-remove" ).removeClass( "glyphicon-ok" );
-				},
-				unhighlight: function ( element, errorClass, validClass ) {
-					$( element ).parents( ".form-group" ).addClass( "has-success" ).removeClass( "has-error" );
-					$( element ).next( "span" ).addClass( "glyphicon-ok" ).removeClass( "glyphicon-remove" );
-				}
-			} );
+// Додати елемент електронної пошти, якщо немає exists, і apply the icon classes to it.
+if (! element.next ("span") [0]) {
+$( "<span class='glyphicon glyphicon-remove form-control-feedback'></span>" ).insertAfter( element );
+}
+},
+success: function ( label, element ) {
+// Додати елемент електронної пошти, якщо немає exists, і apply the icon classes to it.
+if ( !$( element ).next( "span" )[ 0 ] ) {
+$( "<span class='glyphicon glyphicon-ok form-control-feedback'></span>" ).insertAfter( $( element ) );
+}
+},
+highlight: function ( element, errorClass, validClass ) {
+$( element ).parents( ".form-group" ).addClass( "has-error" ).removeClass( "has-success" );
+$( element ).next( "span" ).addClass( "glyphicon-remove" ).removeClass( "glyphicon-ok" );
+},
+unhighlight: function ( element, errorClass, validClass ) {
+$( element ).parents( ".form-group" ).addClass( "has-success" ).removeClass( "has-error" );
+$( element ).next( "span" ).addClass( "glyphicon-ok" ).removeClass( "glyphicon-remove" );
+}
+} );
     </script>
 {% endblock %}

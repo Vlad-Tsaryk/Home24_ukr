@@ -1,13 +1,13 @@
 {% extends 'layout/admin_panel.html' %}
 {% load static %}
-{% block title %}Тариф{% endblock %}
+{% block title %} тариф {% endblock %}
 {% block header_text %}
 Тариф
 {% endblock %}
 {% block breadcrumb %}
         <ul class="breadcrumb">
-        <li><a href="{% url 'statistic' %}"><i class="fa fa-home"></i>Главная</a></li>
-        <li><a href="{% url 'tariff_list' %}">Тарифы</a></li>
+        <li><a href="{% url 'statistic' %}"><i class="fa fa-home"></i>Головна</a></li>
+        <li><a href="{% url 'tariff_list' %}">Тарифи</a></li>
         <li class="active">Тариф</li>
 </ul>
 {% endblock %}
@@ -19,7 +19,7 @@
         <h3 class="box-title"></h3>
         <div class="box-tools">
             <a href="{% url 'tariff_update' object.pk %}" class="btn btn-primary btn-sm">
-                <span class="hidden-xs">Редактировать тариф</span><i class="fa fa-pencil visible-xs" aria-hidden="true"></i>
+                <span class="hidden-xs">Редагувати тариф</span><i class="fa fa-pencil visible-xs" aria-hidden="true"></i>
             </a>
         </div>
     </div>
@@ -27,20 +27,20 @@
         <table class="table table-bordered table-striped table-view">
             <tbody>
                 <tr>
-                    <td>Название тарифа</td>
+                    <td>Назва тарифу</td>
                     <td>
-                        {{ object.name }}
+                        {{object.name}}
                     </td>
                 </tr>
                 <tr>
-                    <td>Описание</td>
+                    <td>Опис</td>
                     <td>
-                        {{ object.description }}
+                        {{object.description}}
                     </td>
                 </tr>
                 <tr>
-                    <td>Дата редактирования</td>
-                    <td>{{ object.date_edit|date:'d.m.o - H:i' }}</td>
+                    <td>Дата редагування</td>
+                    <td>{{object.date_edit|date:'d.m.o - H:i'}}</td>
                 </tr>
             </tbody>
         </table>
@@ -49,16 +49,16 @@
                 <thead>
                     <tr>
                         <th>#</th>
-                        <th>Услуга</th>
-                        <th>Ед. изм.</th>
-                        <th>Цена за ед., грн</th>
+                        <th>Послуга</th>
+                        <th>Од. вим.</th>
+                        <th>Ціна за од., грн</th>
                         <th>Валюта</th>
                     </tr>
                 </thead>
                 <tbody>
                 {% for tariffservice in object.tariffservice_set.all %}
                                             <tr role="row">
-                            <td>{{ forloop.counter }}</td>
+                            <td>{{forloop.counter}}</td>
                             <td>{{ tariffservice.service.name }}</td>
                             <td>{{ tariffservice.service.unit.name }}</td>
                             <td>{{ tariffservice.price }}</td>

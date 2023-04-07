@@ -1,0 +1,60 @@
+@startuml
+!theme aws-orange
+title Create Tariff Sequence Diagram
+autonumber
+actor User
+participant Browser
+participant Server
+database Database
+
+User->Browser: Navigate to "Create Tariff" page
+activate Browser
+activate User
+
+Browser->Server: Send GET request for "Create Tariff" page
+deactivate Browser
+activate Server
+Server->Database: Retrieve list of available services
+activate Database
+Database-->Server: Return list of available services
+deactivate Database
+Server->Server: Render "Create Tariff" page with list of available services
+Server->Browser: Send HTML response with "Create Tariff" page and list of available services
+deactivate Server
+
+activate Browser
+User->Browser: Enter Tariff name
+User->Browser: Enter Tariff description
+
+
+User->Browser: Add Service
+loop
+    User -> Browser: Select service
+    User <-- Browser: Unit for service selected
+    User -> Browser: Enter price
+end
+
+Browser->Server: Send POST request with tariff information
+deactivate Browser
+activate Server
+Server->Server: Validate tariff information
+
+Server->Server: Create new Tariff instance with tariff information
+
+Server->Server: Create new TariffService instances with related service information
+
+Server->Database: Save new Tariff and TariffService instances
+deactivate Server
+activate Database
+
+
+Database-->Server: Confirm successful creation of new Tariff and TariffServices
+deactivate Database
+activate Server
+Server->Server: Redirect user to "Tariff List" page
+Server->Browser: Send HTML response with "Tariff List" page
+deactivate Server
+
+activate Browser
+
+@enduml
