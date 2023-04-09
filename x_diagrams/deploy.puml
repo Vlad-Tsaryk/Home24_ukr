@@ -1,0 +1,27 @@
+@startuml
+!theme materia
+cloud Browser
+node "Digital Ocean Server" {
+  node "Docker Containers" {
+  node "Web Container" {
+  rectangle "Gunicorn" as Gunicorn
+
+  rectangle "Django" as Django
+  }
+  node "DataBease Container" {
+        database "PostgreSQL"
+  }
+  node "Nginx Container" {
+    rectangle "NGINX" as  NGINX {
+      rectangle "NGINX Configuration"
+    }
+    }
+
+}
+
+}
+Browser -right-> NGINX: HTTPS
+NGINX -- Gunicorn
+Django -left- Gunicorn
+Django -left- PostgreSQL
+@enduml

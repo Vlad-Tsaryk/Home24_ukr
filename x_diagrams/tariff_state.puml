@@ -1,0 +1,23 @@
+@startuml
+!theme aws-orange
+hide empty description
+
+start
+: Navigate to "Tariff List" page;
+: Select the Tariff to be cloned;
+: Click on "Clone" button;
+: Enter Tariff name;
+: Enter Tariff description;
+: Submit cloned Tariff information;
+
+: Validate cloned Tariff information;
+if (Valid?) then([Valid])
+  : Create new Tariff and TariffService instances from cloned Tariff;
+  : Save new Tariff and TariffService instances;
+  : Redirect user to "Tariff List" page;
+else ([Invalid])
+  : Display error message to user;
+endif
+: View "Tariff List" page;
+stop
+@enduml
