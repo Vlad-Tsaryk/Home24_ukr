@@ -1,0 +1,1123 @@
+@startuml classes_yourpackage
+set namespaceSeparator none
+'!theme carbon-gray
+'!theme lightgray
+!theme aws-orange
+'left to right direction
+class "AboutPage" as admin_website.models.AboutPage {
+  additional_text
+  additional_title
+  photo
+  seo
+  text
+  title
+}
+class "AboutPageForm" as admin_website.forms.AboutPageForm {
+  additional_text
+  additional_title
+  photo
+  text
+  title
+  clean_photo()
+}
+class "AboutPageUpdate" as admin_website.views.AboutPageUpdate {
+  object
+  permission_required : str
+  success_url
+  template_name : str
+  get_context_data()
+  post(request)
+}
+class "AboutPageView" as website.views.AboutPageView {
+  context_object_name : str
+  model
+  template_name : str
+  get_object(queryset)
+}
+class "ActivationTokenGenerator" as users.tokens.ActivationTokenGenerator {
+}
+class "AdditionalGallery" as admin_website.models.AdditionalGallery {
+  about_page
+  image
+}
+class "AdditionalGalleryDelete" as admin_website.views.AdditionalGalleryDelete {
+  model
+  success_message : str
+}
+class "AdditionalGalleryForm" as admin_website.forms.AdditionalGalleryForm {
+  image
+}
+class "AdminApplicationConfig" as admin_application.apps.AdminApplicationConfig {
+  default_auto_field : str
+  name : str
+}
+class "AdminBackend" as users.backends.AdminBackend {
+  authenticate(request, username, password)
+}
+class "AdminHouseConfig" as admin_house.apps.AdminHouseConfig {
+  default_auto_field : str
+  name : str
+}
+class "AdminLoginForm" as users.forms.AdminLoginForm {
+  password
+  remember_me
+  username
+}
+class "AdminLoginView" as users.views.AdminLoginView {
+  form_class
+  success_url
+  template_name : str
+  user_type : str
+}
+class "AdminLogoutView" as users.views.AdminLogoutView {
+  success_url
+  user_type : str
+}
+class "AdminOwnerConfig" as admin_owner.apps.AdminOwnerConfig {
+  default_auto_field : str
+  name : str
+}
+class "AdminPanelConfig" as admin_panel.apps.AdminPanelConfig {
+  default_auto_field : str
+  name : str
+}
+class "AdminPermissionRequiredMixin" as users.mixins.AdminPermissionRequiredMixin {
+  login_url
+  dispatch(request)
+  has_permission()
+}
+class "AdminPersonalAccountConfig" as admin_personal_account.apps.AdminPersonalAccountConfig {
+  default_auto_field : str
+  name : str
+}
+class "AdminServiceConfig" as admin_service.apps.AdminServiceConfig {
+  default_auto_field : str
+  name : str
+}
+class "AdminTariffConfig" as admin_tariff.apps.AdminTariffConfig {
+  default_auto_field : str
+  name : str
+}
+class "AdminWebsiteConfig" as admin_website.apps.AdminWebsiteConfig {
+  default_auto_field : str
+  name : str
+}
+class "ApartmentModelChoiceField" as admin_application.forms.ApartmentModelChoiceField {
+  label_from_instance(obj)
+}
+class "ApartmentTariffView" as cabinet_tariff.views.ApartmentTariffView {
+  model
+  template_name : str
+  get_context_data()
+  get_queryset()
+}
+class "Application" as admin_application.models.Application {
+  apartment
+  comment
+  date
+  date_add
+  description
+  master
+  master_type
+  owner
+  status
+  time
+}
+class "ApplicationCreate" as admin_application.views.ApplicationCreate {
+  form_class
+  model
+  permission_required : str
+  success_message : str
+  success_url
+  template_name : str
+  render_to_response(context)
+}
+class "ApplicationForm" as admin_application.forms.ApplicationForm {
+  apartment
+  comment
+  date
+  description
+  master
+  master_type
+  owner
+  status
+  time
+}
+class "ApplicationList" as admin_application.views.ApplicationList {
+  model
+  permission_required : str
+  template_name : str
+  get_context_data()
+  render_to_response(context)
+}
+class "ApplicationUpdate" as admin_application.views.ApplicationUpdate {
+  success_message : str
+  template_name : str
+}
+class "ApplicationView" as admin_application.views.ApplicationView {
+  model
+  permission_required : str
+  template_name : str
+}
+class "Block" as admin_website.models.Block {
+  description
+  image
+  main_page
+  title
+}
+class "BlockForm" as admin_website.forms.BlockForm {
+  description
+  image
+  title
+}
+class "CabinetApplicationConfig" as cabinet_application.apps.CabinetApplicationConfig {
+  default_auto_field : str
+  name : str
+}
+class "CabinetApplicationCreate" as cabinet_application.views.CabinetApplicationCreate {
+  form_class
+  model
+  object
+  success_url
+  template_name : str
+  form_valid(form)
+  get_form_kwargs()
+}
+class "CabinetApplicationDelete" as cabinet_application.views.CabinetApplicationDelete {
+  model
+  object
+  success_url
+  delete(request)
+  get(request)
+}
+class "CabinetApplicationForm" as cabinet_application.forms.CabinetApplicationForm {
+  apartment
+  date
+  description
+  master_type
+  time
+}
+class "CabinetApplicationList" as cabinet_application.views.CabinetApplicationList {
+  model
+  template_name : str
+  get_queryset()
+  render_to_response(context)
+}
+class "CabinetConfig" as cabinet.apps.CabinetConfig {
+  default_auto_field : str
+  name : str
+}
+class "CabinetLoginForm" as users.forms.CabinetLoginForm {
+  username
+}
+class "CabinetLoginView" as users.views.CabinetLoginView {
+  form_class
+  success_url
+  template_name : str
+  user_type : str
+}
+class "CabinetLogoutView" as users.views.CabinetLogoutView {
+  success_url
+  user_type : str
+}
+class "CabinetOwnerChangeForm" as admin_owner.forms.CabinetOwnerChangeForm {
+}
+class "CabinetProfileConfig" as cabinet_profile.apps.CabinetProfileConfig {
+  default_auto_field : str
+  name : str
+}
+class "CabinetTariffConfig" as cabinet_tariff.apps.CabinetTariffConfig {
+  default_auto_field : str
+  name : str
+}
+class "ContactPage" as admin_website.models.ContactPage {
+  address
+  email
+  full_name
+  location
+  map_code
+  phone
+  seo
+  site_url
+  text
+  title
+}
+class "ContactPageForm" as admin_website.forms.ContactPageForm {
+}
+class "ContactPageUpdate" as admin_website.views.ContactPageUpdate {
+  object
+  permission_required : str
+  success_url
+  template_name : str
+  get_context_data()
+  post(request)
+}
+class "ContactPageView" as website.views.ContactPageView {
+  context_object_name : str
+  model
+  template_name : str
+  get_object(queryset)
+}
+class "CreateUser" as users.views.CreateUser {
+  form_class
+  permission_required : str
+  success_message : str
+  success_url
+  template_name : str
+}
+class "CustomLoginView" as users.views.CustomLoginView {
+  user_type : str
+  authenticated_check()
+  form_valid(form)
+  get(request)
+}
+class "CustomUserCreationForm" as users.forms.CustomUserCreationForm {
+  first_name
+  last_name
+  password1
+  password2
+  phone
+  role
+  status
+  username
+  clean_role()
+}
+class "CustomUserUpdateForm" as users.forms.CustomUserUpdateForm {
+  first_name
+  last_name
+  password1
+  password2
+  phone
+  username
+}
+class "DeleteUser" as users.views.DeleteUser {
+  model
+  object
+  permission_required : str
+  success_url
+  delete(request)
+  get(request)
+}
+class "Document" as admin_website.models.Document {
+  about_page
+  file
+  title
+}
+class "DocumentForm" as admin_website.forms.DocumentForm {
+  file
+  title
+}
+class "Floor" as admin_house.models.Floor {
+  house
+  name
+}
+class "FloorForm" as admin_house.forms.FloorForm {
+  name
+}
+class "Gallery" as admin_website.models.Gallery {
+  about_page
+  image
+}
+class "GalleryDelete" as admin_website.views.GalleryDelete {
+  model
+  permission_required : str
+  success_message : str
+  success_url
+  delete(request)
+  get(request)
+}
+class "GalleryForm" as admin_website.forms.GalleryForm {
+  image
+}
+class "House" as admin_house.models.House {
+  address
+  date_edit
+  image1
+  image2
+  image3
+  image4
+  image5
+  name
+  users
+}
+class "HouseCreate" as admin_house.views.HouseCreate {
+  form_class
+  model
+  object : NoneType
+  permission_required : str
+  success_url : str
+  template_name : str
+  form_valid(form, floor_formset, section_formset, house_user_formset)
+  get_context_data()
+  post(request)
+}
+class "HouseForm" as admin_house.forms.HouseForm {
+  address
+  name
+}
+class "HouseList" as admin_house.views.HouseList {
+  model
+  permission_required : str
+  template_name : str
+  render_to_response(context)
+}
+class "HouseUpdate" as admin_house.views.HouseUpdate {
+  form_class
+  model
+  object
+  permission_required : str
+  success_url : str
+  template_name : str
+  form_valid(form, floor_formset, section_formset, house_user_formset)
+  get_context_data()
+  post(request)
+}
+class "HouseUser" as admin_house.models.HouseUser {
+  house
+  user
+}
+class "HouseUserForm" as admin_house.forms.HouseUserForm {
+  role
+  user
+}
+class "HouseView" as admin_house.views.HouseView {
+  model
+  permission_required : str
+  template_name : str
+}
+class "InviteUser" as users.views.InviteUser {
+  model
+  get(request)
+}
+class "LogoutView" as users.views.LogoutView {
+  success_url : str
+  user_type : str
+  get(request)
+}
+class "MainPage" as admin_website.models.MainPage {
+  image1
+  image2
+  image3
+  seo
+  show_app_urls
+  text
+  title
+}
+class "MainPageForm" as admin_website.forms.MainPageForm {
+  image1
+  image2
+  image3
+  text
+  title
+}
+class "MainPageUpdate" as admin_website.views.MainPageUpdate {
+  object
+  permission_required : str
+  success_url
+  template_name : str
+  get_context_data()
+  post(request)
+}
+class "MainPageView" as website.views.MainPageView {
+  context_object_name : str
+  model
+  template_name : str
+  get_context_data()
+  get_object(queryset)
+}
+class "MasterModelChoiceField" as admin_application.forms.MasterModelChoiceField {
+  label_from_instance(obj)
+}
+class "MasterType" as admin_application.models.Application.MasterType {
+  ANY : tuple
+  ELECTRICIAN : tuple
+  PLUMBER : tuple
+}
+class "Meta" as admin_application.models.Application.Meta {
+  ordering : list
+}
+class "Meta" as admin_application.forms.ApplicationForm.Meta {
+  fields : list
+  model
+}
+class "Meta" as cabinet_application.forms.CabinetApplicationForm.Meta {
+  fields : list
+  model
+}
+class "Meta" as users.models.User.Meta {
+  ordering : list
+}
+class "Meta" as users.forms.CustomUserCreationForm.Meta {
+  fields : list
+  model
+}
+class "Meta" as users.forms.CustomUserUpdateForm.Meta {
+  fields : list
+  model
+}
+class "Meta" as users.forms.RoleForm.Meta {
+  exclude : list
+  fields : str
+  model
+}
+class "Meta" as admin_website.forms.MainPageForm.Meta {
+  exclude : list
+  fields : str
+  model
+}
+class "Meta" as admin_website.forms.SeoForm.Meta {
+  fields : str
+  model
+}
+class "Meta" as admin_website.forms.BlockForm.Meta {
+  exclude : list
+  fields : str
+  model
+}
+class "Meta" as admin_website.forms.ContactPageForm.Meta {
+  exclude : list
+  fields : str
+  model
+}
+class "Meta" as admin_website.forms.ServicePageForm.Meta {
+  exclude : list
+  fields : str
+  model
+}
+class "Meta" as admin_website.forms.ServiceBlockForm.Meta {
+  exclude : list
+  fields : str
+  model
+}
+class "Meta" as admin_website.forms.TariffPageForm.Meta {
+  exclude : list
+  fields : str
+  model
+}
+class "Meta" as admin_website.forms.TariffBlockForm.Meta {
+  exclude : list
+  fields : str
+  model
+}
+class "Meta" as admin_website.forms.AboutPageForm.Meta {
+  exclude : list
+  fields : str
+  model
+}
+class "Meta" as admin_website.forms.DocumentForm.Meta {
+  exclude : list
+  fields : str
+  model
+}
+class "Meta" as admin_website.forms.GalleryForm.Meta {
+  exclude : list
+  fields : str
+  model
+}
+class "Meta" as admin_website.forms.AdditionalGalleryForm.Meta {
+  exclude : list
+  fields : str
+  model
+}
+class "Meta" as admin_service.forms.UnitForm.Meta {
+  fields : str
+  model
+}
+class "Meta" as admin_service.forms.ServiceForm.Meta {
+  fields : list
+  model
+}
+class "Meta" as admin_owner.forms.OwnerCreateForm.Meta {
+  fields : list
+  model
+}
+class "Meta" as admin_owner.forms.OwnerChangeForm.Meta {
+  fields : list
+  model
+}
+class "Meta" as admin_house.models.House.Meta {
+  ordering : list
+}
+class "Meta" as admin_house.forms.HouseForm.Meta {
+  exclude : list
+  fields : str
+  model
+}
+class "Meta" as admin_house.forms.SectionForm.Meta {
+  fields : str
+  model
+}
+class "Meta" as admin_house.forms.FloorForm.Meta {
+  fields : str
+  model
+}
+class "Meta" as admin_house.forms.HouseUserForm.Meta {
+  exclude : list
+  fields : list
+  model
+}
+class "Meta" as admin_personal_account.forms.PersonalAccountForm.Meta {
+  fields : list
+  model
+}
+class "Meta" as admin_tariff.models.Tariff.Meta {
+  ordering : list
+}
+class "Meta" as admin_tariff.forms.TariffForm.Meta {
+  exclude : list
+  fields : str
+  model
+}
+class "Meta" as admin_tariff.forms.TariffServiceForm.Meta {
+  fields : list
+  model
+}
+class "OwnerBackend" as users.backends.OwnerBackend {
+  authenticate(request, username, password)
+}
+class "OwnerChangeForm" as admin_owner.forms.OwnerChangeForm {
+  password1
+  password2
+}
+class "OwnerCreate" as admin_owner.views.OwnerCreate {
+  form_class
+  model
+  permission_required : str
+  success_message : str
+  success_url
+  template_name : str
+}
+class "OwnerCreateForm" as admin_owner.forms.OwnerCreateForm {
+  birth_date
+  first_name
+  last_name
+  middle_name
+  notes
+  password1
+  password2
+  phone
+  profile_image
+  role
+  status
+  telegram
+  uid
+  username
+  viber
+  clean_role()
+}
+class "OwnerDelete" as admin_owner.views.OwnerDelete {
+  model
+  object
+  permission_required : str
+  success_url
+  delete(request)
+  get(request)
+}
+class "OwnerInvite" as admin_owner.views.OwnerInvite {
+  form_class
+  permission_required : str
+  success_url
+  template_name : str
+  form_valid(form)
+}
+class "OwnerInviteForm" as admin_owner.forms.OwnerInviteForm {
+  email
+  phone
+}
+class "OwnerList" as admin_owner.views.OwnerList {
+  model
+  permission_required : str
+  template_name : str
+  get_context_data()
+  render_to_response(context)
+}
+class "OwnerPermissionRequiredMixin" as users.mixins.OwnerPermissionRequiredMixin {
+  login_url
+  dispatch(request)
+  has_permission()
+}
+class "OwnerUpdate" as admin_owner.views.OwnerUpdate {
+  context_object_name : str
+  form_class
+  model
+  permission_required : str
+  success_message : str
+  success_url
+  template_name : str
+}
+class "OwnerView" as admin_owner.views.OwnerView {
+  context_object_name : str
+  model
+  permission_required : str
+  template_name : str
+}
+class "PersonalAccount" as admin_personal_account.models.PersonalAccount {
+  apartment
+  balance
+  number
+  status
+  owner_has_debt(owner_id)
+}
+class "PersonalAccountBalance" as admin_personal_account.utils.PersonalAccountBalance {
+  balance(personal_account)
+  get_total_balance()
+  get_total_debt()
+  get_total_query(filters)
+}
+class "PersonalAccountCreate" as admin_personal_account.views.PersonalAccountCreate {
+  form_class
+  model
+  permission_required : str
+  success_url
+  template_name : str
+  render_to_response(context)
+}
+class "PersonalAccountForm" as admin_personal_account.forms.PersonalAccountForm {
+  apartment
+  house
+  number
+  status
+}
+class "PersonalAccountList" as admin_personal_account.views.PersonalAccountList {
+  model
+  permission_required : str
+  template_name : str
+  get_context_data()
+  render_to_response(context)
+  to_excel(value_list)
+}
+class "PersonalAccountUpdate" as admin_personal_account.views.PersonalAccountUpdate {
+  form_class
+  model
+  permission_required : str
+  success_url
+  template_name : str
+}
+class "PersonalAccountView" as admin_personal_account.views.PersonalAccountView {
+  model
+  permission_required : str
+  template_name : str
+}
+class "ProfileUpdate" as cabinet_profile.views.ProfileUpdate {
+  context_object_name : str
+  form_class
+  model
+  success_message : str
+  success_url
+  template_name : str
+  get_object(queryset)
+}
+class "ProfileView" as cabinet_profile.views.ProfileView {
+  context_object_name : str
+  model
+  template_name : str
+  get_context_data()
+  get_object(queryset)
+}
+class "Role" as users.models.Role {
+  apartments
+  applications
+  houses
+  messages
+  meters
+  owners
+  payment_details
+  personal_accounts
+  receipts
+  role
+  roles
+  services
+  statistics
+  tariffs
+  transactions
+  users
+  website
+}
+class "RoleForm" as users.forms.RoleForm {
+}
+class "RoleModelChoiceField" as admin_house.forms.RoleModelChoiceField {
+  label_from_instance(obj)
+}
+class "RoleName" as users.models.Role.RoleName {
+  ACCOUNTANT : tuple
+  DIRECTOR : tuple
+  ELECTRICIAN : tuple
+  MANAGER : tuple
+  OWNER : tuple
+  PLUMBER : tuple
+}
+class "Section" as admin_house.models.Section {
+  house
+  name
+}
+class "SectionForm" as admin_house.forms.SectionForm {
+  name
+}
+class "Seo" as admin_website.models.Seo {
+  description
+  keywords
+  title
+}
+class "SeoForm" as admin_website.forms.SeoForm {
+  description
+  keywords
+  title
+}
+class "Service" as admin_service.models.Service {
+  is_counter
+  name
+  unit
+  in_usage()
+}
+class "ServiceBlock" as admin_website.models.ServiceBlock {
+  image
+  service_page
+  text
+  title
+}
+class "ServiceBlockForm" as admin_website.forms.ServiceBlockForm {
+  image
+  text
+  title
+}
+class "ServiceEdit" as admin_service.views.ServiceEdit {
+  permission_required : str
+  success_url
+  template_name : str
+  form_valid(service_formset, unit_formset)
+  get_context_data()
+  post(request)
+}
+class "ServiceForm" as admin_service.forms.ServiceForm {
+  is_counter
+  name
+  unit
+}
+class "ServicePage" as admin_website.models.ServicePage {
+  seo
+}
+class "ServicePageForm" as admin_website.forms.ServicePageForm {
+}
+class "ServicePageUpdate" as admin_website.views.ServicePageUpdate {
+  object
+  permission_required : str
+  success_url
+  template_name : str
+  get_context_data()
+  post(request)
+}
+class "ServicePageView" as website.views.ServicePageView {
+  context_object_name : str
+  model
+  template_name : str
+  get_object(queryset)
+}
+class "StatisticView" as admin_panel.views.StatisticView {
+  permission_required : str
+  template_name : str
+  get_context_data()
+}
+class "StatusName" as admin_application.models.Application.StatusName {
+  DONE : tuple
+  IN_PROGRESS : tuple
+  NEW : tuple
+}
+class "StatusName" as users.models.User.StatusName {
+  ACTIVE : tuple
+  DISABLED : tuple
+  NEW : tuple
+}
+class "StatusName" as admin_personal_account.models.PersonalAccount.StatusName {
+  ACTIVE : tuple
+  DISABLED : tuple
+}
+class "Tariff" as admin_tariff.models.Tariff {
+  date_edit
+  description
+  name
+  services
+}
+class "TariffBlock" as admin_website.models.TariffBlock {
+  image
+  tariff_page
+  title
+}
+class "TariffBlockForm" as admin_website.forms.TariffBlockForm {
+  image
+  title
+}
+class "TariffClone" as admin_tariff.views.TariffClone {
+  get_context_data()
+  get_form_kwargs()
+}
+class "TariffCreate" as admin_tariff.views.TariffCreate {
+  form_class
+  model
+  object : NoneType
+  permission_required : str
+  success_url : str
+  template_name : str
+  form_valid(form, formset)
+  get_context_data()
+  post(request)
+}
+class "TariffForm" as admin_tariff.forms.TariffForm {
+  description
+  name
+}
+class "TariffList" as admin_tariff.views.TariffList {
+  model
+  permission_required : str
+  template_name : str
+}
+class "TariffPage" as admin_website.models.TariffPage {
+  seo
+  text
+  title
+}
+class "TariffPageForm" as admin_website.forms.TariffPageForm {
+  text
+  title
+}
+class "TariffPageUpdate" as admin_website.views.TariffPageUpdate {
+  object
+  permission_required : str
+  success_url
+  template_name : str
+  get_context_data()
+  post(request)
+}
+class "TariffService" as admin_tariff.models.TariffService {
+  price
+  service
+  tariff
+}
+class "TariffServiceForm" as admin_tariff.forms.TariffServiceForm {
+  price
+  service
+}
+class "TariffUpdate" as admin_tariff.views.TariffUpdate {
+  form_class
+  model
+  object
+  permission_required : str
+  success_url : str
+  template_name : str
+  form_valid(form, formset)
+  get_context_data()
+  post(request)
+}
+class "TariffView" as admin_tariff.views.TariffView {
+  model
+  permission_required : str
+  template_name : str
+}
+class "Unit" as admin_service.models.Unit {
+  name
+  used_in_service()
+}
+class "UnitForm" as admin_service.forms.UnitForm {
+  name
+}
+class "UnitModelChoiceField" as admin_service.forms.UnitModelChoiceField {
+  label_from_instance(obj)
+}
+class "UpdateRoles" as users.views.UpdateRoles {
+  permission_required : str
+  success_url
+  template_name : str
+  form_valid(formset)
+  get_context_data()
+  post(request)
+}
+class "UpdateUser" as users.views.UpdateUser {
+  context_object_name : str
+  form_class
+  model
+  permission_required : str
+  success_message : str
+  success_url
+  template_name : str
+}
+class "User" as users.models.User {
+  birth_date
+  first_name
+  last_name
+  middle_name
+  notes
+  phone
+  profile_image
+  role
+  status
+  telegram
+  uid
+  username
+  viber
+  get_apartments()
+  get_new_users()
+  get_owners()
+  get_status_label_color()
+  save()
+}
+class "Users" as users.views.Users {
+  context_object_name : str
+  model
+  permission_required : str
+  template_name : str
+  get_context_data()
+  render_to_response(context)
+}
+class "UsersConfig" as users.apps.UsersConfig {
+  default_auto_field : str
+  name : str
+}
+class "ViewUser" as users.views.ViewUser {
+  context_object_name : str
+  model
+  permission_required : str
+  template_name : str
+}
+class "WebsiteConfig" as website.apps.WebsiteConfig {
+  default_auto_field : str
+  name : str
+}
+admin_application.views.ApplicationCreate --|> users.mixins.AdminPermissionRequiredMixin
+admin_application.views.ApplicationList --|> users.mixins.AdminPermissionRequiredMixin
+admin_application.views.ApplicationUpdate --|> admin_application.views.ApplicationCreate
+admin_application.views.ApplicationView --|> users.mixins.AdminPermissionRequiredMixin
+admin_house.views.HouseCreate --|> users.mixins.AdminPermissionRequiredMixin
+admin_house.views.HouseList --|> users.mixins.AdminPermissionRequiredMixin
+admin_house.views.HouseUpdate --|> users.mixins.AdminPermissionRequiredMixin
+admin_house.views.HouseView --|> users.mixins.AdminPermissionRequiredMixin
+admin_owner.forms.CabinetOwnerChangeForm --|> admin_owner.forms.OwnerChangeForm
+admin_owner.forms.OwnerChangeForm --|> admin_owner.forms.OwnerCreateForm
+admin_owner.views.OwnerCreate --|> users.mixins.AdminPermissionRequiredMixin
+admin_owner.views.OwnerDelete --|> users.mixins.AdminPermissionRequiredMixin
+admin_owner.views.OwnerInvite --|> users.mixins.AdminPermissionRequiredMixin
+admin_owner.views.OwnerList --|> users.mixins.AdminPermissionRequiredMixin
+admin_owner.views.OwnerUpdate --|> users.mixins.AdminPermissionRequiredMixin
+admin_owner.views.OwnerView --|> users.mixins.AdminPermissionRequiredMixin
+admin_panel.views.StatisticView --|> users.mixins.AdminPermissionRequiredMixin
+admin_personal_account.views.PersonalAccountCreate --|> users.mixins.AdminPermissionRequiredMixin
+admin_personal_account.views.PersonalAccountList --|> users.mixins.AdminPermissionRequiredMixin
+admin_personal_account.views.PersonalAccountUpdate --|> users.mixins.AdminPermissionRequiredMixin
+admin_personal_account.views.PersonalAccountView --|> users.mixins.AdminPermissionRequiredMixin
+admin_service.views.ServiceEdit --|> users.mixins.AdminPermissionRequiredMixin
+admin_tariff.views.TariffClone --|> admin_tariff.views.TariffCreate
+admin_tariff.views.TariffCreate --|> users.mixins.AdminPermissionRequiredMixin
+admin_tariff.views.TariffList --|> users.mixins.AdminPermissionRequiredMixin
+admin_tariff.views.TariffUpdate --|> users.mixins.AdminPermissionRequiredMixin
+admin_tariff.views.TariffView --|> users.mixins.AdminPermissionRequiredMixin
+admin_website.views.AboutPageUpdate --|> users.mixins.AdminPermissionRequiredMixin
+admin_website.views.AdditionalGalleryDelete --|> admin_website.views.GalleryDelete
+admin_website.views.ContactPageUpdate --|> users.mixins.AdminPermissionRequiredMixin
+admin_website.views.GalleryDelete --|> users.mixins.AdminPermissionRequiredMixin
+admin_website.views.MainPageUpdate --|> users.mixins.AdminPermissionRequiredMixin
+admin_website.views.ServicePageUpdate --|> users.mixins.AdminPermissionRequiredMixin
+admin_website.views.TariffPageUpdate --|> users.mixins.AdminPermissionRequiredMixin
+cabinet_application.views.CabinetApplicationCreate --|> users.mixins.OwnerPermissionRequiredMixin
+cabinet_application.views.CabinetApplicationDelete --|> users.mixins.OwnerPermissionRequiredMixin
+cabinet_application.views.CabinetApplicationList --|> users.mixins.OwnerPermissionRequiredMixin
+cabinet_profile.views.ProfileUpdate --|> users.mixins.OwnerPermissionRequiredMixin
+cabinet_profile.views.ProfileView --|> users.mixins.OwnerPermissionRequiredMixin
+cabinet_tariff.views.ApartmentTariffView --|> users.mixins.OwnerPermissionRequiredMixin
+users.forms.CabinetLoginForm --|> users.forms.AdminLoginForm
+users.views.AdminLoginView --|> users.views.CustomLoginView
+users.views.AdminLogoutView --|> users.views.LogoutView
+users.views.CabinetLoginView --|> users.views.CustomLoginView
+users.views.CabinetLogoutView --|> users.views.LogoutView
+users.views.CreateUser --|> users.mixins.AdminPermissionRequiredMixin
+users.views.DeleteUser --|> users.mixins.AdminPermissionRequiredMixin
+users.views.UpdateRoles --|> users.mixins.AdminPermissionRequiredMixin
+users.views.UpdateUser --|> users.mixins.AdminPermissionRequiredMixin
+users.views.Users --|> users.mixins.AdminPermissionRequiredMixin
+users.views.ViewUser --|> users.mixins.AdminPermissionRequiredMixin
+admin_application.forms.ApartmentModelChoiceField --* admin_application.forms.ApplicationForm : apartment
+admin_application.forms.ApartmentModelChoiceField --* cabinet_application.forms.CabinetApplicationForm : apartment
+admin_application.forms.ApplicationForm --* admin_application.views.ApplicationCreate : form_class
+admin_application.forms.MasterModelChoiceField --* admin_application.forms.ApplicationForm : master
+admin_application.models.Application --* admin_application.forms.ApplicationForm.Meta : model
+admin_application.models.Application --* admin_application.views.ApplicationCreate : model
+admin_application.models.Application --* admin_application.views.ApplicationList : model
+admin_application.models.Application --* admin_application.views.ApplicationView : model
+admin_application.models.Application --* cabinet_application.forms.CabinetApplicationForm.Meta : model
+admin_application.models.Application --* cabinet_application.views.CabinetApplicationCreate : model
+admin_application.models.Application --* cabinet_application.views.CabinetApplicationDelete : model
+admin_application.models.Application --* cabinet_application.views.CabinetApplicationList : model
+admin_house.forms.HouseForm --* admin_house.views.HouseCreate : form_class
+admin_house.forms.HouseForm --* admin_house.views.HouseUpdate : form_class
+admin_house.forms.RoleModelChoiceField --* admin_house.forms.HouseUserForm : role
+admin_house.models.Floor --* admin_house.forms.FloorForm.Meta : model
+admin_house.models.House --* admin_house.forms.HouseForm.Meta : model
+admin_house.models.House --* admin_house.views.HouseCreate : model
+admin_house.models.House --* admin_house.views.HouseList : model
+admin_house.models.House --* admin_house.views.HouseUpdate : model
+admin_house.models.House --* admin_house.views.HouseView : model
+admin_house.models.HouseUser --* admin_house.forms.HouseUserForm.Meta : model
+admin_house.models.Section --* admin_house.forms.SectionForm.Meta : model
+admin_owner.forms.OwnerChangeForm --* admin_owner.views.OwnerUpdate : form_class
+admin_owner.forms.OwnerChangeForm --* cabinet_profile.views.ProfileUpdate : form_class
+admin_owner.forms.OwnerCreateForm --* admin_owner.views.OwnerCreate : form_class
+admin_owner.forms.OwnerInviteForm --* admin_owner.views.OwnerInvite : form_class
+admin_personal_account.forms.PersonalAccountForm --* admin_personal_account.views.PersonalAccountCreate : form_class
+admin_personal_account.forms.PersonalAccountForm --* admin_personal_account.views.PersonalAccountUpdate : form_class
+admin_personal_account.models.PersonalAccount --* admin_personal_account.forms.PersonalAccountForm.Meta : model
+admin_personal_account.models.PersonalAccount --* admin_personal_account.views.PersonalAccountCreate : model
+admin_personal_account.models.PersonalAccount --* admin_personal_account.views.PersonalAccountList : model
+admin_personal_account.models.PersonalAccount --* admin_personal_account.views.PersonalAccountUpdate : model
+admin_personal_account.models.PersonalAccount --* admin_personal_account.views.PersonalAccountView : model
+
+admin_service.models.Service --* admin_service.forms.ServiceForm.Meta : model
+admin_service.models.Unit --* admin_service.forms.UnitForm.Meta : model
+admin_tariff.forms.TariffForm --* admin_tariff.views.TariffCreate : form_class
+admin_tariff.forms.TariffForm --* admin_tariff.views.TariffUpdate : form_class
+admin_tariff.models.Tariff --* admin_tariff.forms.TariffForm.Meta : model
+admin_tariff.models.Tariff --* admin_tariff.views.TariffCreate : model
+admin_tariff.models.Tariff --* admin_tariff.views.TariffList : model
+admin_tariff.models.Tariff --* admin_tariff.views.TariffUpdate : model
+admin_tariff.models.Tariff --* admin_tariff.views.TariffView : model
+admin_tariff.models.TariffService --* admin_tariff.forms.TariffServiceForm.Meta : model
+admin_tariff.models.TariffService --* cabinet_tariff.views.ApartmentTariffView : model
+admin_website.models.AboutPage --* admin_website.forms.AboutPageForm.Meta : model
+admin_website.models.AboutPage --* website.views.AboutPageView : model
+admin_website.models.AdditionalGallery --* admin_website.forms.AdditionalGalleryForm.Meta : model
+admin_website.models.AdditionalGallery --* admin_website.views.AdditionalGalleryDelete : model
+admin_website.models.Block --* admin_website.forms.BlockForm.Meta : model
+admin_website.models.ContactPage --* admin_website.forms.ContactPageForm.Meta : model
+admin_website.models.ContactPage --* website.views.ContactPageView : model
+admin_website.models.Document --* admin_website.forms.DocumentForm.Meta : model
+admin_website.models.Gallery --* admin_website.forms.GalleryForm.Meta : model
+admin_website.models.Gallery --* admin_website.views.GalleryDelete : model
+admin_website.models.MainPage --* admin_website.forms.MainPageForm.Meta : model
+admin_website.models.MainPage --* website.views.MainPageView : model
+admin_website.models.Seo --* admin_website.forms.SeoForm.Meta : model
+admin_website.models.ServiceBlock --* admin_website.forms.ServiceBlockForm.Meta : model
+admin_website.models.ServicePage --* admin_website.forms.ServicePageForm.Meta : model
+admin_website.models.ServicePage --* website.views.ServicePageView : model
+admin_website.models.TariffBlock --* admin_website.forms.TariffBlockForm.Meta : model
+admin_website.models.TariffPage --* admin_website.forms.TariffPageForm.Meta : model
+cabinet_application.forms.CabinetApplicationForm --* cabinet_application.views.CabinetApplicationCreate : form_class
+users.forms.AdminLoginForm --* users.views.AdminLoginView : form_class
+users.forms.CabinetLoginForm --* users.views.CabinetLoginView : form_class
+users.forms.CustomUserCreationForm --* users.views.CreateUser : form_class
+users.forms.CustomUserUpdateForm --* users.views.UpdateUser : form_class
+users.models.Role --* users.forms.RoleForm.Meta : model
+users.models.User --* admin_owner.forms.OwnerChangeForm.Meta : model
+users.models.User --* admin_owner.forms.OwnerCreateForm.Meta : model
+users.models.User --* admin_owner.views.OwnerCreate : model
+users.models.User --* admin_owner.views.OwnerDelete : model
+users.models.User --* admin_owner.views.OwnerList : model
+admin_service.forms.UnitModelChoiceField --* admin_service.forms.ServiceForm : unit
+users.models.User --* admin_owner.views.OwnerUpdate : model
+users.models.User --* admin_owner.views.OwnerView : model
+users.models.User --* cabinet_profile.views.ProfileUpdate : model
+users.models.User --* cabinet_profile.views.ProfileView : model
+users.models.User --* users.forms.CustomUserCreationForm.Meta : model
+users.models.User --* users.forms.CustomUserUpdateForm.Meta : model
+users.models.User --* users.views.DeleteUser : model
+users.models.User --* users.views.InviteUser : model
+users.models.User --* users.views.UpdateUser : model
+users.models.User --* users.views.Users : model
+users.models.User --* users.views.ViewUser : model
+skinparam linetype ortho
+@enduml

@@ -108,8 +108,7 @@ class HouseCreate(AdminPermissionRequiredMixin, CreateView):
         return redirect(self.success_url)
 
 
-class HouseUpdate(AdminPermissionRequiredMixin, UpdateView):
-    permission_required = 'houses'
+class HouseUpdate(AdminPermissionRequiredMixin, UpdateView):    permission_required = 'houses'
     model = House
     form_class = HouseForm
     template_name = 'admin_house/house_update.html'

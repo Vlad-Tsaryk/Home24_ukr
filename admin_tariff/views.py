@@ -1,11 +1,11 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib import messages
+from django.shortcuts import redirect, get_object_or_404
 from django.views.generic import CreateView, ListView, UpdateView, DetailView
 
-from users.mixins import AdminPermissionRequiredMixin
-from .models import Tariff, TariffService
-from .forms import TariffForm, TariffServiceFormSet
 from admin_service.models import Service
-from django.contrib import messages
+from users.mixins import AdminPermissionRequiredMixin
+from .forms import TariffForm, TariffServiceFormSet
+from .models import Tariff, TariffService
 
 
 # Create your views here.
