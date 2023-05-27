@@ -73,7 +73,7 @@ class Command(BaseCommand):
         if not ServicePage.objects.exists():
             service_page = ServicePage.objects.create(seo=Seo.objects.create(title="Услуги",
                                                                              description="Услуги",
-                                                                             keywords="Home24, Дом24, Услуги"))
+                                                                             keywords="Home24, Будинок24, Услуги"))
             service_texts = ["<p>Прибирання та підтримання порядку на території житлового комплексу,"
                              " включаючи прибирання сходових кліток, під'їздів та внутрішніх дворів."
                              "</p><ul><li>Регулярне прибирання внутрішніх дворів та прибудинкових територій"
@@ -158,7 +158,7 @@ class Command(BaseCommand):
                                 "Пірса і пляжу. Також за бажання мешканці будинку можуть замовити будь-які"
                                 "будівельно-ремонтні роботи від штатної бригади компанії</b></p><p></p>",
                 additional_title="Про керуючу компанію",
-                seo=Seo.objects.create(title="Про нас", description="Про нас", keywords="Home24, Дом24, Про нас")
+                seo=Seo.objects.create(title="Про нас", description="Про нас", keywords="Home24, Будинок24, Про нас")
             )
             for index in range(3):
                 Document.objects.create(

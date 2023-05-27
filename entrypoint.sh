@@ -1,3 +1,4 @@
+#!/bin/sh
 python manage.py init_website
 python manage.py init_purpose
 python manage.py init_services
@@ -14,3 +15,4 @@ python manage.py create_receipts 11 2
 python manage.py create_receipts 9 3
 python manage.py create_meter_values 100
 python manage.py create_applications 30
+exec "$@"

@@ -28,7 +28,7 @@ class ExcelTemplateCreate(AdminPermissionRequiredMixin, SuccessMessageMixin, Cre
     model = ExcelTemplate
     form_class = ExcelTemplateCreateForm
     template_name = 'excel_templates/excel_template_create.html'
-    success_message = 'Шаблон %(name)s успешно добавлен'
+    success_message = 'Шаблон %(name)s успішно добавлен'
     success_url = reverse_lazy('excel-template-create')
 
     def get_context_data(self, **kwargs):
@@ -43,7 +43,7 @@ class ExcelTemplateDelete(AdminPermissionRequiredMixin, DeleteView):
 
     def delete(self, request, *args, **kwargs):
         obj = self.get_object()
-        messages.success(self.request, f'Шаблон {obj.name} успешно удален')
+        messages.success(self.request, f'Шаблон {obj.name} успішно видалено')
         if obj.default and ExcelTemplate.objects.count() > 1:
 
             self.success_url = reverse_lazy('excel-template-set-default',
@@ -93,7 +93,7 @@ class ExcelTemplatePrint(AdminPermissionRequiredMixin, SingleObjectMixin, Templa
         print(obj)
         if self.request.POST.get('action_send_email'):
             if ReceiptToExcel(obj, 'action_send_email', excel_template).get_excel():
-                messages.success(request, 'Email отправлен успешно')
+                messages.success(request, 'Email отправлен успішно')
             return self.render_to_response(self.get_context_data())
         elif self.request.POST.get('action_download'):
             return ReceiptToExcel(obj, 'action_download', excel_template).get_excel()

@@ -76,7 +76,7 @@ def personal_account_delete(request, pk):
     except:
         messages.error(request, f"Не удалось удалить лицевой счет")
     if number:
-        messages.success(request, f"Лицевой счет №{number} удален успешно")
+        messages.success(request, f"Лицевой счет №{number} видалено успішно")
     return redirect('personal_account_list')
 
 
@@ -96,7 +96,7 @@ class PersonalAccountList(AdminPermissionRequiredMixin, ListView):
     def to_excel(self, value_list):
         wb = Workbook()
         ws = wb.active
-        title_list = ['Лицевой счет', 'Статус', 'Дом', 'Секция', 'Квартира', 'Владелец', 'Остаток']
+        title_list = ['Лицевой счет', 'Статус', 'Будинок', 'Секция', 'Квартира', 'Владелец', 'Остаток']
         ws.append(title_list)
         for account in value_list:
             ws.append(list(account.values())[1:])

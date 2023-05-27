@@ -54,7 +54,7 @@ class HouseView(AdminPermissionRequiredMixin, DetailView):
 
 def house_delete(request, pk):
     obj_house = House.objects.get(pk=pk)
-    messages.success(request, f"Дом {obj_house.name} успешно удалён")
+    messages.success(request, f"Будинок {obj_house.name} успішно удалён")
     obj_house.delete()
     return redirect('house_list')
 
@@ -104,11 +104,12 @@ class HouseCreate(AdminPermissionRequiredMixin, CreateView):
         floor_formset.save()
         section_formset.save()
         house_user_formset.save()
-        messages.success(self.request, f"Дом {house.name} создан успешно")
+        messages.success(self.request, f"Будинок {house.name} создан успішно")
         return redirect(self.success_url)
 
 
-class HouseUpdate(AdminPermissionRequiredMixin, UpdateView):    permission_required = 'houses'
+class HouseUpdate(AdminPermissionRequiredMixin, UpdateView):
+    permission_required = 'houses'
     model = House
     form_class = HouseForm
     template_name = 'admin_house/house_update.html'
@@ -160,5 +161,5 @@ class HouseUpdate(AdminPermissionRequiredMixin, UpdateView):    permission_requi
         floor_formset.save()
         section_formset.save()
         house_user_formset.save()
-        messages.success(self.request, f"Дом {house.name} успешно обновлен")
+        messages.success(self.request, f"Будинок {house.name} успішно обновлен")
         return redirect(self.success_url)

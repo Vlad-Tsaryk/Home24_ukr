@@ -14,7 +14,7 @@ class PaymentDetailsUpdate(AdminPermissionRequiredMixin, SuccessMessageMixin, Up
     permission_required = 'payment_details'
     model = PaymentDetails
     success_url = reverse_lazy('payment_details_update')
-    success_message = "Платежные данные успешно обновлены"
+    success_message = "Платежные данные успішно обновлены"
     form_class = PaymentDetailsForm
     template_name = 'admin_purpose/payment_details.html'
 
@@ -26,7 +26,7 @@ class PurposeCreate(AdminPermissionRequiredMixin, SuccessMessageMixin, CreateVie
     permission_required = 'payment_details'
     model = Purpose
     success_url = reverse_lazy('purpose_list')
-    success_message = "Статья успешно добавлена"
+    success_message = "Статья успішно добавлена"
     form_class = PurposeForm
     template_name = 'admin_purpose/purpose_create.html'
 
@@ -42,7 +42,7 @@ class PurposeUpdate(AdminPermissionRequiredMixin, SuccessMessageMixin, UpdateVie
     model = Purpose
     form_class = PurposeForm
     success_url = reverse_lazy('purpose_list')
-    success_message = "Статья успешно изменена"
+    success_message = "Статья успішно изменена"
     template_name = 'admin_purpose/purpose_update.html'
 
 
@@ -50,5 +50,5 @@ def purpose_delete(request, pk):
     obj_purpose = get_object_or_404(Purpose, pk=pk)
     name = obj_purpose.name
     obj_purpose.delete()
-    messages.success(request, f"Статья {name} успешно удалена")
+    messages.success(request, f"Статья {name} успішно удалена")
     return redirect('purpose_list')

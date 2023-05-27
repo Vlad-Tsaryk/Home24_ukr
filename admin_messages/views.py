@@ -74,7 +74,7 @@ class MessageCreate(AdminPermissionRequiredMixin, CreateView):
         else:
             form.receivers.add(*owners)
         self.object = form
-        messages.success(self.request, 'Сообщение успешно создано')
+        messages.success(self.request, 'Сообщение успішно создано')
         return HttpResponseRedirect(self.get_success_url())
 
 
@@ -92,7 +92,7 @@ class MessageCreateOwner(MessageCreate):
         form.save()
         if self.request.POST.get('receiver'):
             form.receivers.add(self.request.POST.get('receiver'))
-        messages.success(self.request, 'Сообщение успешно создано')
+        messages.success(self.request, 'Сообщение успішно создано')
         return HttpResponseRedirect(self.success_url)
 
 
@@ -138,7 +138,7 @@ class MessageView(AdminPermissionRequiredMixin, DetailView):
 class MessageDelete(AdminPermissionRequiredMixin, DeleteView):
     permission_required = 'messages'
     model = Message
-    success_message = 'Сообщение удалено успешно'
+    success_message = 'Сообщение удалено успішно'
     success_url = reverse_lazy('message_list')
 
     def delete(self, request, *args, **kwargs):
@@ -156,7 +156,7 @@ class MessageDeleteMany(AdminPermissionRequiredMixin, View):
         object_list = self.request.POST.getlist('selected_messages[]')
         for obj_pk in object_list:
             Message.objects.get(pk=obj_pk).delete()
-        messages.success(self.request, 'Сообщения удалены успешно')
+        messages.success(self.request, 'Сообщения удалены успішно')
         return HttpResponse('Success')
 
     def post(self, request, *args, **kwargs):

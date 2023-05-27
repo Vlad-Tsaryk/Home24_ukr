@@ -85,7 +85,7 @@ class CreateUser(AdminPermissionRequiredMixin, SuccessMessageMixin, CreateView):
     form_class = CustomUserCreationForm
     template_name = 'users/user_create.html'
     success_url = reverse_lazy('user_list')
-    success_message = "Пользователь успешно создан"
+    success_message = "Користувач успішно создан"
 
 
 class UpdateUser(AdminPermissionRequiredMixin, SuccessMessageMixin, UpdateView):
@@ -95,7 +95,7 @@ class UpdateUser(AdminPermissionRequiredMixin, SuccessMessageMixin, UpdateView):
     form_class = CustomUserUpdateForm
     template_name = 'users/user_update.html'
     success_url = reverse_lazy('user_list')
-    success_message = "Пользователь успешно изменен"
+    success_message = "Користувач успішно изменен"
 
 
 class ViewUser(AdminPermissionRequiredMixin, DetailView):
@@ -118,7 +118,7 @@ class DeleteUser(AdminPermissionRequiredMixin, DeleteView):
         else:
             try:
                 if self.object.delete():
-                    messages.success(request, 'Пользователь успешно удален')
+                    messages.success(request, 'Користувача успішно видалено')
             except ProtectedError as e:
                 protected_object = list(e.protected_objects)[0]
 
@@ -126,7 +126,7 @@ class DeleteUser(AdminPermissionRequiredMixin, DeleteView):
                 if model_name == 'application':
                     messages.error(request, 'У мастера есть заявки')
                 else:
-                    messages.error(request, 'Пользователь является менеджером в транзакциях')
+                    messages.error(request, 'Користувач является менеджером в транзакциях')
         return HttpResponseRedirect(success_url)
 
     def get(self, request, *args, **kwargs):
@@ -158,7 +158,7 @@ class UpdateRoles(AdminPermissionRequiredMixin, TemplateView):
         if formset.is_valid():
             print('valid')
             formset.save()
-            messages.success(self.request, "Роли успешно изменены")
+            messages.success(self.request, "Роли успішно изменены")
             return redirect(self.success_url)
         else:
             print(formset.errors)

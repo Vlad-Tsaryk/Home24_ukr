@@ -22,7 +22,7 @@ class ApplicationCreate(AdminPermissionRequiredMixin, SuccessMessageMixin, Creat
     form_class = ApplicationForm
     template_name = 'admin_application/application_create.html'
     success_url = reverse_lazy('application_list')
-    success_message = 'Заявка создана успешно'
+    success_message = 'Заявка создана успішно'
 
     def render_to_response(self, context, **response_kwargs):
         if self.request.is_ajax():
@@ -130,7 +130,7 @@ class ApplicationView(AdminPermissionRequiredMixin, DetailView):
 
 class ApplicationUpdate(ApplicationCreate, UpdateView):
     template_name = 'admin_application/application_update.html'
-    success_message = 'Заявка успешно обновлена'
+    success_message = 'Заявка успішно обновлена'
 
 
 def application_delete(request, pk):
@@ -142,5 +142,5 @@ def application_delete(request, pk):
     except:
         error(request, f"Не удалось удалить заявку")
     if obj_id:
-        success(request, f"Заявка №{obj_id} успешно удалена")
+        success(request, f"Заявка №{obj_id} успішно удалена")
     return redirect('application_list')

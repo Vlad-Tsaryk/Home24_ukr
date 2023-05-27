@@ -57,7 +57,7 @@ class ReceiptCreate(AdminPermissionRequiredMixin, CreateView):
             receipt_service.receipt = receipt
         formset.save()
         receipt.set_total_price()
-        success(self.request, f'Квитанция {receipt.number} {self.success_message} успешно')
+        success(self.request, f'Квитанция {receipt.number} {self.success_message} успішно')
         return super().form_valid(form)
 
     def get_meters_consumption(self):
@@ -190,7 +190,7 @@ class ReceiptList(AdminPermissionRequiredMixin, ListView):
                 obj_delete = Receipt.objects.get(pk=pk)
                 obj_number = obj_delete.number
                 if obj_delete.delete():
-                    delete_info['success_msg'].append(f"Квитанция №{obj_number} успешно удалена")
+                    delete_info['success_msg'].append(f"Квитанция №{obj_number} успішно удалена")
             except:
                 delete_info['error_msg'].append(f"Не удалось удалить квитанцию №{obj_number}")
         return delete_info
@@ -276,7 +276,7 @@ def receipt_delete(request, pk):
         obj_delete = Receipt.objects.get(pk=pk)
         obj_number = obj_delete.number
         if obj_delete.delete():
-            success(request, f"Квитанция №{obj_number} успешно удалена")
+            success(request, f"Квитанция №{obj_number} успішно удалена")
     except:
         error(request, f"Не удалось удалить квитанцию №{obj_number}")
 

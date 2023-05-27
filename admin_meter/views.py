@@ -27,7 +27,7 @@ class MeterCreate(AdminPermissionRequiredMixin, SuccessMessageMixin, CreateView)
     model = Meter
     form_class = MeterForm
     template_name = 'admin_meter/meter_create.html'
-    success_message = 'Счетчик №%(number)s успешно создан'
+    success_message = 'Счетчик №%(number)s успішно создан'
 
     def render_to_response(self, context, **response_kwargs):
         if self.request.is_ajax():
@@ -209,7 +209,7 @@ class MeterUpdate(AdminPermissionRequiredMixin, SuccessMessageMixin, UpdateView)
     model = Meter
     form_class = MeterUpdateForm
     template_name = 'admin_meter/meter_update.html'
-    success_message = 'Счетчик №%(number)s успешно обновлен'
+    success_message = 'Счетчик №%(number)s успішно обновлен'
 
     def render_to_response(self, context, **response_kwargs):
         if self.request.is_ajax():
@@ -260,5 +260,5 @@ def meter_delete(request, pk):
     except:
         error(request, f"Не удалось удалить счетчик")
     if name:
-        success(request, f"Показание {name} удален успешно")
+        success(request, f"Показание {name} видалено успішно")
     return redirect('meter-view-list-serv', apartment_id=apartment_id, service_id=service_id)

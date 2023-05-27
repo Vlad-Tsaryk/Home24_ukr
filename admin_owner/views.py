@@ -24,7 +24,7 @@ class OwnerCreate(AdminPermissionRequiredMixin, CreateView, SuccessMessageMixin)
     model = User
     template_name = 'admin_owner/owner_create.html'
     form_class = OwnerCreateForm
-    success_message = "Владелец квартиры успешно создан"
+    success_message = "Владелец квартиры успішно создан"
     success_url = reverse_lazy('owner_list')
 
 
@@ -33,7 +33,7 @@ class OwnerUpdate(AdminPermissionRequiredMixin, UpdateView, SuccessMessageMixin)
     model = User
     template_name = 'admin_owner/owner_update.html'
     form_class = OwnerChangeForm
-    success_message = "Владелец квартиры успешно обновлен"
+    success_message = "Владелец квартиры успішно обновлен"
     context_object_name = 'owner'
     success_url = reverse_lazy('owner_list')
 
@@ -56,9 +56,9 @@ class OwnerDelete(AdminPermissionRequiredMixin, DeleteView):
         name = self.object.__str__()
         try:
             if self.object.delete():
-                messages.success(self.request, f"Пользователь {name} удален успешно")
+                messages.success(self.request, f"Користувача {name} видалено успішно")
         except:
-            messages.error(request, f"Не удалось удалить пользователя")
+            messages.error(request, f"Не вдалося видалити користувача")
         return HttpResponseRedirect(success_url)
 
     def get(self, request, *args, **kwargs):
@@ -146,5 +146,5 @@ class OwnerInvite(AdminPermissionRequiredMixin, FormView):
         Для дальнейшей информации свяжитесь с администрацией.'
         email.to = [form.cleaned_data.get('email')]
         if email.send():
-            messages.success(self.request, 'Email отправлен успешно')
+            messages.success(self.request, 'Email отправлен успішно')
         return super(OwnerInvite, self).form_valid(form)

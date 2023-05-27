@@ -27,7 +27,7 @@ class ApartmentCreate(AdminPermissionRequiredMixin, SuccessMessageMixin, CreateV
     model = Apartment
     template_name = 'admin_apartment/apartment_create.html'
     form_class = ApartmentForm
-    success_message = "Квартира успешно создана"
+    success_message = "Квартира успішно создана"
     success_url = reverse_lazy('apartment_list')
 
     def render_to_response(self, context, **response_kwargs):
@@ -56,7 +56,7 @@ class ApartmentUpdate(AdminPermissionRequiredMixin, SuccessMessageMixin, UpdateV
     model = Apartment
     template_name = 'admin_apartment/apartment_update.html'
     form_class = ApartmentForm
-    success_message = "Квартира успешно обновлена"
+    success_message = "Квартира успішно обновлена"
     success_url = reverse_lazy('apartment_list')
 
     def render_to_response(self, context, **response_kwargs):
@@ -96,7 +96,7 @@ def apartment_delete(request, pk):
     except:
         messages.error(request, f"Не удалось удалить квартиру")
     if name:
-        messages.success(request, f"Квартира {name} удалена успешно")
+        messages.success(request, f"Квартира {name} удалена успішно")
     return redirect('apartment_list')
 
 

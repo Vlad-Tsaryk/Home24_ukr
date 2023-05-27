@@ -27,7 +27,7 @@ class ProfileUpdate(OwnerPermissionRequiredMixin, UpdateView, SuccessMessageMixi
     model = User
     template_name = 'cabinet_profile/profile_update.html'
     form_class = OwnerChangeForm
-    success_message = "Владелец квартиры успешно обновлен"
+    success_message = "Владелец квартиры успішно обновлен"
     context_object_name = 'owner'
     success_url = reverse_lazy('cabinet_profile')
 

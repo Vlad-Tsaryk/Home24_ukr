@@ -48,7 +48,7 @@ class TariffCreate(AdminPermissionRequiredMixin, CreateView):
         for tariff_service in tariff_service_formset:
             tariff_service.tariff = tariff
         formset.save()
-        messages.success(self.request, f"Тариф {tariff.name} создан успешно")
+        messages.success(self.request, f"Тариф {tariff.name} создан успішно")
         return redirect(self.success_url)
 
 
@@ -108,7 +108,7 @@ class TariffUpdate(AdminPermissionRequiredMixin, UpdateView):
         for tariff_service in tariff_service_formset:
             tariff_service.tariff = tariff
         formset.save()
-        messages.success(self.request, f"Тариф {tariff.name} обновлен успешно")
+        messages.success(self.request, f"Тариф {tariff.name} обновлен успішно")
         return redirect(self.success_url)
 
 
@@ -120,7 +120,7 @@ class TariffView(AdminPermissionRequiredMixin, DetailView):
 
 def delete_tariff(request, pk):
     obj_tariff = get_object_or_404(Tariff, pk=pk)
-    messages.success(request, f"Тариф {obj_tariff.name} успешно удалён")
+    messages.success(request, f"Тариф {obj_tariff.name} успішно удалён")
     obj_tariff.delete()
 
     return redirect('tariff_list')

@@ -72,5 +72,5 @@ class CabinetApplicationDelete(OwnerPermissionRequiredMixin, DeleteView):
         else:
             application_number = self.object.pk
             if self.object.delete():
-                messages.success(self.request, f'Заявка №{application_number} успешно удалена')
+                messages.success(self.request, f'Заявка №{application_number} успішно удалена')
         return HttpResponseRedirect(self.get_success_url())

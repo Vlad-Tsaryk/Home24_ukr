@@ -184,7 +184,7 @@ class TransactionDelete(AdminPermissionRequiredMixin, DeleteView):
         obj_number = self.object.number
         try:
             if self.object.delete():
-                messages.success(self.request, f"Ведомость №{obj_number} успешно удалена")
+                messages.success(self.request, f"Ведомость №{obj_number} успішно удалена")
         except:
             messages.error(request, f"Не удалось удалить ведомость")
         return HttpResponseRedirect(success_url)

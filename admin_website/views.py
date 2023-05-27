@@ -227,7 +227,7 @@ class GalleryDelete(AdminPermissionRequiredMixin, DeleteView):
     permission_required = 'website'
     model = Gallery
     success_url = reverse_lazy('website_about_page')
-    success_message = 'Изображение из фотогалереи успешно удалено'
+    success_message = 'Изображение из фотогалереи успішно удалено'
 
     def delete(self, request, *args, **kwargs):
         messages.success(self.request, self.success_message)
@@ -239,4 +239,4 @@ class GalleryDelete(AdminPermissionRequiredMixin, DeleteView):
 
 class AdditionalGalleryDelete(GalleryDelete):
     model = AdditionalGallery
-    success_message = 'Изображение из дополнительной фотогалереи успешно удалено'
+    success_message = 'Изображение из дополнительной фотогалереи успішно удалено'

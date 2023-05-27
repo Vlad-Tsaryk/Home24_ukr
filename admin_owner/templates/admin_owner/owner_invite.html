@@ -57,16 +57,16 @@
             toastr.error('{{error}}')
         {% endfor %}
         $('#id_phone').mask('+38 (999) 999-99-99')
-        $.validator.addMethod("validateEmail", function (value, element) {
+{% comment %}        $.validator.addMethod("validateEmail", function (value, element) {
             let regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9] {2,4}) + $ /;
             return regex.test (value);
-        });
+        });{% endcomment %}
         $("#owner_invite_form").validate({
             rules: {
                 email: {
                     required: true,
-                    validateEmail: true,
-                    email: false
+                    {#validateEmail: true,#}
+                    email: true
 
                 },
             },
