@@ -1,0 +1,63 @@
+@startuml
+!theme aws-orange
+actor User
+participant "Web Browser" as Browser
+participant "Web Server" as Server
+participant "Database" as DB
+
+User -> Browser: Access receipt creation page
+activate Browser
+Browser -> Server: HTTP GET /receipt/create
+activate Server
+Server -> Browser: Return HTML form
+deactivate Server
+User -> Browser: Fill in receipt details
+User -> Browser: Submit form
+activate Server
+alt Valid form data
+    Browser -> Server: HTTP POST /receipt/create
+    activate DB
+    Server -> DB: Create receipt in database
+    activate Server
+    alt Receipt creation successful
+        DB --> Server: Confirmation
+        Server -> Server: Process receipt creation logic
+        Server -> DB: Retrieve meter data
+        activate Server
+        DB --> Server: Meter data
+        deactivate DB
+        Server --> Browser: Return receipt details page
+        deactivate Server
+    else Invalid form data
+        Server --> Browser: Return form with validation errors
+        deactivate Server
+    end
+else Invalid form data
+    Browser --> User: Display form validation errors
+    deactivate Server
+end
+User -> Browser: Refill receipt details
+activate Server
+alt Valid form data
+    Browser -> Server: HTTP POST /receipt/create
+    activate DB
+    Server -> DB: Create receipt in database
+    activate Server
+    alt Receipt creation successful
+        DB --> Server: Confirmation
+        Server -> Server: Process receipt creation logic
+        Server -> DB: Retrieve meter data
+        activate Server
+        DB --> Server: Meter data
+        deactivate DB
+        Server --> Browser: Return receipt details page
+        deactivate Server
+    else Invalid form data
+        Server --> Browser: Return form with validation errors
+        deactivate Server
+    end
+else Invalid form data
+    Browser --> User: Display form validation errors
+    deactivate Server
+end
+@enduml

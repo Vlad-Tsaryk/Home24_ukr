@@ -1,0 +1,42 @@
+@startuml
+start
+!theme aws-orange
+:Display transaction creation form;
+
+while (User enters transaction details) is ([true])
+  if (User changes the owner) then ([yes])
+    :Send AJAX request to fetch personal accounts;
+    if (AJAX response received) then ([yes])
+      :Update personal account options;
+    else ([no])
+      :Show error message;
+    endif
+  endif
+
+  if (User changes the personal account) then ([yes])
+    :Send AJAX request to fetch owner;
+    if (AJAX response received) then ([yes])
+      :Update owner field;
+    else ([no])
+      :Show error message;
+    endif
+  endif
+endwhile ([User enters transaction details])
+
+if (User submits the form) then ([yes])
+  if (Form validation successful) then ([yes])
+    :Send AJAX request to create transaction;
+    if (Transaction creation successful) then ([yes])
+      :Redirect to transaction list page;
+    else ([no])
+      :Show error message;
+    endif
+  else ([no])
+    :Show validation errors;
+  endif
+else ([no])
+  :Cancel transaction creation;
+endif
+
+stop
+@enduml

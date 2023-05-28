@@ -1,0 +1,64 @@
+@startuml
+!theme aws-orange
+actor User
+participant "Web Browser" as Browser
+participant "Web Server" as Server
+participant "Database" as DB
+
+User -> Browser: Access receipt details page
+activate Browser
+Browser -> Server: HTTP GET /receipt/{receipt_id}
+activate Server
+Server -> DB: Retrieve receipt details from database
+activate DB
+DB --> Server: Receipt details
+Server --> Browser: Return receipt details page with details
+deactivate DB
+deactivate Server
+Browser -> Browser: Display receipt details to user
+User -> Browser: Perform action on receipt
+activate Browser
+
+alt Edit Receipt
+    User -> Browser: Click on Edit button
+    Browser -> Browser: Navigate to receipt edit page
+    Browser -> Server: HTTP GET /receipt/{receipt_id}/edit
+    activate Server
+    Server -> DB: Retrieve receipt details from database
+    activate DB
+    DB --> Server: Receipt details
+    Server --> Browser: Return receipt edit page with details
+    deactivate DB
+    deactivate Server
+    Browser -> Browser: Display receipt edit page to user
+    User -> Browser: Modify receipt details
+    Browser -> Browser: Update input fields
+    User -> Browser: Add or remove receipt services
+    Browser -> Browser: Update service fields
+    User -> Browser: Save changes
+    Browser -> Server: Ajax request to update receipt
+    activate Server
+    Server -> DB: Update receipt details in database
+    activate DB
+    DB --> Server: Updated receipt details
+    Server --> Browser: Return success response
+    deactivate DB
+    deactivate Server
+    Browser -> Browser: Display success message
+else Delete Receipt
+    User -> Browser: Click on Delete button
+    Browser -> Browser: Display confirmation dialog
+    User -> Browser: Confirm deletion
+    Browser -> Server: Ajax request to delete receipt
+    activate Server
+    Server -> DB: Delete receipt from database
+    activate DB
+    DB --> Server: Confirmation
+    Server --> Browser: Return success response
+    deactivate DB
+    deactivate Server
+    Browser -> Browser: Display success message
+end
+
+deactivate Browser
+@enduml

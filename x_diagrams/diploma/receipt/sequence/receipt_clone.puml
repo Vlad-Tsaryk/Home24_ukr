@@ -1,0 +1,35 @@
+@startuml
+!theme aws-orange
+actor User
+participant "Web Browser" as Browser
+participant "Web Server" as Server
+participant "Database" as DB
+
+User -> Browser: Access receipt clone page
+activate Browser
+Browser -> Server: HTTP GET /receipt/clone/{receipt_id}
+activate Server
+Server -> DB: Retrieve receipt details from database
+activate DB
+DB --> Server: Receipt details
+Server --> Browser: Return receipt clone page with details
+deactivate DB
+deactivate Server
+User -> Browser: Modify receipt details
+activate Browser
+Browser -> Browser: Update input fields
+User -> Browser: Add or remove receipt services
+activate Browser
+Browser -> Browser: Update service fields
+User -> Browser: Submit receipt clone
+Browser -> Server: Ajax request to clone receipt
+activate Server
+Server -> DB: Create new receipt based on cloned data
+activate DB
+DB --> Server: New receipt ID
+Server --> Browser: Return success response
+deactivate DB
+deactivate Server
+Browser -> Browser: Display success message
+deactivate Browser
+@enduml

@@ -108,8 +108,8 @@ class ReceiptToExcel:
             setattr(self, key, value)
 
     def get_excel(self):
-        ru_months = ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь',
-                     'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь']
+        ua_months = ['Січень', 'Лютий', 'Березень', 'Квітень', 'Май', 'Червень',
+                     'Липень', 'Серпень', 'Вересень', 'Жовтень', 'Листопад', 'Грудень']
         account_balance = self.receipt_object.personal_account.balance
         receipt_selectors = {
             '$payCompany$': PaymentDetails.objects.first().name,
@@ -117,7 +117,7 @@ class ReceiptToExcel:
             '$receiptNumber$': self.receipt_object.number,
             '$accountNumber$': self.receipt_object.personal_account.number,
             '$receiptDate$': self.receipt_object.date.strftime('%d.%m.%Y'),
-            '$receiptMonth$': f'{ru_months[self.receipt_object.date.month - 1]} {self.receipt_object.date.year}',
+            '$receiptMonth$': f'{ua_months[self.receipt_object.date.month - 1]} {self.receipt_object.date.year}',
             '$accountBalance$': account_balance,
             '$receiptPayable$': account_balance - self.receipt_object.total_price,
             '$total$': self.receipt_object.total_price,

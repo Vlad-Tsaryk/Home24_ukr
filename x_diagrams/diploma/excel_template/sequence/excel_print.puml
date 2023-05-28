@@ -1,0 +1,58 @@
+@startuml
+!theme aws-orange
+actor User
+participant "Browser" as Browser
+participant "Web Server" as Server
+participant "ExcelTemplatePrint" as View
+participant "Receipt" as Receipt
+participant "ExcelTemplate" as Template
+participant "PaymentDetails" as PaymentDetails
+
+User -> Browser: Access 'ExcelTemplatePrint' page
+Browser -> Server: Send request for 'ExcelTemplatePrint' page
+Server -> View: Handle request for 'ExcelTemplatePrint' page
+activate View
+
+View -> View: Get receipt object and template ID
+View -> Receipt: Retrieve receipt object
+activate Receipt
+Receipt --> View: Return receipt object
+deactivate Receipt
+
+View -> Template: Retrieve template object using template ID
+activate Template
+Template --> View: Return template object
+deactivate Template
+
+View -> View: Prepare context data with receipt and template
+View -> PaymentDetails: Retrieve payment details
+activate PaymentDetails
+PaymentDetails --> View: Return payment details
+deactivate PaymentDetails
+
+View -> Browser: Render 'excel_templates/excel_template_print.html' template
+Browser -> User: Display 'ExcelTemplatePrint' page with receipt and template
+
+User -> Browser: Choose an action (send email or download)
+Browser -> Server: Send request to perform the chosen action
+Server -> View: Handle the chosen action request
+activate View
+
+View -> View: Retrieve chosen action and selected template
+View -> Receipt: Retrieve receipt details for Excel generation
+activate Receipt
+Receipt --> View: Return receipt details
+deactivate Receipt
+
+View -> Template: Load the selected template file
+activate Template
+Template --> View: Return template file
+deactivate Template
+
+View -> View: Replace placeholder values in the template with receipt details
+View -> View: Generate the Excel file
+View -> Browser: Return the generated Excel file
+deactivate View
+
+Browser -> User: Display the generated Excel file (send email or download)
+@enduml

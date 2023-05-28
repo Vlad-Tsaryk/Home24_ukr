@@ -1,0 +1,60 @@
+@startuml
+!theme aws-orange
+actor User
+participant "Web Browser" as Browser
+participant "Web Server" as Server
+participant "Database" as DB
+
+User -> Browser: Access receipt list page
+activate Browser
+Browser -> Server: HTTP GET /receipt/list
+activate Server
+Server -> DB: Retrieve receipt list from database
+activate DB
+DB --> Server: Receipt list
+Server --> Browser: Return receipt list
+deactivate DB
+deactivate Server
+User -> Browser: Filter receipts by criteria
+activate Browser
+Browser -> Browser: Select filter options
+Browser -> Server: Ajax request to retrieve filtered receipt list
+activate Server
+Server -> DB: Retrieve filtered receipt list from database
+activate DB
+DB --> Server: Filtered receipt list
+Server --> Browser: Return filtered receipt list
+deactivate DB
+deactivate Server
+User -> Browser: Sort receipts by field
+activate Browser
+Browser -> Server: Ajax request to retrieve sorted receipt list
+activate Server
+Server -> DB: Retrieve sorted receipt list from database
+activate DB
+DB --> Server: Sorted receipt list
+Server --> Browser: Return sorted receipt list
+deactivate DB
+deactivate Server
+User -> Browser: Paginate through receipt list
+activate Browser
+Browser -> Server: Ajax request to retrieve paginated receipt list
+activate Server
+Server -> DB: Retrieve paginated receipt list from database
+activate DB
+DB --> Server: Paginated receipt list
+Server --> Browser: Return paginated receipt list
+deactivate DB
+deactivate Server
+User -> Browser: View receipt details
+activate Browser
+Browser -> Browser: Click on receipt item
+Browser -> Server: HTTP GET /receipt/{receipt_id}
+activate Server
+Server -> DB: Retrieve receipt details from database
+activate DB
+DB --> Server: Receipt details
+Server --> Browser: Return receipt details page
+deactivate DB
+deactivate Server
+@enduml

@@ -1,0 +1,32 @@
+@startuml
+!theme aws-orange
+[*] --> Start: Start
+
+state Start {
+  [*] --> EnterDetails: Enter receipt details
+  EnterDetails --> ValidateDetails: Validate details
+  ValidateDetails --> CheckValidation: Check validation result
+  CheckValidation --> EnterDetails: Invalid details
+  CheckValidation --> AddServices: Valid details
+}
+
+state AddServices {
+  [*] --> EnterService: Enter service details
+  EnterService --> ValidateService: Validate service
+  ValidateService --> CheckServiceValidation: Check validation result
+  CheckServiceValidation --> EnterService: Invalid service details
+  CheckServiceValidation --> AddServiceConfirmation: Valid service details
+  AddServiceConfirmation --> AddMoreServices: Add more services
+  AddServiceConfirmation --> CreateReceipt: Finish adding services
+}
+
+state CreateReceipt {
+  CreateReceipt --> SaveReceipt: Save receipt
+  SaveReceipt --> ReceiptCreated: Receipt saved successfully
+}
+
+state ReceiptCreated {
+  ReceiptCreated --> Start: Start a new receipt
+}
+
+@enduml

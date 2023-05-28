@@ -1,0 +1,53 @@
+@startuml
+!theme superhero
+left to right direction
+package "Home24" {
+package "Admin Panel" {
+  [admin_statistic]
+  [admin_apartment]
+  [admin_application]
+  [admin_house]
+  [admin_messages]
+  [admin_meter]
+  [admin_owner]
+  [admin_personal_account]
+  [admin_purpose]
+  [admin_receipt]
+  [admin_service]
+  [admin_tariff]
+  [admin_transaction]
+  [admin_website]
+}
+package "Cabinet" {
+  [cabinet_application]
+  [cabinet_messages]
+  [cabinet_profile]
+  [cabinet_receipts]
+  [cabinet_summary]
+  [cabinet_tariff]
+}
+  [excel_templates]
+  [users]
+  [website]
+}
+    [admin_statistic] ...> [admin_personal_account]
+        [admin_statistic] ...> [admin_application]
+        [admin_statistic] ...> [admin_house]
+        [admin_statistic] ...> [admin_owner]
+        [admin_statistic] ...> [admin_apartment]
+        [admin_personal_account] <... [admin_apartment]
+        [admin_owner] ..down.> [users]
+        [admin_application] ..down.> [users]
+        [admin_house] ..up.> [users]
+        [admin_tariff] ..up.> [admin_service]
+        [admin_apartment] ..down.> [users]
+        [website] .up.>[admin_website]
+        [cabinet_tariff] ..right.> [admin_tariff]
+
+
+        [cabinet_profile] ...> [admin_owner]
+
+        [cabinet_application] ...> [users]
+        [cabinet_summary] ...> [users]
+        [cabinet_receipts] ...> [users]
+@enduml

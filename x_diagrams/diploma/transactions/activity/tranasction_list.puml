@@ -1,0 +1,44 @@
+@startuml
+!theme aws-orange
+start
+
+:Display page with transaction list;
+
+while (User interacts with filters) is ([true])
+  :Apply filters and send AJAX request;
+  if (AJAX response received) then ([yes])
+    :Update transaction table with new data;
+  else ([no])
+    :Show error message;
+  endif
+endwhile ([User interacts with filters])
+
+while (User interacts with table) is ([true])
+  if (User clicks on Edit) then ([yes])
+    :Redirect to transaction edit page;
+  else if (User clicks on Delete) then ([yes])
+    :Show confirmation dialog;
+    if (User confirms deletion) then ([yes])
+      :Send AJAX request to delete transaction;
+      if (Deletion successful) then ([yes])
+        :Update transaction table;
+      else ([no])
+        :Show error message;
+      endif
+    else ([no])
+      :Cancel deletion;
+    endif
+  endif
+endwhile (User interacts with table)
+
+if (User clicks on Export to Excel) then ([yes])
+  :Send AJAX request to export transactions;
+  if (Export successful) then ([yes])
+    :Download Excel file;
+  else ([no])
+    :Show error message;
+  endif
+endif
+
+stop
+@enduml

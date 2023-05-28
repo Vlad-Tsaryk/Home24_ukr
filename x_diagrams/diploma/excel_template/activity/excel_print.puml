@@ -1,0 +1,23 @@
+@startuml
+!theme aws-orange
+start
+:User accesses 'ExcelTemplatePrint' page;
+if (User selects an action) then ([yes])
+  :Retrieve receipt and template details;
+  if (Action is 'Send Email') then ([yes])
+    :Retrieve payment details;
+    :Replace placeholders with receipt details in the template;
+    :Generate Excel file;
+    :Send email with the generated Excel file;
+    :Display success message;
+  else ([Action is 'Download'])
+    :Replace placeholders with receipt details in the template;
+    :Generate Excel file;
+    :Download the generated Excel file;
+    :Display success message;
+  endif
+else
+  :Render page;
+endif
+stop
+@enduml

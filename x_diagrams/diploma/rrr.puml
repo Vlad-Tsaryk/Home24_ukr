@@ -1,0 +1,27 @@
+@startuml
+!theme aws-orange
+start
+:Retrieve statistics data;
+:Initialize context;
+:Retrieve houses count;
+:Retrieve apartments count;
+:Retrieve personal accounts count;
+:Retrieve active owners count;
+:Retrieve applications in progress count;
+:Retrieve new applications count;
+:Retrieve accounts total debt;
+:Retrieve account total balance;
+:Retrieve transactions total balance;
+:Retrieve current date;
+:Retrieve income transactions for current year;
+:Retrieve outcome transactions for current year;
+:Retrieve receipts for current year;
+:Filter and annotate debt receipts by month;
+:Filter and annotate paid receipts by month;
+:Generate missing months;
+:Sort transactions_income by month;
+:Sort transactions_outcome by month;
+:Sort receipts_debt_by_month by month;
+:Sort receipts_paid_by_month by month;
+end
+@enduml
