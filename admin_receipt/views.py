@@ -93,9 +93,6 @@ class ReceiptCreate(AdminPermissionRequiredMixin, CreateView):
                                                                                                            'price'))
             if self.request.GET.get('set_meter_values'):
                 result['meters_consumption'] = self.get_meters_consumption()
-                # if apartment_id:
-                #     meter_new_val = Meter.objects.filter(apartment=apartment_id, status=Meter.StatusName.NEW)
-                #     # result['tariff_meter_values'] = Meter.objects.filter(status=)
             if apartment_id or personal_account:
                 if apartment_id:
                     apartment_obj = Apartment.objects.get(pk=apartment_id)

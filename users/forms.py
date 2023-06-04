@@ -15,7 +15,7 @@ class AdminLoginForm(forms.Form):
 
 
 class CabinetLoginForm(AdminLoginForm):
-    username = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': "E-mail или ID"})
+    username = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': "E-mail або ID"})
                                , required=True)
 
 

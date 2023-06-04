@@ -140,11 +140,6 @@ class HouseUpdate(AdminPermissionRequiredMixin, UpdateView):
         if floor_formset.is_valid() and section_formset.is_valid() and form.is_valid() and house_user_formset.is_valid():
             return self.form_valid(form, floor_formset, section_formset, house_user_formset)
         else:
-            # print('floor_formset', floor_formset.errors)
-            # print('section_formset', section_formset.errors)
-            # print('house_user_formset', house_user_formset.errors)
-            # print('form', form.errors)
-            # print('invalid')
             return super(HouseUpdate, self).render_to_response(self.get_context_data())
 
     def form_valid(self, form, floor_formset, section_formset, house_user_formset):
@@ -161,5 +156,5 @@ class HouseUpdate(AdminPermissionRequiredMixin, UpdateView):
         floor_formset.save()
         section_formset.save()
         house_user_formset.save()
-        messages.success(self.request, f"Будинок {house.name} успішно обновлен")
+        messages.success(self.request, f"Будинок {house.name} успішно обновлено")
         return redirect(self.success_url)

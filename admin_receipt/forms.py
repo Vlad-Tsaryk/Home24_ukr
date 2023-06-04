@@ -39,9 +39,9 @@ class ReceiptForm(forms.ModelForm):
                 personal_account = PersonalAccount.objects.get(number=number)
                 return personal_account
             except:
-                raise ValidationError("Лицевой счет не найден")
+                raise ValidationError("Обліковий рахунок не знайдено")
         else:
-            raise ValidationError("Лицевой счет не задан")
+            raise ValidationError("Обліковий рахунок не задано")
 
     def __init__(self, *args, **kwargs):
         super(ReceiptForm, self).__init__(*args, **kwargs)
