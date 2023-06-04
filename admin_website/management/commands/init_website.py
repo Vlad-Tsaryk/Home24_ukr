@@ -51,7 +51,7 @@ class Command(BaseCommand):
                                      image=f"static_kit/website/main_page/blocks/{index + 1}.jpeg")
         if not ContactPage.objects.exists():
             ContactPage.objects.create(
-                title="AVADA-MEDIA",
+                title="Tsaryk V.U",
                 phone=PhoneNumber.from_string("+38 (073) 111-24-48", region="UA"),
                 text="<p>Розробником системи <i><strong>'Home24'</strong></i> є<strong>"
                      "Vladyslav Tsaryk</strong>",
