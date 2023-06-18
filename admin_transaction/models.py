@@ -8,10 +8,14 @@ from admin_purpose.models import Purpose
 
 # Create your models here.
 class Transaction(models.Model):
-    owner = models.ForeignKey(User, on_delete=models.PROTECT, null=True, related_name='transaction_owner')
-    personal_account = models.ForeignKey(PersonalAccount, null=True, on_delete=models.CASCADE)
+    owner = models.ForeignKey(
+        User, on_delete=models.PROTECT, null=True, related_name="transaction_owner"
+    )
+    personal_account = models.ForeignKey(
+        PersonalAccount, null=True, on_delete=models.CASCADE
+    )
     purpose = models.ForeignKey(Purpose, null=True, on_delete=models.SET_NULL)
-    manager = models.ForeignKey(User, on_delete=models.PROTECT, related_name='manager')
+    manager = models.ForeignKey(User, on_delete=models.PROTECT, related_name="manager")
     sum = models.FloatField()
     is_complete = models.BooleanField(default=True)
     date = models.DateField()
@@ -22,14 +26,18 @@ class Transaction(models.Model):
     @staticmethod
     def total_balance():
         queryset = Transaction.objects.all()
-        result = Transaction.count_income(queryset) - Transaction.count_outcome(queryset)
+        result = Transaction.count_income(queryset) - Transaction.count_outcome(
+            queryset
+        )
         if result < 0:
             result = 0
         return result
 
     @staticmethod
     def count_sum(queryset, transaction_type):
-        result = queryset.filter(type=transaction_type, is_complete=True).aggregate(Sum('sum'))['sum__sum']
+        result = queryset.filter(type=transaction_type, is_complete=True).aggregate(
+            Sum("sum")
+        )["sum__sum"]
         if result:
             return result
         else:
@@ -44,4 +52,4 @@ class Transaction(models.Model):
         return Transaction.count_sum(queryset, False)
 
     class Meta:
-        ordering = ['-pk']
+        ordering = ["-pk"]

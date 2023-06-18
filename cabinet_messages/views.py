@@ -12,32 +12,41 @@ from users.mixins import OwnerPermissionRequiredMixin
 # Create your views here.
 class MessageList(OwnerPermissionRequiredMixin, ListView):
     model = Message
-    template_name = 'cabinet_messages/message_list.html'
-    ordering = '-created'
+    template_name = "cabinet_messages/message_list.html"
+    ordering = "-created"
 
     def get_queryset(self):
-        return Message.objects.select_related('sender').filter(receivers=self.request.user).order_by(self.ordering)
+        return (
+            Message.objects.select_related("sender")
+            .filter(receivers=self.request.user)
+            .order_by(self.ordering)
+        )
 
     def render_to_response(self, context, **response_kwargs):
         if self.request.is_ajax():
-            search_value = self.request.GET.get('search[value]')
-            filtered_qs = self.get_queryset().filter(Q(text__contains=search_value) | Q(subject__contains=search_value))
+            search_value = self.request.GET.get("search[value]")
+            filtered_qs = self.get_queryset().filter(
+                Q(text__contains=search_value) | Q(subject__contains=search_value)
+            )
             result_list = list(
-                filtered_qs
-                .annotate(sender_name=Concat('sender__first_name', Value(' '), 'sender__last_name'))
-                .values('id', 'text', 'subject', 'created', 'sender_name'))
+                filtered_qs.annotate(
+                    sender_name=Concat(
+                        "sender__first_name", Value(" "), "sender__last_name"
+                    )
+                ).values("id", "text", "subject", "created", "sender_name")
+            )
 
-            start = int(self.request.GET.get('start', 0))
-            length = int(self.request.GET.get('length', 10))
-            paginator = Paginator(result_list, self.request.GET.get('length', 10))
+            start = int(self.request.GET.get("start", 0))
+            length = int(self.request.GET.get("length", 10))
+            paginator = Paginator(result_list, self.request.GET.get("length", 10))
             page = (start // length) + 1
             data = list(paginator.get_page(page))
             print(data)
             result = {
-                'data': data,
-                'recordsTotal': paginator.count,
-                'recordsFiltered': paginator.count,
-                'pages': paginator.num_pages,
+                "data": data,
+                "recordsTotal": paginator.count,
+                "recordsFiltered": paginator.count,
+                "pages": paginator.num_pages,
             }
             return JsonResponse(result, safe=False, **response_kwargs)
         else:
@@ -46,4 +55,4 @@ class MessageList(OwnerPermissionRequiredMixin, ListView):
 
 class MessageView(OwnerPermissionRequiredMixin, DetailView):
     model = Message
-    template_name = 'cabinet_messages/message_view.html'
+    template_name = "cabinet_messages/message_view.html"

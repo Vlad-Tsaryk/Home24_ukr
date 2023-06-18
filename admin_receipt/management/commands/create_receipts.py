@@ -11,19 +11,23 @@ from admin_tariff.models import TariffService
 
 class Command(BaseCommand):
     def add_arguments(self, parser):
-        parser.add_argument('number', type=int, help='how many transactions generate')
-        parser.add_argument('month', type=int, help='month of receipt creation')
+        parser.add_argument("number", type=int, help="how many transactions generate")
+        parser.add_argument("month", type=int, help="month of receipt creation")
 
     def handle(self, *args, **options):
-        fake = Faker('uk_UA')
-        personal_accounts = PersonalAccount.objects.filter(apartment__isnull=False).select_related('apartment__tariff')
+        fake = Faker("uk_UA")
+        personal_accounts = PersonalAccount.objects.filter(
+            apartment__isnull=False
+        ).select_related("apartment__tariff")
         receipt_last_pk = 1
         if Receipt.objects.exists():
             receipt_last_pk = Receipt.objects.first().pk + 1
-        for index in range(options['number']):
+        for index in range(options["number"]):
             personal_account = random.choice(personal_accounts)
             date = datetime.date.today()
-            set_date = datetime.date(day=date.day, month=options['month'], year=date.year)
+            set_date = datetime.date(
+                day=date.day, month=options["month"], year=date.year
+            )
             receipt = Receipt.objects.create(
                 personal_account=personal_account,
                 tariff=personal_account.apartment.tariff,
@@ -32,10 +36,12 @@ class Command(BaseCommand):
                 status=random.choice(Receipt.StatusName.values),
                 period_start=set_date,
                 period_end=set_date,
-                number=str(receipt_last_pk + index).zfill(11)
+                number=str(receipt_last_pk + index).zfill(11),
             )
             total_price = 0
-            tariff_services = TariffService.objects.filter(tariff=personal_account.apartment.tariff)
+            tariff_services = TariffService.objects.filter(
+                tariff=personal_account.apartment.tariff
+            )
             for tariff_service in tariff_services:
                 price_unit = tariff_service.price
                 consumption = round(random.uniform(1, 30), 1)
@@ -43,7 +49,7 @@ class Command(BaseCommand):
                     receipt=receipt,
                     service=tariff_service.service,
                     consumption=round(random.uniform(1, 30), 1),
-                    price_unit=tariff_service.price
+                    price_unit=tariff_service.price,
                 )
                 total_price += price_unit * consumption
             receipt.total_price = total_price

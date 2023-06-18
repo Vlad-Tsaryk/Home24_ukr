@@ -5,28 +5,59 @@ import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
     dependencies = [
-        ('admin_service', '0001_initial'),
-        ('admin_apartment', '0001_initial'),
+        ("admin_service", "0001_initial"),
+        ("admin_apartment", "0001_initial"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Meter',
+            name="Meter",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('number', models.CharField(max_length=50, unique=True)),
-                ('value', models.FloatField()),
-                ('date', models.DateField()),
-                ('status', models.CharField(choices=[('Нове', 'Нове'), ('Враховано', 'Враховано'), ('Враховано та оплачено', 'Враховано та оплачено'), ('Нульове', 'Нульове')], max_length=21)),
-                ('apartment', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='admin_apartment.apartment')),
-                ('service', models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to='admin_service.service')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("number", models.CharField(max_length=50, unique=True)),
+                ("value", models.FloatField()),
+                ("date", models.DateField()),
+                (
+                    "status",
+                    models.CharField(
+                        choices=[
+                            ("Нове", "Нове"),
+                            ("Враховано", "Враховано"),
+                            ("Враховано та оплачено", "Враховано та оплачено"),
+                            ("Нульове", "Нульове"),
+                        ],
+                        max_length=21,
+                    ),
+                ),
+                (
+                    "apartment",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="admin_apartment.apartment",
+                    ),
+                ),
+                (
+                    "service",
+                    models.ForeignKey(
+                        null=True,
+                        on_delete=django.db.models.deletion.SET_NULL,
+                        to="admin_service.service",
+                    ),
+                ),
             ],
             options={
-                'ordering': ['pk'],
+                "ordering": ["pk"],
             },
         ),
     ]

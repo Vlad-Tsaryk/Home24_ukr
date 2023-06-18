@@ -13,7 +13,7 @@ from users.models import User
 
 class Command(BaseCommand):
     def add_arguments(self, parser):
-        parser.add_argument('number', type=int, help='how many apartments create')
+        parser.add_argument("number", type=int, help="how many apartments create")
 
     def handle(self, *args, **options):
         owners = User.get_owners()
@@ -22,7 +22,7 @@ class Command(BaseCommand):
         personal_account_last_pk = 1
         if PersonalAccount.objects.exists():
             personal_account_last_pk = PersonalAccount.objects.last().pk + 1
-        for index in range(options['number']):
+        for index in range(options["number"]):
             try:
                 random_house = random.choice(houses)
                 sections = Section.objects.filter(house=random_house)
@@ -41,14 +41,14 @@ class Command(BaseCommand):
                     section=section,
                     floor=random.choice(floors),
                     owner=random.choice(owners),
-                    tariff=random.choice(tariffs)
+                    tariff=random.choice(tariffs),
                 )
                 print(f"Apartment{apartment.number} create")
-                number = str(personal_account_last_pk+index).zfill(11)
+                number = str(personal_account_last_pk + index).zfill(11)
                 PersonalAccount.objects.create(
                     number=number,
                     apartment=apartment,
-                    status=PersonalAccount.StatusName.ACTIVE
+                    status=PersonalAccount.StatusName.ACTIVE,
                 )
                 print(f"PersonalAccount {number} create")
             except IntegrityError:

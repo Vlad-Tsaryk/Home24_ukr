@@ -6,30 +6,41 @@ import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
     dependencies = [
-        ('admin_house', '0001_initial'),
-        ('admin_apartment', '0002_initial'),
+        ("admin_house", "0001_initial"),
+        ("admin_apartment", "0002_initial"),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('admin_tariff', '0001_initial'),
+        ("admin_tariff", "0001_initial"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='apartment',
-            name='owner',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.PROTECT, to=settings.AUTH_USER_MODEL),
+            model_name="apartment",
+            name="owner",
+            field=models.ForeignKey(
+                null=True,
+                on_delete=django.db.models.deletion.PROTECT,
+                to=settings.AUTH_USER_MODEL,
+            ),
         ),
         migrations.AddField(
-            model_name='apartment',
-            name='section',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to='admin_house.section'),
+            model_name="apartment",
+            name="section",
+            field=models.ForeignKey(
+                null=True,
+                on_delete=django.db.models.deletion.SET_NULL,
+                to="admin_house.section",
+            ),
         ),
         migrations.AddField(
-            model_name='apartment',
-            name='tariff',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to='admin_tariff.tariff'),
+            model_name="apartment",
+            name="tariff",
+            field=models.ForeignKey(
+                null=True,
+                on_delete=django.db.models.deletion.SET_NULL,
+                to="admin_tariff.tariff",
+            ),
         ),
     ]

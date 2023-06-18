@@ -47,7 +47,7 @@
                     <table class="table table-bordered table-striped table-view">
                         <tbody>
                         <tr>
-                            <td>Обліковий рахунок</td>
+                            <td>Особовий рахунок</td>
                             <td>
                                 {{ apartment.personalaccount.number|default:'не вказано' }}
                             </td>
@@ -121,7 +121,7 @@
                                 style="cursor: not-allowed; color: grey"
                             {% endif %}
                             >Подивитися
-                                парафії</a></p>
+                                надходження</a></p>
                         <p><a href="{% url 'receipt_list_apartment' apartment.number %}">Подивитися квитанції</a></p>
                     </div>
                 </div>

@@ -8,69 +8,189 @@ import phonenumber_field.modelfields
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
     dependencies = [
-        ('auth', '0012_alter_user_first_name_max_length'),
+        ("auth", "0012_alter_user_first_name_max_length"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Role',
+            name="Role",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('role', models.CharField(choices=[('Директор', 'Директор'), ('Керуючий', 'Керуючий'), ('Бухгалтер', 'Бухгалтер'), ('Електрик', 'Електрик'), ('Сантехнік', 'Сантехнік'), ('Власник квартири', 'Власник квартири')], max_length=20)),
-                ('statistics', models.BooleanField()),
-                ('transactions', models.BooleanField()),
-                ('receipts', models.BooleanField()),
-                ('personal_accounts', models.BooleanField()),
-                ('apartments', models.BooleanField()),
-                ('owners', models.BooleanField()),
-                ('houses', models.BooleanField()),
-                ('messages', models.BooleanField()),
-                ('applications', models.BooleanField()),
-                ('meters', models.BooleanField()),
-                ('website', models.BooleanField()),
-                ('services', models.BooleanField()),
-                ('tariffs', models.BooleanField()),
-                ('roles', models.BooleanField()),
-                ('users', models.BooleanField()),
-                ('payment_details', models.BooleanField()),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "role",
+                    models.CharField(
+                        choices=[
+                            ("Директор", "Директор"),
+                            ("Керуючий", "Керуючий"),
+                            ("Бухгалтер", "Бухгалтер"),
+                            ("Електрик", "Електрик"),
+                            ("Сантехнік", "Сантехнік"),
+                            ("Власник квартири", "Власник квартири"),
+                        ],
+                        max_length=20,
+                    ),
+                ),
+                ("statistics", models.BooleanField()),
+                ("transactions", models.BooleanField()),
+                ("receipts", models.BooleanField()),
+                ("personal_accounts", models.BooleanField()),
+                ("apartments", models.BooleanField()),
+                ("owners", models.BooleanField()),
+                ("houses", models.BooleanField()),
+                ("messages", models.BooleanField()),
+                ("applications", models.BooleanField()),
+                ("meters", models.BooleanField()),
+                ("website", models.BooleanField()),
+                ("services", models.BooleanField()),
+                ("tariffs", models.BooleanField()),
+                ("roles", models.BooleanField()),
+                ("users", models.BooleanField()),
+                ("payment_details", models.BooleanField()),
             ],
         ),
         migrations.CreateModel(
-            name='User',
+            name="User",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('password', models.CharField(max_length=128, verbose_name='password')),
-                ('last_login', models.DateTimeField(blank=True, null=True, verbose_name='last login')),
-                ('is_superuser', models.BooleanField(default=False, help_text='Designates that this user has all permissions without explicitly assigning them.', verbose_name='superuser status')),
-                ('email', models.EmailField(blank=True, max_length=254, verbose_name='email address')),
-                ('is_staff', models.BooleanField(default=False, help_text='Designates whether the user can log into this admin site.', verbose_name='staff status')),
-                ('is_active', models.BooleanField(default=True, help_text='Designates whether this user should be treated as active. Unselect this instead of deleting accounts.', verbose_name='active')),
-                ('date_joined', models.DateTimeField(default=django.utils.timezone.now, verbose_name='date joined')),
-                ('first_name', models.CharField(max_length=50)),
-                ('middle_name', models.CharField(max_length=50)),
-                ('last_name', models.CharField(max_length=50)),
-                ('username', models.EmailField(error_messages={'unique': 'Користувач із таким логіном вже існує!'}, max_length=254, unique=True)),
-                ('phone', phonenumber_field.modelfields.PhoneNumberField(max_length=128, region=None)),
-                ('birth_date', models.DateField(blank=True, null=True)),
-                ('status', models.CharField(choices=[('Новий', 'Новий'), ('Активний', 'Активний'), ('Вимкнений', 'Вимкнений')], max_length=10)),
-                ('viber', phonenumber_field.modelfields.PhoneNumberField(blank=True, max_length=128, region=None)),
-                ('telegram', models.CharField(max_length=32)),
-                ('notes', models.TextField(blank=True)),
-                ('profile_image', models.ImageField(upload_to='users')),
-                ('uid', models.CharField(max_length=10, null=True, unique=True)),
-                ('groups', models.ManyToManyField(blank=True, help_text='The groups this user belongs to. A user will get all permissions granted to each of their groups.', related_name='user_set', related_query_name='user', to='auth.Group', verbose_name='groups')),
-                ('role', models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to='users.role')),
-                ('user_permissions', models.ManyToManyField(blank=True, help_text='Specific permissions for this user.', related_name='user_set', related_query_name='user', to='auth.Permission', verbose_name='user permissions')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("password", models.CharField(max_length=128, verbose_name="password")),
+                (
+                    "last_login",
+                    models.DateTimeField(
+                        blank=True, null=True, verbose_name="last login"
+                    ),
+                ),
+                (
+                    "is_superuser",
+                    models.BooleanField(
+                        default=False,
+                        help_text="Designates that this user has all permissions without explicitly assigning them.",
+                        verbose_name="superuser status",
+                    ),
+                ),
+                (
+                    "email",
+                    models.EmailField(
+                        blank=True, max_length=254, verbose_name="email address"
+                    ),
+                ),
+                (
+                    "is_staff",
+                    models.BooleanField(
+                        default=False,
+                        help_text="Designates whether the user can log into this admin site.",
+                        verbose_name="staff status",
+                    ),
+                ),
+                (
+                    "is_active",
+                    models.BooleanField(
+                        default=True,
+                        help_text="Designates whether this user should be treated as active. Unselect this instead of deleting accounts.",
+                        verbose_name="active",
+                    ),
+                ),
+                (
+                    "date_joined",
+                    models.DateTimeField(
+                        default=django.utils.timezone.now, verbose_name="date joined"
+                    ),
+                ),
+                ("first_name", models.CharField(max_length=50)),
+                ("middle_name", models.CharField(max_length=50)),
+                ("last_name", models.CharField(max_length=50)),
+                (
+                    "username",
+                    models.EmailField(
+                        error_messages={
+                            "unique": "Користувач із таким логіном вже існує!"
+                        },
+                        max_length=254,
+                        unique=True,
+                    ),
+                ),
+                (
+                    "phone",
+                    phonenumber_field.modelfields.PhoneNumberField(
+                        max_length=128, region=None
+                    ),
+                ),
+                ("birth_date", models.DateField(blank=True, null=True)),
+                (
+                    "status",
+                    models.CharField(
+                        choices=[
+                            ("Новий", "Новий"),
+                            ("Активний", "Активний"),
+                            ("Вимкнений", "Вимкнений"),
+                        ],
+                        max_length=10,
+                    ),
+                ),
+                (
+                    "viber",
+                    phonenumber_field.modelfields.PhoneNumberField(
+                        blank=True, max_length=128, region=None
+                    ),
+                ),
+                ("telegram", models.CharField(max_length=32)),
+                ("notes", models.TextField(blank=True)),
+                ("profile_image", models.ImageField(upload_to="users")),
+                ("uid", models.CharField(max_length=10, null=True, unique=True)),
+                (
+                    "groups",
+                    models.ManyToManyField(
+                        blank=True,
+                        help_text="The groups this user belongs to. A user will get all permissions granted to each of their groups.",
+                        related_name="user_set",
+                        related_query_name="user",
+                        to="auth.Group",
+                        verbose_name="groups",
+                    ),
+                ),
+                (
+                    "role",
+                    models.ForeignKey(
+                        null=True,
+                        on_delete=django.db.models.deletion.SET_NULL,
+                        to="users.role",
+                    ),
+                ),
+                (
+                    "user_permissions",
+                    models.ManyToManyField(
+                        blank=True,
+                        help_text="Specific permissions for this user.",
+                        related_name="user_set",
+                        related_query_name="user",
+                        to="auth.Permission",
+                        verbose_name="user permissions",
+                    ),
+                ),
             ],
             options={
-                'ordering': ['-date_joined'],
+                "ordering": ["-date_joined"],
             },
             managers=[
-                ('objects', django.contrib.auth.models.UserManager()),
+                ("objects", django.contrib.auth.models.UserManager()),
             ],
         ),
     ]

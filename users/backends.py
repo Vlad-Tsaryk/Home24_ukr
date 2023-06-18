@@ -7,9 +7,11 @@ from .models import User, Role
 
 class AdminBackend(ModelBackend):
     def authenticate(self, request, username=None, password=None, **kwargs):
-        if kwargs.get('user_type') == 'admin':
+        if kwargs.get("user_type") == "admin":
             try:
-                admin = User.objects.get(Q(username=username) & ~Q(role__role=Role.RoleName.OWNER))
+                admin = User.objects.get(
+                    Q(username=username) & ~Q(role__role=Role.RoleName.OWNER)
+                )
                 if admin.status == admin.StatusName.DISABLED.value:
                     messages.error(request, "Користувач не aктивний")
                     return None
@@ -24,10 +26,13 @@ class AdminBackend(ModelBackend):
 
 class OwnerBackend(ModelBackend):
     def authenticate(self, request, username=None, password=None, **kwargs):
-        if kwargs.get('user_type') == 'owner':
+        if kwargs.get("user_type") == "owner":
             try:
-                owner = User.objects.get(Q(username=username) | Q(uid=username), role__role=Role.RoleName.OWNER)
-                print('Password', owner.check_password(password))
+                owner = User.objects.get(
+                    Q(username=username) | Q(uid=username),
+                    role__role=Role.RoleName.OWNER,
+                )
+                print("Password", owner.check_password(password))
                 if owner.status == owner.StatusName.DISABLED.value:
                     messages.error(request, "Користувач не активний")
                     return None

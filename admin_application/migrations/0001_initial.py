@@ -5,29 +5,62 @@ import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
     dependencies = [
-        ('admin_apartment', '0001_initial'),
+        ("admin_apartment", "0001_initial"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Application',
+            name="Application",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('master_type', models.CharField(choices=[('Будь-який спеціаліст', 'Будь-який спеціаліст'), ('Сантехнік', 'Сантехнік'), ('Електрик', 'Електрик')], max_length=20)),
-                ('status', models.CharField(choices=[('Нове', 'Нове'), ('У роботі', 'У роботі'), ('Виконано', 'Виконано')], max_length=10)),
-                ('comment', models.TextField()),
-                ('description', models.TextField()),
-                ('date', models.DateField()),
-                ('date_add', models.DateTimeField(auto_now_add=True)),
-                ('time', models.TimeField()),
-                ('apartment', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='admin_apartment.apartment')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "master_type",
+                    models.CharField(
+                        choices=[
+                            ("Будь-який спеціаліст", "Будь-який спеціаліст"),
+                            ("Сантехнік", "Сантехнік"),
+                            ("Електрик", "Електрик"),
+                        ],
+                        max_length=20,
+                    ),
+                ),
+                (
+                    "status",
+                    models.CharField(
+                        choices=[
+                            ("Нове", "Нове"),
+                            ("У роботі", "У роботі"),
+                            ("Виконано", "Виконано"),
+                        ],
+                        max_length=10,
+                    ),
+                ),
+                ("comment", models.TextField()),
+                ("description", models.TextField()),
+                ("date", models.DateField()),
+                ("date_add", models.DateTimeField(auto_now_add=True)),
+                ("time", models.TimeField()),
+                (
+                    "apartment",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="admin_apartment.apartment",
+                    ),
+                ),
             ],
             options={
-                'ordering': ['-pk'],
+                "ordering": ["-pk"],
             },
         ),
     ]

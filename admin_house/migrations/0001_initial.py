@@ -5,50 +5,108 @@ import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='Floor',
+            name="Floor",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=50)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(max_length=50)),
             ],
         ),
         migrations.CreateModel(
-            name='House',
+            name="House",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(error_messages={'unique': 'Будинок із такою назвою вже існує!'}, max_length=50, unique=True)),
-                ('address', models.CharField(error_messages={'unique': 'Будинок із такою адресою вже існує!'}, max_length=50, unique=True)),
-                ('image1', models.ImageField(upload_to='houses')),
-                ('image2', models.ImageField(upload_to='houses')),
-                ('image3', models.ImageField(upload_to='houses')),
-                ('image4', models.ImageField(upload_to='houses')),
-                ('image5', models.ImageField(upload_to='houses')),
-                ('date_edit', models.DateTimeField(auto_now=True)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "name",
+                    models.CharField(
+                        error_messages={"unique": "Будинок із такою назвою вже існує!"},
+                        max_length=50,
+                        unique=True,
+                    ),
+                ),
+                (
+                    "address",
+                    models.CharField(
+                        error_messages={
+                            "unique": "Будинок із такою адресою вже існує!"
+                        },
+                        max_length=50,
+                        unique=True,
+                    ),
+                ),
+                ("image1", models.ImageField(upload_to="houses")),
+                ("image2", models.ImageField(upload_to="houses")),
+                ("image3", models.ImageField(upload_to="houses")),
+                ("image4", models.ImageField(upload_to="houses")),
+                ("image5", models.ImageField(upload_to="houses")),
+                ("date_edit", models.DateTimeField(auto_now=True)),
             ],
             options={
-                'ordering': ['-date_edit'],
+                "ordering": ["-date_edit"],
             },
         ),
         migrations.CreateModel(
-            name='Section',
+            name="Section",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=50)),
-                ('house', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='admin_house.house')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(max_length=50)),
+                (
+                    "house",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="admin_house.house",
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
-            name='HouseUser',
+            name="HouseUser",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('house', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='admin_house.house')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "house",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="admin_house.house",
+                    ),
+                ),
             ],
         ),
     ]

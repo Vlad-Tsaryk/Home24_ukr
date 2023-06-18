@@ -39,7 +39,7 @@ package "Home24" {
 
 
     [Cabinet Profile] ..> [Admin Owner]
-    
+
 '    [Cabinet Application] ..> [Users]
 '    [Cabinet Summary] ..> [Users]
 '    [Cabinet Receipts] ..> [Users]

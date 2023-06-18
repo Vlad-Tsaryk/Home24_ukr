@@ -6,23 +6,31 @@ import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('admin_application', '0001_initial'),
+        ("admin_application", "0001_initial"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='application',
-            name='master',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.PROTECT, related_name='master', to=settings.AUTH_USER_MODEL),
+            model_name="application",
+            name="master",
+            field=models.ForeignKey(
+                null=True,
+                on_delete=django.db.models.deletion.PROTECT,
+                related_name="master",
+                to=settings.AUTH_USER_MODEL,
+            ),
         ),
         migrations.AddField(
-            model_name='application',
-            name='owner',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='owner', to=settings.AUTH_USER_MODEL),
+            model_name="application",
+            name="owner",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="owner",
+                to=settings.AUTH_USER_MODEL,
+            ),
         ),
     ]

@@ -12,7 +12,9 @@ class PersonalAccount(models.Model):
     @staticmethod
     def owner_has_debt(owner_id):
         balance = 0
-        for personal_account in PersonalAccount.objects.filter(apartment__owner=owner_id):
+        for personal_account in PersonalAccount.objects.filter(
+            apartment__owner=owner_id
+        ):
             balance += personal_account.balance
         if balance >= 0:
             return False
@@ -20,8 +22,8 @@ class PersonalAccount(models.Model):
             return True
 
     class StatusName(models.TextChoices):
-        ACTIVE = 'Активний', 'Активний'
-        DISABLED = 'Вимкнено', 'Вимкнено'
+        ACTIVE = "Активний", "Активний"
+        DISABLED = "Вимкнено", "Вимкнено"
 
     status = models.CharField(choices=StatusName.choices, max_length=9)
     apartment = models.OneToOneField(Apartment, on_delete=models.SET_NULL, null=True)

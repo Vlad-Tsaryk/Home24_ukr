@@ -10,13 +10,13 @@ from users.models import User, Role
 
 class Command(BaseCommand):
     def add_arguments(self, parser):
-        parser.add_argument('number', type=int, help='how many houses create')
+        parser.add_argument("number", type=int, help="how many houses create")
 
     def handle(self, *args, **options):
         fake = Faker()
-        fake_uk = Faker('uk_UA')
+        fake_uk = Faker("uk_UA")
         users = User.objects.exclude(role__role=Role.RoleName.OWNER)
-        for _ in range(options['number']):
+        for _ in range(options["number"]):
             name = fake.company()
             while len(name) > 50:
                 name = fake.company()
@@ -26,22 +26,16 @@ class Command(BaseCommand):
             house = House.objects.create(
                 name=f'ЖК "{name}" ',
                 address=address,
-                image1=f'static_kit/houses/{random.randrange(1, 14)}.jpg',
-                image2=f'static_kit/houses/{random.randrange(1, 14)}.jpg',
-                image3=f'static_kit/houses/{random.randrange(1, 14)}.jpg',
-                image4=f'static_kit/houses/{random.randrange(1, 14)}.jpg',
-                image5=f'static_kit/houses/{random.randrange(1, 14)}.jpg',
+                image1=f"static_kit/houses/{random.randrange(1, 14)}.jpg",
+                image2=f"static_kit/houses/{random.randrange(1, 14)}.jpg",
+                image3=f"static_kit/houses/{random.randrange(1, 14)}.jpg",
+                image4=f"static_kit/houses/{random.randrange(1, 14)}.jpg",
+                image5=f"static_kit/houses/{random.randrange(1, 14)}.jpg",
             )
             for _ in range(random.randrange(1, 6)):
                 house.users.add(random.choice(users))
 
             for index in range(random.randrange(1, 6)):
-                Section.objects.create(
-                    name=f'Секція {index + 1}',
-                    house=house
-                )
-                Floor.objects.create(
-                    name=f'Поверх {index + 1}',
-                    house=house
-                )
-            print(f'House ** {house.name} ** created')
+                Section.objects.create(name=f"Секція {index + 1}", house=house)
+                Floor.objects.create(name=f"Поверх {index + 1}", house=house)
+            print(f"House ** {house.name} ** created")

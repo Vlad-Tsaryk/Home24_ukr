@@ -37,7 +37,7 @@ h1, h2, h3 {
   -o-flex-direction: column;
   flex-direction: column;
 }
-.row.row-eq-height:after, 
+.row.row-eq-height:after,
 .row.row-eq-height:before {
   display: -webkit-flex;
   display: -moz-flex;

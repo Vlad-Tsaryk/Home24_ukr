@@ -5,27 +5,64 @@ import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='Unit',
+            name="Unit",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(error_messages={'unique': "Одиниця виміру з таким ім'ям вже існує!"}, max_length=50, unique=True)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "name",
+                    models.CharField(
+                        error_messages={
+                            "unique": "Одиниця виміру з таким ім'ям вже існує!"
+                        },
+                        max_length=50,
+                        unique=True,
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
-            name='Service',
+            name="Service",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(error_messages={'unique': 'Послуга з такою назвою вже існує!'}, max_length=50, unique=True)),
-                ('is_counter', models.BooleanField(default=False)),
-                ('unit', models.ForeignKey(null=True, on_delete=django.db.models.deletion.PROTECT, to='admin_service.unit')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "name",
+                    models.CharField(
+                        error_messages={"unique": "Послуга з такою назвою вже існує!"},
+                        max_length=50,
+                        unique=True,
+                    ),
+                ),
+                ("is_counter", models.BooleanField(default=False)),
+                (
+                    "unit",
+                    models.ForeignKey(
+                        null=True,
+                        on_delete=django.db.models.deletion.PROTECT,
+                        to="admin_service.unit",
+                    ),
+                ),
             ],
         ),
     ]

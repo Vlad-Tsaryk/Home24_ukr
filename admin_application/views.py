@@ -17,103 +17,159 @@ from users.models import User, Role
 
 # Create your views here.
 class ApplicationCreate(AdminPermissionRequiredMixin, SuccessMessageMixin, CreateView):
-    permission_required = 'applications'
+    permission_required = "applications"
     model = Application
     form_class = ApplicationForm
-    template_name = 'admin_application/application_create.html'
-    success_url = reverse_lazy('application_list')
-    success_message = 'Заявка создана успішно'
+    template_name = "admin_application/application_create.html"
+    success_url = reverse_lazy("application_list")
+    success_message = "Заявка створена успішно"
 
     def render_to_response(self, context, **response_kwargs):
         if self.request.is_ajax():
             result = {}
-            owner_id = self.request.GET.get('owner_id')
-            master_type = self.request.GET.get('master_type')
+            owner_id = self.request.GET.get("owner_id")
+            master_type = self.request.GET.get("master_type")
             print(self.request.GET)
-            if self.request.GET.get('owner_change'):
+            if self.request.GET.get("owner_change"):
                 if owner_id:
-                    result['apartments'] = list(Apartment.objects.filter(
-                        owner_id=owner_id).values('id', 'number', 'house__name'))
+                    result["apartments"] = list(
+                        Apartment.objects.filter(owner_id=owner_id).values(
+                            "id", "number", "house__name"
+                        )
+                    )
                 else:
-                    result['apartments'] = list(Apartment.objects.all().values('id', 'number', 'house__name'))
+                    result["apartments"] = list(
+                        Apartment.objects.all().values("id", "number", "house__name")
+                    )
 
-            if self.request.GET.get('master_type_change'):
+            if self.request.GET.get("master_type_change"):
                 if master_type:
-                    result['masters'] = list(User.objects.filter(role__role=master_type).values('id', 'role__role',
-                                                                                                'first_name',
-                                                                                                'last_name'))
+                    result["masters"] = list(
+                        User.objects.filter(role__role=master_type).values(
+                            "id", "role__role", "first_name", "last_name"
+                        )
+                    )
                 else:
-                    result['masters'] = list(User.objects.filter(
-                        role__role__in=[Role.RoleName.PLUMBER, Role.RoleName.ELECTRICIAN]).values('id', 'role__role',
-                                                                                                  'first_name',
-                                                                                                  'last_name'))
+                    result["masters"] = list(
+                        User.objects.filter(
+                            role__role__in=[
+                                Role.RoleName.PLUMBER,
+                                Role.RoleName.ELECTRICIAN,
+                            ]
+                        ).values("id", "role__role", "first_name", "last_name")
+                    )
 
             return JsonResponse(result, safe=False, **response_kwargs)
         else:
-            return super(CreateView, self).render_to_response(context, **response_kwargs)
+            return super(CreateView, self).render_to_response(
+                context, **response_kwargs
+            )
 
 
 class ApplicationList(AdminPermissionRequiredMixin, ListView):
-    permission_required = 'applications'
+    permission_required = "applications"
     model = Application
-    template_name = 'admin_application/application_list.html'
+    template_name = "admin_application/application_list.html"
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super(ApplicationList, self).get_context_data(**kwargs)
-        context['owner_list'] = User.objects.filter(role__role=Role.RoleName.OWNER)
-        context['status_list'] = Application.StatusName.values
-        context['master_list'] = User.objects.filter(role__role__in=[Role.RoleName.PLUMBER, Role.RoleName.ELECTRICIAN])
-        context['master_type_list'] = Application.MasterType
+        context["owner_list"] = User.objects.filter(role__role=Role.RoleName.OWNER)
+        context["status_list"] = Application.StatusName.values
+        context["master_list"] = User.objects.filter(
+            role__role__in=[Role.RoleName.PLUMBER, Role.RoleName.ELECTRICIAN]
+        )
+        context["master_type_list"] = Application.MasterType
         return context
 
     def render_to_response(self, context, **response_kwargs):
         if self.request.is_ajax():
             print(self.request.GET)
-            order_by = self.request.GET.get('order_by')
+            order_by = self.request.GET.get("order_by")
             result = {}
             filter_fields = {
-                'status': self.request.GET.get('status'),
-                'id__contains': self.request.GET.get('id'),
-                'owner_id': self.request.GET.get('owner_id'),
-                'apartment_info__contains': self.request.GET.get('apartment'),
-                'master_type': self.request.GET.get('master_type'),
-                'description__contains': self.request.GET.get('description'),
-                'owner__phone__contains': self.request.GET.get('owner_phone'),
-                'master_id': self.request.GET.get('master_id'),
-                'date__range': self.request.GET.getlist('date_range[]'),
+                "status": self.request.GET.get("status"),
+                "id__contains": self.request.GET.get("id"),
+                "owner_id": self.request.GET.get("owner_id"),
+                "apartment_info__contains": self.request.GET.get("apartment"),
+                "master_type": self.request.GET.get("master_type"),
+                "description__contains": self.request.GET.get("description"),
+                "owner__phone__contains": self.request.GET.get("owner_phone"),
+                "master_id": self.request.GET.get("master_id"),
+                "date__range": self.request.GET.getlist("date_range[]"),
             }
 
-            if self.request.GET.get('master_type_change'):
-                if filter_fields['master_type']:
-                    result['masters'] = list(
-                        User.objects.filter(role__role=filter_fields['master_type'])
+            if self.request.GET.get("master_type_change"):
+                if filter_fields["master_type"]:
+                    result["masters"] = list(
+                        User.objects.filter(role__role=filter_fields["master_type"])
                         .annotate(
-                            name=Concat('role__role', Value(' - '), 'first_name', Value(' '), 'last_name', )).values(
-                            'id', 'name'))
+                            name=Concat(
+                                "role__role",
+                                Value(" - "),
+                                "first_name",
+                                Value(" "),
+                                "last_name",
+                            )
+                        )
+                        .values("id", "name")
+                    )
                 else:
-                    result['masters'] = list(context['master_list'].annotate(
-                        name=Concat('role__role', Value(' - '), 'first_name', Value(' '), 'last_name', )).values(
-                        'id', 'name'))
+                    result["masters"] = list(
+                        context["master_list"]
+                        .annotate(
+                            name=Concat(
+                                "role__role",
+                                Value(" - "),
+                                "first_name",
+                                Value(" "),
+                                "last_name",
+                            )
+                        )
+                        .values("id", "name")
+                    )
             filter_fields = {k: v for k, v in filter_fields.items() if v}
-            filtered_qs = self.get_queryset().annotate(
-                apartment_info=Concat(Value('Квартира №'), 'apartment__number', Value(', '),
-                                      'apartment__house__name', output_field=CharField())).filter(**filter_fields)
+            filtered_qs = (
+                self.get_queryset()
+                .annotate(
+                    apartment_info=Concat(
+                        Value("Квартира №"),
+                        "apartment__number",
+                        Value(", "),
+                        "apartment__house__name",
+                        output_field=CharField(),
+                    )
+                )
+                .filter(**filter_fields)
+            )
             if order_by:
                 filtered_qs = filtered_qs.order_by(order_by)
-            filtered_qs = filtered_qs.values('id', 'date', 'time', 'status', 'description', 'apartment_info',
-                                             'owner__phone', 'owner__first_name', 'owner__last_name', 'owner_id',
-                                             'master__first_name', 'master__last_name', 'master_id', 'apartment_id',
-                                             'master_type')
-            start = int(self.request.GET.get('start', 0))
-            length = int(self.request.GET.get('length', 10))
-            paginator = Paginator(filtered_qs, self.request.GET.get('length', 10))
+            filtered_qs = filtered_qs.values(
+                "id",
+                "date",
+                "time",
+                "status",
+                "description",
+                "apartment_info",
+                "owner__phone",
+                "owner__first_name",
+                "owner__last_name",
+                "owner_id",
+                "master__first_name",
+                "master__last_name",
+                "master_id",
+                "apartment_id",
+                "master_type",
+            )
+            start = int(self.request.GET.get("start", 0))
+            length = int(self.request.GET.get("length", 10))
+            paginator = Paginator(filtered_qs, self.request.GET.get("length", 10))
             page = (start // length) + 1
             data = list(paginator.get_page(page))
             result = {
-                'application': data,
-                'recordsTotal': paginator.count,
-                'recordsFiltered': paginator.count,
-                'pages': paginator.num_pages,
+                "application": data,
+                "recordsTotal": paginator.count,
+                "recordsFiltered": paginator.count,
+                "pages": paginator.num_pages,
             }
             print(result)
             return JsonResponse(result, safe=False, **response_kwargs)
@@ -123,14 +179,14 @@ class ApplicationList(AdminPermissionRequiredMixin, ListView):
 
 
 class ApplicationView(AdminPermissionRequiredMixin, DetailView):
-    permission_required = 'applications'
+    permission_required = "applications"
     model = Application
-    template_name = 'admin_application/application_view.html'
+    template_name = "admin_application/application_view.html"
 
 
 class ApplicationUpdate(ApplicationCreate, UpdateView):
-    template_name = 'admin_application/application_update.html'
-    success_message = 'Заявка успішно обновлена'
+    template_name = "admin_application/application_update.html"
+    success_message = "Заявка успішно оновлена"
 
 
 def application_delete(request, pk):
@@ -140,7 +196,7 @@ def application_delete(request, pk):
         if obj_delete.delete():
             obj_id = pk
     except:
-        error(request, f"Не удалось удалить заявку")
+        error(request, f"Не вдалося видалити заявку")
     if obj_id:
-        success(request, f"Заявка №{obj_id} успішно удалена")
-    return redirect('application_list')
+        success(request, f"Заявка №{obj_id} успішно видалена")
+    return redirect("application_list")

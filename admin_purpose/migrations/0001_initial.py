@@ -4,27 +4,54 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='PaymentDetails',
+            name="PaymentDetails",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(blank=True, max_length=128)),
-                ('info', models.TextField(blank=True)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(blank=True, max_length=128)),
+                ("info", models.TextField(blank=True)),
             ],
         ),
         migrations.CreateModel(
-            name='Purpose',
+            name="Purpose",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(error_messages={'unique': 'Стаття з такою назвою вже існує!'}, max_length=50, unique=True)),
-                ('transaction_type', models.CharField(choices=[('Прихід', 'Прихід'), ('Витрата', 'Витрата')], max_length=7)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "name",
+                    models.CharField(
+                        error_messages={"unique": "Стаття з такою назвою вже існує!"},
+                        max_length=50,
+                        unique=True,
+                    ),
+                ),
+                (
+                    "transaction_type",
+                    models.CharField(
+                        choices=[("Прихід", "Прихід"), ("Витрата", "Витрата")],
+                        max_length=7,
+                    ),
+                ),
             ],
         ),
     ]

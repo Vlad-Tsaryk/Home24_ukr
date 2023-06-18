@@ -23,7 +23,7 @@ class Command(BaseCommand):
                 services=True,
                 roles=True,
                 users=True,
-                payment_details=True
+                payment_details=True,
             )
         for _ in range(2, 6):
             Role.objects.create(
@@ -41,9 +41,6 @@ class Command(BaseCommand):
                 services=fake.boolean(),
                 roles=fake.boolean(),
                 users=fake.boolean(),
-                payment_details=fake.boolean()
+                payment_details=fake.boolean(),
             )
-        PaymentDetails.objects.create(
-            name='Home24',
-            info='Welcome to Home24'
-        )
+        PaymentDetails.objects.create(name="Home24", info="Welcome to Home24")

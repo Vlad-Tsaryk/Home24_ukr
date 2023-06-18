@@ -5,26 +5,54 @@ import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
     dependencies = [
-        ('admin_house', '0001_initial'),
-        ('admin_apartment', '0002_initial'),
+        ("admin_house", "0001_initial"),
+        ("admin_apartment", "0002_initial"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Message',
+            name="Message",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('subject', models.CharField(max_length=78)),
-                ('text', models.TextField()),
-                ('is_read', models.BooleanField()),
-                ('created', models.DateTimeField(auto_now_add=True)),
-                ('apartment', models.ForeignKey(null=True, on_delete=django.db.models.deletion.CASCADE, to='admin_apartment.apartment')),
-                ('floor', models.ForeignKey(null=True, on_delete=django.db.models.deletion.CASCADE, to='admin_house.floor')),
-                ('house', models.ForeignKey(null=True, on_delete=django.db.models.deletion.CASCADE, to='admin_house.house')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("subject", models.CharField(max_length=78)),
+                ("text", models.TextField()),
+                ("is_read", models.BooleanField()),
+                ("created", models.DateTimeField(auto_now_add=True)),
+                (
+                    "apartment",
+                    models.ForeignKey(
+                        null=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="admin_apartment.apartment",
+                    ),
+                ),
+                (
+                    "floor",
+                    models.ForeignKey(
+                        null=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="admin_house.floor",
+                    ),
+                ),
+                (
+                    "house",
+                    models.ForeignKey(
+                        null=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="admin_house.house",
+                    ),
+                ),
             ],
         ),
     ]

@@ -11,12 +11,14 @@ from users.models import User
 # Create your views here.
 class ProfileView(OwnerPermissionRequiredMixin, DetailView):
     model = User
-    template_name = 'cabinet_profile/profile_view.html'
-    context_object_name = 'owner'
+    template_name = "cabinet_profile/profile_view.html"
+    context_object_name = "owner"
 
     def get_context_data(self, **kwargs):
         context = super(ProfileView, self).get_context_data(**kwargs)
-        context['apartments'] = self.object.apartment_set.select_related('floor', 'house', 'section', 'personalaccount')
+        context["apartments"] = self.object.apartment_set.select_related(
+            "floor", "house", "section", "personalaccount"
+        )
         return context
 
     def get_object(self, queryset=None):
@@ -25,11 +27,11 @@ class ProfileView(OwnerPermissionRequiredMixin, DetailView):
 
 class ProfileUpdate(OwnerPermissionRequiredMixin, UpdateView, SuccessMessageMixin):
     model = User
-    template_name = 'cabinet_profile/profile_update.html'
+    template_name = "cabinet_profile/profile_update.html"
     form_class = OwnerChangeForm
-    success_message = "Владелец квартиры успішно обновлен"
-    context_object_name = 'owner'
-    success_url = reverse_lazy('cabinet_profile')
+    success_message = "Власника квартири успішно оновлено"
+    context_object_name = "owner"
+    success_url = reverse_lazy("cabinet_profile")
 
     def get_object(self, queryset=None):
         return self.request.user

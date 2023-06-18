@@ -5,51 +5,101 @@ import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
     dependencies = [
-        ('admin_service', '0001_initial'),
-        ('admin_personal_account', '0001_initial'),
-        ('admin_tariff', '0001_initial'),
+        ("admin_service", "0001_initial"),
+        ("admin_personal_account", "0001_initial"),
+        ("admin_tariff", "0001_initial"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Receipt',
+            name="Receipt",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('is_complete', models.BooleanField(default=True)),
-                ('date', models.DateField()),
-                ('number', models.CharField(max_length=50, unique=True)),
-                ('status', models.CharField(choices=[('Оплачено', 'Оплачено'), ('Частково оплачено', 'Частково оплачено'), ('Не оплачено', 'Не оплачено')], max_length=20)),
-                ('period_start', models.DateField()),
-                ('period_end', models.DateField()),
-                ('total_price', models.FloatField(default=0)),
-                ('personal_account', models.ForeignKey(null=True, on_delete=django.db.models.deletion.CASCADE, to='admin_personal_account.personalaccount')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("is_complete", models.BooleanField(default=True)),
+                ("date", models.DateField()),
+                ("number", models.CharField(max_length=50, unique=True)),
+                (
+                    "status",
+                    models.CharField(
+                        choices=[
+                            ("Оплачено", "Оплачено"),
+                            ("Частково оплачено", "Частково оплачено"),
+                            ("Не оплачено", "Не оплачено"),
+                        ],
+                        max_length=20,
+                    ),
+                ),
+                ("period_start", models.DateField()),
+                ("period_end", models.DateField()),
+                ("total_price", models.FloatField(default=0)),
+                (
+                    "personal_account",
+                    models.ForeignKey(
+                        null=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="admin_personal_account.personalaccount",
+                    ),
+                ),
             ],
             options={
-                'ordering': ['-pk'],
+                "ordering": ["-pk"],
             },
         ),
         migrations.CreateModel(
-            name='ReceiptService',
+            name="ReceiptService",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('consumption', models.FloatField()),
-                ('price_unit', models.FloatField()),
-                ('receipt', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='admin_receipt.receipt')),
-                ('service', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='admin_service.service')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("consumption", models.FloatField()),
+                ("price_unit", models.FloatField()),
+                (
+                    "receipt",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="admin_receipt.receipt",
+                    ),
+                ),
+                (
+                    "service",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="admin_service.service",
+                    ),
+                ),
             ],
         ),
         migrations.AddField(
-            model_name='receipt',
-            name='services',
-            field=models.ManyToManyField(through='admin_receipt.ReceiptService', to='admin_service.Service'),
+            model_name="receipt",
+            name="services",
+            field=models.ManyToManyField(
+                through="admin_receipt.ReceiptService", to="admin_service.Service"
+            ),
         ),
         migrations.AddField(
-            model_name='receipt',
-            name='tariff',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to='admin_tariff.tariff'),
+            model_name="receipt",
+            name="tariff",
+            field=models.ForeignKey(
+                null=True,
+                on_delete=django.db.models.deletion.SET_NULL,
+                to="admin_tariff.tariff",
+            ),
         ),
     ]

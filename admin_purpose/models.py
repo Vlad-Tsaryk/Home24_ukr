@@ -4,11 +4,14 @@ from django.db import models
 # Create your models here.
 class Purpose(models.Model):
     class TransactionType(models.TextChoices):
-        INCOME = 'Прихід', 'Прихід'
-        OUTCOME = 'Витрата', 'Витрата'
+        INCOME = "Прихід", "Прихід"
+        OUTCOME = "Витрата", "Витрата"
 
-    name = models.CharField(max_length=50, unique=True, error_messages={
-        'unique': "Стаття з такою назвою вже існує!"})
+    name = models.CharField(
+        max_length=50,
+        unique=True,
+        error_messages={"unique": "Стаття з такою назвою вже існує!"},
+    )
     transaction_type = models.CharField(choices=TransactionType.choices, max_length=7)
 
     def __str__(self):

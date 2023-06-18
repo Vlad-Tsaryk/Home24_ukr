@@ -5,7 +5,9 @@ from django.db import models
 
 
 class Message(models.Model):
-    sender = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name='sender')
+    sender = models.ForeignKey(
+        User, on_delete=models.SET_NULL, null=True, related_name="sender"
+    )
     receivers = models.ManyToManyField(User)
     house = models.ForeignKey(House, on_delete=models.CASCADE, null=True)
     section = models.ForeignKey(Section, on_delete=models.CASCADE, null=True)
@@ -18,10 +20,15 @@ class Message(models.Model):
 
     @property
     def get_receiver_label(self):
-        if not (self.house or self.section or self.apartment or self.floor) and self.receivers.count() == 1:
+        if (
+            not (self.house or self.section or self.apartment or self.floor)
+            and self.receivers.count() == 1
+        ):
             return str(self.receivers.first())
         if self.house:
-            return f'{self.house} {self.section or ""} ' \
-                   f'{self.floor or ""} {self.apartment or ""}'
+            return (
+                f'{self.house} {self.section or ""} '
+                f'{self.floor or ""} {self.apartment or ""}'
+            )
         else:
-            return 'Всем'
+            return "Всім"

@@ -9,25 +9,32 @@ class UnitModelChoiceField(forms.ModelChoiceField):
 
 
 class UnitForm(forms.ModelForm):
-    name = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}))
+    name = forms.CharField(widget=forms.TextInput(attrs={"class": "form-control"}))
 
     class Meta:
         model = Unit
-        fields = '__all__'
+        fields = "__all__"
 
 
 UnitFormSet = modelformset_factory(model=Unit, form=UnitForm, extra=0, can_delete=True)
 
 
 class ServiceForm(forms.ModelForm):
-    name = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}), required=False)
+    name = forms.CharField(
+        widget=forms.TextInput(attrs={"class": "form-control"}), required=False
+    )
     is_counter = forms.BooleanField(widget=forms.CheckboxInput(), required=False)
-    unit = UnitModelChoiceField(widget=forms.Select(attrs={'class': 'form-control'}), queryset=Unit.objects.all(),
-                                required=False)
+    unit = UnitModelChoiceField(
+        widget=forms.Select(attrs={"class": "form-control"}),
+        queryset=Unit.objects.all(),
+        required=False,
+    )
 
     class Meta:
         model = Service
-        fields = ['name', 'unit', 'is_counter']
+        fields = ["name", "unit", "is_counter"]
 
 
-ServiceFormSet = modelformset_factory(model=Service, form=ServiceForm, extra=0, can_delete=True)
+ServiceFormSet = modelformset_factory(
+    model=Service, form=ServiceForm, extra=0, can_delete=True
+)

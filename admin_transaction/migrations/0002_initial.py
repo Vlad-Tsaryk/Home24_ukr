@@ -6,35 +6,51 @@ import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
     dependencies = [
-        ('admin_transaction', '0001_initial'),
-        ('admin_purpose', '0001_initial'),
+        ("admin_transaction", "0001_initial"),
+        ("admin_purpose", "0001_initial"),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('admin_personal_account', '0001_initial'),
+        ("admin_personal_account", "0001_initial"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='transaction',
-            name='manager',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, related_name='manager', to=settings.AUTH_USER_MODEL),
+            model_name="transaction",
+            name="manager",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.PROTECT,
+                related_name="manager",
+                to=settings.AUTH_USER_MODEL,
+            ),
         ),
         migrations.AddField(
-            model_name='transaction',
-            name='owner',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.PROTECT, related_name='transaction_owner', to=settings.AUTH_USER_MODEL),
+            model_name="transaction",
+            name="owner",
+            field=models.ForeignKey(
+                null=True,
+                on_delete=django.db.models.deletion.PROTECT,
+                related_name="transaction_owner",
+                to=settings.AUTH_USER_MODEL,
+            ),
         ),
         migrations.AddField(
-            model_name='transaction',
-            name='personal_account',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.CASCADE, to='admin_personal_account.personalaccount'),
+            model_name="transaction",
+            name="personal_account",
+            field=models.ForeignKey(
+                null=True,
+                on_delete=django.db.models.deletion.CASCADE,
+                to="admin_personal_account.personalaccount",
+            ),
         ),
         migrations.AddField(
-            model_name='transaction',
-            name='purpose',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to='admin_purpose.purpose'),
+            model_name="transaction",
+            name="purpose",
+            field=models.ForeignKey(
+                null=True,
+                on_delete=django.db.models.deletion.SET_NULL,
+                to="admin_purpose.purpose",
+            ),
         ),
     ]

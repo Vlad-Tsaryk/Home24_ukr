@@ -18,10 +18,10 @@ start
 :Select owner;
 if(Owner selected?) then([Yes])
     :Send GET request for owner's apartment list;
-    
+
     :Retrieve list of apartments for selected owner;
     :Send JSON response with owner's apartment list;
-    
+
     :Fill apartment select field with received data;
 else([No])
 endif

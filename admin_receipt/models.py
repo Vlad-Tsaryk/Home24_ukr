@@ -10,22 +10,27 @@ from admin_service.models import Service
 class Receipt(models.Model):
     def set_total_price(self):
         result = ReceiptService.objects.filter(receipt=self.pk).aggregate(
-            total=Sum(F('consumption') * F('price_unit')))['total']
+            total=Sum(F("consumption") * F("price_unit"))
+        )["total"]
         self.total_price = result or 0
 
     @property
     def address_for_excel(self):
         apartment = self.personal_account.apartment
         owner = apartment.owner
-        return f'{owner.last_name} {owner.first_name[0]}. {owner.middle_name[0]}. {apartment.house.address} ' \
-               f'квартира {apartment.number}'
+        return (
+            f"{owner.last_name} {owner.first_name[0]}. {owner.middle_name[0]}. {apartment.house.address} "
+            f"квартира {apartment.number}"
+        )
 
     class StatusName(models.TextChoices):
-        PAID = 'Оплачено', 'Оплачено'
-        PRE_PAID = 'Частково оплачено', 'Частково оплачено'
-        NOT_PAID = 'Не оплачено', 'Не оплачено'
+        PAID = "Оплачено", "Оплачено"
+        PRE_PAID = "Частково оплачено", "Частково оплачено"
+        NOT_PAID = "Не оплачено", "Не оплачено"
 
-    personal_account = models.ForeignKey(PersonalAccount, on_delete=models.CASCADE, null=True)
+    personal_account = models.ForeignKey(
+        PersonalAccount, on_delete=models.CASCADE, null=True
+    )
     tariff = models.ForeignKey(Tariff, null=True, on_delete=models.SET_NULL)
     is_complete = models.BooleanField(default=True)
     date = models.DateField()
@@ -33,11 +38,11 @@ class Receipt(models.Model):
     status = models.CharField(max_length=20, choices=StatusName.choices)
     period_start = models.DateField()
     period_end = models.DateField()
-    services = models.ManyToManyField(Service, through='ReceiptService')
+    services = models.ManyToManyField(Service, through="ReceiptService")
     total_price = models.FloatField(default=0)
 
     class Meta:
-        ordering = ['-pk']
+        ordering = ["-pk"]
 
 
 class ReceiptService(models.Model):
