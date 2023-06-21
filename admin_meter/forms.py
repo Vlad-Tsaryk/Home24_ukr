@@ -1,5 +1,4 @@
 from django import forms
-from loguru import logger
 
 from admin_apartment.models import Apartment
 from admin_house.models import House, Section
