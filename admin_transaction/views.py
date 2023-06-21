@@ -115,7 +115,7 @@ class TransactionList(AdminPermissionRequiredMixin, ListView):
         title_list = [
             "№",
             "Дата",
-            "Прихід/витрата",
+            "Надходження/витрата",
             "Статус",
             "Стаття",
             "Сума",
@@ -248,7 +248,7 @@ class TransactionToExcel(View, SingleObjectMixin):
             ["Дата", date],
             ["Власник квартири", str(transaction.owner or "")],
             ["Особистий рахунок", str(transaction.personal_account or "")],
-            ["Прихід/витрата", type_dict[transaction.type]],
+            ["Надходження/витрата", type_dict[transaction.type]],
             ["Статус", status_dict[transaction.is_complete]],
             ["Стаття", str(transaction.purpose)],
             ["Сума", transaction.sum],

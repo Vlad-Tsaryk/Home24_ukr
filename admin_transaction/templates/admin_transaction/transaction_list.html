@@ -101,7 +101,7 @@
                                 <th>Тип платежу</th>
                                 <th style="min-width: 200px">Власник</th>
                                 <th style="min-width: 160px">Особовий рахунок</th>
-                                <th>Прихід/витрата</th>
+                                <th>Надходження/витрата</th>
                                 <th style="width: 110px; min-width: 110px">Сума (грн)</th>
                                 <th style="width: 80px; min-width: 80px"> </th>
                             </tr>
@@ -134,7 +134,7 @@
                                 <td><select id="purpose_type"
                                             class="form-control select2 filter">
                                     <option value=""></option>
-                                    <option value="1">Прихід</option>
+                                    <option value="1">Надходження</option>
                                     <option value="0">Витрата</option>
                                 </select></td>
                                 <td> </td>
@@ -152,7 +152,7 @@
                     </div>
                 </div>
                 <div class="box-footer">
-                    <div>Проведено прихід: <span class="text-bold" id="income"></span></div>
+                    <div>Проведено Надходження: <span class="text-bold" id="income"></span></div>
                     <div>Проведено витрати: <span class="text-bold" id="outcome"></span></div>
                 </div>
 
@@ -288,7 +288,7 @@
                         data: 'type',
                         render: function (data) {
                             if (data) {
-                                return '<span class="text text-green">Прихід</span>'
+                                return '<span class="text text-green">Надходження</span>'
                             } else {
                                 return '<span class="text text-red">Витрата</span>'
                             }

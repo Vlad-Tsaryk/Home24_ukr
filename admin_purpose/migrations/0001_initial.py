@@ -48,7 +48,7 @@ class Migration(migrations.Migration):
                 (
                     "transaction_type",
                     models.CharField(
-                        choices=[("Прихід", "Прихід"), ("Витрата", "Витрата")],
+                        choices=[("Надходження", "Надходження"), ("Витрата", "Витрата")],
                         max_length=7,
                     ),
                 ),

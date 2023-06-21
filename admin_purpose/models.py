@@ -4,7 +4,7 @@ from django.db import models
 # Create your models here.
 class Purpose(models.Model):
     class TransactionType(models.TextChoices):
-        INCOME = "Прихід", "Прихід"
+        INCOME = "Надходження", "Надходження"
         OUTCOME = "Витрата", "Витрата"
 
     name = models.CharField(
