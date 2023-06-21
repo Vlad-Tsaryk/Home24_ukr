@@ -327,7 +327,7 @@ def meter_delete(request, pk):
     except:
         error(request, f"Не вдалося видалити лічильник")
     if name:
-        success(request, f"Показание {name} видалено успішно")
+        success(request, f"Показання {name} видалено успішно")
     return redirect(
         "meter-view-list-serv", apartment_id=apartment_id, service_id=service_id
     )

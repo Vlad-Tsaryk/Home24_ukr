@@ -12,7 +12,7 @@ class Purpose(models.Model):
         unique=True,
         error_messages={"unique": "Стаття з такою назвою вже існує!"},
     )
-    transaction_type = models.CharField(choices=TransactionType.choices, max_length=7)
+    transaction_type = models.CharField(choices=TransactionType.choices, max_length=11)
 
     def __str__(self):
         return self.name

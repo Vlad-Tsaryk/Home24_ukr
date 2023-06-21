@@ -1,4 +1,5 @@
 from django import forms
+from loguru import logger
 
 from admin_apartment.models import Apartment
 from admin_house.models import House, Section
@@ -48,9 +49,6 @@ class MeterForm(forms.ModelForm):
             attrs={"class": "form-control"}, choices=Meter.StatusName.choices
         )
     )
-
-    def clean_apartment(self):
-        return Apartment.objects.get(pk=self.fields["apartment"])
 
     def __init__(self, *args, **kwargs):
         super(MeterForm, self).__init__(*args, **kwargs)
